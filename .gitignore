@@ -1,0 +1,9 @@
+.idea/
+dist/
+node_modules/
+.vscode/
+src/**/*.jsx
+tests/__coverage__/
+tests/**/*.jsx
+.DS_Store
+yarn-error.log
