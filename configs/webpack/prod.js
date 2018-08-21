@@ -9,7 +9,7 @@ const commonConfig = require('./common');
 module.exports = merge(commonConfig, {
   mode: 'production',
   entry: {
-    index: './index.tsx',
+    index: './src/index.tsx',
   },
   output: {
     filename: 'js/[name].[hash].min.js',
