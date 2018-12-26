@@ -1,9 +1,9 @@
 // shared config (dev and prod)
 const { resolve } = require('path');
-const { CheckerPlugin } = require('awesome-typescript-loader');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
+const progressBarPlugin = require('progress-bar-webpack-plugin');
 
 
 module.exports = {
@@ -19,7 +19,7 @@ module.exports = {
       },
       {
         test: /\.tsx?$/,
-        use: ['babel-loader', 'awesome-typescript-loader'],
+        use: ['babel-loader', 'ts-loader'],
       },
       {
         test: /\.css$/,
@@ -46,7 +46,6 @@ module.exports = {
     ],
   },
   plugins: [
-    new CheckerPlugin(),
     new StyleLintPlugin(),
     new HtmlWebpackPlugin({
       template: 'index.html',
@@ -57,6 +56,7 @@ module.exports = {
         'API_URL': JSON.stringify(process.env.API_URL || 'localhost')
       }
     }),
+    new progressBarPlugin()
   ],
   performance: {
     hints: false,

@@ -11,7 +11,7 @@
     "eofline": false,
     "quotemark": [
       true,
-      "double"
+      "single"
     ],
     "member-access": [
       false
@@ -39,7 +39,8 @@
     "object-literal-sort-keys": false,
     "no-unused-expression": false,
     "max-classes-per-file": [
-      false
+      true,
+      1
     ],
     "variable-name": [
       false
