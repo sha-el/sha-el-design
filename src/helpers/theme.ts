@@ -3,12 +3,12 @@ import { BehaviorSubject } from 'rxjs';
 export class ThemeService {
   static instance: ThemeService;
   themes: Theme[] = [{
-    primary: '#17484B',
-    secondary: '#088D66',
-    background: '#ffffff',
+    primary: '#464d86',
+    secondary: '#E5B569',
+    default: '#ffffff',
     error: '#ff0000',
-    warning: '#aa0000',
-    info: '#7CC27B',
+    warning: '#F09266',
+    info: '#67A57F',
   }];
   public readonly selectedTheme$ = new BehaviorSubject<Theme>(null);
 
@@ -34,7 +34,7 @@ export class ThemeService {
 export interface Theme {
   primary: string;
   secondary: string;
-  background: string;
+  default: string;
   error: string;
   warning: string;
   info: string;

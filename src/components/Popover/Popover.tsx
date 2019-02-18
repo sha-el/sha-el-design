@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { stylesheet } from 'typestyle';
-import { styleEnum } from '../helpers/constants';
-import { NestedCSSProperties } from 'typestyle/lib/types';
-import { nestedAccess } from '../helpers';
+import { styleEnum } from '../../helpers/constants';
+import { Portal } from './Portal';
+import { findDOMNode } from 'react-dom';
 
 export class Popover extends React.Component<PopoverProps, State> {
 
@@ -14,17 +14,18 @@ export class Popover extends React.Component<PopoverProps, State> {
   };
 
   css = css.bind(this);
-  parent = React.createRef<HTMLDivElement>();
+  child = React.createRef<HTMLDivElement>();
   container = React.createRef<HTMLDivElement>();
 
   constructor(props: PopoverProps) {
     super(props);
 
     this.state = {
-      isVisible: false,
+      isVisible: props.isVisible,
       position: {
         left: 0,
         top: 0,
+        width: 0,
       },
     };
   }
@@ -34,39 +35,55 @@ export class Popover extends React.Component<PopoverProps, State> {
     this.setState({ position });
   }
 
-  triggerClick = (e: React.MouseEvent) => {
+  componentWillReceiveProps(nextProps: PopoverProps) {
+    if (nextProps.isVisible !== null && nextProps.isVisible !== undefined) {
+      this.setState({isVisible: nextProps.isVisible});
+    }
+  }
+
+  triggerClick = () => {
     if (this.props.trigger !== 'onClick') {
       return;
     }
     this.setState({ isVisible: true }, () => this.setState({ position: this.position() }));
-    document.documentElement.addEventListener('click', () => {
-      this.setState({ isVisible: false });
-      document.documentElement.removeEventListener('click', () => { });
-    });
+  }
+
+  getContainerWidth = (containerWidth: number) => {
+    if (this.props.expand) {
+      return (findDOMNode(this.child.current) as Element).getBoundingClientRect().width;
+    }
+    return containerWidth;
   }
 
   position = () => {
-    if (!this.parent.current || !this.container.current) {
-      return {left: 0, top: 0};
+    const child = findDOMNode(this.child.current);
+    const container = this.container.current;
+    if (!child || !container) {
+      return {left: 0, top: 0, width: 0};
     }
-    const parentRect = this.parent.current.getBoundingClientRect();
-    const containerRect = this.container.current.getBoundingClientRect();
+
+    const childRect = (child as Element).getBoundingClientRect();
+    const containerRect = (container as Element).getBoundingClientRect();
     return {
       bottom: {
-        left: (parentRect.width / 2) - (containerRect.width / 2) + parentRect.left,
-        top: parentRect.height + parentRect.top,
+        left: (childRect.width / 2) - (this.getContainerWidth(containerRect.width) / 2) + childRect.left,
+        top: childRect.height + childRect.top,
+        width: childRect.width,
       },
       top: {
-        left: (parentRect.width / 2) - (containerRect.width / 2) + parentRect.left,
-        top: parentRect.top - containerRect.height,
+        left: (childRect.width / 2) - (this.getContainerWidth(containerRect.width) / 2) + childRect.left,
+        top: childRect.top - containerRect.height,
+        width: childRect.width,
       },
       left: {
-        left: parentRect.left - 10 - containerRect.width,
-        top: parentRect.height / 2 - containerRect.height / 2 + parentRect.top,
+        left: childRect.left - 10 - this.getContainerWidth(containerRect.width),
+        top: childRect.height / 2 - containerRect.height / 2 + childRect.top,
+        width: childRect.width,
       },
       right: {
-        left: parentRect.width + 10 + parentRect.left,
-        top: parentRect.height / 2 - containerRect.height / 2 + parentRect.top,
+        left: childRect.width + 10 + childRect.left,
+        top: childRect.height / 2 - containerRect.height / 2 + childRect.top,
+        width: childRect.width,
       },
     }[this.props.postion];
   }
@@ -124,19 +141,19 @@ export class Popover extends React.Component<PopoverProps, State> {
 
   renderContent = () => {
     const styleSheet = this.css();
-    if (this.state.isVisible) {
-      return (
-        <div style={this.props.style.container} ref={this.container} className={styleSheet.container}>
+    return (
+      <article style={this.props.style.container} ref={this.container} className={styleSheet.container}>
+        {this.state.isVisible && <div>
           {!this.props.hideArrow && <div style={this.arrowStyle()} />}
-          <div style={this.props.style.title} className={styleSheet.title}>
+          {this.props.title && <div style={this.props.style.title} className={styleSheet.title}>
             {this.props.title}
-          </div>
+          </div>}
           <div style={this.props.style.content} className={styleSheet.content}>
             {this.props.content}
           </div>
-        </div>
-      );
-    }
+        </div>}
+      </article>
+    );
   }
 
   triggerMouseEnter = () => {
@@ -144,33 +161,54 @@ export class Popover extends React.Component<PopoverProps, State> {
       return;
     }
     this.setState({ isVisible: true }, () => this.setState({ position: this.position() }));
-    this.parent.current.addEventListener('mouseleave', () => {
-      this.setState({ isVisible: false });
-    });
+    this.child.current.addEventListener('mouseleave', () => this.setState({ isVisible: false }));
+  }
+
+  closePopOver = (e: any) => {
+    this.setState({ isVisible: false });
   }
 
   render() {
-    return (
+    return [(
       <div
         onClick={this.triggerClick}
         onMouseEnter={this.triggerMouseEnter}
-        ref={this.parent}
+        style={{ zIndex: 1001 }}
+        key='container'
       >
-        {this.props.children}
-        {this.renderContent()}
+        {React.cloneElement(this.props.children, { ref: this.child })}
+        <Portal>
+          {this.renderContent()}
+        </Portal>
       </div>
-    );
+    ), (
+      this.state.isVisible && (
+      <Portal key='overlay'>
+        <div
+          onClick={this.closePopOver}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            zIndex: 1000,
+            overflow: 'auto',
+          }}
+        />
+      </Portal>
+    ))];
   }
 }
 
 function css() {
   return stylesheet({
     container: {
-      width: 'auto',
+      width: this.props.expand ? this.state.position.width : 'auto',
       minWidth: '100px',
       position: 'absolute',
       boxShadow: styleEnum.shadow_2x,
-      zIndex: 1000,
+      zIndex: 1001,
       marginTop: this.props.hideArrow ? '2px' : '10px',
       left: this.state.position.left,
       top: this.state.position.top,
@@ -190,7 +228,7 @@ function css() {
 }
 
 interface PopoverProps {
-  children: React.ReactNode;
+  children: React.ReactElement<any>;
   title?: React.ReactNode;
   trigger?: 'onClick' | 'onHover';
   postion?: 'top' | 'left' | 'bottom' | 'right';
@@ -201,6 +239,8 @@ interface PopoverProps {
     title?: React.CSSProperties;
     content?: React.CSSProperties;
   };
+  isVisible?: boolean;
+  expand?: boolean;
 }
 
 interface State {
@@ -208,5 +248,6 @@ interface State {
   position: {
     left: number;
     top: number;
+    width: number;
   };
 }

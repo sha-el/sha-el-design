@@ -1,45 +1,41 @@
 import * as React from 'react';
-import { Input } from './Input';
 import { ThemeService } from '../helpers/theme';
 import { cssRule } from 'typestyle';
-import { Popover } from './Popover';
+import { Menu } from './Menu';
+import { MenuItem } from './Menu/MenuItem';
+import { MenuItemGroup } from './Menu/MenuItemGroup';
+import { Button } from './Button';
+import { Fa500px, FaAbacus } from 'react-icons/fa';
 
 export const App: React.StatelessComponent = () => {
   new ThemeService();
-  cssRule('span, div, input', {
+  cssRule('span, div, input, button', {
     fontSize: '14px',
   });
 
   return (
-    <div style={{ width: '300px', marginLeft: '200px' }}>
-      <Input
-            label='Email'
-            // before={<span>Hello</span>}
-            // after={<span>World!</span>}
-            // error='NEw Error'
-            // value='HEllo'
-      />
-      <Popover
-        content='oladjnxendceihcnfehcnfeinefhnefnc'
-        title='Hello'
-        trigger='onHover'
-        postion='left'
+    <div>
+      <Menu
+        showCollapsIcon
       >
-        <Input
-          label='Email'
-          // before={<span>Hello</span>}
-          // after={<span>World!</span>}
-          // error='NEw Error'
-          // value='HEllo'
-        />
-      </Popover>
-      <Input
-          label='Email'
-          // before={<span>Hello</span>}
-          // after={<span>World!</span>}
-          // error='NEw Error'
-          // value='HEllo'
-      />
+        <MenuItem name='1'>
+          Hello
+        </MenuItem>
+        <MenuItemGroup title='Options'>
+          <MenuItem name='2'>
+            World
+          </MenuItem>
+          <MenuItem
+            name='3'
+            icon={<FaAbacus />}
+          >
+            OLa
+          </MenuItem>
+        </MenuItemGroup>
+        <MenuItem name='3'>
+          OLa
+        </MenuItem>
+      </Menu>
     </div>
   );
 };

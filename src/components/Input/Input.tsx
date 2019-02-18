@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { style as typeStyle, stylesheet } from 'typestyle';
-import { ThemeService, Theme } from '../helpers/theme';
-import { styleEnum } from '../helpers/constants';
+import { ThemeService, Theme } from '../../helpers/theme';
+import { styleEnum } from '../../helpers/constants';
 import * as csstips from 'csstips';
-import { removeObjectProperties, nestedAccess } from '../helpers';
+import { removeObjectProperties, nestedAccess, Omit } from '../../helpers';
 
 export class Input extends React.Component<InputProps, State> {
-  theme = new ThemeService();
-  input: HTMLInputElement;
+  private readonly theme = new ThemeService();
+  input = React.createRef<HTMLInputElement>();
   css = css.bind(this);
 
   constructor(props: InputProps) {
@@ -39,8 +39,9 @@ export class Input extends React.Component<InputProps, State> {
     const {
       before,
       after,
+      getElement,
     } = this.props;
-    const props = removeObjectProperties(this.props, 'label', 'before', 'after', 'error');
+    const props = removeObjectProperties(this.props, 'label', 'before', 'after', 'error', 'getElement');
     const child = (
       <input
         {...props}
@@ -48,9 +49,7 @@ export class Input extends React.Component<InputProps, State> {
         onFocus={this.onFocus}
         onBlur={this.onBlur}
         className={`${this.css().inputStyle} ${this.props.className || ''}`}
-        ref={(e) => {
-          this.input = e;
-        }}
+        ref={this.input}
       />
     );
     if (!(after || before)) {
@@ -58,7 +57,7 @@ export class Input extends React.Component<InputProps, State> {
         child
       );
     }
-
+    getElement && getElement(this.input.current);
     return (
       <div
         {...props}
@@ -95,11 +94,12 @@ export class Input extends React.Component<InputProps, State> {
   }
 }
 
-export interface InputProps extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
+export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'prefix'> {
   label?: React.ReactNode;
   after?: React.ReactNode;
   before?: React.ReactNode;
   error?: React.ReactNode;
+  getElement?: (input: HTMLInputElement) => void;
 }
 
 interface State {
@@ -122,6 +122,7 @@ function css() {
       padding: '5px 2px',
       borderRadius: '1px',
       boxSizing: 'border-box',
+      caretColor: this.state.theme.primary,
       $nest: {
         '&:focus': {
           outline: 'none',

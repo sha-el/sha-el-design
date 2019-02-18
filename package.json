@@ -22,17 +22,17 @@
     "*.tsx": [
       "tslint --fix",
       "git add"
-    ],
-    "*.scss": [
-      "stylelint",
-      "git add"
     ]
   },
   "dependencies": {
+    "@types/react-icons": "^2.2.6",
     "csstips": "^0.3.0",
     "csx": "^9.0.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
+    "react-icons": "^3.3.0",
+    "react-icons-kit": "^1.2.1",
+    "react-pose": "^4.0.7",
     "rxjs": "^6.3.3",
     "typestyle": "^2.0.1"
   },
