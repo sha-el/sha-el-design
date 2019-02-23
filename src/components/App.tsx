@@ -1,11 +1,7 @@
 import * as React from 'react';
 import { ThemeService } from '../helpers/theme';
 import { cssRule } from 'typestyle';
-import { Menu } from './Menu';
-import { MenuItem } from './Menu/MenuItem';
-import { MenuItemGroup } from './Menu/MenuItemGroup';
-import { Button } from './Button';
-import { Fa500px, FaAbacus } from 'react-icons/fa';
+import { Tabs, TabPanel } from './Tabs';
 
 export const App: React.StatelessComponent = () => {
   new ThemeService();
@@ -14,28 +10,17 @@ export const App: React.StatelessComponent = () => {
   });
 
   return (
-    <div>
-      <Menu
-        showCollapsIcon
+    <div style={{width: '100px'}}>
+      <Tabs
+        defaultActiveKey='hello'
       >
-        <MenuItem name='1'>
-          Hello
-        </MenuItem>
-        <MenuItemGroup title='Options'>
-          <MenuItem name='2'>
-            World
-          </MenuItem>
-          <MenuItem
-            name='3'
-            icon={<FaAbacus />}
-          >
-            OLa
-          </MenuItem>
-        </MenuItemGroup>
-        <MenuItem name='3'>
-          OLa
-        </MenuItem>
-      </Menu>
+        <TabPanel title='HELLO' name='hello' key='hello'>
+          <h1>HELLO</h1>
+        </TabPanel>
+        <TabPanel title='HELLO1' name='hello1' key='hello1'>
+          <h1>HELLO1</h1>
+        </TabPanel>
+      </Tabs>
     </div>
   );
 };
