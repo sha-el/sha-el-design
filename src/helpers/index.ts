@@ -24,6 +24,6 @@ export function nestedAccess<T>(nestedObject: T, ...items: [(keyof T), keyof T[k
 
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
-export function getColor(clr: string, black = '#ffffff', white = '#000000') {
+export function getColor(clr: string, black = '#000000', white = '#ffffff') {
   return color(clr).lightness() > .5 ? black : white;
 }

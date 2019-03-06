@@ -1,26 +1,29 @@
 import * as React from 'react';
 import { ThemeService } from '../helpers/theme';
 import { cssRule } from 'typestyle';
-import { Tabs, TabPanel } from './Tabs';
+import { Pagination } from './Pagination';
 
-export const App: React.StatelessComponent = () => {
-  new ThemeService();
-  cssRule('span, div, input, button', {
-    fontSize: '14px',
-  });
+export class App extends React.Component {
 
-  return (
-    <div style={{width: '100px'}}>
-      <Tabs
-        defaultActiveKey='hello'
-      >
-        <TabPanel title='HELLO' name='hello' key='hello'>
-          <h1>HELLO</h1>
-        </TabPanel>
-        <TabPanel title='HELLO1' name='hello1' key='hello1'>
-          <h1>HELLO1</h1>
-        </TabPanel>
-      </Tabs>
-    </div>
-  );
-};
+  state = {
+    currentPage: 1,
+  };
+
+  render() {
+    new ThemeService();
+    cssRule('span, div, input, button', {
+      fontSize: '14px',
+    });
+    return (
+      <div>
+        <Pagination
+          totalCount={500}
+          batchSize={50}
+          currentPage={this.state.currentPage}
+          onChange={(page, size) => this.setState({currentPage: page})}
+          cursorBasedPagination
+        />
+      </div>
+    );
+  }
+}

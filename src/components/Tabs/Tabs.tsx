@@ -2,9 +2,7 @@ import * as React from 'react';
 import { TabPanelProps } from './TabPanel';
 import { style } from './style';
 import { Theme, ThemeService } from '../../helpers/theme';
-import posed, { PoseGroup } from 'react-pose';
-import { styleEnum } from '../../helpers/constants';
-import { TabPanel } from '.';
+import posed from 'react-pose';
 
 export class Tabs extends React.Component<TabsProps, State> {
 
