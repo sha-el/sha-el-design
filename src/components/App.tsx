@@ -2,6 +2,7 @@ import * as React from 'react';
 import { ThemeService } from '../helpers/theme';
 import { cssRule } from 'typestyle';
 import { Pagination } from './Pagination';
+import { Col, Row } from './Grid';
 
 export class App extends React.Component {
 
@@ -16,13 +17,17 @@ export class App extends React.Component {
     });
     return (
       <div>
-        <Pagination
-          totalCount={500}
-          batchSize={50}
-          currentPage={this.state.currentPage}
-          onChange={(page, size) => this.setState({currentPage: page})}
-          cursorBasedPagination
-        />
+        <Row>
+          <Col span={10}>
+            <Pagination
+              totalCount={500}
+              batchSize={50}
+              currentPage={this.state.currentPage}
+              onChange={(page, size) => this.setState({currentPage: page})}
+              cursorBasedPagination
+            />
+          </Col>
+        </Row>
       </div>
     );
   }

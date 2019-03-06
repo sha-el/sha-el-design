@@ -85,6 +85,7 @@ export class Pagination extends React.Component<PaginationProps, State> {
       boxShadow: styleEnum.shadow_bot,
       flex: 0,
       whiteSpace: 'nowrap',
+      margin: '5px 0',
     },
     list: {
       display: 'inline-flex',

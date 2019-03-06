@@ -1,16 +1,35 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
-    "sourceMap": true,
-    "noImplicitAny": false,
     "module": "commonjs",
+    "declaration": true,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "noLib": false,
+    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "target": "es6",
-    "jsx": "react"
+    "sourceMap": true,
+    "outDir": "./lib",
+    "baseUrl": "./src",
+    "jsx": "react",
+    "declarationDir": "./lib/",
+    "lib": [
+      "es6",
+      "dom",
+      "esnext",
+    ]
   },
   "include": [
-    "src/**/*"
+    "src/*",
   ],
   "exclude": [
-    "node_modules"
-  ]
+    "node_modules",
+    "**/*.spec.ts"
+  ],
+  "awesomeTypescriptLoaderOptions": {
+    "reportFiles": [
+        "./src/**/*"
+    ]
+  }
 }

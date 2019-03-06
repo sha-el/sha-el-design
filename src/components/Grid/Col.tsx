@@ -14,6 +14,7 @@ const colStyle = (props: ColProps) => style({
   display: 'inline-block',
   marginLeft: props.offset && 100 / (24 / props.offset) + '%',
   marginBottom: '10px',
+  padding: '5px',
 });
 
 export interface ColProps {

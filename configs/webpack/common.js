@@ -1,8 +1,6 @@
 // shared config (dev and prod)
 const { resolve } = require('path');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const webpack = require('webpack');
 const progressBarPlugin = require('progress-bar-webpack-plugin');
 
 
@@ -46,17 +44,8 @@ module.exports = {
     ],
   },
   plugins: [
+    new progressBarPlugin(),
     new StyleLintPlugin(),
-    new HtmlWebpackPlugin({
-      template: 'index.html',
-    }),
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify('development'),
-        'API_URL': JSON.stringify(process.env.API_URL || 'localhost')
-      }
-    }),
-    new progressBarPlugin()
   ],
   performance: {
     hints: false,
