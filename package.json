@@ -1,18 +1,19 @@
 {
   "name": "sha-el-design",
-  "version": "1.0.0",
-  "description": "Designs for Basic Components",
-  "main": "./src/index.tsx",
+  "version": "0.0.1",
+  "description": "React Components",
+  "main": "./lib/",
+  "typings": "./lib/",
   "repository": "https://gitlab.com/sha-el/sha-el-design.git",
   "author": "Anit <anit.nilay20@gmail.com>",
   "license": "MIT",
   "scripts": {
     "start": "webpack-dev-server --config=configs/webpack/dev.js",
     "start:prod": "webpack-dev-server --config=configs/webpack/prod.js",
-    "build": "npm run clean-dist && webpack --config=configs/webpack/prod.js",
-    "clean-dist": "rm -f -r -d dist",
+    "build": "webpack --config=configs/webpack/prod.js",
     "precommit": "lint-staged",
-    "storybook": "start-storybook -p 9001 -c configs/.storybook"
+    "storybook": "start-storybook -p 9001 -c configs/.storybook",
+    "prepublishOnly": "rm -rf ./lib && yarn build"
   },
   "lint-staged": {
     "*.ts": [
@@ -46,6 +47,7 @@
     "babel-loader": "^7.1.5",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
+    "clean-webpack-plugin": "^2.0.0",
     "css-loader": "^1.0.0",
     "html-webpack-plugin": "^3.2.0",
     "husky": "^0.14.3",
