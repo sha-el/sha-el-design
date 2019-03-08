@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { ThemeService } from '../helpers/theme';
 import { cssRule } from 'typestyle';
-import { Pagination } from './Pagination';
-import { Col, Row } from './Grid';
+import { Table } from './Table';
+import { Button } from '../index';
 
 export class App extends React.Component {
 
   state = {
-    currentPage: 1,
+    data: [{name: 'anit', age: '20'}, {name: 'not anit', age: '20'}],
   };
 
   render() {
@@ -17,17 +17,19 @@ export class App extends React.Component {
     });
     return (
       <div>
-        <Row>
-          <Col span={10}>
-            <Pagination
-              totalCount={500}
-              batchSize={50}
-              currentPage={this.state.currentPage}
-              onChange={(page, size) => this.setState({currentPage: page})}
-              cursorBasedPagination
-            />
-          </Col>
-        </Row>
+        <Table
+          data={this.state.data}
+          columns={[{
+            key: 'name', header: 'Name', dataIndex: 'name',
+          }, {
+            key: 'age',
+            header: 'Age',
+            dataIndex: 'age',
+          }]}
+        />
+        <Button onClick={() => this.setState({data: [...this.state.data, {name: 'ba', age: '20'}]})}>
+          HELLO
+        </Button>
       </div>
     );
   }
