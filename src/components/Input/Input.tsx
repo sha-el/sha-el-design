@@ -64,15 +64,15 @@ export class Input extends React.Component<InputProps, State> {
         className={typeStyle(csstips.horizontal)}
         key={'input-container'}
       >
-        <div className={styleSheet.suedoElementStyle}>
+        {this.props.before && <div className={styleSheet.suedoElementStyle}>
           {this.props.before}
-        </div>
+        </div>}
         <div className={typeStyle(csstips.flex)}>
           {React.cloneElement(child, { style: null, className: styleSheet.inputStyle })}
         </div>
-        <div className={styleSheet.suedoElementStyle}>
+        {this.props.after && <div className={styleSheet.suedoElementStyle}>
           {this.props.after}
-        </div>
+        </div>}
       </div>
     );
   }
@@ -112,6 +112,7 @@ function css() {
   const borderColor = this.props.error ? this.state.theme.error : this.state.focused ? this.state.theme.primary : styleEnum.borderColor;
   const baseStyle = {
     boxShadow: styleEnum.shadow,
+    margin: '10px 0 0',
   };
 
   return stylesheet({
@@ -123,6 +124,7 @@ function css() {
       borderRadius: '1px',
       boxSizing: 'border-box',
       caretColor: this.state.theme.primary,
+      fontSize: '16px',
       $nest: {
         '&:focus': {
           outline: 'none',
@@ -146,6 +148,7 @@ function css() {
     suedoElementStyle: {
       ...csstips.content,
       padding: '5px', background: styleEnum.background,
+      fontSize: '14px',
       ...baseStyle,
     },
 

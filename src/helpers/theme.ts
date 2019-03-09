@@ -18,6 +18,7 @@ export class ThemeService {
     }
     this.selectedTheme$.next(this.themes[0]);
     if (ThemeService.instance) {
+      ThemeService.instance.themes = this.themes;
       return ThemeService.instance;
     } else {
       ThemeService.instance = this;

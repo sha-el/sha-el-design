@@ -2,7 +2,8 @@ import * as React from 'react';
 import { ThemeService } from '../helpers/theme';
 import { cssRule } from 'typestyle';
 import { Table } from './Table';
-import { Button } from '../index';
+import { Button, Input } from '../index';
+import { FaUser, FaPassport } from 'react-icons/fa';
 
 export class App extends React.Component {
 
@@ -17,19 +18,14 @@ export class App extends React.Component {
     });
     return (
       <div>
-        <Table
-          data={this.state.data}
-          columns={[{
-            key: 'name', header: 'Name', dataIndex: 'name',
-          }, {
-            key: 'age',
-            header: 'Age',
-            dataIndex: 'age',
-          }]}
+        <Input
+          placeholder='Username'
+          before={<FaUser />}
         />
-        <Button onClick={() => this.setState({data: [...this.state.data, {name: 'ba', age: '20'}]})}>
-          HELLO
-        </Button>
+        <Input
+          placeholder='Password'
+          before={<FaPassport />}
+        />
       </div>
     );
   }
