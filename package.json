@@ -34,6 +34,7 @@
     "react-icons": "^3.3.0",
     "react-icons-kit": "^1.2.1",
     "react-pose": "^4.0.7",
+    "react-pose-text": "^3.1.0",
     "rxjs": "^6.3.3",
     "typestyle": "^2.0.1"
   },

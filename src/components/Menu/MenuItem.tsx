@@ -30,14 +30,18 @@ export class MenuItem extends React.Component<ItemProps, State> {
               key={name}
               className={`${style.flex} ${style.menu} ${active ? style.active : style.menuHover}`}
             >
-              <div className={`${style.icon} ${style.flex_1}`}>
-                {icon
-                  && React.cloneElement(
+              {icon
+                && <div
+                  className={`${style.icon}`}
+                  style={{
+                    padding: isBarOpen || nested ? '0 20px 0 0' : '0',
+                  }}
+                >
+                  {React.cloneElement(
                     icon,
-                    { style: { margin: isBarOpen ? null : 'auto' } },
-                  )
-                }
-              </div>
+                  )}
+                </div>
+              }
               {(isBarOpen || nested) && <div className={`${style.flex_1}`}>
                 {children}
               </div>}

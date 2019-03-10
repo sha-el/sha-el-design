@@ -7109,6 +7109,13 @@ react-modal@^3.3.2:
     react-lifecycles-compat "^3.0.0"
     warning "^3.0.0"
 
+react-pose-text@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/react-pose-text/-/react-pose-text-3.1.0.tgz#625471d503a56773715dc6ad79a5f7ef86f2a0ec"
+  integrity sha512-UekE51x+33Nry4+Wout6zAUpTyEKFizdSSkvm1+FGV29Z95hheyzsYrk5DjXLxjk7BKm8AqUrl1/NikzGHGR7g==
+  dependencies:
+    hey-listen "^1.0.5"
+
 react-pose@^4.0.7:
   version "4.0.7"
   resolved "https://registry.yarnpkg.com/react-pose/-/react-pose-4.0.7.tgz#8573b7d1bc3d03d0b758e5fa07d841484ad8d25d"

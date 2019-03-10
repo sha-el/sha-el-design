@@ -107,6 +107,7 @@ function css() {
       boxShadow: styleEnum.shadow,
       cursor: 'pointer',
       textDecoration: 'none',
+      margin: '10px 0',
       $nest: {
         '&:hover': {
           background: hoverBgColor,

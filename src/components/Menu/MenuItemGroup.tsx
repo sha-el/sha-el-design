@@ -31,6 +31,9 @@ export class MenuItemGroup extends React.Component<MenuItemGroupProps, State> {
         }
       });
     }
+    return (
+      React.cloneElement(this.props.children as React.ReactElement<any>, { nested: true })
+    );
   }
 
   render() {

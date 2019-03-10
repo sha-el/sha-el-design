@@ -154,7 +154,7 @@ function css() {
 
     errorStyle: {
       textAlign: 'right',
-      fontSize: '10px',
+      fontSize: '14px',
       color: this.state.theme.error,
     },
   });

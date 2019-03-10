@@ -48,7 +48,7 @@ export const css = (props: { active?: any; }, state: { theme: { primary: string;
 
   flex_1: {
     display: 'flex',
-    alignSelf: 'flex-start',
+    alignSelf: 'center',
     flex: 1,
   },
 
@@ -67,10 +67,14 @@ export const css = (props: { active?: any; }, state: { theme: { primary: string;
   groupContainer: {
     overflow: 'hidden',
     paddingBottom: '3px',
+    paddingLeft: '10px',
   },
 
   icon: {
     fontSize: '16px',
+    flex: 0,
+    display: 'flex',
+    alignSelf: 'center',
   },
 
   popoverContent: {
