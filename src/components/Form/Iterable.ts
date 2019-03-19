@@ -1,7 +1,7 @@
 import { Validator, ValidatiorType } from './index';
 
-class Enum<T> implements Validator {
-  public type = ValidatiorType.Enum;
+export class Iterable<T> implements Validator {
+  public type = ValidatiorType.Iterable;
   arr: T;
 
   constructor(arr: T) {
@@ -13,4 +13,4 @@ class Enum<T> implements Validator {
   }
 }
 
-export const array = (v: any) => new Enum(v);
+export const array = (v: any) => new Iterable(v);

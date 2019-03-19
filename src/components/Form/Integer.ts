@@ -1,6 +1,6 @@
 import { Validator, ValidatiorType } from './index';
 
-class Integer implements Validator {
+export class Integer implements Validator {
   private _required: { required: boolean; message: string; };
   private _min: { len: number; message: string; };
   private _max: { len: number; message: string; };

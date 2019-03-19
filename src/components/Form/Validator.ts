@@ -1,4 +1,4 @@
-import { array } from './Enum';
+import { array } from './Iterable';
 import { map } from './Map';
 import { int } from './Integer';
 import { text } from './Text';
@@ -36,7 +36,7 @@ class Validate {
   }
 }
 
-const validate = (v) => new Validate(v);
+const validate = (v) => new Validate(v) as any;
 validate.Text = text;
 validate.Integer = int;
 validate.Object = map;

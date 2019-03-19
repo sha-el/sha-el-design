@@ -7,7 +7,7 @@ export enum ValidatiorType {
   'Integer' = 'Integer',
   'Text' = 'Integer',
   'Map' = 'Map',
-  'Enum' = 'Enum',
+  'Iterable' = 'Iterable',
 }
 
 export { validate } from './Validator';
