@@ -20,3 +20,4 @@ export { Pagination } from './components/Pagination';
 export { Popover } from './components/Popover';
 export { Table } from './components/Table';
 export { TabPanel, Tabs } from './components/Tabs';
+export { validate } from './components/Form';
