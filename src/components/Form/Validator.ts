@@ -16,7 +16,7 @@ class Validate {
     return this.props.initialize();
   }
 
-  validate(value: any) {
+  validate(value: any): any {
     return this.props.validate(value);
   }
 
