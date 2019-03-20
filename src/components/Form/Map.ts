@@ -9,6 +9,17 @@ export class Map<T> implements Validator {
 
   public type = ValidatiorType.Map;
 
+  initialize() {
+    const keys = Object.keys(this.object);
+    const res = {};
+
+    keys.forEach(v => {
+      const response = this.object[v].initialize();
+      res[v] = response;
+    });
+    return res;
+  }
+
   validate(value: object) {
     const keys = Object.keys(this.object);
     const res = {};

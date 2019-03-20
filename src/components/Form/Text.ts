@@ -6,8 +6,13 @@ export class Text implements Validator {
   private _min: { len: number; message: string; };
   private _max: { len: number; message: string; };
   private _match: { reg: RegExp; message: string; };
+  private _default: string = '';
 
   type = ValidatiorType.Text;
+
+  initialize() {
+    return this._default;
+  }
 
   required(message?: string) {
     this._required = { required: true, message };
@@ -31,6 +36,11 @@ export class Text implements Validator {
 
   match(reg: RegExp, message: string) {
     this._match = { reg, message };
+    return this;
+  }
+
+  default(value: string) {
+    this._default = value;
     return this;
   }
 

@@ -12,31 +12,17 @@ class Validate {
     this.props = props;
   }
 
-  validate(value: any) {
-    const error = this.props.validate(value);
-    return error;
+  initialize() {
+    return this.props.initialize();
   }
 
-  findObjectByKeyVal(obj, key, val) {
-    if (!obj || (typeof obj === 'string')) {
-      return null;
-    }
-    if (obj[key] === val) {
-      return obj;
-    }
-    for (const i in obj) {
-      if (obj.hasOwnProperty(i)) {
-        const found = this.findObjectByKeyVal(obj[i], key, val);
-        if (found) {
-          return found;
-        }
-      }
-    }
-    return null;
+  validate(value: any) {
+    return this.props.validate(value);
   }
+
 }
 
-const validate = (v) => new Validate(v) as any;
+const validate = (v) => new Validate(v);
 validate.Text = text;
 validate.Integer = int;
 validate.Object = map;

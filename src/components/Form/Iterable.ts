@@ -1,11 +1,15 @@
 import { Validator, ValidatiorType } from './index';
 
-export class Iterable<T> implements Validator {
+export class Iterable implements Validator {
   public type = ValidatiorType.Iterable;
-  arr: T;
+  private arr: Validator;
 
-  constructor(arr: T) {
+  constructor(arr: Validator) {
     this.arr = arr;
+  }
+
+  initialize() {
+    return [this.arr.initialize()];
   }
 
   validate(value: any[]) {

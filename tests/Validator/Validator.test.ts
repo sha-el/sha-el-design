@@ -13,23 +13,45 @@ test('Validates a simple object', () => {
     }),
   );
 
-  const x = schema.validate({
-    name: 'anit',
-    age: 20,
-    type: [{
-      class: '20',
-    }, {
-      class: '',
-    }],
-  });
-
-  expect(x).toEqual({
+  expect(
+    schema.validate({
+      name: 'anit',
+      age: 20,
+      type: [{
+        class: '20',
+      }, {
+        class: '',
+      }],
+    }),
+  ).toEqual({
     name: undefined,
     age: undefined,
     type: [{
       class: undefined,
     }, {
       class: 'Class is Required',
+    }],
+  });
+});
+
+test('returns a skeleton of given schema with null or blank values', () => {
+  const schema = validate(
+    validate.Object({
+      name: validate.Text().min(2, 'too small').default('Anit'),
+      age: validate.Integer().max(25, 'too old').default(20),
+      type: validate.Array(
+        validate.Object({
+          class: validate.Text().required('Class is Required'),
+        }),
+      ),
+    }),
+  );
+
+  expect(schema.initialize()).toEqual({
+    name: 'Anit',
+    age: 20,
+    type: [{
+      class: '',
     }],
   });
 });
