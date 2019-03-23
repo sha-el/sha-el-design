@@ -1,20 +1,16 @@
 import * as React from 'react';
 import { ThemeService } from '../helpers/theme';
-import { cssRule } from 'typestyle';
-import { Card } from './Card';
-import { Button, Input, Menu } from '../index';
-import { MenuItem, MenuItemGroup } from './Menu';
-import { FaUser, FaPassport } from 'react-icons/fa';
-import { Container, SidePanel, Content } from './Layout';
+import { cssRule, cssRaw } from 'typestyle';
+import { AutoComplete } from './AutoComplete';
 
 export class App extends React.Component {
 
   state = {
-    isLoading: true,
+    value: '',
   };
 
-  componentDidMount() {
-    // setInterval(() => this.setState({ isLoading: !this.state.isLoading }), 2000);
+  onChange = (e) => {
+    this.setState({ value: e });
   }
 
   render() {
@@ -23,45 +19,24 @@ export class App extends React.Component {
       fontSize: '14px',
     });
 
+    cssRaw(`
+      @import url('https://fonts.googleapis.com/css?family=Comfortaa');
+      * {
+        font-family: 'Comfortaa', cursive;
+      }
+    `);
+
     return (
-      <Container>
-        <SidePanel>
-          <Menu>
-            <MenuItem
-              name='HELLO'
-              icon={<FaUser />}
-            >
-              HELLO
-            </MenuItem>
-            <MenuItemGroup
-              title='HELLO AGAIN'
-            >
-              <MenuItem
-                name='HELLO'
-                icon={<FaUser />}
-              >
-                HELLO
-              </MenuItem>
-            </MenuItemGroup>
-          </Menu>
-        </SidePanel>
-        <Content>
-          <Card
-            title='Welcome'
-          >
-            <Input
-              placeholder='Username'
-              before={<FaUser />}
-            />
-            <Input
-              placeholder='Password'
-              before={<FaPassport />}
-            />
-            <Button>SUBMIT</Button>
-            <Button onClick={() => this.setState({ isLoading: !this.state.isLoading })}>OPEN</Button>
-          </Card>
-        </Content>
-      </Container>
+      <div>
+        <AutoComplete
+          data={['FULL_TIME', 'INTERN', 'CONSULTANT'].map(v => ({ name: v, id: v }))}
+          value={this.state.value}
+          uniqueIdentifier='id'
+          displayProp='name'
+          inputProps={{ before: 'Employment Type' }}
+          onChange={(v) => this.onChange(v)}
+        />
+      </div>
     );
   }
 }

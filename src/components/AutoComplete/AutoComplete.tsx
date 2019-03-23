@@ -14,14 +14,14 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
 
   static defaultProps: Partial<AutoCompleteProps<any>> = {
     filterFunction: (inputValue, value) => value.name.toLowerCase().includes(inputValue.toLowerCase()),
-    onChange: (value, obj) => {},
+    onChange: (value, obj) => { },
   };
 
   constructor(props: AutoCompleteProps<T>) {
     super(props);
 
     this.state = {
-      displayValue: this.get_value(),
+      displayValue: this.get_value(props.value),
       data: this.props.data,
       theme: this.theme.selectedTheme$.value,
       totalData: this.props.data.length,
@@ -33,9 +33,16 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
     new ThemeService().selectedTheme$.subscribe(theme => this.setState({ theme }));
   }
 
-  get_value() {
-    const obj = this.props.data.find(value => value[this.props.uniqueIdentifier] === this.props.value);
-    return nestedAccess(obj, this.props.displayProp as string);
+  componentWillReceiveProps(props: AutoCompleteProps<T>) {
+    this.setState({ displayValue: this.get_value(props.value) });
+  }
+
+  get_value(value: any) {
+    if (typeof value !== 'object') {
+      const obj = this.props.data.find(v => v[this.props.uniqueIdentifier] === value);
+      return nestedAccess(obj, this.props.displayProp as string) || '';
+    }
+    return value[this.props.displayProp] || '';
   }
 
   displayList = () => {
@@ -116,8 +123,8 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
   }
 
   render() {
-    return(
-      <div style={{position: 'relative'}}>
+    return (
+      <div style={{ position: 'relative' }}>
         <Popover
           trigger='onClick'
           content={this.displayList()}

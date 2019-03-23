@@ -65,13 +65,13 @@ export class Input extends React.Component<InputProps, State> {
         key={'input-container'}
       >
         {this.props.before && <div className={styleSheet.suedoElementStyle}>
-          {this.props.before}
+          <span>{this.props.before}</span>
         </div>}
         <div className={typeStyle(csstips.flex)}>
           {React.cloneElement(child, { style: null, className: styleSheet.inputStyle })}
         </div>
         {this.props.after && <div className={styleSheet.suedoElementStyle}>
-          {this.props.after}
+          <span>{this.props.after}</span>
         </div>}
       </div>
     );
@@ -111,17 +111,15 @@ function css() {
   const isFocused = this.state.focused || this.props.value;
   const borderColor = this.props.error ? this.state.theme.error : this.state.focused ? this.state.theme.primary : styleEnum.borderColor;
   const baseStyle = {
-    boxShadow: styleEnum.shadow,
+    boxShadow: styleEnum.shadow_bot,
     margin: '10px 0 0',
   };
 
   return stylesheet({
     inputStyle: {
-      background: !this.state.focused && styleEnum.background || '#fff',
       border: `none`,
       width: '100%',
-      padding: '5px 2px',
-      borderRadius: '1px',
+      padding: '10px 2px',
       boxSizing: 'border-box',
       caretColor: this.state.theme.primary,
       fontSize: '16px',
@@ -138,7 +136,7 @@ function css() {
 
     borderColor: {
       border: `${styleEnum.borderWidth} ${styleEnum.borderStyle} ${(borderColor)}`,
-      width: isFocused || this.props.value ? nestedAccess(this.props, 'style', 'width') || '100%' : '0',
+      width: (isFocused || this.props.error) ? nestedAccess(this.props, 'style', 'width') || '100%' : '0',
     },
 
     bottomBorderStyle: {
@@ -147,9 +145,12 @@ function css() {
 
     suedoElementStyle: {
       ...csstips.content,
-      padding: '5px', background: styleEnum.background,
+      padding: '10px',
+      background: '#fafafa',
       fontSize: '14px',
+      border: '.3px solid #eee',
       ...baseStyle,
+      alignSelf: 'center',
     },
 
     errorStyle: {

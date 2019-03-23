@@ -3,6 +3,7 @@ import { TabPanelProps } from './TabPanel';
 import { style } from './style';
 import { Theme, ThemeService } from '../../helpers/theme';
 import posed from 'react-pose';
+import { Portal } from './../Popover/Portal';
 
 export class Tabs extends React.Component<TabsProps, State> {
 
@@ -15,6 +16,11 @@ export class Tabs extends React.Component<TabsProps, State> {
       titles: [],
       theme: this.theme.selectedTheme$.value,
       activeKey: props.defaultActiveKey,
+      inkStyle: {
+        top: 0,
+        left: 0,
+        width: 50,
+      },
     };
   }
 
@@ -22,7 +28,7 @@ export class Tabs extends React.Component<TabsProps, State> {
 
   componentDidMount() {
     this.findTitles();
-
+    this.getInkStyle();
     this.theme.selectedTheme$.subscribe(theme => this.setState({ theme }));
   }
 
@@ -37,23 +43,22 @@ export class Tabs extends React.Component<TabsProps, State> {
 
       return this.setState({ titles });
     }
-
-    this.setState({ titles: [(this.props.children as any).props.title] });
+    this.setState({ titles: [{ title: this.props.children.props.title, key: this.props.children.props.name }] });
   }
 
   getInkStyle = () => {
     const ref = this.headerRefs[this.state.titles.findIndex(v => v.key === this.state.activeKey)];
     if (!ref) {
-      return {
-        left: 0,
-        width: 50,
-      };
+      return setTimeout(this.getInkStyle, 500);
     }
     const rect = ref.getBoundingClientRect();
-    return {
-      left: rect.left,
-      width: rect.width,
-    };
+    this.setState({
+      inkStyle: {
+        left: rect.left,
+        width: rect.width,
+        top: ref.parentElement.getBoundingClientRect().top + ref.parentElement.getBoundingClientRect().height,
+      },
+    });
   }
 
   displayPanel = () => {
@@ -77,17 +82,26 @@ export class Tabs extends React.Component<TabsProps, State> {
         );
       });
     }
-    return this.props.children;
+    return (
+      <TabPanelContainer
+        key={0}
+        pose={'active'}
+        x={0}
+        poseKey={0}
+      >
+        {this.props.children}
+      </TabPanelContainer>
+    );
   }
 
   render() {
-    const { theme } = this.state;
+    const { theme, titles } = this.state;
     const { defaultActiveKey, children } = this.props;
     const css = style(theme);
     return (
       <div>
         <div className={css.tabHeaderContainer}>
-          {this.state.titles.map((v, i) => (
+          {titles.map((v, i) => (
             <div
               ref={el => this.headerRefs[i] = el}
               key={v.key}
@@ -96,18 +110,20 @@ export class Tabs extends React.Component<TabsProps, State> {
                 color: v.key === defaultActiveKey && theme.primary,
                 fontWeight: v.key === defaultActiveKey ? 500 : 100,
               }}
-              onClick={() => this.setState({ activeKey: v.key })}
+              onClick={() => this.setState({ activeKey: v.key }, () => this.getInkStyle())}
             >
               {v.title}
             </div>
           ))}
         </div>
-        <InkBar
-          pose='active'
-          className={css.inkBar}
-          poseKey={`${this.getInkStyle().left}`}
-          {...this.getInkStyle()}
-        />
+        <Portal>
+          <InkBar
+            pose='active'
+            className={css.inkBar}
+            poseKey={`${this.state.inkStyle.left}`}
+            {...this.state.inkStyle}
+          />
+        </Portal>
         <div className={css.tabPanelContainer}>
           {this.displayPanel()}
         </div>
@@ -120,11 +136,13 @@ const InkBar = posed.div({
   active: {
     left: ({ left }) => left,
     width: ({ width }) => width,
+    top: ({ top }) => top,
   },
 
   props: {
     left: 0,
     width: 50,
+    top: 0,
   },
 });
 
@@ -156,4 +174,9 @@ interface State {
   titles: { key: string; title: string }[];
   activeKey: string;
   theme: Theme;
+  inkStyle: {
+    top: number;
+    width: number;
+    left: number;
+  };
 }

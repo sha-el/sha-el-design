@@ -29,5 +29,6 @@ export const style = (theme: Theme) => stylesheet({
   tabPanelContainer: {
     overflowX: 'hidden',
     width: '100%',
+    padding: '10px 0',
   },
 });

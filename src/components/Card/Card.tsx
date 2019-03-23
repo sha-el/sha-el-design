@@ -23,10 +23,10 @@ export class Card extends React.Component<CardProps, {}> {
     container: {
       boxShadow: styleEnum.shadow_bot_2x,
       border: `${styleEnum.borderWidth} ${styleEnum.borderStyle} ${styleEnum.borderColor}`,
-      padding: '20px',
+      padding: 0,
     },
     header: {
-      padding: '10px 0',
+      padding: '10px',
       fontSize: '20px',
       borderBottom: `${styleEnum.borderWidth} ${styleEnum.borderStyle} ${styleEnum.borderColor}`,
     },

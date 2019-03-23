@@ -2,10 +2,37 @@ import * as React from 'react';
 import { stylesheet } from 'typestyle';
 import { styleEnum } from '../../helpers/constants';
 import { PoseGroup } from 'react-pose';
+import { FaMeh } from 'react-icons/fa';
 
 export class Table<T> extends React.Component<TableProps<T>, {}> {
   constructor(props: TableProps<T>) {
     super(props);
+  }
+
+  renderRow() {
+    const style = this.css();
+    if (this.props.data.length) {
+      return (
+        this.props.data.map((v, index) => (
+          <tr key={`table-row-${index}`}>
+            {this.props.columns.map(f => {
+              return (
+                <td key={`table-column-${f.key}-${index}`}>
+                  {f.render ? f.render(v[f.dataIndex], v) : v[f.dataIndex]}
+                  {f.children ? f.children(v[f.dataIndex], v) : ''}
+                </td>
+              );
+            })}
+          </tr>))
+      );
+    }
+
+    return (
+      <div className={style.icon}>
+        <FaMeh />
+        <div>No Data</div>
+      </div>
+    );
   }
 
   render() {
@@ -18,18 +45,7 @@ export class Table<T> extends React.Component<TableProps<T>, {}> {
           </tr>
         </thead>
         <tbody>
-          <PoseGroup>
-            {this.props.data.map((v, index) => <tr key={`table-row-${index}`}>
-              {this.props.columns.map(f => {
-                return (
-                  <td key={`table-column-${f.key}-${index}`}>
-                    {f.render ? f.render(v[f.dataIndex], v) : v[f.dataIndex]}
-                    {f.children ? f.children(v[f.dataIndex], v) : ''}
-                  </td>
-                );
-              })}
-            </tr>)}
-          </PoseGroup>
+          {this.renderRow()}
         </tbody>
       </table>
     );
@@ -54,6 +70,12 @@ export class Table<T> extends React.Component<TableProps<T>, {}> {
         },
       },
     },
+    icon: {
+      textAlign: 'center',
+      fontSize: '100px',
+      color: '#ccc',
+      padding: '10px',
+    },
   })
 }
 
@@ -62,7 +84,7 @@ interface TableProps<T> {
   columns: Colums<T>[];
 }
 
-interface Colums<T> {
+export interface Colums<T> {
   key: string;
   dataIndex?: keyof T;
   header?: React.ReactNode;

@@ -15,6 +15,7 @@ const colStyle = (props: ColProps) => style({
   marginLeft: props.offset && 100 / (24 / props.offset) + '%',
   marginBottom: '10px',
   padding: '5px',
+  boxSizing: 'border-box',
 });
 
 export interface ColProps {
