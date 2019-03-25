@@ -57,32 +57,34 @@ export class Popover extends React.Component<PopoverProps, State> {
 
   position = () => {
     const child = findDOMNode(this.child.current);
-    const container = this.container.current;
+    const container = findDOMNode(this.container.current);
     if (!child || !container) {
       return {left: 0, top: 0, width: 0};
     }
 
     const childRect = (child as Element).getBoundingClientRect();
     const containerRect = (container as Element).getBoundingClientRect();
+    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     return {
       bottom: {
-        left: (childRect.width / 2) - (this.getContainerWidth(containerRect.width) / 2) + childRect.left,
-        top: childRect.height + childRect.top,
+        left: (childRect.width / 2) - (this.getContainerWidth(containerRect.width) / 2) + childRect.left + scrollLeft,
+        top: childRect.height + childRect.top + scrollTop,
         width: childRect.width,
       },
       top: {
-        left: (childRect.width / 2) - (this.getContainerWidth(containerRect.width) / 2) + childRect.left,
-        top: childRect.top - containerRect.height,
+        left: (childRect.width / 2) - (this.getContainerWidth(containerRect.width) / 2) + childRect.left + scrollLeft,
+        top: childRect.top - containerRect.height + scrollTop,
         width: childRect.width,
       },
       left: {
         left: childRect.left - 10 - this.getContainerWidth(containerRect.width),
-        top: childRect.height / 2 - containerRect.height / 2 + childRect.top,
+        top: childRect.height / 2 - containerRect.height / 2 + childRect.top + scrollTop,
         width: childRect.width,
       },
       right: {
         left: childRect.width + 10 + childRect.left,
-        top: childRect.height / 2 - containerRect.height / 2 + childRect.top,
+        top: childRect.height / 2 - containerRect.height / 2 + childRect.top + scrollTop,
         width: childRect.width,
       },
     }[this.props.postion];

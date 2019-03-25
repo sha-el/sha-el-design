@@ -2,6 +2,7 @@ import * as React from 'react';
 import { ThemeService } from '../helpers/theme';
 import { cssRule, cssRaw } from 'typestyle';
 import { AutoComplete } from './AutoComplete';
+import { Table } from './Table';
 
 export class App extends React.Component {
 
@@ -28,6 +29,18 @@ export class App extends React.Component {
 
     return (
       <div>
+        <Table
+          data={[{ name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' },
+          { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' },
+          { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' },
+          { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' },
+          { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }]}
+          columns={[{
+            dataIndex: 'name',
+            key: 'name',
+            header: 'name',
+          }]}
+        />
         <AutoComplete
           data={['FULL_TIME', 'INTERN', 'CONSULTANT'].map(v => ({ name: v, id: v }))}
           value={this.state.value}
