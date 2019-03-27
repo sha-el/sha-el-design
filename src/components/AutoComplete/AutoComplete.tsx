@@ -48,7 +48,15 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
   displayList = () => {
     const styleSheet = this.css();
     if (typeof this.props.renderOptions === 'function') {
-      return this.state.data.map(this.props.renderOptions);
+      return this.state.data.map((value, index, array) => (
+        <div
+          className={`${styleSheet.list} ${index === this.state.focusedData && styleSheet.focusedList}`}
+          key={value[this.props.uniqueIdentifier] as unknown as string}
+          onClick={() => this.onSelect(index)}
+        >
+          {this.props.renderOptions(value, index, array)}
+        </div>
+      ));
     }
 
     return this.state.data.map((value, index) => (
