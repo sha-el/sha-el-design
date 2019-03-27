@@ -63,6 +63,9 @@ export class Table<T> extends React.Component<TableProps<T>, {}> {
         'tr': {
           borderBottom: `${styleEnum.borderWidth} ${styleEnum.borderStyle} ${styleEnum.borderColor}`,
         },
+        'th': {
+          background: styleEnum.headerBgColor,
+        },
         'th, td': {
           textAlign: 'left',
           padding: '10px 5px',

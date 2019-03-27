@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { ThemeService } from '../helpers/theme';
-import { cssRule, cssRaw } from 'typestyle';
 import { AutoComplete } from './AutoComplete';
 import { Table } from './Table';
+import { initialize } from '../helpers';
+import { Input } from './Input';
 
 export class App extends React.Component {
 
@@ -15,20 +15,20 @@ export class App extends React.Component {
   }
 
   render() {
-    new ThemeService();
-    cssRule('span, div, input, button', {
-      fontSize: '14px',
-    });
-
-    cssRaw(`
-      @import url('https://fonts.googleapis.com/css?family=Comfortaa');
-      * {
-        font-family: 'Comfortaa', cursive;
-      }
-    `);
+    initialize();
 
     return (
       <div>
+        <Input
+          label='hello'
+          before='HELLO'
+          // data={['FULL_TIME', 'INTERN', 'CONSULTANT'].map(v => ({ name: v, id: v }))}
+          // value={this.state.value}
+          // uniqueIdentifier='id'
+          // displayProp='name'
+          // inputProps={{ label: 'Employment Type' }}
+          // onChange={(v) => this.onChange(v)}
+        />
         <Table
           data={[{ name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' },
           { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' },
@@ -40,14 +40,6 @@ export class App extends React.Component {
             key: 'name',
             header: 'name',
           }]}
-        />
-        <AutoComplete
-          data={['FULL_TIME', 'INTERN', 'CONSULTANT'].map(v => ({ name: v, id: v }))}
-          value={this.state.value}
-          uniqueIdentifier='id'
-          displayProp='name'
-          inputProps={{ before: 'Employment Type' }}
-          onChange={(v) => this.onChange(v)}
         />
       </div>
     );

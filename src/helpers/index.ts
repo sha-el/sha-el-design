@@ -1,4 +1,7 @@
 import { color } from 'csx';
+import { ThemeService } from './theme';
+import { cssRule, cssRaw } from 'typestyle';
+import {normalize} from 'csstips';
 
 export function removeObjectProperties<T>(obj: T, ...props: (keyof T)[]): Omit<T, keyof T> {
   obj = { ...obj };
@@ -26,4 +29,21 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export function getColor(clr: string, black = '#000000', white = '#ffffff') {
   return color(clr).lightness() > .5 ? black : white;
+}
+
+export function initialize() {
+  new ThemeService();
+
+  normalize();
+
+  cssRule('span, div, input, button', {
+    fontSize: '14px',
+  });
+
+  cssRaw(`
+@import url('https://fonts.googleapis.com/css?family=ZCOOL+XiaoWei');
+    * {
+    font-family: 'ZCOOL XiaoWei', serif;
+    }
+`);
 }

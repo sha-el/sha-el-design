@@ -29,6 +29,7 @@ export class Card extends React.Component<CardProps, {}> {
       padding: '10px',
       fontSize: '20px',
       borderBottom: `${styleEnum.borderWidth} ${styleEnum.borderStyle} ${styleEnum.borderColor}`,
+      background: styleEnum.headerBgColor,
     },
   })
 }

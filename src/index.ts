@@ -1,18 +1,6 @@
-import { ThemeService } from './helpers/theme';
-import { cssRule, cssRaw } from 'typestyle';
+import { initialize } from './helpers';
 
-new ThemeService();
-
-cssRule('span, div, input, button', {
-    fontSize: '14px',
-});
-
-cssRaw(`
-    @import url('https://fonts.googleapis.com/css?family=Comfortaa');
-    * {
-    font-family: 'Comfortaa', cursive;
-    }
-`);
+initialize();
 
 export { AutoComplete } from './components/AutoComplete';
 export { Button } from './components/Button';

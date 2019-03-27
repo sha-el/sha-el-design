@@ -4,6 +4,7 @@ import { ThemeService, Theme } from '../../helpers/theme';
 import { styleEnum } from '../../helpers/constants';
 import * as csstips from 'csstips';
 import { removeObjectProperties, nestedAccess, Omit } from '../../helpers';
+import { color } from 'csx';
 
 export class Input extends React.Component<InputProps, State> {
   private readonly theme = new ThemeService();
@@ -40,6 +41,8 @@ export class Input extends React.Component<InputProps, State> {
       before,
       after,
       getElement,
+      label,
+      required,
     } = this.props;
     const props = removeObjectProperties(this.props, 'label', 'before', 'after', 'error', 'getElement');
     const child = (
@@ -68,6 +71,8 @@ export class Input extends React.Component<InputProps, State> {
           <span>{this.props.before}</span>
         </div>}
         <div className={typeStyle(csstips.flex)}>
+          {label &&
+            <div key='label' className={`${styleSheet.label}`}>{label}{required && '*'}</div>}
           {React.cloneElement(child, { style: null, className: styleSheet.inputStyle })}
         </div>
         {this.props.after && <div className={styleSheet.suedoElementStyle}>
@@ -78,19 +83,21 @@ export class Input extends React.Component<InputProps, State> {
   }
 
   render() {
-    const { label, required, error } = this.props;
+    const { label, required, error, before, after } = this.props;
     const styleSheet = this.css();
-    return ([
-      (label && <div key='label' style={this.props.style} className={this.props.className || ''}>{label}{required && '*'}</div>),
-      this.renderInput(),
-      (<div key='border' className={`${styleSheet.borderColor} ${styleSheet.bottomBorderStyle}`} />),
-      (error &&
-        (
-          <div style={{ ...this.props.style, marginTop: '0' }} key='error' className={`${styleSheet.errorStyle} ${this.props.className || ''}`}>
+    return (
+      <div style={this.props.style} className={styleSheet.container}>
+        {label && !(before || after) &&
+          <div key='label' className={`${styleSheet.label}`}>{label}{required && '*'}</div>}
+        {this.renderInput()}
+        {<div key='border' className={`${styleSheet.borderColor} ${styleSheet.bottomBorderStyle}`} />}
+        {error &&
+          <div style={{ marginTop: '0' }} key='error' className={`${styleSheet.errorStyle} ${this.props.className || ''}`}>
             {error}
           </div>
-        )),
-    ]);
+        }
+      </div>
+    );
   }
 }
 
@@ -110,16 +117,15 @@ interface State {
 function css() {
   const isFocused = this.state.focused || this.props.value;
   const borderColor = this.props.error ? this.state.theme.error : this.state.focused ? this.state.theme.primary : styleEnum.borderColor;
+  const psuedoElem = !!(this.props.before || this.props.after);
   const baseStyle = {
     boxShadow: styleEnum.shadow_bot,
-    margin: '10px 0 0',
   };
 
   return stylesheet({
     inputStyle: {
       border: `none`,
       width: '100%',
-      padding: '10px 2px',
       boxSizing: 'border-box',
       caretColor: this.state.theme.primary,
       fontSize: '16px',
@@ -132,11 +138,28 @@ function css() {
         },
       },
       ...baseStyle,
+      lineHeight: (!this.props.label && psuedoElem) ? '34px' : 'initial',
+    },
+
+    container: {
+      margin: '10px 0',
+      fontWeight: 'lighter',
+      boxShadow: styleEnum.shadow_bot,
+    },
+
+    label: {
+      fontSize: isFocused ? '14px' : '16px',
+      color: 'rgba(0,0,0,.54)',
+      transition: 'all .5s',
+      transform: isFocused ? 'translate3d(0, -12px, 0)' : 'translate3d(0, 10px, 0)',
+      pointerEvents: 'none',
+      cursor: 'text',
     },
 
     borderColor: {
       border: `${styleEnum.borderWidth} ${styleEnum.borderStyle} ${(borderColor)}`,
       width: (isFocused || this.props.error) ? nestedAccess(this.props, 'style', 'width') || '100%' : '0',
+      margin: 'auto',
     },
 
     bottomBorderStyle: {
@@ -144,13 +167,11 @@ function css() {
     },
 
     suedoElementStyle: {
-      ...csstips.content,
       padding: '10px',
-      background: '#fafafa',
+      background: styleEnum.headerBgColor,
       fontSize: '14px',
       border: '.3px solid #eee',
       ...baseStyle,
-      alignSelf: 'center',
     },
 
     errorStyle: {
