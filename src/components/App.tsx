@@ -6,8 +6,11 @@ import { Input } from './Input';
 
 export class App extends React.Component {
 
+  data = ['FULL_TIME', 'INTERN', 'CONSULTANT'].map(v => ({ name: v, id: v }));
+
   state = {
     value: '',
+    data: this.data,
   };
 
   onChange = (e) => {
@@ -20,24 +23,18 @@ export class App extends React.Component {
     return (
       <div>
         <AutoComplete
-          data={['FULL_TIME', 'INTERN', 'CONSULTANT'].map(v => ({ name: v, id: v }))}
-          value={this.state.value}
-          uniqueIdentifier='id'
-          displayProp='name'
-          inputProps={{ label: 'Employment Type' }}
+          uniqueIdentifier={(v) => v.id}
+          displayProp={(v) => v && v.name}
+          data={this.data}
+          filterFunction={() => true}
+          renderOptions={this.state.data.map((value, index) => (
+            <div key={`${index}-design-drop`}>
+              {value.name} ll
+            </div>
+          ))}
           onChange={(v) => this.onChange(v)}
-        />
-        <Table
-          data={[{ name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' },
-          { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' },
-          { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' },
-          { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' },
-          { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }]}
-          columns={[{
-            dataIndex: 'name',
-            key: 'name',
-            header: 'name',
-          }]}
+          value={this.state.value}
+          onSearch={(e) => this.setState({data: this.data.filter(v => v.name.includes(e.target.value))})}
         />
       </div>
     );

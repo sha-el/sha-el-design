@@ -5,8 +5,9 @@ import { Popover } from '../Popover';
 import { stylesheet } from 'typestyle';
 import { styleEnum } from '../../helpers/constants';
 import { ThemeService, Theme } from '../../helpers/theme';
-import { nestedAccess, getColor } from '../../helpers';
+import { getColor } from '../../helpers';
 import { color } from 'csx';
+import { FaTimes } from 'react-icons/fa';
 
 export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State<T>> {
   css = css.bind(this);
@@ -15,13 +16,14 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
   static defaultProps: Partial<AutoCompleteProps<any>> = {
     filterFunction: (inputValue, value) => value.name.toLowerCase().includes(inputValue.toLowerCase()),
     onChange: (value, obj) => { },
+    onSearch: () => { },
   };
 
   constructor(props: AutoCompleteProps<T>) {
     super(props);
 
     this.state = {
-      displayValue: this.get_value(props.value),
+      displayValue: this.get_value(),
       theme: this.theme.selectedTheme$.value,
       data: props.data,
       totalData: this.props.data.length,
@@ -33,28 +35,27 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
     new ThemeService().selectedTheme$.subscribe(theme => this.setState({ theme }));
   }
 
-  componentWillReceiveProps(props: AutoCompleteProps<T>) {
-    this.setState({ displayValue: this.get_value(props.value)});
-  }
-
-  get_value(value: any) {
+  get_value() {
+    const value = this.props.value;
     if (typeof value !== 'object') {
-      const obj = this.props.data.find(v => v[this.props.uniqueIdentifier] === value);
-      return nestedAccess(obj, this.props.displayProp as string) || '';
+      const obj = this.props.data.find(v => this.props.uniqueIdentifier(v) === value);
+      return this.props.displayProp(obj) || '';
+    } else if (!value) {
+      return this.state.displayValue;
     }
-    return value[this.props.displayProp] || '';
+    return this.props.displayProp(value as T) || '';
   }
 
   displayList = () => {
     const styleSheet = this.css();
-    if (typeof this.props.renderOptions === 'function') {
-      return this.props.data.map((value, index, array) => (
+    if (this.props.renderOptions) {
+      return this.props.renderOptions.map((value, index, array) => (
         <div
           className={`${styleSheet.list} ${index === this.state.focusedData && styleSheet.focusedList}`}
-          key={value[this.props.uniqueIdentifier] as unknown as string}
+          key={`${index}-auto`}
           onClick={() => this.onSelect(this.props.data, index)}
         >
-          {this.props.renderOptions(value, index, array)}
+          {value}
         </div>
       ));
     }
@@ -62,10 +63,10 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
     return this.state.data.map((value, index) => (
       <div
         className={`${styleSheet.list} ${index === this.state.focusedData && styleSheet.focusedList}`}
-        key={value[this.props.uniqueIdentifier] as unknown as string}
+        key={String(this.props.uniqueIdentifier(value))}
         onClick={() => this.onSelect(this.state.data, index)}
       >
-        {value[this.props.displayProp]}
+        {this.props.displayProp(value)}
       </div>
     ));
   }
@@ -73,6 +74,8 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
   onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const data = this.props.data.filter((value, index, array) =>
       this.props.filterFunction(e.target.value, value, index, array));
+
+    this.props.onSearch(e);
 
     this.setState({
       displayValue: e.target.value,
@@ -109,9 +112,13 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
       focusedData,
     } = this.state;
 
+    const obj = data[index > -1 ? index : focusedData];
+
+    this.setState({ displayValue: this.props.uniqueIdentifier(obj) as unknown as string });
+
     this.props.onChange(
-      data[index > -1 ? index : focusedData][this.props.uniqueIdentifier],
-      data[index > -1 ? index : focusedData],
+      this.props.uniqueIdentifier(obj),
+      obj,
     );
   }
 
@@ -127,6 +134,22 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
         return this.onSelect();
       }
     }
+  }
+
+  renderClear() {
+    if (!this.props.allowClear) {
+      return null;
+    }
+    return (
+      <div
+        onClick={() => {
+          this.setState({ displayValue: '' });
+          this.props.onChange(null, null);
+        }}
+      >
+        <FaTimes />
+      </div>
+    );
   }
 
   render() {
@@ -148,6 +171,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
             onChange={this.onInputChange}
             onKeyDown={this.onKeyDown}
             {...this.props.inputProps}
+            after={this.renderClear()}
           />
         </Popover>
       </div>
@@ -158,12 +182,14 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
 export interface AutoCompleteProps<T> {
   data: T[];
   value: T[keyof T] | T;
-  uniqueIdentifier: keyof T;
-  displayProp: keyof T;
+  uniqueIdentifier: (v: T) => T[keyof T];
+  displayProp: (v: T | null) => string;
   inputProps?: InputProps;
   onChange: (value: T[keyof T], obj: T) => void;
   filterFunction?: (inputValue: string, value: T, index: number, array: T[]) => boolean;
-  renderOptions?: (value: T, index: number, array: T[]) => React.ReactNode;
+  renderOptions?: React.ReactNode[];
+  onSearch?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  allowClear?: boolean;
 }
 
 interface State<T> {
