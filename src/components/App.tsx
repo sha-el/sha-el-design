@@ -19,15 +19,13 @@ export class App extends React.Component {
 
     return (
       <div>
-        <Input
-          label='hello'
-          before='HELLO'
-          // data={['FULL_TIME', 'INTERN', 'CONSULTANT'].map(v => ({ name: v, id: v }))}
-          // value={this.state.value}
-          // uniqueIdentifier='id'
-          // displayProp='name'
-          // inputProps={{ label: 'Employment Type' }}
-          // onChange={(v) => this.onChange(v)}
+        <AutoComplete
+          data={['FULL_TIME', 'INTERN', 'CONSULTANT'].map(v => ({ name: v, id: v }))}
+          value={this.state.value}
+          uniqueIdentifier='id'
+          displayProp='name'
+          inputProps={{ label: 'Employment Type' }}
+          onChange={(v) => this.onChange(v)}
         />
         <Table
           data={[{ name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' },

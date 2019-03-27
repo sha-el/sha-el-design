@@ -22,8 +22,8 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
 
     this.state = {
       displayValue: this.get_value(props.value),
-      data: this.props.data,
       theme: this.theme.selectedTheme$.value,
+      data: props.data,
       totalData: this.props.data.length,
       focusedData: -1,
     };
@@ -34,7 +34,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
   }
 
   componentWillReceiveProps(props: AutoCompleteProps<T>) {
-    this.setState({ displayValue: this.get_value(props.value) });
+    this.setState({ displayValue: this.get_value(props.value)});
   }
 
   get_value(value: any) {
@@ -48,11 +48,11 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
   displayList = () => {
     const styleSheet = this.css();
     if (typeof this.props.renderOptions === 'function') {
-      return this.state.data.map((value, index, array) => (
+      return this.props.data.map((value, index, array) => (
         <div
           className={`${styleSheet.list} ${index === this.state.focusedData && styleSheet.focusedList}`}
           key={value[this.props.uniqueIdentifier] as unknown as string}
-          onClick={() => this.onSelect(index)}
+          onClick={() => this.onSelect(this.props.data, index)}
         >
           {this.props.renderOptions(value, index, array)}
         </div>
@@ -63,7 +63,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
       <div
         className={`${styleSheet.list} ${index === this.state.focusedData && styleSheet.focusedList}`}
         key={value[this.props.uniqueIdentifier] as unknown as string}
-        onClick={() => this.onSelect(index)}
+        onClick={() => this.onSelect(this.state.data, index)}
       >
         {value[this.props.displayProp]}
       </div>
@@ -104,10 +104,9 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
     return this.setState({ focusedData: focusedData - 1 });
   }
 
-  onSelect = (index?: number) => {
+  onSelect = (data = this.state.data, index?: number) => {
     const {
       focusedData,
-      data,
     } = this.state;
 
     this.props.onChange(
@@ -169,8 +168,8 @@ export interface AutoCompleteProps<T> {
 
 interface State<T> {
   displayValue: string;
-  data: T[];
   theme: Theme;
+  data: T[];
   totalData: number;
   focusedData: number;
 }
