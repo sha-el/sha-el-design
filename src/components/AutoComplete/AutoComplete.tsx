@@ -114,7 +114,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
 
     const obj = data[index > -1 ? index : focusedData];
 
-    this.setState({ displayValue: this.props.uniqueIdentifier(obj) as unknown as string });
+    this.setState({ displayValue: this.props.displayProp(obj) });
 
     this.props.onChange(
       this.props.uniqueIdentifier(obj),

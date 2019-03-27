@@ -6,7 +6,7 @@ import { Input } from './Input';
 
 export class App extends React.Component {
 
-  data = ['FULL_TIME', 'INTERN', 'CONSULTANT'].map(v => ({ name: v, id: v }));
+  data = [{ name: 'FULL_TIME', id: 1 }, { name: 'A', id: 2 }, { name: 'B', id: 2 }];
 
   state = {
     value: '',
