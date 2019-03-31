@@ -1,7 +1,7 @@
 import { color } from 'csx';
 import { ThemeService } from './theme';
 import { cssRule, cssRaw } from 'typestyle';
-import {normalize} from 'csstips';
+import { normalize } from 'csstips';
 
 export function removeObjectProperties<T>(obj: T, ...props: (keyof T)[]): Omit<T, keyof T> {
   obj = { ...obj };
@@ -46,4 +46,12 @@ export function initialize() {
     font-family: 'ZCOOL XiaoWei', serif;
     }
 `);
+}
+
+export function arrayBetween(num1: number, num2: number) {
+  const arr = [];
+  for (let i = num1; i < num2; i++) {
+    arr.push(i);
+  }
+  return arr;
 }

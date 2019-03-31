@@ -13,7 +13,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
   css = css.bind(this);
   private readonly theme = new ThemeService();
 
-  static defaultProps: Partial<AutoCompleteProps<any>> = {
+  static defaultProps = {
     filterFunction: (inputValue, value) => value.name.toLowerCase().includes(inputValue.toLowerCase()),
     onChange: (value, obj) => { },
     onSearch: () => { },

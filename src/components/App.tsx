@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { initialize } from '../helpers';
-import { CheckBox } from './CheckBox';
-import { Input } from './Input';
-import { Row, Col } from './Grid';
+import { Calendar } from './Calendar';
 
 export class App extends React.Component {
 
@@ -22,18 +20,9 @@ export class App extends React.Component {
 
     return (
       <div>
-        <Row>
-          <Col span={12}>
-            <CheckBox
-              label='Hello'
-              checked={this.state.value}
-              onChange={e => this.setState({ value: e.target.checked })}
-            />
-          </Col>
-          <Col span={12}>
-            <Input label='Yes?' />
-          </Col>
-        </Row>
+        <Calendar
+          date={[2019, 0, 1]}
+        />
       </div>
     );
   }
