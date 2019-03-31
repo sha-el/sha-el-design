@@ -5,10 +5,11 @@ export interface Validator {
 }
 
 export enum ValidatiorType {
-  'Integer' = 'Integer',
-  'Text' = 'Integer',
-  'Map' = 'Map',
-  'Iterable' = 'Iterable',
+  Integer = 'Integer',
+  Text = 'Integer',
+  Map = 'Map',
+  Iterable = 'Iterable',
+  Boolean = 'Boolean',
 }
 
 export { validate } from './Validator';

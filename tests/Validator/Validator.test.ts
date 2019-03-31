@@ -8,6 +8,7 @@ test('Validates a simple object', () => {
       type: validate.Array(
         validate.Object({
           class: validate.Text().required('Class is Required'),
+          isClosed: validate.Boolean().required('is Closed is Required'),
         }),
       ),
     }),
@@ -21,6 +22,7 @@ test('Validates a simple object', () => {
         class: '20',
       }, {
         class: '',
+        isClosed: true,
       }],
     }),
   ).toEqual({
@@ -28,6 +30,7 @@ test('Validates a simple object', () => {
     age: undefined,
     type: [{
       class: undefined,
+      isClosed: 'is Closed is Required',
     }, {
       class: 'Class is Required',
     }],
@@ -42,6 +45,7 @@ test('returns a skeleton of given schema with null or blank values', () => {
       type: validate.Array(
         validate.Object({
           class: validate.Text().required('Class is Required'),
+          isClosed: validate.Boolean().required('is Closed is Required'),
         }),
       ),
     }),

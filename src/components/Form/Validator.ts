@@ -1,3 +1,4 @@
+import { booleanSchema } from './boolean';
 import { array } from './Iterable';
 import { map } from './Map';
 import { int } from './Integer';
@@ -27,5 +28,6 @@ validate.Text = text;
 validate.Integer = int;
 validate.Object = map;
 validate.Array = array;
+validate.Boolean = booleanSchema;
 
 export { validate };
