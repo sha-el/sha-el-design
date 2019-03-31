@@ -1,15 +1,15 @@
 import * as React from 'react';
-import { AutoComplete } from './AutoComplete';
-import { Table } from './Table';
 import { initialize } from '../helpers';
+import { CheckBox } from './CheckBox';
 import { Input } from './Input';
+import { Row, Col } from './Grid';
 
 export class App extends React.Component {
 
   data = [{ name: 'FULL_TIME', id: 1 }, { name: 'A', id: 2 }, { name: 'B', id: 2 }];
 
   state = {
-    value: '',
+    value: true,
     data: this.data,
   };
 
@@ -22,20 +22,18 @@ export class App extends React.Component {
 
     return (
       <div>
-        <AutoComplete
-          uniqueIdentifier={(v) => v.id}
-          displayProp={(v) => v && v.name}
-          data={this.data}
-          filterFunction={() => true}
-          renderOptions={this.state.data.map((value, index) => (
-            <div key={`${index}-design-drop`}>
-              {value.name} ll
-            </div>
-          ))}
-          onChange={(v) => this.onChange(v)}
-          value={this.state.value}
-          onSearch={(e) => this.setState({data: this.data.filter(v => v.name.includes(e.target.value))})}
-        />
+        <Row>
+          <Col span={12}>
+            <CheckBox
+              label='Hello'
+              checked={this.state.value}
+              onChange={e => this.setState({ value: e.target.checked })}
+            />
+          </Col>
+          <Col span={12}>
+            <Input label='Yes?' />
+          </Col>
+        </Row>
       </div>
     );
   }

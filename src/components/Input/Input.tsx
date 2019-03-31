@@ -4,7 +4,6 @@ import { ThemeService, Theme } from '../../helpers/theme';
 import { styleEnum } from '../../helpers/constants';
 import * as csstips from 'csstips';
 import { removeObjectProperties, nestedAccess, Omit } from '../../helpers';
-import { color } from 'csx';
 
 export class Input extends React.Component<InputProps, State> {
   private readonly theme = new ThemeService();
