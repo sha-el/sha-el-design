@@ -16,3 +16,5 @@ export { Popover } from './components/Popover';
 export { Table } from './components/Table';
 export { TabPanel, Tabs } from './components/Tabs';
 export { validate } from './components/Form';
+export { Calendar } from './components/Calendar';
+export { CheckBox } from './components/CheckBox';
