@@ -35,15 +35,19 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
     new ThemeService().selectedTheme$.subscribe(theme => this.setState({ theme }));
   }
 
-  get_value() {
-    const value = this.props.value;
+  componentWillReceiveProps(nextProps: AutoCompleteProps<T>) {
+    this.setState({ displayValue: this.get_value(nextProps) });
+  }
+
+  get_value(props = this.props) {
+    const value = props.value;
     if (typeof value !== 'object') {
-      const obj = this.props.data.find(v => this.props.uniqueIdentifier(v) === value);
-      return this.props.displayProp(obj) || '';
+      const obj = props.data.find(v => props.uniqueIdentifier(v) === value);
+      return props.displayProp(obj) || '';
     } else if (!value) {
       return this.state.displayValue;
     }
-    return this.props.displayProp(value as T) || '';
+    return props.displayProp(value as T) || '';
   }
 
   displayList = () => {

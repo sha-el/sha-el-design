@@ -17,7 +17,7 @@ export class Modal extends React.Component<ModalProps, {}> {
           {isVisible && <Container
             key='container'
             style={{
-              position: 'absolute',
+              position: 'fixed',
               margin: 'auto',
               left: '0',
               right: '0',
@@ -28,6 +28,7 @@ export class Modal extends React.Component<ModalProps, {}> {
               zIndex: 1001,
               top: '10vh',
               boxShadow: styleEnum.shadow_2x,
+              overflowY: 'scroll',
             }}
           >
             {title && <h3 style={{ margin: '0' }}>{title}</h3>}

@@ -175,7 +175,7 @@ export class Popover extends React.Component<PopoverProps, State> {
       <div
         onClick={this.triggerClick}
         onMouseEnter={this.triggerMouseEnter}
-        style={{ zIndex: 1001 }}
+        style={{ zIndex: 2001 }}
         key='container'
       >
         {React.cloneElement(this.props.children, { ref: this.child })}
@@ -194,7 +194,7 @@ export class Popover extends React.Component<PopoverProps, State> {
             left: 0,
             width: '100%',
             height: '100%',
-            zIndex: 1000,
+            zIndex: 2000,
             overflow: 'auto',
           }}
         />
@@ -210,7 +210,7 @@ function css() {
       minWidth: '100px',
       position: 'absolute',
       boxShadow: styleEnum.shadow_2x,
-      zIndex: 1001,
+      zIndex: 2001,
       marginTop: this.props.hideArrow ? '2px' : '10px',
       left: this.state.position.left,
       top: this.state.position.top,
