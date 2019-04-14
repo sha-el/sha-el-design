@@ -18,3 +18,4 @@ export { TabPanel, Tabs } from './components/Tabs';
 export { validate } from './components/Form';
 export { Calendar } from './components/Calendar';
 export { CheckBox } from './components/CheckBox';
+export { Progress } from './components/Progress';
