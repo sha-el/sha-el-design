@@ -39,7 +39,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
     this.setState({ displayValue: this.get_value(nextProps) });
   }
 
-  get_value(props = this.props) {
+  get_value = (props = this.props) => {
     const value = props.value;
     if (typeof value !== 'object') {
       const obj = props.data.find(v => props.uniqueIdentifier(v) === value);
@@ -140,7 +140,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
     }
   }
 
-  renderClear() {
+  renderClear = () => {
     if (!this.props.allowClear) {
       return null;
     }

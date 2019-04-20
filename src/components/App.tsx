@@ -22,12 +22,14 @@ export class App extends React.Component {
 
     return (
       <div>
-        <Progress
-          percent={this.state.value}
-          text='30/100'
-          status='error'
+        <AutoComplete
+          data={['FULL_TIME', 'INTERN', 'CONSULTANT'].map(v => ({ name: v, id: v }))}
+          value={'3'}
+          uniqueIdentifier={(v) => v.id}
+          displayProp={(v) => v && v.name}
+          inputProps={{ label: 'Employment Type' }}
+          onChange={(v) => this.onChange('employmentType')}
         />
-        <Button onClick={() => this.setState({ value: 100 })} />
       </div>
     );
   }
