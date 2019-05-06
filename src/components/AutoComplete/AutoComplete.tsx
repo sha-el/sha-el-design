@@ -164,11 +164,6 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
           content={this.displayList()}
           hideArrow
           expand
-          style={{
-            content: {
-              padding: 0,
-            },
-          }}
         >
           <Input
             value={this.state.displayValue}
@@ -208,9 +203,8 @@ function css() {
   const hoverColor = color(this.state.theme.primary).lighten(.5);
   return stylesheet({
     list: {
-      border: `1px solid ${styleEnum.borderColor}`,
-      padding: '5px',
       cursor: 'pointer',
+      padding: '8px 12px 7px',
       $nest: {
         '&:hover': {
           background: hoverColor.toHexString(),

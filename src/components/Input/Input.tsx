@@ -6,94 +6,70 @@ import * as csstips from 'csstips';
 import { removeObjectProperties, nestedAccess, Omit } from '../../helpers';
 
 export class Input extends React.Component<InputProps, State> {
-  private readonly theme = new ThemeService();
-  input = React.createRef<HTMLInputElement>();
-  css = css.bind(this);
+
+  theme = new ThemeService();
 
   constructor(props: InputProps) {
     super(props);
+
     this.state = {
-      theme: this.theme.selectedTheme$.getValue(),
+      theme: this.theme.selectedTheme$.value,
       focused: false,
     };
   }
 
-  componentDidMount() {
-    this.theme.selectedTheme$.subscribe(
-      theme => this.setState({ theme }),
-    );
-  }
-
-  onFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-    this.setState({ focused: true });
-    this.props.onFocus && this.props.onFocus(e);
-  }
-
-  onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    this.setState({ focused: false });
-    this.props.onBlur && this.props.onBlur(e);
-  }
-
-  renderInput = () => {
-    const styleSheet = this.css();
+  render() {
     const {
-      before,
-      after,
-      getElement,
+      error,
       label,
+      getElement,
+      after,
+      before,
       required,
     } = this.props;
-    const props = removeObjectProperties(this.props, 'label', 'before', 'after', 'error', 'getElement');
-    const child = (
-      <input
-        {...props}
-        key='input'
-        onFocus={this.onFocus}
-        onBlur={this.onBlur}
-        className={`${this.css().inputStyle} ${this.props.className || ''}`}
-        ref={this.input}
-      />
-    );
-    if (!(after || before)) {
-      return (
-        child
-      );
-    }
-    getElement && getElement(this.input.current);
-    return (
-      <div
-        {...props}
-        className={typeStyle(csstips.horizontal)}
-        key={'input-container'}
-      >
-        {this.props.before && <div className={styleSheet.suedoElementStyle}>
-          <span>{this.props.before}</span>
-        </div>}
-        <div className={typeStyle(csstips.flex)}>
-          {label &&
-            <div key='label' className={`${styleSheet.label}`}>{label}{required && '*'}</div>}
-          {React.cloneElement(child, { style: null, className: styleSheet.inputStyle })}
-        </div>
-        {this.props.after && <div className={styleSheet.suedoElementStyle}>
-          <span>{this.props.after}</span>
-        </div>}
-      </div>
-    );
-  }
 
-  render() {
-    const { label, required, error, before, after } = this.props;
-    const styleSheet = this.css();
+    const css = style(this.state.theme, !!error);
     return (
-      <div style={this.props.style} className={styleSheet.container}>
-        {label && !(before || after) &&
-          <div key='label' className={`${styleSheet.label}`}>{label}{required && '*'}</div>}
-        {this.renderInput()}
-        {<div key='border' className={`${styleSheet.borderColor} ${styleSheet.bottomBorderStyle}`} />}
-        {error &&
-          <div style={{ marginTop: '0' }} key='error' className={`${styleSheet.errorStyle} ${this.props.className || ''}`}>
+      <div>
+        <label
+          key='label'
+          className={css.label}
+        >
+          {label} {required && '*'}
+        </label>
+        <section
+          key='input'
+          className={css.section}
+        >
+          {
+            before &&
+            <span
+              className={css.seudo}
+            >
+              {before}
+            </span>
+          }
+          <input
+            className={css.input}
+            ref={(e) => getElement && getElement(e)}
+            {...this.props}
+          />
+          {
+            after &&
+            <span
+              className={css.seudo}
+            >
+              {after}
+            </span>
+          }
+        </section>
+        {
+          error &&
+          <label
+            className={`${css.label} ${css.error}`}
+          >
             {error}
-          </div>
+          </label>
         }
       </div>
     );
@@ -113,70 +89,63 @@ interface State {
   focused: boolean;
 }
 
-function css() {
-  const isFocused = this.state.focused || this.props.value;
-  const borderColor = this.props.error ? this.state.theme.error : this.state.focused ? this.state.theme.primary : styleEnum.borderColor;
-  const psuedoElem = !!(this.props.before || this.props.after);
-  const baseStyle = {
-    boxShadow: styleEnum.shadow_bot,
-  };
-
+function style(theme: Theme, isError: boolean) {
+  const borderColor = isError ? theme.error : styleEnum.borderColor;
   return stylesheet({
-    inputStyle: {
-      border: `none`,
-      width: '100%',
-      boxSizing: 'border-box',
-      caretColor: this.state.theme.primary,
-      fontSize: '16px',
-      $nest: {
-        '&:focus': {
-          outline: 'none',
-        },
-        '&::placeholder': {
-          color: this.state.theme.primary,
+    section: {
+      '-webkit-box-align': 'center',
+      'alignItems': 'center',
+      'background': 'rgb(250, 251, 252)',
+      'boxSizing': 'border-box',
+      'color': 'rgb(9, 30, 66)',
+      'display': 'flex',
+      'fontSize': '14px',
+      '-webkit-box-pack': 'justify',
+      'justifyContent': 'space-between',
+      'lineHeight': 1.42857,
+      'maxWidth': '100%',
+      'overflowWrap': 'break-word',
+      'borderColor': borderColor,
+      'borderRadius': '3px',
+      'borderStyle': 'solid',
+      'flex': '1 0 auto',
+      'overflow': 'hidden',
+      'transition': 'background-color 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s',
+      'borderWidth': '2px',
+      'padding': '6px',
+
+      '$nest': {
+        '&:focus-within': {
+          borderColor: theme.primary,
+          background: '#ffffff',
         },
       },
-      ...baseStyle,
-      lineHeight: (!this.props.label && psuedoElem) ? '34px' : 'initial',
     },
-
-    container: {
-      margin: '10px 0',
-      fontWeight: 'lighter',
-      boxShadow: styleEnum.shadow_bot,
+    input: {
+      fontSize: '14px',
+      minWidth: '0px',
+      width: '100%',
+      background: 'transparent',
+      borderWidth: '0px',
+      borderStyle: 'initial',
+      borderColor: 'initial',
+      borderImage: 'initial',
+      outline: 'none',
     },
-
     label: {
-      fontSize: isFocused ? '14px' : '16px',
-      color: 'rgba(0,0,0,.54)',
-      transition: 'all .5s',
-      transform: isFocused ? 'translate3d(0, -12px, 0)' : 'translate3d(0, 10px, 0)',
-      pointerEvents: 'none',
-      cursor: 'text',
+      color: 'rgb(107, 119, 140)',
+      fontSize: '12px',
+      fontWeight: 600,
+      lineHeight: 1.33333,
     },
-
-    borderColor: {
-      border: `${styleEnum.borderWidth} ${styleEnum.borderStyle} ${(borderColor)}`,
-      width: (isFocused || this.props.error) ? nestedAccess(this.props, 'style', 'width') || '100%' : '0',
-      margin: 'auto',
+    error: {
+      color: theme.error,
+      float: 'right',
     },
-
-    bottomBorderStyle: {
-      transition: '1s',
-    },
-
-    suedoElementStyle: {
-      padding: '10px',
-      background: styleEnum.headerBgColor,
-      fontSize: '14px',
-      border: '.3px solid #eee',
-      ...baseStyle,
-    },
-
-    errorStyle: {
-      textAlign: 'right',
-      fontSize: '14px',
-      color: this.state.theme.error,
+    seudo: {
+      padding: '0 5px',
+      display: 'flex',
+      alignItems: 'center',
     },
   });
 }

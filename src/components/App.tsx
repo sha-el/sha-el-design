@@ -2,7 +2,9 @@ import * as React from 'react';
 import { initialize } from '../helpers';
 import { AutoComplete } from './AutoComplete';
 import { Button } from './Button';
-import { Progress } from './Progress';
+import { Row, Col, Input } from '../index';
+import { FaAbacus, FaAdjust } from 'react-icons/fa';
+import { Loading, Skeleton } from './Loading';
 
 export class App extends React.Component {
 
@@ -13,24 +15,21 @@ export class App extends React.Component {
     data: this.data,
   };
 
-  onChange = (e) => {
+  onChange = (e, f) => {
     this.setState({ value: e });
   }
 
   render() {
     initialize();
 
+    const error: any = {aadharNumber: 'error', pan: 'error', gender: 'error', accountNumber: 'error'};
+    const employeePersonalDetail: any = {};
+
     return (
-      <div>
-        <AutoComplete
-          data={['FULL_TIME', 'INTERN', 'CONSULTANT'].map(v => ({ name: v, id: v }))}
-          value={'3'}
-          uniqueIdentifier={(v) => v.id}
-          displayProp={(v) => v && v.name}
-          inputProps={{ label: 'Employment Type' }}
-          onChange={(v) => this.onChange('employmentType')}
-        />
-      </div>
+      <Row>
+        <Loading isLoading={true} />
+        <Skeleton isLoading={true} />
+      </Row>
     );
   }
 }

@@ -224,7 +224,7 @@ function css() {
       fontWeight: 500,
     },
     content: {
-      padding: '10px',
+      padding: '4px 0px',
     },
   });
 }

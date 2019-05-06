@@ -74,7 +74,7 @@ export class Loading extends React.Component<LoadingProps, State> {
   })
 }
 
-interface LoadingProps {
+export interface LoadingProps {
   isLoading: boolean;
 }
 
