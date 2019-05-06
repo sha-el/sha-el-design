@@ -7,7 +7,7 @@ const glob = require('glob');
 const entryArray = glob.sync('./src/**/*.ts').concat(glob.sync('./src/**/*.tsx'));
 
 const entryObject = entryArray.reduce((acc, item) => {
-  const name = item.replace('./src', '').replace('.ts', '');
+  const name = item.replace('./src', '').replace(/\.tsx?$/gm, '');
   acc[name] = item;
   return acc;
 }, {});
