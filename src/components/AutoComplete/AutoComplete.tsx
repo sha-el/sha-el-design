@@ -36,7 +36,9 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
   }
 
   componentWillReceiveProps(nextProps: AutoCompleteProps<T>) {
-    this.setState({ displayValue: this.get_value(nextProps) });
+    if (!(this.state.displayValue === this.get_value(nextProps))) {
+      this.setState({ displayValue: this.get_value(nextProps) });
+    }
   }
 
   get_value = (props = this.props) => {
