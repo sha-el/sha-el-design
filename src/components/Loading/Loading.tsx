@@ -59,7 +59,7 @@ export class Loading extends React.Component<LoadingProps, State> {
       );
     }
     return (
-      this.props.children
+      this.props.render()
     );
   }
 
@@ -76,6 +76,7 @@ export class Loading extends React.Component<LoadingProps, State> {
 
 export interface LoadingProps {
   isLoading: boolean;
+  render?: () => React.ReactNode;
 }
 
 interface State {

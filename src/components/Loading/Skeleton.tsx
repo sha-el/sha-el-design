@@ -9,7 +9,7 @@ export class Skeleton extends React.Component<LoadingProps, {}> {
   }
 
   render() {
-    const { isLoading } = this.props;
+    const { isLoading, render } = this.props;
     const css = style();
 
     if (isLoading) {
@@ -34,6 +34,8 @@ export class Skeleton extends React.Component<LoadingProps, {}> {
         </div>
       );
     }
+
+    return render();
   }
 }
 
