@@ -1,6 +1,6 @@
 import { Validator, ValidatiorType } from './index';
 
-export class Map<T> implements Validator {
+export class Map<T> implements Validator<T> {
   private object: T;
 
   constructor(object: T) {
@@ -17,7 +17,7 @@ export class Map<T> implements Validator {
       const response = this.object[v].initialize();
       res[v] = response;
     });
-    return res;
+    return res as T;
   }
 
   validate(value: object) {
@@ -32,4 +32,4 @@ export class Map<T> implements Validator {
   }
 }
 
-export const map = (v: any) => new Map(v);
+export const map = <T>(v: T) => new Map(v);

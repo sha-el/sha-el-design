@@ -1,7 +1,7 @@
-export interface Validator {
+export interface Validator<T> {
   type: ValidatiorType;
   validate: (valud: any) => void;
-  initialize: () => void;
+  initialize: () => T;
 }
 
 export enum ValidatiorType {

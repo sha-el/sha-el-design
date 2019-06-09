@@ -5,15 +5,15 @@ import { int } from './Integer';
 import { text } from './Text';
 import { Validator } from './index';
 
-class Validate {
+class Validate<T> {
 
-  props: Validator;
+  props: Validator<T>;
 
-  constructor(props: Validator) {
+  constructor(props: Validator<T>) {
     this.props = props;
   }
 
-  initialize() {
+  initialize(): T {
     return this.props.initialize();
   }
 

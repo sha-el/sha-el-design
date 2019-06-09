@@ -1,6 +1,6 @@
 import { Validator, ValidatiorType } from './index';
 
-export class BooleanSchema implements Validator {
+export class BooleanSchema implements Validator<boolean> {
   private _required: { required: boolean; message: string; };
   private _default: boolean;
 

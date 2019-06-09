@@ -59,3 +59,38 @@ test('returns a skeleton of given schema with null or blank values', () => {
     }],
   });
 });
+
+test('validates a object using regex values', () => {
+  const schema = validate(
+    validate.Object({
+      serials: validate.Array(
+        validate.Object({
+          pan: validate.Text().match(/^[A-Z]{5}[0-9]{4}[A-Z]{1}/gm, 'Pan is invalid'),
+          aadhaar: validate.Text().match(/^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}/gm, 'Aadhaar is invalid'),
+        }),
+      ),
+    }),
+  );
+
+  const check = () => expect(schema.validate({
+    serials: [{
+        pan: 'AWIPN1234R',
+        aadhaar: '1234-123-123-1234',
+      }, {
+        pan: 'AW',
+        aadhaar: '1234-1234-1234-1234',
+      },
+    ],
+  })).toEqual({
+    serials: [{
+      aadhaar: 'Aadhaar is invalid',
+      pan: undefined,
+    }, {
+      pan: 'Pan is invalid',
+      aadhaar: undefined,
+    }],
+  });
+  check();
+  check();
+  check();
+});

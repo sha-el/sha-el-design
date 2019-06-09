@@ -1,10 +1,10 @@
 import { Validator, ValidatiorType } from './index';
 
-export class Iterable implements Validator {
+export class Iterable implements Validator<object> {
   public type = ValidatiorType.Iterable;
-  private arr: Validator;
+  private arr: Validator<object>;
 
-  constructor(arr: Validator) {
+  constructor(arr: Validator<object>) {
     this.arr = arr;
   }
 
@@ -17,4 +17,4 @@ export class Iterable implements Validator {
   }
 }
 
-export const array = (v: any) => new Iterable(v);
+export const array = (v: Validator<object>) => new Iterable(v);
