@@ -10,10 +10,10 @@
   "scripts": {
     "start": "webpack-dev-server --config=configs/webpack/dev.js",
     "start:prod": "webpack-dev-server --config=configs/webpack/prod.js",
-    "build": "webpack --config=configs/webpack/prod.js",
+    "build": "rm -rf ./lib && tsc",
     "precommit": "lint-staged",
     "storybook": "start-storybook -p 9001 -c configs/.storybook",
-    "prepublishOnly": "rm -rf ./lib && yarn build",
+    "prepublishOnly": "yarn build",
     "test": "jest --watch --coverage"
   },
   "lint-staged": {
