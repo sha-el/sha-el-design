@@ -139,7 +139,7 @@ export interface BaseButtonProps {
 }
 
 export type AnchorButtonProps = {
-  href: string;
+  href?: string;
   target?: string;
   onClick?: React.MouseEventHandler<HTMLAnchorElement>;
 } & BaseButtonProps &

@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { style as typeStyle, stylesheet } from 'typestyle';
+import { stylesheet } from 'typestyle';
 import { ThemeService, Theme } from '../../helpers/theme';
 import { styleEnum } from '../../helpers/constants';
-import * as csstips from 'csstips';
-import { removeObjectProperties, nestedAccess, Omit } from '../../helpers';
+import { Omit } from '../../helpers';
 
 export class Input extends React.Component<InputProps, State> {
 
@@ -35,7 +34,7 @@ export class Input extends React.Component<InputProps, State> {
           key='label'
           className={css.label}
         >
-          {label} {required && '*'}
+          {label} {required && <span style={{ color: 'red' }}>*</span>}
         </label>
         <section
           key='input'

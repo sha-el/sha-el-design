@@ -5,10 +5,10 @@ import { Button } from './Button';
 
 export class App extends React.Component {
 
-  data = [{ name: 'FULL_TIME', id: 1 }, { name: 'A', id: 2 }, { name: 'B', id: 2 }];
+  data = [{ name: 'FULL_TIME', id: 1 }, { name: 'A', id: 2 }, { name: 'B', id: 3 }];
 
   state = {
-    value: 2,
+    value: [1, 2],
     data: this.data,
   };
 
@@ -28,6 +28,7 @@ export class App extends React.Component {
     return (
       <div>
         <AutoComplete
+          mode='multiple'
           data={this.state.data}
           value={this.state.value}
           filterFunction={() => true}
@@ -43,7 +44,7 @@ export class App extends React.Component {
           allowClear
         />
         <Button
-          onClick={() => this.setState({ value: 1 })}
+          onClick={() => this.setState({ value: [3] })}
         />
       </div>
     );
