@@ -23,7 +23,7 @@ class Validate<T> {
 
 }
 
-const validate = (v) => new Validate(v);
+const validate = <T>(v) => new Validate<T>(v);
 validate.Text = text;
 validate.Integer = int;
 validate.Object = map;
