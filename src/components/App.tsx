@@ -1,15 +1,12 @@
 import * as React from 'react';
-import { initialize } from '../helpers';
-import { AutoComplete } from './AutoComplete';
-import { Button } from './Button';
+import { Collapse } from './Collapse/Collapse';
 
 export class App extends React.Component {
 
   data = [{ name: 'FULL_TIME', id: 1 }, { name: 'A', id: 2 }, { name: 'B', id: 3 }];
 
   state = {
-    value: [1, 2],
-    data: this.data,
+    value: true,
   };
 
   onChange = (e, f) => {
@@ -23,29 +20,22 @@ export class App extends React.Component {
   }
 
   render() {
-    initialize();
 
     return (
       <div>
-        <AutoComplete
-          mode='multiple'
-          data={this.state.data}
-          value={this.state.value}
-          filterFunction={() => true}
-          renderOptions={this.data.map((value, index) => (
-            <div key={`${index}-design-drop`}>
-              {value.name}
-            </div>
-          ))}
-          onSearch={(e) => this.onNameChange(e.target.value)}
-          displayProp={(v) => v && v.name || ''}
-          uniqueIdentifier={(v) => v.id}
-          onChange={(value, f) => this.setState({ value })}
-          allowClear
-        />
-        <Button
-          onClick={() => this.setState({ value: [3] })}
-        />
+        <Collapse
+          isOpen={this.state.value}
+          header='Hello'
+          onChange={(value) => this.setState({ value })}
+        >
+          haudhf
+          nefnsf
+          fnsfnslk
+          senflksfns
+          ksnflsn
+          nslnskl
+          nesflkns
+        </Collapse>
       </div>
     );
   }

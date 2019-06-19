@@ -19,3 +19,4 @@ export { validate } from './components/Form';
 export { Calendar } from './components/Calendar';
 export { CheckBox } from './components/CheckBox';
 export { Progress } from './components/Progress';
+export { Collapse } from './components/Collapse';

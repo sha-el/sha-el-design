@@ -32,20 +32,22 @@ export function getColor(clr: string, black = '#000000', white = '#ffffff') {
 }
 
 export function initialize() {
-  new ThemeService();
 
-  normalize();
+  cssRaw(`
+  @import url('https://fonts.googleapis.com/css?family=Josefin+Slab&display=swap');
+
+  * {
+    font-family: 'Josefin Slab', serif;
+  }
+`);
+
+  new ThemeService();
 
   cssRule('span, div, input, button', {
     fontSize: '14px',
   });
 
-  cssRaw(`
-@import url('https://fonts.googleapis.com/css?family=ZCOOL+XiaoWei');
-    * {
-    font-family: 'ZCOOL XiaoWei', serif;
-    }
-`);
+  normalize();
 }
 
 export function arrayBetween(num1: number, num2: number) {
