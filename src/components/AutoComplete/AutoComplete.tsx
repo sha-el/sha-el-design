@@ -8,7 +8,7 @@ import { Popover } from '../Popover';
 import { stylesheet } from 'typestyle';
 import { styleEnum } from '../../helpers/constants';
 import { ThemeService, Theme } from '../../helpers/theme';
-import { getColor } from '../../helpers';
+import { getColor, nestedAccess } from '../../helpers';
 import { color } from 'csx';
 import { Row, Col } from '../Grid';
 
@@ -202,10 +202,11 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
 
   renderClear = () => {
     if (!this.props.allowClear) {
-      return null;
+      return nestedAccess(this.props.inputProps, 'before');
     }
-    return (
+    return [(
       <div
+        key='clear'
         onClick={() => {
           this.setState({ displayValue: '', selectedValues: [] });
           this.props.onChange(null, null);
@@ -213,7 +214,9 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
       >
         <MdClear style={{ cursor: 'pointer' }} />
       </div>
-    );
+    ),
+    nestedAccess(this.props.inputProps, 'after'),
+    ];
   }
 
   removeSelected = (index: number) => {
@@ -230,12 +233,12 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
 
   renderSelectedOptions = () => {
     if (this.props.mode === 'single') {
-      return null;
+      return nestedAccess(this.props.inputProps, 'before');
     }
 
     const styleSheet = this.css();
 
-    return (
+    const selectedValues = (
       this.state.selectedValues.map(
         (v, index) => (
           <div
@@ -248,6 +251,8 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
         ),
       )
     );
+
+    return [nestedAccess(this.props.inputProps, 'before'), ...selectedValues];
   }
 
   render() {
