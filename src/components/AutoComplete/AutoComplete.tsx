@@ -32,7 +32,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
       data: props.data,
       totalData: this.props.data.length,
       focusedData: -1,
-      selectedValues: this.generateSelectedValues(),
+      selectedValues: props.mode === 'multiple' ? this.generateSelectedValues() : [],
     };
   }
 
@@ -202,7 +202,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
 
   renderClear = () => {
     if (!this.props.allowClear) {
-      return nestedAccess(this.props.inputProps, 'before');
+      return nestedAccess(this.props.inputProps, 'after');
     }
     return [(
       <div

@@ -37,7 +37,7 @@ export function initialize() {
   @import url('https://fonts.googleapis.com/css?family=Josefin+Slab&display=swap');
 
   * {
-    font-family: 'Josefin Slab', serif;
+    font-family: 'Josefin Slab', serif !important;
   }
 `);
 
