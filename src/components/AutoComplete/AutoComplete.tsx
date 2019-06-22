@@ -17,7 +17,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
   private readonly theme = new ThemeService();
 
   static defaultProps = {
-    filterFunction: (inputValue, value) => value.name.toLowerCase().includes(inputValue.toLowerCase()),
+    filterFunction: (inputValue, value) => value.toLowerCase().includes(inputValue.toLowerCase()),
     onChange: (value, obj) => { },
     onSearch: () => { },
     mode: 'single',
@@ -123,8 +123,11 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
   }
 
   onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const {
+      displayProp,
+    } = this.props;
     const data = this.props.data.filter((value, index, array) =>
-      this.props.filterFunction(e.target.value, value, index, array));
+      this.props.filterFunction(e.target.value, displayProp(value), value, index, array));
 
     this.props.onSearch(e);
 
@@ -265,10 +268,10 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
           expand
         >
           <Input
+            {...this.props.inputProps}
             value={this.state.displayValue || ''}
             onChange={this.onInputChange}
             onKeyDown={this.onKeyDown}
-            {...this.props.inputProps}
             after={this.renderClear()}
             before={this.renderSelectedOptions()}
           />
@@ -283,7 +286,7 @@ interface BaseAutoCompleteProps<T> {
   uniqueIdentifier: (v: T) => T[keyof T];
   displayProp: (v: T | null) => string;
   inputProps?: InputProps;
-  filterFunction?: (inputValue: string, value: T, index: number, array: T[]) => boolean;
+  filterFunction?: (inputValue: string, displayProp: string, value: T, index: number, array: T[]) => boolean;
   renderOptions?: React.ReactNode[];
   onSearch?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   allowClear?: boolean;
