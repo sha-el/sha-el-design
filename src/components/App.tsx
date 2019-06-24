@@ -14,7 +14,7 @@ export class App extends React.Component {
       <div>
         <ButtonGroup>
           <Button>hello</Button>
-          <Button>ola</Button>
+          <Button href='#'>ola</Button>
         </ButtonGroup>
       </div>
     );
