@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { AutoComplete } from './AutoComplete';
-import { MdAcUnit } from 'react-icons/md';
+import { MdAcUnit, MdPermIdentity } from 'react-icons/md';
+import { Popover } from './Popover';
 
 export class App extends React.Component {
 
@@ -12,13 +13,13 @@ export class App extends React.Component {
 
     return (
       <div>
-        <AutoComplete
-          data={[1, 2]}
-          value={2}
-          uniqueIdentifier={e => `${e}` as any}
-          displayProp={e => e && e.toString()}
-          inputProps={{ label: 'hello', required: true, before: <MdAcUnit /> }}
-        />
+        <Popover
+          trigger='onClick'
+          title='Profile'
+          content='hello'
+        >
+          <MdPermIdentity className='icons-big' />
+        </Popover>
       </div>
     );
   }

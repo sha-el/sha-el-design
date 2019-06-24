@@ -4,30 +4,32 @@ import { createPortal } from 'react-dom';
 export class Portal extends React.Component<Props, {}> {
 
   state = {
-    mounted: false,
+    dom: null,
   };
-
-  dom: HTMLDivElement;
 
   constructor(props: Props) {
     super(props);
   }
 
-  componentDidMount() {
-    this.setState({ mounted: true });
+  createPortalDom = () => {
+    const dom = document.createElement('div');
+    document.body.appendChild(dom);
+    return this.setState({ dom });
   }
 
-  componentWillMount() {
-    this.dom = document.createElement('div');
-    document.body.appendChild(this.dom);
+  componentDidMount() {
+    if (document) {
+      return this.createPortalDom();
+    }
+    setTimeout(this.componentDidMount, 500);
   }
 
   componentWillUnmount() {
-    this.dom.remove();
+    this.state.dom.remove();
   }
 
   render() {
-    return this.state.mounted && createPortal(this.props.children, this.dom);
+    return this.state.dom && createPortal(this.props.children, this.state.dom);
   }
 }
 
