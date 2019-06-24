@@ -1,6 +1,6 @@
 {
   "name": "sha-el-design",
-  "version": "0.0.32",
+  "version": "0.0.33",
   "description": "React Components",
   "main": "./lib/",
   "typings": "./lib/",
