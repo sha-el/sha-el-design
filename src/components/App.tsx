@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { AutoComplete } from './AutoComplete';
-import { MdAcUnit, MdPermIdentity } from 'react-icons/md';
-import { Popover } from './Popover';
+import { Button } from './Button';
+import { ButtonGroup } from './Button/ButtonGroup';
 
 export class App extends React.Component {
 
@@ -13,13 +12,10 @@ export class App extends React.Component {
 
     return (
       <div>
-        <Popover
-          trigger='onClick'
-          title='Profile'
-          content='hello'
-        >
-          <MdPermIdentity className='icons-big' />
-        </Popover>
+        <ButtonGroup>
+          <Button>hello</Button>
+          <Button>ola</Button>
+        </ButtonGroup>
       </div>
     );
   }

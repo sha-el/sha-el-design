@@ -104,7 +104,7 @@ function css() {
       background: baseColor,
       color: getColor(baseColor),
       border: 'none',
-      boxShadow: styleEnum.shadow,
+      boxShadow: '0 2px 0 rgba(0,0,0,0.045)',
       cursor: 'pointer',
       textDecoration: 'none',
       margin: '10px 0',
