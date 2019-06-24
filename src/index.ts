@@ -3,7 +3,7 @@ import { initialize } from './helpers';
 initialize();
 
 export { AutoComplete } from './components/AutoComplete';
-export { Button } from './components/Button';
+export { Button, ButtonGroup } from './components/Button';
 export { Card } from './components/Card';
 export { Row, Col } from './components/Grid';
 export { Input } from './components/Input';
