@@ -3,10 +3,18 @@ import { createPortal } from 'react-dom';
 
 export class Portal extends React.Component<Props, {}> {
 
+  state = {
+    mounted: false,
+  };
+
   dom: HTMLDivElement;
 
   constructor(props: Props) {
     super(props);
+  }
+
+  componentDidMount() {
+    this.setState({ mounted: true });
   }
 
   componentWillMount() {
@@ -19,7 +27,7 @@ export class Portal extends React.Component<Props, {}> {
   }
 
   render() {
-    return createPortal(this.props.children, this.dom);
+    return this.state.mounted && createPortal(this.props.children, this.dom);
   }
 }
 
