@@ -29,7 +29,7 @@ export class Input extends React.Component<InputProps, State> {
 
     const css = style(this.state.theme, !!error);
     return (
-      <div>
+      <div className={css.container}>
         <label
           key='label'
           className={css.label}
@@ -94,7 +94,6 @@ function style(theme: Theme, isError: boolean) {
     section: {
       '-webkit-box-align': 'center',
       'alignItems': 'center',
-      'background': 'rgb(250, 251, 252)',
       'boxSizing': 'border-box',
       'color': 'rgb(9, 30, 66)',
       'display': 'flex',
@@ -105,12 +104,12 @@ function style(theme: Theme, isError: boolean) {
       'maxWidth': '100%',
       'overflowWrap': 'break-word',
       'borderColor': borderColor,
-      'borderRadius': '3px',
+      'borderRadius': '4px',
       'borderStyle': 'solid',
       'flex': '1 0 auto',
       'overflow': 'hidden',
       'transition': 'background-color 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s',
-      'borderWidth': '2px',
+      'borderWidth': '1px',
       'padding': '6px',
 
       '$nest': {
@@ -121,7 +120,7 @@ function style(theme: Theme, isError: boolean) {
       },
     },
     input: {
-      fontSize: '14px',
+      fontSize: '16px',
       minWidth: '0px',
       width: '100%',
       background: 'transparent',
@@ -133,7 +132,7 @@ function style(theme: Theme, isError: boolean) {
     },
     label: {
       color: 'rgb(107, 119, 140)',
-      fontSize: '12px',
+      fontSize: '14px',
       fontWeight: 600,
       lineHeight: 1.33333,
     },
@@ -145,6 +144,9 @@ function style(theme: Theme, isError: boolean) {
       padding: '0 5px',
       display: 'flex',
       alignItems: 'center',
+    },
+    container: {
+      marginBottom: '24px',
     },
   });
 }
