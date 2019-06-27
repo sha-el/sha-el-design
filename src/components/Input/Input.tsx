@@ -30,8 +30,12 @@ export class Input extends React.Component<InputProps, State> {
       after,
       before,
       required,
+    } = this.props;
+
+    const {
       containerStyle,
       containerClassName,
+      ...rest
     } = this.props;
 
     const css = style(this.state.theme, !!error, !!label);
@@ -58,7 +62,7 @@ export class Input extends React.Component<InputProps, State> {
           <input
             className={css.input}
             ref={(e) => getElement && getElement(e)}
-            {...this.props}
+            {...rest}
           />
           {
             after &&

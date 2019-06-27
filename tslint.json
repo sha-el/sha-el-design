@@ -8,6 +8,14 @@
     "no-unused-expression": true
   },
   "rules": {
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "always",
+        "singleline": "never",
+        "esSpecCompliant": true
+      }
+    ],
     "eofline": false,
     "quotemark": [
       true,
