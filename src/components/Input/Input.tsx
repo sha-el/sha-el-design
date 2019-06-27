@@ -6,6 +6,11 @@ import { Omit } from '../../helpers';
 
 export class Input extends React.Component<InputProps, State> {
 
+  static defaultProps = {
+    containerClassName: '',
+    containerStyle: {},
+  };
+
   theme = new ThemeService();
 
   constructor(props: InputProps) {
@@ -25,11 +30,13 @@ export class Input extends React.Component<InputProps, State> {
       after,
       before,
       required,
+      containerStyle,
+      containerClassName,
     } = this.props;
 
-    const css = style(this.state.theme, !!error);
+    const css = style(this.state.theme, !!error, !!label);
     return (
-      <div className={css.container}>
+      <div className={`${css.container} ${containerClassName}`} style={containerStyle}>
         <label
           key='label'
           className={css.label}
@@ -81,6 +88,8 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
   before?: React.ReactNode;
   error?: React.ReactNode;
   getElement?: (input: HTMLInputElement) => void;
+  containerStyle?: React.CSSProperties;
+  containerClassName?: string;
 }
 
 interface State {
@@ -88,7 +97,7 @@ interface State {
   focused: boolean;
 }
 
-function style(theme: Theme, isError: boolean) {
+function style(theme: Theme, isError: boolean, label: boolean) {
   const borderColor = isError ? theme.error : styleEnum.borderColor;
   return stylesheet({
     section: {
@@ -103,7 +112,7 @@ function style(theme: Theme, isError: boolean) {
       'lineHeight': 1.42857,
       'maxWidth': '100%',
       'overflowWrap': 'break-word',
-      'borderColor': borderColor,
+      borderColor,
       'borderRadius': '4px',
       'borderStyle': 'solid',
       'flex': '1 0 auto',
@@ -146,7 +155,7 @@ function style(theme: Theme, isError: boolean) {
       alignItems: 'center',
     },
     container: {
-      marginBottom: '24px',
+      marginBottom: label && '24px',
     },
   });
 }
