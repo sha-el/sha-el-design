@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { Button } from './Button';
-import { ButtonGroup } from './Button/ButtonGroup';
+import { Divider } from './Divider/Divider';
 
 export class App extends React.Component {
 
@@ -9,13 +8,9 @@ export class App extends React.Component {
   };
 
   render() {
-
     return (
       <div>
-        <ButtonGroup>
-          <Button>hello</Button>
-          <Button href='#'>ola</Button>
-        </ButtonGroup>
+        <Divider />
       </div>
     );
   }
