@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Divider } from './Divider/Divider';
+import { Loading } from './Loading';
 
 export class App extends React.Component {
 
@@ -10,7 +10,7 @@ export class App extends React.Component {
   render() {
     return (
       <div>
-        <Divider />
+        <Loading isLoading={true} />
       </div>
     );
   }

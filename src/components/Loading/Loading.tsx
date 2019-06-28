@@ -1,17 +1,13 @@
 import * as React from 'react';
-import posed, { PoseGroup } from 'react-pose';
-import { stylesheet } from 'typestyle';
-import SplitText from 'react-pose-text';
+import { stylesheet, keyframes } from 'typestyle';
 
 import { Theme, ThemeService } from '../../helpers/theme';
-import { color } from 'csx';
 
 export class Loading extends React.Component<LoadingProps, State> {
   constructor(props: LoadingProps) {
     super(props);
 
     this.state = {
-      list: [1, 2, 3, 4, 5],
       theme: this.theme.selectedTheme$.value,
     };
   }
@@ -19,81 +15,74 @@ export class Loading extends React.Component<LoadingProps, State> {
   theme = new ThemeService();
 
   componentDidMount() {
-    setInterval(this.shiftArray, 500);
     this.theme.selectedTheme$.subscribe(
       theme => this.setState({ theme }),
     );
   }
 
-  shiftArray = () => {
-    let list = this.state.list;
-    const item = list.pop();
-    list = [item].concat(list);
-    this.setState({ list });
-  }
-
   render() {
-    const { list } = this.state;
-    const { isLoading } = this.props;
-    const style = this.css();
+    const {
+      render,
+      isLoading,
+    } = this.props;
 
-    if (isLoading) {
-      return (
-        <div>
-          <PoseGroup>
-            {list.map((v) =>
-              <Loader
-                key={v}
-                className={style.loader}
-                pose='attention'
-                background={
-                  color(this.state.theme.primary).lighten(v / 10).toHexString()
-                }
-              />,
-            )}
-          </PoseGroup>
-          <div>
-            <SplitText initialPose='exit' pose='enter' charPoses={charPoses}>Loading...</SplitText>
-          </div>
-        </div>
-      );
+    if (!isLoading) {
+      return render();
     }
+
     return (
-      this.props.render()
+      <div {...this.props} className={this.css().loader} />
     );
   }
 
-  css = () => stylesheet({
-    loader: {
-      borderRadius: '50%',
-      width: '20px',
-      height: '20px',
-      display: 'inline-block',
-      margin: '5px',
-    },
-  })
+  css = () => {
+    const animation = keyframes({
+      '0%': {
+        transform: 'rotate(0)',
+      },
+      '100%': {
+        transform: 'rotate(360deg)',
+      },
+    });
+
+    const { theme } = this.state;
+
+    const animation2 = keyframes({
+      '0%': {
+        borderTopColor: theme.error,
+      },
+      '25%': {
+        borderTopColor: theme.warning,
+      },
+      '50%': {
+        borderTopColor: theme.info,
+      },
+      '100%': {
+        borderTopColor: theme.secondary,
+      },
+    });
+
+    return stylesheet({
+      loader: {
+        margin: '0px auto',
+        borderRadius: '50%',
+        border: '4px solid #f1f1f1',
+        borderTop: '4px solid red',
+        width: '50px',
+        height: '50px',
+        animation: `1.5s ${animation} infinite linear, 6s ${animation2} infinite linear`,
+        // transform: 'translate(-50%, -50%)',
+      },
+    });
+  }
 }
 
-export interface LoadingProps {
+export interface LoadingProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   isLoading: boolean;
   render?: () => React.ReactNode;
+  style?: React.CSSProperties;
 }
 
 interface State {
-  list: any[];
   theme: Theme;
 }
-
-const Loader = posed.div({
-  attention: {
-    background: ({background}) => background,
-  },
-  done: {
-    scale: 1,
-  },
-});
-
-const charPoses = {
-  exit: { opacity: 0 },
-  enter: { opacity: 1 },
-};
