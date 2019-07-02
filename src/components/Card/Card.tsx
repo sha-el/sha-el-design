@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { stylesheet } from 'typestyle';
 import { styleEnum } from '../../helpers/constants';
+import { Divider } from '../Divider';
 
 export class Card extends React.Component<CardProps, {}> {
 
@@ -9,12 +10,18 @@ export class Card extends React.Component<CardProps, {}> {
   };
 
   render() {
-    const { title, children, style: { head, body, container } } = this.props;
+    const { title, children, footer, style: { head, body, container } } = this.props;
     const style = this.css();
     return (
       <div className={style.container} style={container}>
         {title && <div className={style.header} style={head}>{title}</div>}
-        <div style={body}>{children}</div>
+        <div className={style.body} style={body}>
+          {children}
+        </div>
+        {footer && <div className={style.footer}>
+          <Divider className={style.divider} />
+          {footer}
+        </div>}
       </div>
     );
   }
@@ -31,12 +38,22 @@ export class Card extends React.Component<CardProps, {}> {
       borderBottom: `${styleEnum.borderWidth} ${styleEnum.borderStyle} ${styleEnum.borderColor}`,
       background: styleEnum.headerBgColor,
     },
+    divider: {
+      margin: '0px 0 10px',
+    },
+    body: {
+      padding: '10px',
+    },
+    footer: {
+      padding: '10px',
+    },
   })
 }
 
 interface CardProps {
   title?: React.ReactNode;
   children?: React.ReactNode;
+  footer?: React.ReactNode;
   style?: {
     container?: React.CSSProperties;
     head?: React.CSSProperties;

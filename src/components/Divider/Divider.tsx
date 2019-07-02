@@ -2,13 +2,22 @@ import * as React from 'react';
 import { style } from 'typestyle';
 import { NestedCSSProperties } from 'typestyle/lib/types';
 
-export const Divider: React.StatelessComponent = (props) => {
+export const Divider: React.StatelessComponent<Props> = (props) => {
   return (
-    <div className={`${css} ${props.children ? psuedoWithChild : psuedoWithoutChild}`}>
+    <div style={props.style} className={`${css} ${props.children ? psuedoWithChild : psuedoWithoutChild} ${props.className}`}>
       {props.children}
     </div>
   );
 };
+
+Divider.defaultProps = {
+  className: '',
+};
+
+interface Props {
+  style?: React.CSSProperties;
+  className?: string;
+}
 
 const commonStyle: NestedCSSProperties = {
   content: '" "',

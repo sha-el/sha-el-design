@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Loading } from './Loading';
+import { Card } from './Card';
 
 export class App extends React.Component {
 
@@ -9,8 +9,13 @@ export class App extends React.Component {
 
   render() {
     return (
-      <div>
-        <Loading isLoading={true} />
+      <div style={{ width: '400px', margin: '0 auto' }}>
+        <Card
+          title='OLA'
+          footer='Bye'
+        >
+          hello
+        </Card>
       </div>
     );
   }

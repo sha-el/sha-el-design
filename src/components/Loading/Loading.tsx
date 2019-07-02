@@ -24,6 +24,7 @@ export class Loading extends React.Component<LoadingProps, State> {
     const {
       render,
       isLoading,
+      ...rest
     } = this.props;
 
     if (!isLoading) {
@@ -31,7 +32,7 @@ export class Loading extends React.Component<LoadingProps, State> {
     }
 
     return (
-      <div {...this.props} className={this.css().loader} />
+      <div {...rest} className={this.css().loader} />
     );
   }
 
