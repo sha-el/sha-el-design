@@ -34,10 +34,10 @@ export function getColor(clr: string, black = '#000000', white = '#ffffff') {
 export function initialize() {
 
   cssRaw(`
-  @import url('https://fonts.googleapis.com/css?family=Cinzel&display=swap');
+  @import url('https://fonts.googleapis.com/css?family=Nanum+Myeongjo:400,700,800&display=swap');
 
   * {
-    font-family: 'Cinzel', serif !important;
+    font-family: 'Nanum Myeongjo', serif !important;
   }
 `);
 
