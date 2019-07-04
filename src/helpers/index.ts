@@ -34,10 +34,10 @@ export function getColor(clr: string, black = '#000000', white = '#ffffff') {
 export function initialize() {
 
   cssRaw(`
-  @import url('https://fonts.googleapis.com/css?family=Josefin+Slab&display=swap');
+  @import url('https://fonts.googleapis.com/css?family=Cinzel&display=swap');
 
   * {
-    font-family: 'Josefin Slab', serif !important;
+    font-family: 'Cinzel', serif !important;
   }
 `);
 
