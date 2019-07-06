@@ -10,12 +10,13 @@ export const Col: React.StatelessComponent<ColProps> = (props) => {
 };
 
 const colStyle = (props: ColProps) => style({
-  width: 100 / (24 / props.span) + '%',
-  display: 'inline-block',
-  marginLeft: props.offset && 100 / (24 / props.offset) + '%',
-  marginBottom: '10px',
-  padding: '5px',
+  maxWidth: 100 / (24 / props.span) + '%',
+  flexBasis: 100 / (24 / props.span) + '%',
   boxSizing: 'border-box',
+  flex: '0 0 auto',
+  paddingRight: '.5rem',
+  paddingLeft: '.5rem',
+  marginLeft: props.offset && 100 / (24 / props.offset) + '%',
 });
 
 export interface ColProps {

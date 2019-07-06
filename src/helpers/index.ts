@@ -1,7 +1,9 @@
 import { color } from 'csx';
-import { ThemeService } from './theme';
 import { cssRule, cssRaw } from 'typestyle';
 import { normalize } from 'csstips';
+
+import { ThemeService } from './theme';
+import { initializeNotification } from './../components/Notification/Notification';
 
 export function removeObjectProperties<T>(obj: T, ...props: (keyof T)[]): Omit<T, keyof T> {
   obj = { ...obj };
@@ -48,6 +50,7 @@ export function initialize() {
   });
 
   normalize();
+  initializeNotification();
 }
 
 export function arrayBetween(num1: number, num2: number) {

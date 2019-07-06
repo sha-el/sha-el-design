@@ -8,9 +8,14 @@ export const Row: React.StatelessComponent<RowProps> = (props) => {
 };
 
 const rowStyle = style({
-  display: 'block',
-  margin: '5px 0',
-  gridColumnGap: '5px',
+  boxSizing: 'border-box',
+  display: 'flex',
+  flex: '0 1 auto',
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  marginRight: '-.5rem',
+  marginLeft: '-.5rem',
+  padding: '10px 0',
 });
 
 export interface RowProps {
