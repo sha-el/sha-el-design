@@ -60,3 +60,5 @@ export function arrayBetween(num1: number, num2: number) {
   }
   return arr;
 }
+
+export const isBrowser = () => typeof window !== 'undefined' && typeof window.document !== 'undefined';

@@ -10,6 +10,7 @@ import { styleEnum } from '../../helpers/constants';
 import { Portal } from '../Popover/Portal';
 import { NotificationProps, notificationSubject$ } from './NotificationService';
 import posed, { PoseGroup } from 'react-pose';
+import { isBrowser } from '../../helpers';
 
 const NOTIFICATION_DIV_ID = 'notification-div-id';
 
@@ -134,14 +135,12 @@ interface State {
 }
 
 export const initializeNotification = () => {
-  if (document) {
+  if (isBrowser()) {
     let div = document.getElementById(NOTIFICATION_DIV_ID);
     if (!div) {
       div = document.createElement('div');
       document.body.append(div);
     }
     render(<NotificationContainer />, div);
-  } else {
-    setTimeout(initializeNotification, 2000);
   }
 };
