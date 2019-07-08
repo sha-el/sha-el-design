@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { Row, Col } from './Grid';
+import { Input, Popover } from '../';
+import { MdSearch, MdPermIdentity, MdShoppingCart } from 'react-icons/md';
 
 export class App extends React.Component {
 
@@ -9,17 +11,40 @@ export class App extends React.Component {
 
   render() {
     return (
-      <Row>
-        <Col span={6}>
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-          Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-          when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-          It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-          It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
-          and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsu
+      <Row justifyContent='flex-end' alignItems='flex-end'>
+        <Col span={2} alignSelf='flex-end'>
+          LOGO
         </Col>
-        <Col offset={6} span={6}>
-          hello
+        <Col span={2}>
+          MEN
+        </Col>
+        <Col span={3}>
+          WOMEN
+        </Col>
+        <Col span={2}>
+          KIDS
+        </Col>
+        <Col span={11}>
+          <Input
+            before={<MdSearch />}
+            placeholder='Search for Products'
+            style={{ marginBottom: 0 }}
+          />
+        </Col>
+        <Col offset={1} span={1}>
+          <Popover
+            trigger='onClick'
+            title='Profile'
+            content='hello'
+            style={{ container: { width: '300px' } }}
+          >
+            <span>
+              <MdPermIdentity className='icons-big' />
+            </span>
+          </Popover>
+        </Col>
+        <Col offset={1} span={1}>
+          <MdShoppingCart className='icons-big' />
         </Col>
       </Row>
     );

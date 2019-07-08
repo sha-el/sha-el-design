@@ -1,11 +1,9 @@
 import * as React from 'react';
 import { style } from 'typestyle';
-import { removeObjectProperties } from '../../helpers';
 
 export const Col: React.StatelessComponent<ColProps> = (props) => {
-  const divProps = removeObjectProperties(props, 'offset', 'span');
   return (
-    <div {...divProps} className={colStyle(props)} />
+    <div style={props.style} children={props.children} className={colStyle(props)} />
   );
 };
 
@@ -17,6 +15,7 @@ const colStyle = (props: ColProps) => style({
   paddingRight: '.5rem',
   paddingLeft: '.5rem',
   marginLeft: props.offset && 100 / (24 / props.offset) + '%',
+  alignSelf: props.alignSelf,
 });
 
 export interface ColProps {
@@ -24,6 +23,7 @@ export interface ColProps {
   children: React.ReactNode;
   span?: number;
   offset?: number;
+  alignSelf?: 'center' | 'end' | 'flex-end' | 'flex-start' | 'self-end' | 'self-start' | 'start';
 }
 
 Col.defaultProps = {
