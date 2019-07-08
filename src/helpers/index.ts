@@ -15,16 +15,37 @@ export function removeObjectProperties<T>(obj: T, ...props: (keyof T)[]): Omit<T
   return obj;
 }
 
-export function nestedAccess<T>(nestedObject: T, ...items: [(keyof T), keyof T[keyof T]] | string[] | number[]) {
-  let value = nestedObject as any;
-  for (const i of items) {
-    if (value) {
-      value = value[i];
-      continue;
-    }
-    break;
-  }
-  return value as any;
+export function nestedAccess<
+  T,
+  P1 extends keyof NonNullable<T>
+>(obj: T, prop1: P1): NonNullable<T>[P1] | undefined;
+
+export function nestedAccess<
+  T,
+  P1 extends keyof NonNullable<T>,
+  P2 extends keyof NonNullable<NonNullable<T>[P1]>
+>(obj: T, prop1: P1, prop2: P2): NonNullable<NonNullable<T>[P1]>[P2] | undefined;
+
+export function nestedAccess<
+  T,
+  P1 extends keyof NonNullable<T>,
+  P2 extends keyof NonNullable<NonNullable<T>[P1]>,
+  P3 extends keyof NonNullable<NonNullable<NonNullable<T>[P1]>[P2]>
+>(obj: T, prop1: P1, prop2: P2, prop3: P3): NonNullable<NonNullable<NonNullable<T>[P1]>[P2]>[P3] | undefined;
+
+export function nestedAccess<
+  T,
+  P1 extends keyof NonNullable<T>,
+  P2 extends keyof NonNullable<NonNullable<T>[P1]>,
+  P3 extends keyof NonNullable<NonNullable<NonNullable<T>[P1]>[P2]>,
+  P4 extends keyof NonNullable<NonNullable<NonNullable<NonNullable<T>[P1]>[P2]>[P3]>
+>(obj: T, prop1: P1, prop2: P2, prop3: P3): NonNullable<NonNullable<NonNullable<NonNullable<T>[P1]>[P2]>[P3]>[P4] | undefined;
+
+export function nestedAccess(obj: any, ...props: string[]): any {
+  return obj && props.reduce(
+    (result, prop) => result == null ? undefined : result[prop],
+    obj,
+  );
 }
 
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
