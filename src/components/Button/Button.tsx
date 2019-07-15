@@ -30,7 +30,6 @@ export class Button extends React.Component<ButtonProps, State> {
       type,
       size,
       shape,
-      // tslint:disable-next-line:trailing-comma
       ...rest
     } = this.props;
 

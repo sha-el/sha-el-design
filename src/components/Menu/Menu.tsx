@@ -38,7 +38,7 @@ export class Menu extends React.Component<MenuProps, State> {
     this.setState({ collapsed: !this.state.collapsed, width: width > 50 ? 50 : 250 });
   }
 
-  onDrag = (e: React.DragEvent) => {
+  onDrag = (e: React.DragEvent<HTMLDivElement>) => {
     e.persist();
     window.requestAnimationFrame(() => {
       document.addEventListener('dragover', (f) => f.preventDefault());
