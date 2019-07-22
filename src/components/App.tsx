@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Button } from './Button';
 import { Carousel } from './Carousel';
+import { Breadcrumb } from './Breadcrumb/Breadcrumb';
 
 export class App extends React.Component {
 
@@ -21,6 +22,17 @@ export class App extends React.Component {
         </Carousel>
         <Button>HEllo</Button>
         <Button type='primary' href='/'>GO TO</Button>
+        <Breadcrumb
+          paths={[{
+            render: () => 'Home',
+          }, {
+            render: () => 'Men',
+          }, {
+            render: () => 'Topwear',
+          }, {
+            render: () => 'T Shirts',
+          }]}
+        />
       </div>
     );
   }
