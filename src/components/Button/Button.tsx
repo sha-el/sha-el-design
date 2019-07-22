@@ -37,7 +37,7 @@ export class Button extends React.Component<ButtonProps, State> {
     if (rest.href !== undefined) {
       return (
         <a
-          className={style.button}
+          className={`${style.default} ${style.anchor}`}
           {...linkButtonRestProps}
         >
           {this.props.children}
@@ -48,7 +48,7 @@ export class Button extends React.Component<ButtonProps, State> {
     const buttonProps = rest as NativeButtonProps;
     return (
       <button
-        className={style.button}
+        className={`${style.default} ${style.button}`}
         {...buttonProps}
       >
         {this.props.children}
@@ -95,7 +95,7 @@ function css() {
   const baseColor = this.state.theme[this.props.type];
   const hoverBgColor = color(baseColor).darken(.1).toHexString();
   return stylesheet({
-    button: {
+    default: {
       ...getSize(this.props.size, this.props.shape),
       display: 'block',
       textAlign: 'center',
@@ -103,20 +103,32 @@ function css() {
       background: baseColor,
       color: getColor(baseColor),
       border: 'none',
-      boxShadow: '0 2px 0 rgba(0,0,0,0.045)',
       cursor: 'pointer',
       textDecoration: 'none',
       margin: '10px 0',
       $nest: {
-        '&:hover': {
-          background: hoverBgColor,
-          color: getColor(hoverBgColor),
-        },
         '&:focus': {
           outline: 'none',
         },
         '&:active': {
           transform: 'translate(0, 2px)',
+        },
+      },
+    },
+    button: {
+      boxShadow: '0 2px 0 rgba(0,0,0,0.045)',
+      $nest: {
+        '&:hover': {
+          background: hoverBgColor,
+          color: getColor(hoverBgColor),
+        },
+      },
+    },
+    anchor: {
+      $nest: {
+        '&:hover': {
+          color: getColor(baseColor),
+          fontWeight: 'bolder',
         },
       },
     },

@@ -73,6 +73,7 @@ const css = stylesheet({
   },
   dotsContainer: {
     position: 'absolute',
+    textAlign: 'center',
     bottom: '10px',
     margin: 'auto',
     left: 0,
