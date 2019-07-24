@@ -1,9 +1,7 @@
 import * as React from 'react';
 import { stylesheet } from 'typestyle';
-import * as csstips from 'csstips';
 import { Theme, ThemeService } from './../../helpers/theme';
 import { styleEnum } from './../../helpers/constants';
-import { FaCheck, FaTimes } from 'react-icons/fa';
 import { nestedAccess } from './../../helpers';
 
 export class CheckBox extends React.Component<CheckBoxProps, State> {
@@ -32,27 +30,22 @@ export class CheckBox extends React.Component<CheckBoxProps, State> {
 
   render() {
     const style = this.css();
-    const { label, className, error, checked } = this.props;
+    const { label, className, error } = this.props;
     return (
       <div className={style.container} onClick={() => this.onContainerClick()}>
-        <div className={`${style.child} ${style.checkbox}`}>
-          {checked ? <FaCheck style={{ color: '#ffffff', margin: '3px' }} /> : <FaTimes style={{ color: '#ff0000', margin: '3px' }} />}
-        </div>
-        <div className={`${style.child} ${style.label}`}>{label}</div>
-        {<div key='border' className={`${style.borderColor} ${style.bottomBorderStyle}`} />}
+        <input className={style.checkbox} ref={this.input} type='checkbox' {...this.props} />
+        <label className={`${style.label}`}>{label}</label>
         {error &&
           <div style={{ marginTop: '0' }} key='error' className={`${style.errorStyle} ${className || ''}`}>
             {error}
           </div>
         }
-        <input ref={this.input} type='checkbox' {...this.props} style={{ display: 'none' }} />
       </div>
     );
   }
 
   css = () => {
-    const isFocused = this.props.value;
-    const borderColor = this.props.error ? this.state.theme.error : styleEnum.borderColor;
+    const backgroundColor = this.state.theme.primary;
 
     return stylesheet({
       container: {
@@ -62,38 +55,77 @@ export class CheckBox extends React.Component<CheckBoxProps, State> {
         boxShadow: styleEnum.shadow_bot,
         lineHeight: '22px',
       },
-      child: {
-        display: 'inline-flex',
-      },
-      checkbox: {
-        background: this.props.checked ? this.state.theme.primary : '#ffffff',
-        width: '20px',
-        height: '20px',
-        marginRight: '10px',
-        border: '1px solid ' + this.state.theme.primary,
-        transition: 'all 1s',
-      },
       label: {
         color: 'rgba(0,0,0,.54)',
         transition: 'all .5s',
         pointerEvents: 'none',
         fontSize: '16px',
+        marginLeft: '30px',
+        position: 'relative',
+        $nest: {
+          '&::before': {
+            cursor: 'pointer',
+            content: '""',
+            border: '1px solid ' + backgroundColor,
+            position: 'absolute',
+            left: '-23px',
+            top: '0',
+            width: '16px',
+            height: '16px',
+            zIndex: 0,
+            transition: '.4s ease',
+          },
+          '&::after': {
+            content: '""',
+            cursor: 'pointer',
+            position: 'absolute',
+            left: '0',
+            top: '0',
+            margin: '4px',
+            width: '16px',
+            height: '16px',
+            zIndex: 0,
+            transition: '.28s ease',
+          },
+        },
       },
-
       errorStyle: {
         textAlign: 'right',
         fontSize: '14px',
         color: this.state.theme.error,
       },
-
-      borderColor: {
-        border: `${styleEnum.borderWidth} ${styleEnum.borderStyle} ${(borderColor)}`,
-        width: (isFocused || this.props.error) ? nestedAccess(this.props, 'style', 'width') || '100%' : '0',
-        margin: 'auto',
-      },
-
-      bottomBorderStyle: {
-        transition: '1s',
+      checkbox: {
+        display: 'none',
+        $nest: {
+          '&:checked': {
+            $nest: {
+              '& ~ label:after': {
+                content: '""',
+                cursor: 'pointer',
+                position: 'absolute',
+                left: '-23px',
+                top: '0',
+                margin: '4px',
+                width: '16px',
+                height: '16px',
+                zIndex: 0,
+                transition: '.28s ease',
+              },
+              '& ~ label:before': {
+                borderTop: '1px solid transparent',
+                borderLeft: '1px solid transparent',
+                borderRight: '1px solid ' + backgroundColor,
+                borderBottom: '1px solid ' + backgroundColor,
+                display: 'inline-block',
+                transform: 'rotateZ(390deg)',
+                top: '0',
+                left: '-23px',
+                width: '8px',
+                transformOrigin: '100% 100%',
+              },
+            },
+          },
+        },
       },
     });
   }

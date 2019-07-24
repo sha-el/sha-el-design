@@ -1,7 +1,5 @@
 import * as React from 'react';
-import { Button } from './Button';
-import { Carousel } from './Carousel';
-import { Breadcrumb } from './Breadcrumb/Breadcrumb';
+import { CheckBox } from './CheckBox';
 
 export class App extends React.Component {
 
@@ -12,27 +10,7 @@ export class App extends React.Component {
   render() {
     return (
       <div>
-        <Carousel
-          width='300px'
-          autoScroll={true}
-        >
-          <div style={{ height: '300px', background: '#efe' }}>jello</div>
-          <div style={{ height: '300px', background: '#efe' }}>xyz</div>
-          <div style={{ height: '300px', background: '#efe' }}>abc</div>
-        </Carousel>
-        <Button>HEllo</Button>
-        <Button type='primary' href='/'>GO TO</Button>
-        <Breadcrumb
-          paths={[{
-            render: () => 'Home',
-          }, {
-            render: () => 'Men',
-          }, {
-            render: () => 'Topwear',
-          }, {
-            render: () => 'T Shirts',
-          }]}
-        />
+        <CheckBox label='hello' checked={this.state.value} onChange={(e) => this.setState({ value: e.target.checked })} />
       </div>
     );
   }
