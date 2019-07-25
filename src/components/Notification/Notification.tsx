@@ -84,9 +84,10 @@ export class NotificationContainer extends React.Component<{}, State> {
   style = () => {
     return stylesheet({
       body: {
-        position: 'absolute',
+        position: 'fixed',
         right: '20px',
         top: '20px',
+        zIndex: 10000,
       },
       container: {
         boxShadow: styleEnum.shadow_2x,
