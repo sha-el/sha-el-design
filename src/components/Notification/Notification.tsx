@@ -92,6 +92,7 @@ export class NotificationContainer extends React.Component<{}, State> {
       container: {
         boxShadow: styleEnum.shadow_2x,
         padding: '9px 32px',
+        background: 'white',
       },
       titleContainer: {
         ...flexRoot,
