@@ -60,7 +60,7 @@ export class NotificationContainer extends React.Component<{}, State> {
           <PoseGroup>
             {this.state.notification.map(
               (notification, index) => (
-                <NotificationTile className={css.container} key={`noti-${index}`}>
+                <NotificationTile style={notification.style || {}} className={css.container} key={`noti-${index}`}>
                   <div className={css.titleContainer}>
                     <div className={css.titleIcon}>
                       {this.getIcon(index)}

@@ -7,6 +7,7 @@ export interface NotificationProps {
   message?: React.ReactNode;
   duration?: number;
   callBack?: () => void;
+  style?: React.CSSProperties;
 }
 
 function generateGuid() {
