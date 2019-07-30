@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { CheckBox } from './CheckBox';
+import { AutoComplete } from './AutoComplete';
 
 export class App extends React.Component {
 
@@ -10,7 +10,12 @@ export class App extends React.Component {
   render() {
     return (
       <div>
-        <CheckBox label='hello' checked={this.state.value} onChange={(e) => this.setState({ value: e.target.checked })} />
+        <AutoComplete
+          data={[{ a: 'a' }, { a: 'b' }]}
+          value={'a'}
+          uniqueIdentifier={(v) => v.a}
+          displayProp={(v) => v.a}
+        />
       </div>
     );
   }

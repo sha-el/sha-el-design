@@ -33,6 +33,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
       totalData: this.props.data.length,
       focusedData: -1,
       selectedValues: props.mode === 'multiple' ? this.generateSelectedValues() : [],
+      isOpen: false,
     };
   }
 
@@ -181,7 +182,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
       return;
     }
 
-    this.setState({ displayValue: displayProp(obj) });
+    this.setState({ displayValue: displayProp(obj), isOpen: false });
 
     this.props.onChange(
       this.props.uniqueIdentifier(obj),
@@ -259,11 +260,16 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
   }
 
   render() {
+    const styleSheet = this.css();
+
     return (
       <div style={{ position: 'relative' }}>
         <Popover
           trigger='onClick'
-          content={this.displayList()}
+          content={<div className={styleSheet.listContainer}>
+            {this.displayList()}
+          </div>}
+          isVisible={this.state.isOpen}
           hideArrow
           expand
         >
@@ -313,6 +319,7 @@ interface State<T> {
   totalData: number;
   focusedData: number;
   selectedValues: T[];
+  isOpen: boolean;
 }
 
 function css() {
@@ -327,6 +334,10 @@ function css() {
           color: getColor(hoverColor.toHexString()),
         },
       },
+    },
+    listContainer: {
+      maxHeight: '300px',
+      overflowY: 'scroll',
     },
     focusedList: {
       background: hoverColor.toHexString(),
