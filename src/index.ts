@@ -24,3 +24,4 @@ export { Divider } from './components/Divider';
 export { notify } from './components/Notification';
 export { Carousel } from './components/Carousel';
 export { Breadcrumb } from './components/Breadcrumb';
+export { Tag } from './components/Tag';

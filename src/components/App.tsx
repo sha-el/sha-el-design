@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { AutoComplete } from './AutoComplete';
+import { Tag } from './Tag/Tag';
 
 export class App extends React.Component {
 
@@ -10,12 +10,8 @@ export class App extends React.Component {
   render() {
     return (
       <div>
-        <AutoComplete
-          data={[{ a: 'a' }, { a: 'b' }]}
-          value={'a'}
-          uniqueIdentifier={(v) => v.a}
-          displayProp={(v) => v.a}
-        />
+        <Tag active={this.state.value} onClose={(value) => this.setState({ value })} color='#0f0'>HEllo</Tag>
+        <Tag color='#f60'>OLA</Tag>
       </div>
     );
   }

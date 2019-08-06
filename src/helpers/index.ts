@@ -62,6 +62,9 @@ export function initialize() {
   * {
     font-family: 'Nanum Myeongjo', serif !important;
   }
+  body {
+    background: rgb(240, 242, 245)
+  }
 `);
 
   new ThemeService();
