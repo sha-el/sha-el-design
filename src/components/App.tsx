@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Tag } from './Tag/Tag';
+import { Table } from './Table/Table';
+import { Card } from './Card/Card';
 
 export class App extends React.Component {
 
@@ -9,10 +10,22 @@ export class App extends React.Component {
 
   render() {
     return (
-      <div>
-        <Tag active={this.state.value} onClose={(value) => this.setState({ value })} color='#0f0'>HEllo</Tag>
-        <Tag color='#f60'>OLA</Tag>
-      </div>
+      <Card
+        title='Hello'
+      >
+        <Table
+          data={[{a: 'a', b: 'b'}, {a: 'a', b: 'b'}]}
+          columns={[{
+            header: 'a',
+            key: 'a',
+            render: () => 'a',
+          }, {
+            header: 'b',
+            key: 'b',
+            render: () => 'b',
+          }]}
+        />
+      </Card>
     );
   }
 }

@@ -31,12 +31,12 @@ export class Card extends React.Component<CardProps, {}> {
       boxShadow: styleEnum.shadow_bot_2x,
       border: `${styleEnum.borderWidth} ${styleEnum.borderStyle} ${styleEnum.borderColor}`,
       padding: 0,
+      margin: '10px',
+      background: 'white',
     },
     header: {
       padding: '10px',
       fontSize: '20px',
-      borderBottom: `${styleEnum.borderWidth} ${styleEnum.borderStyle} ${styleEnum.borderColor}`,
-      background: styleEnum.headerBgColor,
     },
     divider: {
       margin: '0px 0 10px',

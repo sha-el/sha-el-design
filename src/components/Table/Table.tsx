@@ -9,45 +9,54 @@ export class Table<T> extends React.Component<TableProps<T>, {}> {
     super(props);
   }
 
+  static defaultProps = {
+    shadow: true,
+  };
+
   renderRow() {
+    return (
+      this.props.data.map((v, index) => (
+        <tr key={`table-row-${index}`}>
+          {this.props.columns.map(f => {
+            return (
+              <td key={`table-column-${f.key}-${index}`}>
+                {f.render ? f.render(v[f.dataIndex], v) : v[f.dataIndex]}
+                {f.children ? f.children(v[f.dataIndex], v) : ''}
+              </td>
+            );
+          })}
+        </tr>))
+    );
+  }
+
+  showEmptyState = () => {
     const style = this.css();
-    if (this.props.data.length) {
+    if (!this.props.data.length) {
       return (
-        this.props.data.map((v, index) => (
-          <tr key={`table-row-${index}`}>
-            {this.props.columns.map(f => {
-              return (
-                <td key={`table-column-${f.key}-${index}`}>
-                  {f.render ? f.render(v[f.dataIndex], v) : v[f.dataIndex]}
-                  {f.children ? f.children(v[f.dataIndex], v) : ''}
-                </td>
-              );
-            })}
-          </tr>))
+        <div className={style.icon}>
+          <FaMeh />
+          <div>No Data</div>
+        </div>
       );
     }
-
-    return (
-      <div className={style.icon}>
-        <FaMeh />
-        <div>No Data</div>
-      </div>
-    );
   }
 
   render() {
     const style = this.css();
     return (
-      <table className={style.table}>
-        <thead>
-          <tr>
-            {this.props.columns.map(v => <th key={`table-header-${v.key}`}>{v.header}</th>)}
-          </tr>
-        </thead>
-        <tbody>
-          {this.renderRow()}
-        </tbody>
-      </table>
+      <div className={style.container}>
+        <table className={style.table}>
+          <thead>
+            <tr>
+              {this.props.columns.map(v => <th key={`table-header-${v.key}`}>{v.header}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {this.renderRow()}
+          </tbody>
+        </table>
+        {this.showEmptyState()}
+      </div>
     );
   }
 
@@ -55,29 +64,56 @@ export class Table<T> extends React.Component<TableProps<T>, {}> {
     table: {
       width: '100%',
       borderCollapse: 'collapse',
-      border: `${styleEnum.borderWidth} ${styleEnum.borderStyle} ${styleEnum.borderColor}`,
+      background: 'white',
+      boxShadow: this.props.shadow && styleEnum.shadow_2x,
+      fontSize: '14px',
       $nest: {
-        'thead': {
-          boxShadow: styleEnum.shadow_bot_2x,
+        thead: {
+          fontSize: '12px',
+          fontWeight: 'bolder',
+          color: 'rgba(0,0,0,.54)',
         },
-        'tr': {
+        tr: {
           borderBottom: `${styleEnum.borderWidth} ${styleEnum.borderStyle} ${styleEnum.borderColor}`,
         },
-        'th': {
-          background: styleEnum.headerBgColor,
+        th: {
+          padding: '15px 5px',
+          textAlign: 'left',
+          fontFamily: 'Roboto,"Helvetica Neue",sans-serif !important',
+          $nest: {
+            '&:first-of-type': {
+              paddingLeft: '24px',
+            },
+            '&:last-of-type': {
+              paddingRight: '24px',
+            },
+          },
         },
-        'th, td': {
+        td: {
           textAlign: 'left',
           padding: '10px 5px',
-          borderRight: `${styleEnum.borderWidth} ${styleEnum.borderStyle} ${styleEnum.borderColor}`,
+          fontFamily: 'monospace !important',
+          $nest: {
+            '&:first-of-type': {
+              paddingLeft: '24px',
+            },
+            '&:last-of-type': {
+              paddingRight: '24px',
+            },
+          },
         },
       },
+    },
+    container: {
+      background: 'white',
+      padding: this.props.shadow && '10px',
     },
     icon: {
       textAlign: 'center',
       fontSize: '100px',
       color: '#ccc',
       padding: '10px',
+      width: '100%',
     },
   })
 }
@@ -85,6 +121,7 @@ export class Table<T> extends React.Component<TableProps<T>, {}> {
 interface TableProps<T> {
   data: T[];
   columns: Colums<T>[];
+  shadow?: boolean;
 }
 
 export interface Colums<T> {
