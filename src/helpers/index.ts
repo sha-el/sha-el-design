@@ -86,3 +86,12 @@ export function arrayBetween(num1: number, num2: number) {
 }
 
 export const isBrowser = () => typeof window !== 'undefined' && typeof window.document !== 'undefined';
+
+export function getRandomColor() {
+  const letters = '0123456789ABCDEF';
+  let col = '#';
+  for (let i = 0; i < 6; i++) {
+    col += letters[Math.floor(Math.random() * 16)];
+  }
+  return col;
+}

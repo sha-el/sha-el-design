@@ -3,9 +3,9 @@ import { BehaviorSubject } from 'rxjs';
 export class ThemeService {
   static instance: ThemeService;
   themes: Theme[] = [{
-    primary: '#464d86',
-    secondary: '#E5B569',
-    default: '#ffffff',
+    primary: '#00A6A6',
+    secondary: '#F49F0A',
+    default: '#E4DFDA',
     error: '#ff0000',
     warning: '#F09266',
     info: '#67A57F',

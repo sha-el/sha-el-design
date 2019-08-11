@@ -12,6 +12,7 @@ export class App extends React.Component {
     return (
       <Card
         title='Hello'
+        subtitle='Ola'
       >
         <Table
           data={[{a: 'a', b: 'b'}, {a: 'a', b: 'b'}]}
