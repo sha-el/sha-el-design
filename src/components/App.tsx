@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Table } from './Table/Table';
-import { Card } from './Card/Card';
+import { Button, ButtonGroup, Input, Row, Col } from '../';
+
+const Link = ({ to, children }) => <a href={to}>{children}</a>;
 
 export class App extends React.Component {
 
@@ -10,23 +11,10 @@ export class App extends React.Component {
 
   render() {
     return (
-      <Card
-        title='Hello'
-        subtitle='Ola'
-      >
-        <Table
-          data={[{a: 'a', b: 'b'}, {a: 'a', b: 'b'}]}
-          columns={[{
-            header: 'a',
-            key: 'a',
-            render: () => 'a',
-          }, {
-            header: 'b',
-            key: 'b',
-            render: () => 'b',
-          }]}
-        />
-      </Card>
+      <Row>
+        <Col span={12}><Input style={{ width: '50%' }} /></Col>
+        <Col span={12}><Button href='#'>heelo</Button></Col>
+      </Row>
     );
   }
 }

@@ -73,10 +73,10 @@ export class Menu extends React.Component<MenuProps, State> {
     return stylesheet({
       container: {
         position: 'relative',
-        background: this.state.theme.default,
+        background: this.state.theme.sideBar,
         height: '100vh',
         maxHeight: '100%',
-        color: getColor(this.state.theme.default, '#555555'),
+        color: getColor(this.state.theme.sideBar, '#555555'),
         transition: '.1s',
         boxShadow: styleEnum.shadow,
       },

@@ -65,6 +65,11 @@ export function initialize() {
   body {
     background: rgb(240, 242, 245)
   }
+  a {
+    background: inherit;
+    text-decoration: none;
+
+  }
 `);
 
   new ThemeService();

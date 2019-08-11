@@ -5,7 +5,8 @@ export class ThemeService {
   themes: Theme[] = [{
     primary: '#00A6A6',
     secondary: '#F49F0A',
-    default: '#E4DFDA',
+    default: '#FFFFFF',
+    sideBar: '#102542',
     error: '#ff0000',
     warning: '#F09266',
     info: '#67A57F',
@@ -36,6 +37,7 @@ export interface Theme {
   primary: string;
   secondary: string;
   default: string;
+  sideBar: string;
   error: string;
   warning: string;
   info: string;

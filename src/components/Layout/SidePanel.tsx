@@ -11,6 +11,7 @@ export const SidePanel: React.StatelessComponent<SidePanelProps> = (props) => {
 
 const css = style({
   zIndex: 2,
+  background: '#102542',
 });
 
 export interface SidePanelProps {

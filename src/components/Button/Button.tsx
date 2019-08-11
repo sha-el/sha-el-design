@@ -60,7 +60,7 @@ export class Button extends React.Component<ButtonProps, State> {
 function getSize(size: sizeTypes, shape: shapeTypes) {
   let style = {
     padding: '0 20px',
-    height: '30px',
+    height: '34px',
     fontSize: '14px',
     width: 'auto',
     borderRadius: '2px',
@@ -70,7 +70,7 @@ function getSize(size: sizeTypes, shape: shapeTypes) {
       style = {
         ...style,
         padding: '0 30px',
-        height: '35px',
+        height: '40px',
         fontSize: '16px',
       };
     }
@@ -78,7 +78,7 @@ function getSize(size: sizeTypes, shape: shapeTypes) {
       style = {
         ...style,
         padding: '0 40px',
-        height: '40px',
+        height: '45px',
         fontSize: '18px',
       };
     }
@@ -105,7 +105,7 @@ function css() {
       border: 'none',
       cursor: 'pointer',
       textDecoration: 'none',
-      margin: '10px 0',
+      margin: '0 0 10px 0',
       $nest: {
         '&:focus': {
           outline: 'none',

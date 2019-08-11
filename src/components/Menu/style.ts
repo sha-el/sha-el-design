@@ -15,7 +15,7 @@ export const css = (props: { active?: any; }, state: { theme: { primary: string;
     $nest: {
       '&:hover': {
         color: state.theme.primary,
-        boxShadow: styleEnum.shadow_bot_2x,
+        boxShadow: styleEnum.shadow_bot_white_2x,
         transform: 'scale(1.01)',
       },
       '&:active': {
