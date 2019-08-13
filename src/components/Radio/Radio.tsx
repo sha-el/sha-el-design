@@ -2,9 +2,8 @@ import * as React from 'react';
 import { stylesheet } from 'typestyle';
 import { Theme, ThemeService } from './../../helpers/theme';
 import { styleEnum } from './../../helpers/constants';
-import { nestedAccess } from './../../helpers';
 
-export class CheckBox extends React.Component<CheckBoxProps, State> {
+export class Radio extends React.Component<RadioProps, State> {
   private readonly theme = new ThemeService();
   input = React.createRef<HTMLInputElement>();
 
@@ -33,7 +32,7 @@ export class CheckBox extends React.Component<CheckBoxProps, State> {
     const { label, className, error } = this.props;
     return (
       <div className={style.container} onClick={() => this.onContainerClick()}>
-        <input className={style.checkbox} ref={this.input} type='checkbox' {...this.props} />
+        <input className={style.radio} ref={this.input} type='radio' {...this.props} />
         <label className={`${style.label}`}>{label}</label>
         {error &&
           <div style={{ marginTop: '0' }} key='error' className={`${style.errorStyle} ${className || ''}`}>
@@ -45,11 +44,12 @@ export class CheckBox extends React.Component<CheckBoxProps, State> {
   }
 
   css = () => {
+    const { disabled } = this.props;
     const backgroundColor = this.state.theme.primary;
 
     return stylesheet({
       container: {
-        cursor: 'pointer',
+        cursor: disabled ? 'not-allowed' : 'pointer',
         margin: '10px 0',
         fontWeight: 'lighter',
         boxShadow: this.props.block && styleEnum.shadow_bot,
@@ -66,14 +66,18 @@ export class CheckBox extends React.Component<CheckBoxProps, State> {
           '&::before': {
             cursor: 'pointer',
             content: '""',
-            border: '1px solid ' + backgroundColor,
+            border: `1px solid ${backgroundColor}`,
             position: 'absolute',
+            borderRadius: '50%',
             left: '-23px',
             top: '0',
             width: '16px',
             height: '16px',
             zIndex: 0,
             transition: '.4s ease',
+            background: `linear-gradient(to bottom, white 50%, ${backgroundColor} 50%)`,
+            backgroundSize: '100% 200%',
+            backgroundPosition: 'left top',
           },
           '&::after': {
             content: '""',
@@ -94,34 +98,23 @@ export class CheckBox extends React.Component<CheckBoxProps, State> {
         fontSize: '14px',
         color: this.state.theme.error,
       },
-      checkbox: {
+      radio: {
         display: 'none',
         $nest: {
           '&:checked': {
             $nest: {
-              '& ~ label:after': {
-                content: '""',
-                cursor: 'pointer',
-                position: 'absolute',
-                left: '-23px',
-                top: '0',
-                margin: '4px',
-                width: '16px',
-                height: '16px',
-                zIndex: 0,
-                transition: '.28s ease',
-              },
               '& ~ label:before': {
-                borderTop: '1px solid transparent',
-                borderLeft: '1px solid transparent',
-                borderRight: '1px solid ' + backgroundColor,
-                borderBottom: '1px solid ' + backgroundColor,
-                display: 'inline-block',
-                transform: 'rotateZ(390deg)',
-                top: '0',
-                left: '-23px',
-                width: '8px',
-                transformOrigin: '100% 100%',
+                backgroundPosition: 'right bottom',
+              },
+            },
+          },
+          '&:disabled': {
+            color: styleEnum.borderColor,
+            $nest: {
+              '& ~ label:before': {
+                border: `1px solid ${styleEnum.borderColor}`,
+                background: `linear-gradient(to bottom, white 50%, ${styleEnum.borderColor} 50%)`,
+                backgroundPosition: 'right bottom',
               },
             },
           },
@@ -131,7 +124,7 @@ export class CheckBox extends React.Component<CheckBoxProps, State> {
   }
 }
 
-export interface CheckBoxProps extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
+export interface RadioProps extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
   label?: string;
   error?: string;
   block?: boolean;

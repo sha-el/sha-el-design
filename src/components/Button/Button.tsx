@@ -92,6 +92,7 @@ function getSize(size: sizeTypes, shape: shapeTypes) {
 }
 
 function css() {
+  const { disabled } = this.props;
   const baseColor = this.state.theme[this.props.type];
   const hoverBgColor = color(baseColor).darken(.1).toHexString();
   return stylesheet({
@@ -99,7 +100,7 @@ function css() {
       ...getSize(this.props.size, this.props.shape),
       display: 'block',
       textAlign: 'center',
-      lineHeight: '30px',
+      lineHeight: '34px',
       background: baseColor,
       color: getColor(baseColor),
       border: 'none',
@@ -113,12 +114,17 @@ function css() {
         '&:active': {
           transform: 'translate(0, 2px)',
         },
+        '&:disabled': {
+          background: styleEnum.borderColor,
+          cursor: 'not-allowed',
+          color: 'white',
+        },
       },
     },
     button: {
       boxShadow: '0 2px 0 rgba(0,0,0,0.045)',
       $nest: {
-        '&:hover': {
+        '&:hover': !disabled && {
           background: hoverBgColor,
           color: getColor(hoverBgColor),
         },
@@ -147,6 +153,7 @@ export interface BaseButtonProps {
   // For anchor tag
   href?: string;
   target?: string;
+  disabled?: boolean;
 }
 
 export type AnchorButtonProps = {
