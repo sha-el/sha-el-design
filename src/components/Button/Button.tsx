@@ -107,6 +107,7 @@ function css() {
       cursor: 'pointer',
       textDecoration: 'none',
       margin: '0 0 10px 0',
+      boxSizing: 'border-box',
       $nest: {
         '&:focus': {
           outline: 'none',

@@ -37,15 +37,8 @@ export class Popover extends React.Component<PopoverProps, State> {
 
   componentWillReceiveProps(nextProps: PopoverProps) {
     if (nextProps.isVisible !== null && nextProps.isVisible !== undefined) {
-      this.setState({isVisible: nextProps.isVisible});
+      this.setState({ isVisible: nextProps.isVisible });
     }
-  }
-
-  triggerClick = () => {
-    if (this.props.trigger !== 'onClick') {
-      return;
-    }
-    this.setState({ isVisible: true }, () => this.setState({ position: this.position() }));
   }
 
   getContainerWidth = (containerWidth: number) => {
@@ -59,7 +52,7 @@ export class Popover extends React.Component<PopoverProps, State> {
     const child = findDOMNode(this.child.current);
     const container = findDOMNode(this.container.current);
     if (!child || !container) {
-      return {left: 0, top: 0, width: 0};
+      return { left: 0, top: 0, width: 0 };
     }
 
     const childRect = (child as Element).getBoundingClientRect();
@@ -143,18 +136,37 @@ export class Popover extends React.Component<PopoverProps, State> {
 
   renderContent = () => {
     const styleSheet = this.css();
-    return (
-      <article style={this.props.style.container} ref={this.container} className={styleSheet.container}>
-        {this.state.isVisible && <div>
-          {!this.props.hideArrow && <div style={this.arrowStyle()} />}
-          {this.props.title && <div style={this.props.style.title} className={styleSheet.title}>
-            {this.props.title}
-          </div>}
-          <div style={this.props.style.content} className={styleSheet.content}>
-            {this.props.content}
+    return (this.state.isVisible || this.props.preserveOnClose) && (
+      <>
+        <div style={this.props.style.container} ref={this.container} className={styleSheet.container}>
+          <div>
+            {!this.props.hideArrow && <div style={this.arrowStyle()} />}
+            {this.props.title && <div style={this.props.style.title} className={styleSheet.title}>
+              {this.props.title}
+            </div>}
+            <div style={this.props.style.content} className={styleSheet.content}>
+              {this.props.content}
+            </div>
           </div>
-        </div>}
-      </article>
+        </div>
+        <div
+          onClick={this.closePopOver}
+          onMouseOver={this.closePopOver}
+          className='overlay'
+          style={{
+            position: 'fixed',
+            display: 'block',
+            width: '100%',
+            height: '100%',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: -1,
+            cursor: 'pointer',
+          }}
+        />
+      </>
     );
   }
 
@@ -173,19 +185,28 @@ export class Popover extends React.Component<PopoverProps, State> {
     this.setState({ isVisible: true }, () => this.setState({ position: this.position() }));
   }
 
+  triggerClick = (e: React.MouseEvent) => {
+    if (
+      this.props.trigger !== 'onClick'
+      || (e.target as HTMLElement).classList.contains('overlay')
+    ) {
+      return;
+    }
+    this.setState({ isVisible: true }, () => this.setState({ position: this.position() }));
+  }
+
   closePopOver = (e: React.MouseEvent | React.FocusEvent) => {
     const { trigger } = this.props;
     if ((
-      e.type === 'mouseover' && trigger === 'onHover'
-    ) || (
       e.type === 'click' && trigger === 'onClick'
     ) || (
-      e.type === 'blur' && trigger === 'onFocus'
-    )) {
-      setTimeout(
-        () => this.setState({ isVisible: false }),
-        300,
-      );
+        e.type === 'blur' && trigger === 'onFocus'
+      ) || (
+        e.type === 'mouseover' && trigger === 'onHover'
+        && e.target
+        && (e.target as HTMLElement).classList.contains('overlay')
+      )) {
+      setTimeout(() => this.setState({ isVisible: false }), 250);
     }
   }
 
@@ -194,41 +215,23 @@ export class Popover extends React.Component<PopoverProps, State> {
       <div
         onClick={this.triggerClick}
         onMouseEnter={this.triggerMouseEnter}
-        style={{ zIndex: 2001 }}
         key='container'
       >
-        <div
-          onFocus={this.triggerOnFocus}
-          onBlur={this.closePopOver}
-        >
-          {React.cloneElement(this.props.children, { ref: this.child })}
-        </div>
+        {React.cloneElement(this.props.children, {
+          onFocus: this.triggerOnFocus,
+          onBlur: this.closePopOver,
+          ref: this.child,
+        })}
         <Portal>
           {this.renderContent()}
         </Portal>
       </div>
-    ), (
-      this.state.isVisible && (
-      <Portal key='overlay'>
-        <div
-          onClick={this.closePopOver}
-          onMouseOver={this.closePopOver}
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            zIndex: 2000,
-            overflow: 'auto',
-          }}
-        />
-      </Portal>
-    ))];
+    )];
   }
 }
 
 function css() {
+  const { isVisible } = this.state;
   return stylesheet({
     container: {
       width: this.props.expand ? this.state.position.width : 'auto',
@@ -241,6 +244,7 @@ function css() {
       top: this.state.position.top,
       background: 'white',
       borderRadius: '2px',
+      visibility: isVisible ? 'visible' : 'hidden',
     },
     title: {
       textAlign: 'center',
@@ -268,6 +272,7 @@ interface PopoverProps {
   };
   isVisible?: boolean;
   expand?: boolean;
+  preserveOnClose?: boolean;
 }
 
 interface State {

@@ -4,6 +4,7 @@ import { RadioGroup, RadioButton } from '../';
 import { Popover } from './Popover';
 import { Calendar } from './Calendar';
 import { AutoComplete } from './AutoComplete';
+import { MdSearch, MdPermIdentity, MdShoppingCart } from 'react-icons/md';
 
 export class App extends React.Component {
 
@@ -31,19 +32,7 @@ export class App extends React.Component {
 
   render() {
     return (
-      <AutoComplete
-        value={this.state.value || ''}
-        data={this.state.response}
-        filterFunction={() => true}
-        renderOptions={this.state.response.map((value, index) => (
-          <div key={`${index}-design-drop`}>
-            {value.name}
-          </div>
-        ))}
-        uniqueIdentifier={(v: any) => v.id}
-        displayProp={(v: any) => v.name}
-        onSearch={(e) => this.onNameChange(e.target.value)}
-      />
+      <Calendar />
     );
   }
 }

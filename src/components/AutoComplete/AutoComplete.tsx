@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { FaCheck } from 'react-icons/fa';
-import { MdClear } from 'react-icons/md';
+import { MdClear, MdCheck } from 'react-icons/md';
 
 import { Input } from '../Input';
 import { InputProps } from '../Input/Input';
@@ -84,7 +83,9 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
 
     if (this.props.renderOptions) {
       return this.props.renderOptions.map((value, index, array) => {
-        const selected = this.state.selectedValues.find(v => uniqueIdentifier(v) === uniqueIdentifier(this.props.data[index]));
+        const selected = this.state.selectedValues.find(
+          v => uniqueIdentifier(v) === uniqueIdentifier(this.props.data[index]),
+        ) || this.props.value === uniqueIdentifier(this.props.data[index]);
         return (
           <div
             className={`${styleSheet.list} ${index === this.state.focusedData && styleSheet.focusedList}`}
@@ -96,7 +97,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
                 {value}
               </Col>
               <Col span={1} style={colStyle}>
-                {selected && <FaCheck />}
+                {selected && <MdCheck />}
               </Col>
             </Row>
           </div>);
@@ -104,7 +105,8 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
     }
 
     return this.state.data.map((value, index) => {
-      const selected = this.state.selectedValues.find(v => uniqueIdentifier(v) === uniqueIdentifier(value));
+      const selected = this.state.selectedValues.find(v => uniqueIdentifier(v) === uniqueIdentifier(value))
+        || this.props.value === uniqueIdentifier(this.props.data[index]);
       return (
         <div
           className={`${styleSheet.list} ${index === this.state.focusedData && styleSheet.focusedList}`}
@@ -116,7 +118,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
               {this.props.displayProp(value)}
             </Col>
             <Col span={1} style={colStyle}>
-              {selected && <FaCheck />}
+              {selected && <MdCheck />}
             </Col>
           </Row>
         </div>
@@ -213,7 +215,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
       <div
         key='clear'
         onClick={() => {
-          this.setState({ displayValue: '', selectedValues: [] });
+          this.setState({ displayValue: '', selectedValues: [], searchValue: '' });
           this.props.onChange(null, null);
         }}
       >
@@ -279,17 +281,20 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
           </div>}
           hideArrow
           expand
+          preserveOnClose
         >
-          <Input
-            {...this.props.inputProps}
-            value={this.getInputValue()}
-            onChange={this.onInputChange}
-            onKeyDown={this.onKeyDown}
-            after={this.renderClear()}
-            before={this.renderSelectedOptions()}
-            onFocus={() => this.setState({ isOpen: true })}
-            onBlur={() => this.setState({ isOpen: false })}
-          />
+          <div>
+            <Input
+              {...this.props.inputProps}
+              value={this.getInputValue()}
+              onChange={this.onInputChange}
+              onKeyDown={this.onKeyDown}
+              after={this.renderClear()}
+              before={this.renderSelectedOptions()}
+              onFocus={() => this.setState({ isOpen: true })}
+              onBlur={() => setTimeout(() => this.setState({ isOpen: false }), 250)}
+            />
+          </div>
         </Popover>
       </div>
     );
