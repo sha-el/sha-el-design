@@ -33,6 +33,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
       totalData: this.props.data.length,
       focusedData: -1,
       selectedValues: props.mode === 'multiple' ? this.generateSelectedValues() : [],
+      searchValue: '',
       isOpen: false,
     };
   }
@@ -57,11 +58,11 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
     const value = props.value;
     if (typeof value !== 'object') {
       const obj = props.data.find(v => props.uniqueIdentifier(v) === value);
-      return props.displayProp(obj) || '';
+      return obj && props.displayProp(obj) || '';
     } else if (!value) {
       return this.state.displayValue;
     }
-    return props.displayProp(value as T) || '';
+    return value && props.displayProp(value as T) || '';
   }
 
   generateSelectedValues = (props = this.props) => {
@@ -133,7 +134,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
     this.props.onSearch(e);
 
     this.setState({
-      displayValue: e.target.value,
+      searchValue: e.target.value,
       data,
     });
   }
@@ -182,7 +183,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
       return;
     }
 
-    this.setState({ displayValue: displayProp(obj), isOpen: false });
+    this.setState({ displayValue: displayProp(obj), searchValue: '' });
 
     this.props.onChange(
       this.props.uniqueIdentifier(obj),
@@ -249,7 +250,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
             key={`${this.props.uniqueIdentifier(v)}`}
             className={styleSheet.selectedOptions}
           >
-            <span>{this.props.displayProp(v)}</span>
+            <span>{v && this.props.displayProp(v)}</span>
             <MdClear className={styleSheet.clearIcon} onClick={() => this.removeSelected(index)} />
           </div>
         ),
@@ -259,27 +260,35 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
     return [nestedAccess(this.props.inputProps, 'before'), ...selectedValues];
   }
 
+  getInputValue = () => {
+    if (this.state.isOpen) {
+      return this.state.searchValue;
+    }
+    return this.state.displayValue;
+  }
+
   render() {
     const styleSheet = this.css();
 
     return (
       <div style={{ position: 'relative' }}>
         <Popover
-          trigger='onClick'
+          trigger='onFocus'
           content={<div className={styleSheet.listContainer}>
             {this.displayList()}
           </div>}
-          isVisible={this.state.isOpen}
           hideArrow
           expand
         >
           <Input
             {...this.props.inputProps}
-            value={this.state.displayValue || ''}
+            value={this.getInputValue()}
             onChange={this.onInputChange}
             onKeyDown={this.onKeyDown}
             after={this.renderClear()}
             before={this.renderSelectedOptions()}
+            onFocus={() => this.setState({ isOpen: true })}
+            onBlur={() => this.setState({ isOpen: false })}
           />
         </Popover>
       </div>
@@ -314,6 +323,7 @@ export type AutoCompleteProps<T> = MultiAutoCompleteProps<T> | SingleAutoComplet
 
 interface State<T> {
   displayValue: string | string[];
+  searchValue: string;
   theme: Theme;
   data: T[];
   totalData: number;

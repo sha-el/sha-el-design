@@ -93,7 +93,7 @@ export class Calendar extends React.Component<CalendarProps, State> {
               inputProps={{ label: 'Month' }}
               value={months[date[1]]}
               uniqueIdentifier={(e) => e}
-              displayProp={(e) => e}
+              displayProp={(e) => e.toString()}
               onChange={this.monthChange}
             />
           </Col>

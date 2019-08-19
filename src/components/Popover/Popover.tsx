@@ -163,11 +163,30 @@ export class Popover extends React.Component<PopoverProps, State> {
       return;
     }
     this.setState({ isVisible: true }, () => this.setState({ position: this.position() }));
-    this.child.current.addEventListener('mouseleave', () => this.setState({ isVisible: false }));
   }
 
-  closePopOver = (e: any) => {
-    this.setState({ isVisible: false });
+  triggerOnFocus = () => {
+    const { trigger } = this.props;
+    if (trigger !== 'onFocus') {
+      return;
+    }
+    this.setState({ isVisible: true }, () => this.setState({ position: this.position() }));
+  }
+
+  closePopOver = (e: React.MouseEvent | React.FocusEvent) => {
+    const { trigger } = this.props;
+    if ((
+      e.type === 'mouseover' && trigger === 'onHover'
+    ) || (
+      e.type === 'click' && trigger === 'onClick'
+    ) || (
+      e.type === 'blur' && trigger === 'onFocus'
+    )) {
+      setTimeout(
+        () => this.setState({ isVisible: false }),
+        300,
+      );
+    }
   }
 
   render() {
@@ -178,7 +197,12 @@ export class Popover extends React.Component<PopoverProps, State> {
         style={{ zIndex: 2001 }}
         key='container'
       >
-        {React.cloneElement(this.props.children, { ref: this.child })}
+        <div
+          onFocus={this.triggerOnFocus}
+          onBlur={this.closePopOver}
+        >
+          {React.cloneElement(this.props.children, { ref: this.child })}
+        </div>
         <Portal>
           {this.renderContent()}
         </Portal>
@@ -188,6 +212,7 @@ export class Popover extends React.Component<PopoverProps, State> {
       <Portal key='overlay'>
         <div
           onClick={this.closePopOver}
+          onMouseOver={this.closePopOver}
           style={{
             position: 'fixed',
             top: 0,
@@ -232,7 +257,7 @@ function css() {
 interface PopoverProps {
   children: React.ReactElement<any>;
   title?: React.ReactNode;
-  trigger?: 'onClick' | 'onHover';
+  trigger?: 'onClick' | 'onHover' | 'onFocus';
   postion?: 'top' | 'left' | 'bottom' | 'right';
   content?: React.ReactNode;
   hideArrow?: boolean;
