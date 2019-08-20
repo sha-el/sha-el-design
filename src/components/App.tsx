@@ -32,7 +32,10 @@ export class App extends React.Component {
 
   render() {
     return (
-      <Calendar />
+      <>
+        <Popover content={'adad'} trigger='onClick' ><span>hello</span></Popover>
+        <Calendar />
+      </>
     );
   }
 }

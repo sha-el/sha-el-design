@@ -61,7 +61,7 @@ export class MenuItemGroup extends React.Component<MenuItemGroupProps, State> {
                         </div>
                       }
                       trigger='onClick'
-                      postion='right'
+                      position='right'
                       style={{
                         content: {
                           padding: '0',

@@ -185,7 +185,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
       return;
     }
 
-    this.setState({ displayValue: displayProp(obj), searchValue: '' });
+    this.setState({ displayValue: displayProp(obj), searchValue: '', isOpen: false });
 
     this.props.onChange(
       this.props.uniqueIdentifier(obj),
@@ -269,16 +269,23 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
     return this.state.displayValue;
   }
 
+  updateListState = (isOpen: boolean) => this.setState({ isOpen });
+
   render() {
     const styleSheet = this.css();
+
+    const { isOpen } = this.state;
 
     return (
       <div style={{ position: 'relative' }}>
         <Popover
-          trigger='onFocus'
+          position='bottomLeft'
+          trigger='onClick'
           content={<div className={styleSheet.listContainer}>
             {this.displayList()}
           </div>}
+          visible={isOpen}
+          onVisibleChange={this.updateListState}
           hideArrow
           expand
           preserveOnClose
@@ -291,8 +298,6 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
               onKeyDown={this.onKeyDown}
               after={this.renderClear()}
               before={this.renderSelectedOptions()}
-              onFocus={() => this.setState({ isOpen: true })}
-              onBlur={() => setTimeout(() => this.setState({ isOpen: false }), 250)}
             />
           </div>
         </Popover>

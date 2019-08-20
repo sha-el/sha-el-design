@@ -5,6 +5,8 @@ import { normalize } from 'csstips';
 import { ThemeService } from './theme';
 import { initializeNotification } from './../components/Notification/Notification';
 
+import popverCss from './popover.css';
+
 export function removeObjectProperties<T>(obj: T, ...props: (keyof T)[]): Omit<T, keyof T> {
   obj = { ...obj };
   for (let i = 0; i < props.length; i++) {
@@ -68,8 +70,8 @@ export function initialize() {
   a {
     background: inherit;
     text-decoration: none;
-
   }
+  ${popverCss}
 `);
 
   new ThemeService();
