@@ -2,6 +2,7 @@ import * as React from 'react';
 import { stylesheet } from 'typestyle';
 import RCTooltip from 'rc-tooltip';
 import { styleEnum } from '../../helpers/constants';
+import { isBrowser } from '../../helpers';
 
 export class Popover extends React.Component<PopoverProps, State> {
 
@@ -20,11 +21,19 @@ export class Popover extends React.Component<PopoverProps, State> {
 
     this.state = {
       childWidth: 0,
+      isBrowser: false,
     };
   }
 
   componentDidMount() {
     this.setState({ childWidth: this.child.current.offsetWidth });
+  }
+
+  isBrowser = () => {
+    if (isBrowser()) {
+      return this.setState({ isBrowser: true });
+    }
+    setTimeout(this.isBrowser, 500);
   }
 
   renderContent = () => {
@@ -51,6 +60,9 @@ export class Popover extends React.Component<PopoverProps, State> {
     const { trigger, children, preserveOnClose, position,
       style: { container: containerStyle }, onVisibleChange, visible } = this.props;
     const style = this.css();
+    if (!this.state.isBrowser) {
+      return React.cloneElement(children, { ref: this.child });
+    }
     return (
       <RCTooltip
         placement={position}
@@ -62,7 +74,7 @@ export class Popover extends React.Component<PopoverProps, State> {
         overlayStyle={containerStyle}
         onVisibleChange={(v) => {
           v && this.setState({ childWidth: this.child.current.offsetWidth });
-          onVisibleChange(v);
+          onVisibleChange && onVisibleChange(v);
         }}
         visible={visible}
       >
@@ -119,4 +131,5 @@ interface PopoverProps {
 
 interface State {
   childWidth: number;
+  isBrowser: boolean;
 }
