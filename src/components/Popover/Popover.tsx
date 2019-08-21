@@ -22,11 +22,22 @@ export class Popover extends React.Component<PopoverProps, State> {
     this.state = {
       childWidth: 0,
       isBrowser: false,
+      visible: false,
     };
   }
 
   componentDidMount() {
     this.setState({ childWidth: this.child.current.offsetWidth });
+    this.isBrowser();
+  }
+
+  static getDerivedStateFromProps(props: PopoverProps, state: State): Partial<State> {
+    if (props.visible !== state.visible && props.visible !== undefined) {
+      return {
+        visible: props.visible,
+      };
+    }
+    return null;
   }
 
   isBrowser = () => {
@@ -58,11 +69,13 @@ export class Popover extends React.Component<PopoverProps, State> {
 
   render() {
     const { trigger, children, preserveOnClose, position,
-      style: { container: containerStyle }, onVisibleChange, visible } = this.props;
+      style: { container: containerStyle }, onVisibleChange } = this.props;
     const style = this.css();
+
     if (!this.state.isBrowser) {
       return React.cloneElement(children, { ref: this.child });
     }
+
     return (
       <RCTooltip
         placement={position}
@@ -73,10 +86,10 @@ export class Popover extends React.Component<PopoverProps, State> {
         overlayClassName={style.container}
         overlayStyle={containerStyle}
         onVisibleChange={(v) => {
-          v && this.setState({ childWidth: this.child.current.offsetWidth });
+          this.setState({ visible: v, childWidth: this.child.current.offsetWidth });
           onVisibleChange && onVisibleChange(v);
         }}
-        visible={visible}
+        visible={this.state.visible}
       >
         {React.cloneElement(children, { ref: this.child })}
       </RCTooltip>
@@ -132,4 +145,5 @@ interface PopoverProps {
 interface State {
   childWidth: number;
   isBrowser: boolean;
+  visible: boolean;
 }
