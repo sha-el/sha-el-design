@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { Input, Row, Col, Radio, Button } from '../';
-import { RadioGroup, RadioButton } from '../';
 import { Popover } from './Popover';
 import { Calendar } from './Calendar';
-import { AutoComplete } from './AutoComplete';
-import { MdSearch, MdPermIdentity, MdShoppingCart } from 'react-icons/md';
+import { Page } from './Page/Page';
+import { MdArrowBack } from 'react-icons/md';
+import { Tag } from './Tag';
 
 export class App extends React.Component {
 
@@ -32,10 +31,19 @@ export class App extends React.Component {
 
   render() {
     return (
-      <>
+      <Page
+        title='Calendar'
+        subtitle='sub title'
+        breadcrumbs={{
+          seperator: '/',
+          paths: ['home', 'calendar'].map(v => ({ render: () => v })),
+        }}
+        backIcon={<MdArrowBack size={25} />}
+        tags={[<Tag color='red' key={'calendar'}>Calendar</Tag>, <Tag color='blue' key='blue'>Blue</Tag>]}
+      >
         <Popover content={'adad'} trigger='onClick' ><span>hello</span></Popover>
         <Calendar />
-      </>
+      </Page>
     );
   }
 }

@@ -6,6 +6,7 @@ import { ThemeService } from './theme';
 import { initializeNotification } from './../components/Notification/Notification';
 
 import popverCss from './popover.css';
+import topography from './topography.css';
 
 export function removeObjectProperties<T>(obj: T, ...props: (keyof T)[]): Omit<T, keyof T> {
   obj = { ...obj };
@@ -72,6 +73,7 @@ export function initialize() {
     text-decoration: none;
   }
   ${popverCss}
+  ${topography}
 `);
 
   new ThemeService();
