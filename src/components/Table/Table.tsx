@@ -20,8 +20,8 @@ export class Table<T> extends React.Component<TableProps<T>, {}> {
           {this.props.columns.map(f => {
             return (
               <td key={`table-column-${f.key}-${index}`}>
-                {f.render ? f.render(v[f.dataIndex], v) : v[f.dataIndex]}
-                {f.children ? f.children(v[f.dataIndex], v) : ''}
+                {f.render ? f.render(v[f.dataIndex], v, index) : v[f.dataIndex]}
+                {f.children ? f.children(v[f.dataIndex], v, index) : ''}
               </td>
             );
           })}
@@ -128,6 +128,6 @@ export interface Colums<T> {
   key: string;
   dataIndex?: keyof T;
   header?: React.ReactNode;
-  render?: (text: T[keyof T], obj: T) => React.ReactNode;
-  children?: (text: T[keyof T], obj: T) => React.ReactNode;
+  render?: (text: T[keyof T], obj: T, index: number) => React.ReactNode;
+  children?: (text: T[keyof T], obj: T, index: number) => React.ReactNode;
 }
