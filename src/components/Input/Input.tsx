@@ -152,7 +152,6 @@ function style(theme: Theme, isError: boolean, label: boolean) {
       float: 'right',
     },
     seudo: {
-      padding: '0 5px',
       display: 'flex',
       alignItems: 'center',
     },

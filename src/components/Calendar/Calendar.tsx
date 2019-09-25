@@ -89,6 +89,7 @@ export class Calendar extends React.Component<CalendarProps, State> {
         <Row>
           <Col span={12}>
             <AutoComplete
+              isSelect
               data={months}
               inputProps={{ label: 'Month' }}
               value={months[date[1]]}
@@ -99,6 +100,7 @@ export class Calendar extends React.Component<CalendarProps, State> {
           </Col>
           <Col span={12}>
             <AutoComplete
+              isSelect
               data={arrayBetween(1980, 2030)}
               inputProps={{ label: 'Year' }}
               value={date[0]}

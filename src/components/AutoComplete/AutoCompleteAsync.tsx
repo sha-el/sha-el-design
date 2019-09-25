@@ -1,19 +1,20 @@
 import * as React from 'react';
-import { MdClear, MdCheck } from 'react-icons/md';
-
-import { Input } from '../Input';
-import { InputProps } from '../Input/Input';
-import { Popover } from '../Popover';
-import { stylesheet } from 'typestyle';
-import { styleEnum } from '../../helpers/constants';
-import { ThemeService, Theme } from '../../helpers/theme';
-import { getColor, nestedAccess } from '../../helpers';
+import { MdCheck, MdClear } from 'react-icons/md';
 import { color } from 'csx';
-import { Row, Col } from '../Grid';
+import { stylesheet } from 'typestyle';
 
-export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State<T>> {
+import { Popover } from '../Popover';
+import { Row, Col } from '../Grid';
+import { InputProps, Input } from '../Input/Input';
+import { ThemeService, Theme } from '../../helpers/theme';
+import { nestedAccess, getColor } from '../../helpers';
+import { styleEnum } from '../../helpers/constants';
+import { Tag } from '../Tag';
+
+export class AutoCompleteAsync<T> extends React.Component<AutoCompleteAsyncProps<T>, State<T>> {
   css = css.bind(this);
   private readonly theme = new ThemeService();
+  private listContainerEl: HTMLDivElement = null;
 
   static defaultProps = {
     filterFunction: (inputValue, value) => value.toLowerCase().includes(inputValue.toLowerCase()),
@@ -22,16 +23,13 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
     mode: 'single',
   };
 
-  constructor(props: AutoCompleteProps<T>) {
+  constructor(props: AutoCompleteAsyncProps<T>) {
     super(props);
 
     this.state = {
-      displayValue: this.getValue(),
+      data: [],
       theme: this.theme.selectedTheme$.value,
-      data: props.data,
-      totalData: this.props.data.length,
       focusedData: -1,
-      selectedValues: props.mode === 'multiple' ? this.generateSelectedValues() : [],
       searchValue: '',
       isOpen: false,
     };
@@ -41,36 +39,13 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
     new ThemeService().selectedTheme$.subscribe(theme => this.setState({ theme }));
   }
 
-  componentWillReceiveProps(nextProps: AutoCompleteProps<T>) {
-    if (!(this.state.displayValue === this.getValue(nextProps))) {
-      this.setState({ displayValue: this.getValue(nextProps) });
-    }
-    if (nextProps.mode === 'multiple') {
-      this.setState({ selectedValues: this.generateSelectedValues(nextProps) });
-    }
-  }
-
-  getValue = (props = this.props) => {
-    if (props.mode === 'multiple') {
-      return;
-    }
-    const value = props.value;
-    if (typeof value !== 'object') {
-      const obj = props.data.find(v => props.uniqueIdentifier(v) === value);
-      return obj && props.displayProp(obj) || '';
-    } else if (!value) {
-      return this.state.displayValue;
-    }
-    return value && props.displayProp(value as T) || '';
-  }
-
   generateSelectedValues = (props = this.props) => {
-    const selectedValues = props.data.filter(v => (props.value as T[keyof T][]).includes(props.uniqueIdentifier(v)));
-    return selectedValues;
+    return (props.value as T[]).map(v => this.props.displayProp(v));
   }
 
   displayList = () => {
     const styleSheet = this.css();
+    let selected = null;
 
     const {
       uniqueIdentifier,
@@ -83,14 +58,15 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
 
     if (this.props.renderOptions) {
       return this.props.renderOptions.map((value, index, array) => {
-        const selected = this.state.selectedValues.find(
-          v => uniqueIdentifier(v) === uniqueIdentifier(this.props.data[index]),
-        ) || this.props.value === uniqueIdentifier(this.props.data[index]);
+        if (this.props.value) {
+          selected = this.props.mode === 'single' ? uniqueIdentifier(this.props.value) === uniqueIdentifier(this.state.data[index])
+            : this.props.value.find(v => uniqueIdentifier(v) === uniqueIdentifier(this.state.data[index]));
+        }
         return (
           <div
             className={`${styleSheet.list} ${index === this.state.focusedData && styleSheet.focusedList}`}
             key={`${index}-auto`}
-            onClick={() => !selected && this.onSelect(this.props.data, index)}
+            onClick={() => !selected && this.onSelect(this.state.data, index)}
           >
             <Row>
               <Col span={23} style={colStyle}>
@@ -105,8 +81,10 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
     }
 
     return this.state.data.map((value, index) => {
-      const selected = this.state.selectedValues.find(v => uniqueIdentifier(v) === uniqueIdentifier(value))
-        || this.props.value === uniqueIdentifier(this.props.data[index]);
+      if (this.props.value) {
+        selected = this.props.mode === 'single' ? uniqueIdentifier(this.props.value) === uniqueIdentifier(this.state.data[index])
+          : this.props.value.find(v => uniqueIdentifier(v) === uniqueIdentifier(this.state.data[index]));
+      }
       return (
         <div
           className={`${styleSheet.list} ${index === this.state.focusedData && styleSheet.focusedList}`}
@@ -127,24 +105,25 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
   }
 
   onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {
-      displayProp,
-    } = this.props;
+    if (e.target.value.length < 3) {
+      return this.setState({ searchValue: e.target.value });
+    }
 
-    const data = this.props.data.filter((value, index, array) =>
-      this.props.filterFunction(e.target.value, displayProp(value), value, index, array));
+    this.props.data(e.target.value).then(
+      (v) => {
+        this.setState({ data: v });
+      },
+    );
 
-    this.setState({
-      displayValue: e.target.value,
-      data,
-    });
+    this.setState({ searchValue: e.target.value });
   }
 
   moveDown = () => {
     const {
       focusedData,
-      totalData,
     } = this.state;
+
+    const totalData = this.listContainerEl.children.length;
 
     if (focusedData === totalData - 1) {
       return this.setState({ focusedData: 0 });
@@ -155,8 +134,9 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
   moveUp = () => {
     const {
       focusedData,
-      totalData,
     } = this.state;
+
+    const totalData = this.listContainerEl.children.length;
 
     if (focusedData === 0) {
       return this.setState({ focusedData: totalData - 1 });
@@ -166,28 +146,20 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
 
   onSelect = (data: T[], index?: number) => {
     const {
-      focusedData,
-      selectedValues,
-    } = this.state;
-
-    const {
-      displayProp,
-      uniqueIdentifier,
+      value,
     } = this.props;
 
     const obj = data[index];
 
     if (this.props.mode === 'multiple') {
-      const newSelectedValues = selectedValues.concat([obj]);
-      this.setState({ selectedValues: newSelectedValues });
-      this.props.onChange(newSelectedValues.map(uniqueIdentifier), newSelectedValues);
+      const newSelectedValues = (value as T[]).concat([obj]);
+      this.props.onChange(newSelectedValues);
       return;
     }
 
-    this.setState({ displayValue: displayProp(obj), searchValue: '', isOpen: false });
+    this.setState({ searchValue: '', isOpen: false });
 
     this.props.onChange(
-      this.props.uniqueIdentifier(obj),
       obj,
     );
   }
@@ -208,52 +180,44 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
 
   renderClear = () => {
     if (!this.props.allowClear) {
-      return nestedAccess(this.props.inputProps, 'after');
+      return null;
     }
     return [(
       <div
         key='clear'
         onClick={() => {
-          this.setState({ displayValue: '', selectedValues: [], searchValue: '' });
-          this.props.onChange(null, null);
+          this.setState({ searchValue: '' });
+          this.props.onChange(null);
         }}
       >
         <MdClear style={{ cursor: 'pointer' }} />
       </div>
-    ),
-    nestedAccess(this.props.inputProps, 'after'),
-    ];
+    )];
   }
 
   removeSelected = (index: number) => {
     if (this.props.mode === 'single') {
       return;
     }
-    const { selectedValues } = this.state;
-    const { uniqueIdentifier } = this.props;
 
-    selectedValues.splice(index, 1);
-    this.setState({ selectedValues });
-    this.props.onChange(selectedValues.map(uniqueIdentifier), selectedValues);
+    this.props.onChange(this.props.value.filter((v, i) => i !== index));
   }
 
   renderSelectedOptions = () => {
     if (this.props.mode === 'single') {
-      return nestedAccess(this.props.inputProps, 'before');
+      return null;
     }
 
-    const styleSheet = this.css();
-
     const selectedValues = (
-      this.state.selectedValues.map(
+      this.props.value.map(
         (v, index) => (
-          <div
+          <Tag
             key={`${this.props.uniqueIdentifier(v)}`}
-            className={styleSheet.selectedOptions}
+            color={this.state.theme.secondary}
+            onClose={() => this.removeSelected(index)}
           >
-            <span>{v && this.props.displayProp(v)}</span>
-            <MdClear className={styleSheet.clearIcon} onClick={() => this.removeSelected(index)} />
-          </div>
+            {v && this.props.displayProp(v)}
+          </Tag>
         ),
       )
     );
@@ -274,25 +238,34 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
           position='bottomLeft'
           trigger='onClick'
           content={<div className={styleSheet.listContainer}>
-            {this.displayList()}
+            <Input
+              {...this.props.inputProps}
+              value={this.state.searchValue}
+              onChange={this.onInputChange}
+              onKeyDown={this.onKeyDown}
+              autoFocus
+            />
+            <div ref={(e) => this.listContainerEl = e}>
+              {this.displayList()}
+            </div>
           </div>}
           visible={isOpen}
           onVisibleChange={this.updateListState}
-          align={this.props.isSelect && {
+          align={{
             targetOffset: [0, 45],
           }}
           hideArrow
           expand
-          preserveOnClose
         >
           <div>
             <Input
               {...this.props.inputProps}
-              value={this.state.displayValue}
-              onChange={this.onInputChange}
-              onKeyDown={this.onKeyDown}
-              after={this.renderClear()}
+              value={this.props.mode === 'single' && this.props.value
+                ? this.props.displayProp(this.props.value) : ''}
               before={this.renderSelectedOptions()}
+              after={this.renderClear()}
+              label={this.props.label}
+              readOnly
             />
           </div>
         </Popover>
@@ -302,38 +275,35 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
 }
 
 interface BaseAutoCompleteProps<T> {
-  data: T[];
-  isSelect?: boolean;
+  data: (search: string) => Promise<T[]>;
+  label: React.ReactNode;
   uniqueIdentifier: (v: T) => T[keyof T];
-  displayProp: (v: T | null) => string;
+  displayProp: (v: T) => string;
   inputProps?: InputProps;
-  filterFunction?: (inputValue: string, displayProp: string, value: T, index: number, array: T[]) => boolean;
   renderOptions?: React.ReactNode[];
+  onSearch?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   allowClear?: boolean;
 }
 
 type SingleAutoCompleteProps<T> = {
   mode?: 'single';
-  value: T[keyof T] | T;
-  onChange: (value: T[keyof T], obj: T) => void;
+  value: T;
+  onChange: (value: T) => void;
 } & BaseAutoCompleteProps<T>;
 
 type MultiAutoCompleteProps<T> = {
   mode?: 'multiple';
-  value: Array<T[keyof T] | T>;
-  onChange: (value: Array<T[keyof T]>, obj: T[]) => void;
+  value: T[];
+  onChange: (value: T[]) => void;
 } & BaseAutoCompleteProps<T>;
 
-export type AutoCompleteProps<T> = MultiAutoCompleteProps<T> | SingleAutoCompleteProps<T>;
+export type AutoCompleteAsyncProps<T> = SingleAutoCompleteProps<T> | MultiAutoCompleteProps<T>;
 
 interface State<T> {
-  displayValue: string | string[];
   searchValue: string;
   theme: Theme;
   data: T[];
-  totalData: number;
   focusedData: number;
-  selectedValues: T[];
   isOpen: boolean;
 }
 
@@ -359,10 +329,8 @@ function css() {
     },
     selectedOptions: {
       border: '1px solid ' + styleEnum.borderColor,
-      padding: '5px 10px',
       fontSize: '10px',
-      position: 'relative',
-      margin: '0 2px',
+      background: 'white',
     },
     clearIcon: {
       padding: '2px',

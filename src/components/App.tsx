@@ -4,6 +4,7 @@ import { Calendar } from './Calendar';
 import { Page } from './Page/Page';
 import { MdArrowBack } from 'react-icons/md';
 import { Tag } from './Tag';
+import { AutoCompleteAsync } from './AutoComplete';
 
 export class App extends React.Component {
 
@@ -19,7 +20,7 @@ export class App extends React.Component {
   }];
 
   state = {
-    value: '1',
+    value: null,
     name: '',
     response: this.response,
   };
@@ -41,8 +42,17 @@ export class App extends React.Component {
         backIcon={<MdArrowBack size={25} />}
         tags={[<Tag color='red' key={'calendar'}>Calendar</Tag>, <Tag color='blue' key='blue'>Blue</Tag>]}
       >
-        <Popover content={'adad'} trigger='onClick' ><span>hello</span></Popover>
-        <Calendar />
+        <AutoCompleteAsync<{name: string, id: string}>
+          mode='single'
+          value={this.state.value}
+          uniqueIdentifier={(v) => v.id}
+          displayProp={(v) => v.name}
+          data={(v: string) => new Promise((resolve, reject) => {
+            resolve(this.response.filter(s => s.name.includes(v)));
+          })}
+          onChange={(value) => this.setState({ value })}
+          label='Hello'
+        />
       </Page>
     );
   }

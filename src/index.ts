@@ -2,7 +2,7 @@ import { initialize } from './helpers';
 
 initialize();
 
-export { AutoComplete } from './components/AutoComplete';
+export { AutoComplete, AutoCompleteAsync } from './components/AutoComplete';
 export { Button, ButtonGroup } from './components/Button';
 export { Card } from './components/Card';
 export { Row, Col } from './components/Grid';

@@ -1,5 +1,2 @@
-import { AutoComplete } from './AutoComplete';
-
-export {
-  AutoComplete,
-};
+export { AutoComplete } from './AutoComplete';
+export { AutoCompleteAsync } from './AutoCompleteAsync';

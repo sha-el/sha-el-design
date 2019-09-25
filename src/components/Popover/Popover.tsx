@@ -90,6 +90,7 @@ export class Popover extends React.Component<PopoverProps, State> {
           onVisibleChange && onVisibleChange(v);
         }}
         visible={this.state.visible}
+        align={this.props.align}
       >
         {React.cloneElement(children, { ref: this.child })}
       </RCTooltip>
@@ -139,7 +140,7 @@ interface PopoverProps {
   preserveOnClose?: boolean;
   visible?: boolean;
   onVisibleChange?: (visible?: boolean) => void;
-
+  align?: object;
 }
 
 interface State {

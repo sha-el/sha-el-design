@@ -17,17 +17,17 @@
     "lib": [
       "es6",
       "dom",
-      "esnext",
+      "esnext"
     ]
   },
   "include": [
-    "src/*",
+    "src/*"
   ],
   "exclude": [
     "node_modules",
     "**/*.spec.ts",
     "./src/main.tsx",
-    "./src/components/App.tsx",
+    "./src/components/App.tsx"
   ],
   "awesomeTypescriptLoaderOptions": {
     "reportFiles": [
