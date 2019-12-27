@@ -4,7 +4,6 @@ import { Theme, ThemeService } from '../../helpers/theme';
 import { getColor, removeObjectProperties } from '../../helpers';
 import { styleEnum } from '../../helpers/constants';
 import { color } from 'csx';
-import { Ripple } from './Ripple';
 
 export class Button extends React.Component<ButtonProps, State> {
   css = css.bind(this);
@@ -30,14 +29,15 @@ export class Button extends React.Component<ButtonProps, State> {
       type,
       size,
       shape,
+      link,
       ...rest
     } = this.props;
 
     const linkButtonRestProps = removeObjectProperties(rest as AnchorButtonProps, 'type');
-    if (rest.href !== undefined) {
+    if (rest.href !== undefined || link) {
       return (
         <a
-          className={`${style.default} ${style.anchor}`}
+          className={`${style.anchor} ${style.default}`}
           {...linkButtonRestProps}
         >
           {this.props.children}
@@ -97,12 +97,7 @@ function css() {
   const hoverBgColor = color(baseColor).darken(.1).toHexString();
   return stylesheet({
     default: {
-      ...getSize(this.props.size, this.props.shape, this.props.displayBlock),
       display: 'block',
-      textAlign: 'center',
-      lineHeight: '34px',
-      background: baseColor,
-      color: getColor(baseColor),
       border: 'none',
       cursor: 'pointer',
       textDecoration: 'none',
@@ -123,7 +118,12 @@ function css() {
       },
     },
     button: {
+      ...getSize(this.props.size, this.props.shape, this.props.displayBlock),
       boxShadow: '0 2px 0 rgba(0,0,0,0.045)',
+      textAlign: 'center',
+      lineHeight: '34px',
+      background: baseColor,
+      color: getColor(baseColor),
       $nest: {
         '&:hover': !disabled && {
           background: hoverBgColor,
@@ -132,12 +132,10 @@ function css() {
       },
     },
     anchor: {
-      $nest: {
-        '&:hover': {
-          color: getColor(baseColor),
-          fontWeight: 'bolder',
-        },
-      },
+      color: baseColor,
+      background: 'white',
+      textAlign: 'left',
+      cursor: 'pointer',
     },
   });
 }
@@ -151,6 +149,7 @@ export interface BaseButtonProps {
   shape?: shapeTypes;
   className?: string;
   displayBlock?: boolean;
+  link?: boolean;
 
   // For anchor tag
   href?: string;
@@ -161,11 +160,13 @@ export interface BaseButtonProps {
 export type AnchorButtonProps = {
   href?: string;
   target?: string;
+  link?: true,
   onClick?: React.MouseEventHandler<HTMLAnchorElement>;
 } & BaseButtonProps &
   React.AnchorHTMLAttributes<HTMLAnchorElement>;
 
 export type NativeButtonProps = {
+  link?: false,
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 } & BaseButtonProps &
   React.ButtonHTMLAttributes<HTMLButtonElement>;

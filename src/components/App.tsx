@@ -47,16 +47,19 @@ export class App extends React.Component {
             },
           }}
           footer={
-            <Button displayBlock type='primary'>
-              Sumbit
-            </Button>
+            <>
+              <Button type='primary' link>Forget Password?</Button>
+            </>
           }
         >
           <Input placeholder='Email Sender askda' hint='Add Email' before={<FaMedal />} label='Email' after={<FaAccessibleIcon />} />
           <Input label='Password' defaultValue='Hello?' />
+          <Button displayBlock type='primary'>
+            Sumbit
+          </Button>
         </Card>
         <Table
-          data={[{name: 'name', age: 'age'}]}
+          data={[{ name: 'name', age: 'age' }]}
           columns={[{
             header: 'name',
             key: 'name',
