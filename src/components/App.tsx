@@ -5,6 +5,10 @@ import { Page } from './Page/Page';
 import { MdArrowBack } from 'react-icons/md';
 import { Tag } from './Tag';
 import { AutoCompleteAsync } from './AutoComplete';
+import { Input } from './Input';
+import { Card, Button } from '..';
+import { Table } from './Table';
+import { FaMedal, Fa500Px, FaAccessibleIcon } from 'react-icons/fa';
 
 export class App extends React.Component {
 
@@ -32,28 +36,38 @@ export class App extends React.Component {
 
   render() {
     return (
-      <Page
-        title='Calendar'
-        subtitle='sub title'
-        breadcrumbs={{
-          seperator: '/',
-          paths: ['home', 'calendar'].map(v => ({ render: () => v })),
-        }}
-        backIcon={<MdArrowBack size={25} />}
-        tags={[<Tag color='red' key={'calendar'}>Calendar</Tag>, <Tag color='blue' key='blue'>Blue</Tag>]}
-      >
-        <AutoCompleteAsync<{name: string, id: string}>
-          mode='single'
-          value={this.state.value}
-          uniqueIdentifier={(v) => v.id}
-          displayProp={(v) => v.name}
-          data={(v: string) => new Promise((resolve, reject) => {
-            resolve(this.response.filter(s => s.name.includes(v)));
-          })}
-          onChange={(value) => this.setState({ value })}
-          label='Hello'
+      <>
+        <Card
+          title='Login'
+          subtitle='Please Enter Username Password'
+          style={{
+            container: {
+              width: '50%',
+              margin: 'auto',
+            },
+          }}
+          footer={
+            <Button displayBlock type='primary'>
+              Sumbit
+            </Button>
+          }
+        >
+          <Input placeholder='Email Sender askda' hint='Add Email' before={<FaMedal />} label='Email' after={<FaAccessibleIcon />} />
+          <Input label='Password' defaultValue='Hello?' />
+        </Card>
+        <Table
+          data={[{name: 'name', age: 'age'}]}
+          columns={[{
+            header: 'name',
+            key: 'name',
+            dataIndex: 'name',
+          }, {
+            header: 'age',
+            key: 'age',
+            dataIndex: 'age',
+          }]}
         />
-      </Page>
+      </>
     );
   }
 }

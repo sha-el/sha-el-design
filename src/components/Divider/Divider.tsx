@@ -4,7 +4,7 @@ import { NestedCSSProperties } from 'typestyle/lib/types';
 
 export const Divider: React.StatelessComponent<Props> = (props) => {
   return (
-    <div style={props.style} className={`${css} ${props.children ? psuedoWithChild : psuedoWithoutChild} ${props.className}`}>
+    <div style={props.style} className={`${css(props.color)} ${props.children ? psuedoWithChild : psuedoWithoutChild} ${props.className}`}>
       {props.children}
     </div>
   );
@@ -12,21 +12,25 @@ export const Divider: React.StatelessComponent<Props> = (props) => {
 
 Divider.defaultProps = {
   className: '',
+  color: '#ccc',
 };
 
 interface Props {
   style?: React.CSSProperties;
   className?: string;
+  color?: string;
 }
 
-const commonStyle: NestedCSSProperties = {
-  content: '" "',
-  background: '#ccc',
-  height: '1px',
-  zIndex: -1,
-  display: 'block',
-  position: 'absolute',
-  top: 'calc(50% - 2px)',
+const commonStyle = (color: string): NestedCSSProperties => {
+  return ({
+    content: '" "',
+    background: color,
+    height: '1px',
+    zIndex: -1,
+    display: 'block',
+    position: 'absolute',
+    top: 'calc(50% - 2px)',
+  });
 };
 
 const psuedoWithChild = style({
@@ -51,7 +55,7 @@ const psuedoWithoutChild = style({
   },
 });
 
-const css = style({
+const css = (color: string) => style({
   width: '100%',
   textAlign: 'center',
   position: 'relative',
@@ -62,11 +66,11 @@ const css = style({
   $nest: {
     '&::before': {
       left: 0,
-      ...commonStyle,
+      ...commonStyle(color),
     },
     '&::after': {
       right: 0,
-      ...commonStyle,
+      ...commonStyle(color),
     },
   },
 });

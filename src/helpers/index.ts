@@ -60,11 +60,6 @@ export function getColor(clr: string, black = '#000000', white = '#ffffff') {
 export function initialize() {
 
   cssRaw(`
-  @import url('https://fonts.googleapis.com/css?family=Nanum+Myeongjo:400,700,800&display=swap');
-
-  * {
-    font-family: 'Nanum Myeongjo', serif !important;
-  }
   body {
     background: rgb(240, 242, 245)
   }

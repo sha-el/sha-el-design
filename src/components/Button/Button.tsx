@@ -57,13 +57,13 @@ export class Button extends React.Component<ButtonProps, State> {
   }
 }
 
-function getSize(size: sizeTypes, shape: shapeTypes) {
+function getSize(size: sizeTypes, shape: shapeTypes, block: boolean) {
   let style = {
     padding: '0 20px',
     height: '34px',
     fontSize: '14px',
-    width: 'auto',
-    borderRadius: '2px',
+    width: block ? '100%' : 'auto',
+    borderRadius: '4px',
   };
   switch (size) {
     case 'big': {
@@ -97,7 +97,7 @@ function css() {
   const hoverBgColor = color(baseColor).darken(.1).toHexString();
   return stylesheet({
     default: {
-      ...getSize(this.props.size, this.props.shape),
+      ...getSize(this.props.size, this.props.shape, this.props.displayBlock),
       display: 'block',
       textAlign: 'center',
       lineHeight: '34px',
@@ -150,6 +150,7 @@ export interface BaseButtonProps {
   size?: sizeTypes;
   shape?: shapeTypes;
   className?: string;
+  displayBlock?: boolean;
 
   // For anchor tag
   href?: string;

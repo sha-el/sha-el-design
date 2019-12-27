@@ -36,15 +36,14 @@ export class Card extends React.Component<CardProps, State> {
       <div className={style.container} style={container}>
         {(title || subtitle) &&
           <div className={style.header} style={head}>
-            {title}
-            <div className={style.subtitle}>{subtitle}</div>
+            <h3>{title}</h3>
+            <h5>{subtitle}</h5>
           </div>
         }
         <div className={style.body} style={body}>
           {children}
         </div>
         {footer && <div className={style.footer}>
-          <Divider className={style.divider} />
           {footer}
         </div>}
       </div>
@@ -58,34 +57,20 @@ export class Card extends React.Component<CardProps, State> {
       padding: 0,
       margin: '10px',
       background: 'white',
-      marginTop: '40px',
+      boxSizing: 'border-box',
     },
     header: {
-      fontSize: '20px',
-      fontWeight: 'bold',
-      borderRadius: '3px',
-      marginTop: '-20px',
-      margin: '0 15px',
-      padding: '15px',
-      boxShadow: '0 4px 20px 0 rgba(0,0,0,.14), 0 7px 10px -5px ' + color(this.state.theme.secondary).darken(.3),
-      zIndex: 3,
-      color: getColor(this.state.theme.secondary),
-      background: `linear-gradient(60deg, ${this.state.theme.secondary},
-        ${color(this.state.theme.secondary).darken(.05)})`,
-    },
-    subtitle: {
-      fontSize: '12px',
-      fontWeight: 400,
+      padding: '16px 24px',
+      boxShadow: styleEnum.shadow_bot_2x,
     },
     divider: {
       margin: '0px 0 10px',
     },
     body: {
-      padding: '10px',
-      marginTop: '10px',
+      padding: '24px 24px 10px',
     },
     footer: {
-      padding: '10px',
+      padding: '0 24px 10px',
     },
   })
 }
