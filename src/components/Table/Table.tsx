@@ -105,8 +105,7 @@ export class Table<T> extends React.Component<TableProps<T>, {}> {
       },
     },
     container: {
-      background: 'white',
-      padding: this.props.shadow && '10px',
+      padding: this.props.shadow && '10px 5px',
     },
     icon: {
       textAlign: 'center',

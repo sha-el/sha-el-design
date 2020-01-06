@@ -21,15 +21,12 @@ const css = (props: TagProps) => style({
   borderRadius: '2px',
   fontSize: '12px',
   padding: '5px 10px',
+  fontWeight: 700,
   margin: '5px',
   display: 'inline-block',
   boxShadow: props.active && styleEnum.shadow_bot,
   cursor: 'pointer',
-  $nest: {
-    '&:active': {
-      transform: 'translate(0, 2px)',
-    },
-  },
+  textTransform: 'uppercase',
 });
 
 export interface TagProps {

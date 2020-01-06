@@ -61,7 +61,7 @@ export function initialize() {
 
   cssRaw(`
   body {
-    background: rgb(240, 242, 245)
+    background: #f0f2f5;
   }
   a {
     background: inherit;

@@ -2,13 +2,14 @@ import * as React from 'react';
 import { Popover } from './Popover';
 import { Calendar } from './Calendar';
 import { Page } from './Page/Page';
-import { MdArrowBack } from 'react-icons/md';
+import { MdArrowBack, MdSearch } from 'react-icons/md';
 import { Tag } from './Tag';
 import { AutoCompleteAsync } from './AutoComplete';
 import { Input } from './Input';
-import { Card, Button } from '..';
+import { Card, Button, Col, Row } from '..';
 import { Table } from './Table';
 import { FaMedal, Fa500Px, FaAccessibleIcon } from 'react-icons/fa';
+import { Tabs, TabPanel } from './Tabs';
 
 export class App extends React.Component {
 
@@ -36,41 +37,80 @@ export class App extends React.Component {
 
   render() {
     return (
-      <>
-        <Card
-          title='Login'
-          subtitle='Please Enter Username Password'
-          style={{
-            container: {
-              width: '50%',
-              margin: 'auto',
-            },
-          }}
-          footer={
-            <>
-              <Button type='primary' link>Forget Password?</Button>
-            </>
-          }
-        >
-          <Input placeholder='Email Sender askda' hint='Add Email' before={<FaMedal />} label='Email' after={<FaAccessibleIcon />} />
-          <Input label='Password' defaultValue='Hello?' />
-          <Button displayBlock type='primary'>
-            Sumbit
-          </Button>
-        </Card>
-        <Table
-          data={[{ name: 'name', age: 'age' }]}
-          columns={[{
-            header: 'name',
-            key: 'name',
-            dataIndex: 'name',
-          }, {
-            header: 'age',
-            key: 'age',
-            dataIndex: 'age',
-          }]}
-        />
-      </>
+      <Page
+        title='User List'
+        subtitle='List of all Users'
+        breadcrumbs={{
+          paths: [
+            { render: () => <a key='hello'>Hello</a> },
+            { render: () => <a key='user-list'>User List</a> },
+          ],
+          seperator: '>',
+        }}
+        backIcon={<MdArrowBack />}
+        extra={
+          <Row alignItems='self-end'>
+            <Col offset={12} span={12}>
+              <Input
+                label='Search'
+                after={<MdSearch style={{ cursor: 'pointer' }} />}
+              />
+            </Col>
+          </Row>
+        }
+        tags={[
+          <Tag key='user' color='#3ac47d'>User</Tag>,
+          <Tag key='list' color='#f60'>List</Tag>,
+        ]}
+        bottom={
+          <div
+            style={{
+              position: 'absolute',
+              right: '5px',
+              top: '130px',
+            }}
+          >
+            <Row>
+              <Col span={8}>
+                <Button type='secondary' shape='circle'>
+                  <MdSearch />
+                </Button>
+              </Col>
+              <Col span={8}>
+                <Button type='info' shape='circle'>
+                  <MdSearch />
+                </Button>
+              </Col>
+              <Col span={8}>
+                <Button type='error' shape='circle'>
+                  <MdSearch />
+                </Button>
+              </Col>
+            </Row>
+          </div>
+        }
+        tabs={
+          <Tabs defaultActiveKey='a'>
+            <TabPanel name='a' title='Hello'>
+              <Table
+                data={[{ name: 'name', age: 'age' }]}
+                columns={[{
+                  header: 'name',
+                  key: 'name',
+                  dataIndex: 'name',
+                }, {
+                  header: 'age',
+                  key: 'age',
+                  dataIndex: 'age',
+                }]}
+              />
+            </TabPanel>
+            <TabPanel name='b' title='YOLO'>
+              Yolo
+            </TabPanel>
+          </Tabs>
+        }
+      />
     );
   }
 }

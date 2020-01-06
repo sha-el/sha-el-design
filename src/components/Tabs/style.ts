@@ -7,6 +7,7 @@ export const style = (theme: Theme) => stylesheet({
     width: '100%',
     display: 'flex',
     boxShadow: styleEnum.shadow_bot,
+    background: 'white',
   },
   tabHeader: {
     padding: '5px 20px',

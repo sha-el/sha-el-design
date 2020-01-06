@@ -30,6 +30,7 @@ export class Button extends React.Component<ButtonProps, State> {
       size,
       shape,
       link,
+      displayBlock,
       ...rest
     } = this.props;
 
