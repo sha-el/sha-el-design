@@ -10,35 +10,38 @@ export const css = (props: { active?: any; }, state: { theme: { primary: string;
     fontSize: '14px',
     cursor: 'pointer',
     position: 'relative',
+    background: 'white',
   },
   menuHover: {
     $nest: {
       '&:hover': {
         color: state.theme.primary,
-        boxShadow: styleEnum.shadow_bot_white_2x,
-        transform: 'scale(1.01)',
+        fontWeight: 500,
+        $nest: {
+          '&:before': {
+            bottom: 0,
+            width: '3px',
+          },
+        },
       },
       '&:active': {
         boxShadow: styleEnum.shadow_bot,
       },
+      '&:before': {
+        content: '" "',
+        position: 'absolute',
+        right: 0,
+        top: 0,
+        width: 0,
+        background: state.theme.primary,
+        transitionDuration: '.3s',
+        transitionTimingFunction: 'ease',
+      },
     },
   },
   active: {
-    background: props.active && color(state.theme.primary).lighten(0.55).toString(),
-    color: props.active && getColor(color(state.theme.primary).lighten(0.55).toString()),
-    $nest: {
-      '&::after': {
-        content: `' '`,
-        position: 'absolute',
-        right: '0',
-        top: '0',
-        bottom: '0',
-        borderRight: props.active && '3px solid ' + state.theme.primary,
-        transition: `transform .15s cubic-bezier(.215, .61, .355, 1),
-          opacity .15s cubic-bezier(.215, .61, .355, 1),
-          -webkit-transform .15s cubic-bezier(.215, .61, .355, 1)`,
-      },
-    },
+    background: props.active && color(state.theme.primary).toString(),
+    color: props.active && getColor(color(state.theme.primary).toString()),
   },
   flexEnd: {
     display: 'flex',

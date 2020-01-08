@@ -9,7 +9,7 @@ export { Row, Col } from './components/Grid';
 export { Input } from './components/Input';
 export { SidePanel, Container, Content } from './components/Layout';
 export { Loading, Skeleton } from './components/Loading';
-export { Menu, MenuItem, MenuItemGroup } from './components/Menu';
+export { MenuItem, MenuItemGroup } from './components/Menu';
 export { Modal } from './components/Modal';
 export { Pagination } from './components/Pagination';
 export { Popover } from './components/Popover';

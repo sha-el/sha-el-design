@@ -47,14 +47,18 @@ export class Tabs extends React.Component<TabsProps, State> {
   }
 
   getInkStyle = () => {
-    const ref = this.headerRefs[this.state.titles.findIndex(v => v.key === this.state.activeKey)];
+    const index = this.state.titles.findIndex(v => v.key === this.state.activeKey);
+    const ref = this.headerRefs[index];
     if (!ref) {
       return setTimeout(this.getInkStyle, 500);
     }
     const rect = ref.getBoundingClientRect();
+
     this.setState({
       inkStyle: {
-        left: rect.left,
+        left: this.headerRefs.slice(0, index).reduce((pv, cv) => {
+          return cv.getBoundingClientRect().width + pv;
+        }, 0),
         width: rect.width,
         top: ref.parentElement.getBoundingClientRect().top + ref.parentElement.getBoundingClientRect().height,
       },

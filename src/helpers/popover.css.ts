@@ -185,4 +185,25 @@ export default `
 }
 
 
+*::-webkit-scrollbar
+{
+    height: 5px;
+    background-color: rgba(0,0,0,0);
+}
+
+*::-webkit-scrollbar-thumb
+{
+    height: 2px,
+    width: 10px;
+    background-color: var(--primary);
+    background-image: -webkit-linear-gradient(45deg,
+                                              rgba(255, 255, 255, .2) 25%,
+                                              transparent 25%,
+                                              transparent 50%,
+                                              rgba(255, 255, 255, .2) 50%,
+                                              rgba(255, 255, 255, .2) 75%,
+                                              transparent 75%,
+                                              transparent)
+}
+
 `;

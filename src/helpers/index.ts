@@ -59,6 +59,14 @@ export function getColor(clr: string, black = '#000000', white = '#ffffff') {
 
 export function initialize() {
 
+  const t = new ThemeService();
+
+  t.selectedTheme$.subscribe(v => cssRaw(`
+    :root {
+      --primary: ${color(v.primary).lighten(.5)}
+    }`,
+  ));
+
   cssRaw(`
   body {
     background: #f0f2f5;
@@ -70,8 +78,6 @@ export function initialize() {
   ${popverCss}
   ${topography}
 `);
-
-  new ThemeService();
 
   cssRule('span, div, input, button', {
     fontSize: '14px',

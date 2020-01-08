@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Theme, ThemeService } from '../../helpers/theme';
 import { css } from './style';
-import { MenuContext } from './Menu';
+import { SidePanelContext } from '../Layout/SidePanel';
 
 export class MenuItem extends React.Component<ItemProps, State> {
   themeService = new ThemeService();
@@ -21,7 +21,7 @@ export class MenuItem extends React.Component<ItemProps, State> {
   render() {
     const style = css(this.props, this.state);
     return (
-      <MenuContext.Consumer>
+      <SidePanelContext.Consumer>
         {(context => {
           const isBarOpen = context.width > 200;
           const { nested, icon, name, active, children } = this.props;
@@ -37,9 +37,7 @@ export class MenuItem extends React.Component<ItemProps, State> {
                     padding: isBarOpen || nested ? '0 20px 0 0' : '0',
                   }}
                 >
-                  {React.cloneElement(
-                    icon,
-                  )}
+                  {icon}
                 </div>
               }
               {(isBarOpen || nested) && <div className={`${style.flex_1}`}>
@@ -48,7 +46,7 @@ export class MenuItem extends React.Component<ItemProps, State> {
             </div>
           );
         })}
-      </MenuContext.Consumer>
+      </SidePanelContext.Consumer>
     );
   }
 }

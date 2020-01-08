@@ -4,7 +4,7 @@ import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 
 import { css } from './style';
 import { Theme, ThemeService } from '../../helpers/theme';
-import { MenuContext } from './Menu';
+import { SidePanelContext } from '../Layout/SidePanel';
 import { Popover } from '../Popover';
 
 export class MenuItemGroup extends React.Component<MenuItemGroupProps, State> {
@@ -18,6 +18,10 @@ export class MenuItemGroup extends React.Component<MenuItemGroupProps, State> {
       active: this.props.defaultActive,
     };
   }
+
+  static defaultProps = {
+    inline: true,
+  };
 
   toggle = () => {
     this.setState({ active: !this.state.active });
@@ -39,9 +43,9 @@ export class MenuItemGroup extends React.Component<MenuItemGroupProps, State> {
   render() {
     const style = css(this.state, this.state);
     return (
-      <MenuContext.Consumer>
+      <SidePanelContext.Consumer>
         {context => {
-          const isBoxOpen = context.width > 100;
+          const isBoxOpen = this.props.inline && context.width > 100;
           return (
             <div
               key={this.props.name}
@@ -68,7 +72,7 @@ export class MenuItemGroup extends React.Component<MenuItemGroupProps, State> {
                         },
                       }}
                     >
-                      <div>
+                      <div className={`${style.icon} ${style.menu}`}>
                         {this.props.title}
                       </div>
                     </Popover>
@@ -87,7 +91,7 @@ export class MenuItemGroup extends React.Component<MenuItemGroupProps, State> {
             </div>
           );
         }}
-      </MenuContext.Consumer>
+      </SidePanelContext.Consumer>
     );
   }
 }
@@ -101,6 +105,7 @@ interface MenuItemGroupProps {
   title: React.ReactNode;
   name?: string;
   defaultActive?: boolean;
+  inline?: boolean;
 }
 
 interface State {

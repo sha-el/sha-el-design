@@ -65,6 +65,7 @@ function getSize(size: sizeTypes, shape: shapeTypes, block: boolean) {
     fontSize: '14px',
     width: block ? '100%' : 'auto',
     borderRadius: '4px',
+    lineHeight: '34px',
   };
   switch (size) {
     case 'big': {
@@ -88,6 +89,9 @@ function getSize(size: sizeTypes, shape: shapeTypes, block: boolean) {
     style.width = style.height;
     style.borderRadius = '50%';
     style.padding = '0px';
+    style.lineHeight = (Number(
+      style.height.replace('px', ''),
+    ) + 5) + 'px';
   }
   return style;
 }
@@ -122,7 +126,6 @@ function css() {
       ...getSize(this.props.size, this.props.shape, this.props.displayBlock),
       boxShadow: '0 2px 0 rgba(0,0,0,0.045)',
       textAlign: 'center',
-      lineHeight: '34px',
       background: baseColor,
       color: getColor(baseColor),
       $nest: {

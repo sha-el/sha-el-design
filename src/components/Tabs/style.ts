@@ -1,7 +1,6 @@
 import { stylesheet } from 'typestyle';
 import { Theme } from '../../helpers/theme';
 import { styleEnum } from '../../helpers/constants';
-import { getColor } from '../../helpers';
 
 export const style = (theme: Theme) => stylesheet({
   tabHeaderContainer: {
@@ -9,13 +8,15 @@ export const style = (theme: Theme) => stylesheet({
     flex: '1 0 auto',
     boxShadow: styleEnum.shadow_bot,
     background: 'white',
-    overflow: 'auto',
     position: 'relative',
+    alignContent: 'center',
+    alignItems: 'center',
+    overflow: 'auto',
   },
   tabHeader: {
     padding: '0 16px',
     textTransform: 'uppercase',
-    lineHeight: '50px',
+    height: '50px',
     display: 'flex',
     flex: '0 1 auto',
     transition: 'all .6s',
@@ -23,6 +24,8 @@ export const style = (theme: Theme) => stylesheet({
     textAlign: 'center',
     fontWeight: 500,
     justifyContent: 'center',
+    alignItems: 'center',
+
     letterSpacing: '0.0892857143em',
     minWidth: '90px',
     maxWidth: '360px',
