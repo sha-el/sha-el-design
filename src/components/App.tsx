@@ -68,6 +68,7 @@ export class App extends React.Component {
               position: 'absolute',
               right: '5px',
               top: '130px',
+              zIndex: 2,
             }}
           >
             <Row>
@@ -105,7 +106,31 @@ export class App extends React.Component {
                 }]}
               />
             </TabPanel>
-            <TabPanel name='b' title='YOLO'>
+            <TabPanel name='b' title='YOLO najdaijdawo'>
+              Yolo
+            </TabPanel>
+            <TabPanel name='c' title='YOLO'>
+              Yolo
+            </TabPanel>
+            <TabPanel name='d' title='YOLO'>
+              Yolo
+            </TabPanel>
+            <TabPanel name='end' title='YOLO'>
+              Yolo
+            </TabPanel>
+            <TabPanel name='f60' title='YOLO'>
+              Yolo
+            </TabPanel>
+            <TabPanel name='g' title='YOLO'>
+              Yolo
+            </TabPanel>
+            <TabPanel name='header' title='YOLO'>
+              Yolo
+            </TabPanel>
+            <TabPanel name='icons' title='YOLO'>
+              Yolo
+            </TabPanel>
+            <TabPanel name='j' title='YOLO'>
               Yolo
             </TabPanel>
           </Tabs>

@@ -4,7 +4,7 @@ import { Row, Col } from '../../';
 import { TabsProps } from '../Tabs/Tabs';
 import { stylesheet } from 'typestyle';
 import { styleEnum } from '../../helpers/constants';
-import { TagProps } from 'components/Tag/Tag';
+import { TagProps } from '../Tag/Tag';
 
 export const Page: React.StatelessComponent<Props> = (props) => {
   return (
@@ -16,16 +16,19 @@ export const Page: React.StatelessComponent<Props> = (props) => {
           </Col>
           <Col span={12}>
             <Row>
-              <Col span={2}>
-                <div className={css.backIcon}>
-                  {props.backIcon}
-                </div>
-              </Col>
+              {
+                props.backIcon &&
+                <Col span={2}>
+                  <div className={css.backIcon}>
+                    {props.backIcon}
+                  </div>
+                </Col>
+              }
               <Col span={22}>
                 <div className={css.inline}><h4>{props.title}</h4></div>
                 <div className={css.inline}>{props.tags}</div>
               </Col>
-              <Col offset={2} span={24}>
+              <Col offset={props.backIcon && 2} span={24}>
                 <h5>{props.subtitle}</h5>
               </Col>
             </Row>
@@ -51,7 +54,7 @@ const css = stylesheet({
   },
   header: {
     padding: '0 10px',
-    background: styleEnum.headerBgColor,
+    background: 'white',
     boxShadow: styleEnum.shadow_bot_2x,
   },
   inline: {
