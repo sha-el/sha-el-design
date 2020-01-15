@@ -35,9 +35,8 @@ export class Collapse extends React.Component<Props, State> {
         <Content
           pose={isOpen ? 'open' : 'closed'}
           className={css.content}
-          onClick={() => onChange(!isOpen)}
         >
-          <div className={css.header}>
+          <div className={css.header} onClick={() => onChange(!isOpen)}>
             <div className={css.headerTitle}>{header}</div>
             <Rotate
               className={css.icon}

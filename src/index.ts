@@ -6,7 +6,7 @@ export { AutoComplete, AutoCompleteAsync } from './components/AutoComplete';
 export { Button, ButtonGroup } from './components/Button';
 export { Card } from './components/Card';
 export { Row, Col } from './components/Grid';
-export { Input } from './components/Input';
+export { Input, TextArea } from './components/Input';
 export { SidePanel, Container, Content } from './components/Layout';
 export { Loading, Skeleton } from './components/Loading';
 export { MenuItem, MenuItemGroup } from './components/Menu';

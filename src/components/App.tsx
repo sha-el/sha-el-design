@@ -5,7 +5,7 @@ import { Page } from './Page/Page';
 import { MdArrowBack, MdSearch, MdArrowForward } from 'react-icons/md';
 import { Tag } from './Tag';
 import { AutoCompleteAsync } from './AutoComplete';
-import { Input } from './Input';
+import { Input, TextArea } from './Input';
 import { Card, Button, Col, Row, Container } from '..';
 import { Table } from './Table';
 import { FaMedal, Fa500Px, FaAccessibleIcon } from 'react-icons/fa';
@@ -171,28 +171,12 @@ export class App extends React.Component {
                 </Tabs>
               }
             >
+              <Col span={12}>
+                <TextArea hint='ola' error='ola' before={<MdArrowBack />} after={<MdSearch />} />
+              </Col>
               <Collapse header='HEllo?' isOpen={!!this.state.value} onChange={(e) => this.setState({ value: e })}>
                 <Row>
                   <Col span={12}>HELLO</Col>
-                  <Input style={{ width: '50%' }} />
-                </Row>
-              </Collapse>
-              <Collapse header='HEllo?' isOpen={!!this.state.value} onChange={(e) => this.setState({ value: e })}>
-                <Row>
-                  <Col span={12}>HELLO</Col>
-                  <Input style={{ width: '50%' }} />
-                </Row>
-              </Collapse>
-              <Collapse header='HEllo?' isOpen={!!this.state.value} onChange={(e) => this.setState({ value: e })}>
-                <Row>
-                  <Col span={12}>HELLO</Col>
-                  <Input style={{ width: '50%' }} />
-                </Row>
-              </Collapse>
-              <Collapse header='HEllo?' isOpen={!!this.state.value} onChange={(e) => this.setState({ value: e })}>
-                <Row>
-                  <Col span={12}>HELLO</Col>
-                  <Input style={{ width: '50%' }} />
                 </Row>
               </Collapse>
             </Page>
