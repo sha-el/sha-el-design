@@ -4,8 +4,9 @@ import { MdExpandMore } from 'react-icons/md';
 import posed from 'react-pose';
 
 import { Theme, ThemeService } from '../../helpers/theme';
-import { styleEnum } from '../../helpers/constants';
 import { flex1, flex } from 'csstips';
+import { Button } from '../Button';
+import { styleEnum } from '../../helpers/constants';
 
 export class Collapse extends React.Component<Props, State> {
 
@@ -31,19 +32,22 @@ export class Collapse extends React.Component<Props, State> {
 
     return (
       <div className={css.container}>
-        <div className={css.header} onClick={() => onChange(!isOpen)}>
-          <div className={css.headerTitle}>{header}</div>
-          <Rotate
-            className={css.icon}
-            pose={isOpen ? 'open' : 'closed'}
-          >
-            <MdExpandMore />
-          </Rotate>
-        </div>
         <Content
           pose={isOpen ? 'open' : 'closed'}
           className={css.content}
+          onClick={() => onChange(!isOpen)}
         >
+          <div className={css.header}>
+            <div className={css.headerTitle}>{header}</div>
+            <Rotate
+              className={css.icon}
+              pose={isOpen ? 'open' : 'closed'}
+            >
+              <Button shape='circle' type={isOpen ? 'primary' : 'default'}>
+                <MdExpandMore />
+              </Button>
+            </Rotate>
+          </div>
           {children}
         </Content>
       </div>
@@ -52,37 +56,37 @@ export class Collapse extends React.Component<Props, State> {
 
   css = () => stylesheet({
     container: {
-      margin: '10px',
+      boxShadow: styleEnum.shadow_2x,
     },
     header: {
-      borderBottom: '3px solid',
-      borderColor: styleEnum.borderColor,
       display: 'flex',
       cursor: 'pointer',
-      marginBottom: '10px',
-      $nest: {
-        div: {
-          fontSize: '20px',
-        },
-      },
+      color: this.props.isOpen ? this.state.theme.primary : '#585858',
+      fontWeight: 700,
+      paddingBottom: '30px',
     },
     headerTitle: {
       ...flex1,
     },
     icon: {
       ...flex,
+      alignSelf: 'flex-start',
+      marginTop: '-12px',
       flex: 0,
     },
     content: {
+      background: this.props.isOpen ? '#f8f8fa' : 'white',
       overflow: 'hidden',
       boxSizing: 'border-box',
+      padding: '20px 30px',
+      borderLeft: this.props.isOpen && '3px solid ' + this.state.theme.primary,
     },
   })
 }
 
 const Content = posed.div({
   closed: {
-    height: 0,
+    height: 55,
   },
   open: {
     height: 'auto',

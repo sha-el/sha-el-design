@@ -80,7 +80,7 @@ export class Popover extends React.Component<PopoverProps, State> {
       <RCTooltip
         placement={position}
         trigger={[triggers(trigger)]}
-        transitionName='rc-tooltip-zoom'
+        // transitionName='rc-tooltip-zoom'
         overlay={this.renderContent()}
         destroyTooltipOnHide={!preserveOnClose}
         overlayClassName={style.container}

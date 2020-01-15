@@ -13,7 +13,7 @@ const css = style({
   position: 'relative',
   minWidth: 0,
   flex: '1 1 auto',
-  margin: '0 5px',
+  margin: '0 0 0 5px',
 });
 
 export interface ContentProps {

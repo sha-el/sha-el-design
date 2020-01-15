@@ -12,6 +12,8 @@ import { FaMedal, Fa500Px, FaAccessibleIcon } from 'react-icons/fa';
 import { Tabs, TabPanel } from './Tabs';
 import { MenuItem, MenuItemGroup } from './Menu';
 import { SidePanel, Content } from './Layout';
+import { Link, BrowserRouter } from 'react-router-dom';
+import { Collapse } from './Collapse';
 
 export class App extends React.Component {
 
@@ -39,133 +41,164 @@ export class App extends React.Component {
 
   render() {
     return (
-      <Container>
-        <SidePanel
-          bottom={
-            <div>
-              <MenuItem name='hello' icon={<MdArrowBack />}>
+      <BrowserRouter>
+        <Container>
+          <SidePanel
+            bottom={
+              <div>
+                <MenuItem name='hello' icon={<MdArrowBack />}>
+                  hello
+              </MenuItem>
+                <MenuItem name='x' icon={<MdArrowBack />}>
+                  hello
+              </MenuItem>
+                <MenuItemGroup title='Ola'>
+                  <MenuItem icon={<MdArrowForward />} name='a'>Hello</MenuItem>
+                </MenuItemGroup>
+              </div>
+            }
+          >
+            <Link to='/a'>
+              <MenuItem active name='hello' icon={<MdArrowBack />}>
                 hello
               </MenuItem>
+            </Link>
+            <Link to='/a'>
               <MenuItem name='x' icon={<MdArrowBack />}>
                 hello
               </MenuItem>
-              <MenuItemGroup title='Ola'>
-                <MenuItem icon={<MdArrowForward />} name='a'>Hello</MenuItem>
-              </MenuItemGroup>
-            </div>
-          }
-        >
-          <MenuItem active name='hello' icon={<MdArrowBack />}>
-            hello
-          </MenuItem>
-          <MenuItem name='x' icon={<MdArrowBack />}>
-            hello
-          </MenuItem>
-          <MenuItem name='x' icon={<MdArrowBack />}>
-            hello
-          </MenuItem>
-          <MenuItemGroup title='Ola'>
-            <MenuItem icon={<MdArrowForward />} name='a'>Hello</MenuItem>
-          </MenuItemGroup>
-        </SidePanel>
-        <Content>
-          <Page
-            title='User List'
-            subtitle='List of all Users'
-            breadcrumbs={{
-              paths: [
-                { render: () => <a key='hello'>Hello</a> },
-                { render: () => <a key='user-list'>User List</a> },
-              ],
-              seperator: '>',
-            }}
-            backIcon={<MdArrowBack />}
-            extra={
-              <Row alignItems='self-end'>
-                <Col offset={12} span={12}>
-                  <Input
-                    label='Search'
-                    after={<MdSearch style={{ cursor: 'pointer' }} />}
-                  />
-                </Col>
-              </Row>
-            }
-            tags={[
-              <Tag key='user' color='#3ac47d'>User</Tag>,
-              <Tag key='list' color='#f60'>List</Tag>,
-            ]}
-            bottom={
-              <div
-                style={{
-                  position: 'absolute',
-                  right: '5px',
-                  top: '130px',
-                  zIndex: 2,
-                }}
-              >
-                <Row>
-                  <Col span={8}>
-                    <Button type='secondary' shape='circle' size='big'>
-                      <MdSearch />
-                    </Button>
-                  </Col>
-                  <Col span={8}>
-                    <Button type='info' shape='circle' size='fat'>
-                      <MdSearch />
-                    </Button>
-                  </Col>
-                  <Col span={8}>
-                    <Button type='error' shape='circle'>
-                      <MdSearch />
-                    </Button>
+            </Link>
+            <MenuItem name='x' icon={<MdArrowBack />}>
+              hello
+            </MenuItem>
+            <MenuItemGroup title='Ola'>
+              <MenuItem icon={<MdArrowForward />} name='a'>Hello</MenuItem>
+            </MenuItemGroup>
+          </SidePanel>
+          <Content>
+            <Page
+              title='User List'
+              subtitle='List of all Users'
+              breadcrumbs={{
+                paths: [
+                  { render: () => <a key='hello'>Hello</a> },
+                  { render: () => <a key='user-list'>User List</a> },
+                ],
+                seperator: '>',
+              }}
+              backIcon={<MdArrowBack />}
+              extra={
+                <Row alignItems='self-end'>
+                  <Col offset={12} span={12}>
+                    <Input
+                      label='Search'
+                      after={<MdSearch style={{ cursor: 'pointer' }} />}
+                    />
                   </Col>
                 </Row>
-              </div>
-            }
-            tabs={
-              <Tabs defaultActiveKey='a'>
-                <TabPanel name='a' title='Hello'>
-                  <Popover
-                    position='right'
-                    content={
-                      <MenuItemGroup inline={false} title='Ola'>
-                        <MenuItem icon={<MdArrowForward />} name='a'>Hello</MenuItem>
-                      </MenuItemGroup>}
-                  >
-                    <Button>Submit</Button>
-                  </Popover>
-                  <Button size='big'>Submit</Button>
-                  <Button size='fat'>Submit</Button>
-                  <Table
-                    data={[{ name: 'name', age: 'age' }]}
-                    columns={[{
-                      header: 'name',
-                      key: 'name',
-                      dataIndex: 'name',
-                    }, {
-                      header: 'age',
-                      key: 'age',
-                      dataIndex: 'age',
-                    }]}
-                  />
+              }
+              tags={[
+                <Tag key='user' color='#3ac47d'>User</Tag>,
+                <Tag key='list' color='#f60'>List</Tag>,
+              ]}
+              bottom={
+                <div
+                  style={{
+                    position: 'absolute',
+                    right: '5px',
+                    top: '130px',
+                    zIndex: 2,
+                  }}
+                >
+                  <Row>
+                    <Col span={8}>
+                      <Button type='secondary' shape='circle' size='big'>
+                        <MdSearch />
+                      </Button>
+                    </Col>
+                    <Col span={8}>
+                      <Button type='info' shape='circle' size='fat'>
+                        <MdSearch />
+                      </Button>
+                    </Col>
+                    <Col span={8}>
+                      <Button type='error' shape='circle'>
+                        <MdSearch />
+                      </Button>
+                    </Col>
+                  </Row>
+                </div>
+              }
+              tabs={
+                <Tabs defaultActiveKey='a'>
+                  <TabPanel name='a' title='Hello'>
+                    <Popover
+                      position='right'
+                      content={
+                        <MenuItemGroup inline={false} title='Ola'>
+                          <MenuItem icon={<MdArrowForward />} name='a'>Hello</MenuItem>
+                        </MenuItemGroup>}
+                    >
+                      <Button>Submit</Button>
+                    </Popover>
+                    <Button size='big'>Submit</Button>
+                    <Button size='fat'>Submit</Button>
+                    <Table
+                      data={[{ name: 'name', age: 'age' }]}
+                      columns={[{
+                        header: 'name',
+                        key: 'name',
+                        dataIndex: 'name',
+                      }, {
+                        header: 'age',
+                        key: 'age',
+                        dataIndex: 'age',
+                      }]}
+                    />
+                  </TabPanel>
+                  <TabPanel name='b' title='YOLO najdaijdawo'>
+                    Yolo
                 </TabPanel>
-                <TabPanel name='b' title='YOLO najdaijdawo'>
-                  Yolo
+                  <TabPanel name='c' title='YOLO'>
+                    Yolo
                 </TabPanel>
-                <TabPanel name='c' title='YOLO'>
-                  Yolo
+                  <TabPanel name='d' title='YOLO'>
+                    Yolo
                 </TabPanel>
-                <TabPanel name='d' title='YOLO'>
-                  Yolo
+                  <TabPanel name='end' title='YOLO'>
+                    Yolo
                 </TabPanel>
-                <TabPanel name='end' title='YOLO'>
-                  Yolo
-                </TabPanel>
-              </Tabs>
-            }
-          />
-        </Content>
-      </Container>
+                </Tabs>
+              }
+            >
+              <Collapse header='HEllo?' isOpen={!!this.state.value} onChange={(e) => this.setState({ value: e })}>
+                <Row>
+                  <Col span={12}>HELLO</Col>
+                  <Input style={{ width: '50%' }} />
+                </Row>
+              </Collapse>
+              <Collapse header='HEllo?' isOpen={!!this.state.value} onChange={(e) => this.setState({ value: e })}>
+                <Row>
+                  <Col span={12}>HELLO</Col>
+                  <Input style={{ width: '50%' }} />
+                </Row>
+              </Collapse>
+              <Collapse header='HEllo?' isOpen={!!this.state.value} onChange={(e) => this.setState({ value: e })}>
+                <Row>
+                  <Col span={12}>HELLO</Col>
+                  <Input style={{ width: '50%' }} />
+                </Row>
+              </Collapse>
+              <Collapse header='HEllo?' isOpen={!!this.state.value} onChange={(e) => this.setState({ value: e })}>
+                <Row>
+                  <Col span={12}>HELLO</Col>
+                  <Input style={{ width: '50%' }} />
+                </Row>
+              </Collapse>
+            </Page>
+          </Content>
+        </Container>
+      </BrowserRouter>
     );
   }
 }

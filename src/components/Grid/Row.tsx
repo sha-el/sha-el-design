@@ -17,8 +17,6 @@ const rowStyle = style({
   flex: '0 1 auto',
   flexDirection: 'row',
   flexWrap: 'wrap',
-  marginRight: '-.5rem',
-  marginLeft: '-.5rem',
   padding: '10px 0',
 });
 

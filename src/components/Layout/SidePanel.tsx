@@ -2,18 +2,20 @@ import * as React from 'react';
 import { stylesheet, style } from 'typestyle';
 
 import { ThemeService, Theme } from '../../helpers/theme';
-import { MdKeyboardArrowRight, MdMenu, MdKeyboardArrowLeft } from 'react-icons/md';
+import { MdMenu, MdKeyboardArrowLeft } from 'react-icons/md';
 import { styleEnum } from '../../helpers/constants';
 import { Button } from '../../index';
 
-const ctx = React.createContext({ width: 250 });
+const [OPEN_WIDTH, COLLAPSED_WIDTH] = [250, 50];
+
+const ctx = React.createContext({ width: OPEN_WIDTH });
 
 export const SidePanelContext = ctx;
 
 export class SidePanel extends React.Component<SidePanelProps, State> {
 
   static defaultProps = {
-    width: 250,
+    width: OPEN_WIDTH,
   };
 
   private readonly theme = new ThemeService();
@@ -22,7 +24,6 @@ export class SidePanel extends React.Component<SidePanelProps, State> {
 
     this.state = {
       theme: this.theme.selectedTheme$.getValue(),
-      collapsed: this.props.collapsed,
       width: this.props.width,
     };
   }
@@ -35,7 +36,7 @@ export class SidePanel extends React.Component<SidePanelProps, State> {
 
   switch = () => {
     const width = this.state.width;
-    this.setState({ collapsed: !this.state.collapsed, width: width > 50 ? 50 : 250 });
+    this.setState({ width: width > COLLAPSED_WIDTH ? COLLAPSED_WIDTH : OPEN_WIDTH });
   }
 
   onDrag = (e: React.DragEvent<HTMLDivElement>) => {
@@ -49,20 +50,21 @@ export class SidePanel extends React.Component<SidePanelProps, State> {
 
   render() {
     const styleSheet = this.css();
-    const open = this.state.width > 100;
+    const open = this.state.width > COLLAPSED_WIDTH;
     return (
       <SidePanelContext.Provider value={{ width: this.state.width }}>
         <div className={styleSheet.container} style={{ width: this.state.width + 'px' }}>
           <div
-            draggable
-            onDrag={this.onDrag}
             className={styleSheet.resizer}
-            onDragStart={(e) => (e.target as HTMLDivElement).style.opacity = '0'}
-            onDragEnd={(e) => (e.target as HTMLDivElement).style.opacity = '1'}
+            // TODO: proper implementation is required.
+            // draggable
+            // onDrag={this.onDrag}
+            // onDragStart={(e) => (e.target as HTMLDivElement).style.opacity = '0'}
+            // onDragEnd={(e) => (e.target as HTMLDivElement).style.opacity = '1'}
           >
             <div style={!open && { display: 'block' } || {}} className={styleSheet.arrow} onClick={this.switch}>
               <Button shape='circle'>
-                {this.state.collapsed ? <MdMenu /> : <MdKeyboardArrowLeft />}
+                {!open ? <MdMenu /> : <MdKeyboardArrowLeft />}
               </Button>
             </div>
           </div>
@@ -123,7 +125,8 @@ export class SidePanel extends React.Component<SidePanelProps, State> {
         top: '0',
         bottom: '0',
         width: '30px',
-        cursor: 'ew-resize',
+        // TODO: activate once drag is fixed
+        // cursor: 'ew-resize',
         zIndex: 1,
         $nest: {
           '&:hover': {
@@ -149,11 +152,11 @@ export interface SidePanelProps {
   children: React.ReactNode;
   bottom?: React.ReactNode;
   width?: number;
-  collapsed?: boolean;
+  // collapsed?: boolean;
 }
 
 interface State {
-  collapsed: boolean;
+  // collapsed: boolean;
   width: number;
   theme: Theme;
 }

@@ -1,5 +1,5 @@
 import { color } from 'csx';
-import { cssRule, cssRaw } from 'typestyle';
+import { cssRule, cssRaw, createTypeStyle } from 'typestyle';
 import { normalize } from 'csstips';
 
 import { ThemeService } from './theme';
@@ -68,20 +68,19 @@ export function initialize() {
   ));
 
   cssRaw(`
+  html {
+    // overflow-x: hidden;
+  }
   body {
     background: #f0f2f5;
   }
-  a {
-    background: inherit;
+  a, a:hover, a:focus, a:active {
     text-decoration: none;
+    color: rgba(0,0,0,.87);
   }
   ${popverCss}
   ${topography}
 `);
-
-  cssRule('span, div, input, button', {
-    fontSize: '14px',
-  });
 
   normalize();
   initializeNotification();
