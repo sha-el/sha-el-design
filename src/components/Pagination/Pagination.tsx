@@ -6,6 +6,17 @@ import { Theme, ThemeService } from '../../helpers/theme';
 import { getColor } from '../../helpers';
 import { styleEnum } from '../../helpers/constants';
 
+const range = (start: number, end: number) => {
+  const resp = [];
+  let j = 0;
+  for (let i = start; i <= end; i++) {
+    resp.push(i);
+    j++;
+    if (j === 5) { break; }
+  }
+  return resp;
+};
+
 export class Pagination extends React.Component<PaginationProps, State> {
   constructor(props: PaginationProps) {
     super(props);
@@ -15,6 +26,10 @@ export class Pagination extends React.Component<PaginationProps, State> {
     };
   }
 
+  static defaultProps = {
+    onChange: () => { },
+  };
+
   componentDidMount() {
     this.themeService.selectedTheme$.subscribe(
       theme => this.setState({ theme }),
@@ -22,17 +37,17 @@ export class Pagination extends React.Component<PaginationProps, State> {
   }
 
   createItems = () => {
-    const { currentPage, cursorBasedPagination } = this.props;
+    const { currentPage, cursorBasedPagination, batchSize, totalCount } = this.props;
 
     if (cursorBasedPagination) {
       return [currentPage];
     }
 
     if (currentPage < 3) {
-      return [1, 2, 3, 4, 5];
+      return range(1, totalCount / batchSize);
     }
 
-    return [currentPage - 2, currentPage - 1, currentPage, currentPage + 1, currentPage + 2];
+    return range(currentPage - 1, totalCount / batchSize);
   }
 
   themeService = new ThemeService();
@@ -59,8 +74,8 @@ export class Pagination extends React.Component<PaginationProps, State> {
               posekey={currentPage}
               className={css.list}
               pose={v === currentPage ? 'active' : 'inActive'}
-              background={theme.primary}
-              color={getColor(theme.primary)}
+              background={v === currentPage ? theme.primary : theme.default}
+              color={v === currentPage && getColor(theme.primary)}
               onClick={() => onChange(v, 20, false, false)}
             >
               {v}

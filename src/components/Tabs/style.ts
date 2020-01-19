@@ -18,7 +18,7 @@ export const style = (theme: Theme) => stylesheet({
     textTransform: 'uppercase',
     height: '50px',
     display: 'flex',
-    flex: '0 1 auto',
+    flex: '0 0 auto',
     transition: 'all .6s',
     cursor: 'pointer',
     textAlign: 'center',

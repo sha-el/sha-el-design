@@ -1,12 +1,22 @@
 import * as React from 'react';
 import { stylesheet } from 'typestyle';
 import { styleEnum } from '../../helpers/constants';
-import { PoseGroup } from 'react-pose';
-import { FaMeh } from 'react-icons/fa';
+import { GiEmptyMetalBucket } from 'react-icons/gi';
+import { Theme, ThemeService } from '../../helpers/theme';
 
-export class Table<T> extends React.Component<TableProps<T>, {}> {
+export class Table<T> extends React.Component<TableProps<T>, State> {
   constructor(props: TableProps<T>) {
     super(props);
+
+    this.state = {
+      theme: this.themeService.selectedTheme$.value,
+    };
+  }
+
+  themeService = new ThemeService();
+
+  componentDidMount() {
+    this.themeService.selectedTheme$.subscribe(theme => this.setState({ theme }));
   }
 
   static defaultProps = {
@@ -33,9 +43,13 @@ export class Table<T> extends React.Component<TableProps<T>, {}> {
     const style = this.css();
     if (!this.props.data.length) {
       return (
-        <div className={style.icon}>
-          <FaMeh />
-          <div>No Data</div>
+        <div className={style.empty}>
+          <div className={style.icon}>
+            <GiEmptyMetalBucket />
+          </div>
+          <div>
+            No Data
+          </div>
         </div>
       );
     }
@@ -109,12 +123,21 @@ export class Table<T> extends React.Component<TableProps<T>, {}> {
     },
     icon: {
       textAlign: 'center',
-      fontSize: '100px',
-      color: '#ccc',
+      fontSize: '50px',
       padding: '10px',
-      width: '100%',
+    },
+    empty: {
+      color: this.state.theme.primary,
+      background: 'white',
+      boxShadow: this.props.shadow && styleEnum.shadow_bot,
+      textAlign: 'center',
+      padding: '50px',
     },
   })
+}
+
+interface State {
+  theme: Theme;
 }
 
 interface TableProps<T> {

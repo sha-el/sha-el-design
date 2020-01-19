@@ -14,6 +14,7 @@ import { MenuItem, MenuItemGroup } from './Menu';
 import { SidePanel, Content } from './Layout';
 import { Link, BrowserRouter } from 'react-router-dom';
 import { Collapse } from './Collapse';
+import { Pagination } from './Pagination';
 
 export class App extends React.Component {
 
@@ -144,7 +145,7 @@ export class App extends React.Component {
                     <Button size='big'>Submit</Button>
                     <Button size='fat'>Submit</Button>
                     <Table
-                      data={[{ name: 'name', age: 'age' }]}
+                      data={[]}
                       columns={[{
                         header: 'name',
                         key: 'name',
@@ -154,6 +155,11 @@ export class App extends React.Component {
                         key: 'age',
                         dataIndex: 'age',
                       }]}
+                    />
+                    <Pagination
+                      batchSize={20}
+                      totalCount={142}
+                      currentPage={4}
                     />
                   </TabPanel>
                   <TabPanel name='b' title='YOLO najdaijdawo'>
@@ -171,14 +177,26 @@ export class App extends React.Component {
                 </Tabs>
               }
             >
-              <Col span={12}>
-                <TextArea hint='ola' error='ola' before={<MdArrowBack />} after={<MdSearch />} />
-              </Col>
-              <Collapse header='HEllo?' isOpen={!!this.state.value} onChange={(e) => this.setState({ value: e })}>
-                <Row>
-                  <Col span={12}>HELLO</Col>
-                </Row>
-              </Collapse>
+              <Card>
+                <Col span={12}>
+                  <TextArea hint='ola' error='ola' before={<MdArrowBack />} after={<MdSearch />} />
+                </Col>
+                <Collapse header='HEllo?' isOpen={!!this.state.value} onChange={(e) => this.setState({ value: e })}>
+                  <Row>
+                    <Col span={12}>HELLO</Col>
+                  </Row>
+                </Collapse>
+                <Collapse header='HEllo?' >
+                  <Row>
+                    <Col span={12}>HELLO</Col>
+                  </Row>
+                </Collapse>
+                <Collapse header='HEllo?' >
+                  <Row>
+                    <Col span={12}>HELLO</Col>
+                  </Row>
+                </Collapse>
+              </Card>
             </Page>
           </Content>
         </Container>

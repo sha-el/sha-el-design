@@ -55,12 +55,14 @@ export class Collapse extends React.Component<Props, State> {
 
   css = () => stylesheet({
     container: {
-      boxShadow: styleEnum.shadow_2x,
+      margin: this.props.isOpen && '20px 0',
+      boxShadow: this.props.isOpen && styleEnum.shadow,
+      borderBottom: '1px solid #eeeeee',
     },
     header: {
       display: 'flex',
       cursor: 'pointer',
-      color: this.props.isOpen ? this.state.theme.primary : '#585858',
+      color: this.props.isOpen ? this.state.theme.primary : '#A8A8A8',
       fontWeight: 700,
       paddingBottom: '30px',
     },
@@ -74,7 +76,6 @@ export class Collapse extends React.Component<Props, State> {
       flex: 0,
     },
     content: {
-      background: this.props.isOpen ? '#f8f8fa' : 'white',
       overflow: 'hidden',
       boxSizing: 'border-box',
       padding: '20px 30px',
