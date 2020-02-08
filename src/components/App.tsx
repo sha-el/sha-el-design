@@ -158,8 +158,9 @@ export class App extends React.Component {
                     />
                     <Pagination
                       batchSize={20}
-                      totalCount={142}
-                      currentPage={4}
+                      totalCount={19}
+                      currentPage={1}
+                      showTotal
                     />
                   </TabPanel>
                   <TabPanel name='b' title='YOLO najdaijdawo'>

@@ -44,51 +44,56 @@ export class Pagination extends React.Component<PaginationProps, State> {
     }
 
     if (currentPage < 3) {
-      return range(1, totalCount / batchSize);
+      return range(1, Math.ceil(totalCount / batchSize));
     }
 
-    return range(currentPage - 1, totalCount / batchSize);
+    return range(currentPage - 1, Math.ceil(totalCount / batchSize));
   }
 
   themeService = new ThemeService();
 
   render() {
     const css = this.css();
-    const { currentPage, onChange, batchSize, totalCount } = this.props;
+    const { currentPage, onChange, batchSize, totalCount, showTotal } = this.props;
     const { theme } = this.state;
     return (
-      <div
-        style={this.props.style}
-        className={css.container}
-      >
-        <li
-          className={`${css.list} ${css.bigFont}`}
-          onClick={() => currentPage > 1 && onChange(currentPage - 1, batchSize, false, true)}
+      <>
+        <div
+          style={this.props.style}
+          className={css.container}
         >
-          <IoIosArrowBack />
-        </li>
-        <PoseGroup>
-          {this.createItems().map(v =>
-            <List
-              key={v}
-              posekey={currentPage}
-              className={css.list}
-              pose={v === currentPage ? 'active' : 'inActive'}
-              background={v === currentPage ? theme.primary : theme.default}
-              color={v === currentPage && getColor(theme.primary)}
-              onClick={() => onChange(v, 20, false, false)}
-            >
-              {v}
-            </List>,
-          )}
-        </PoseGroup>
-        <li
-          className={`${css.list} ${css.bigFont}`}
-          onClick={() => currentPage !== totalCount && onChange(currentPage + 1, batchSize, true, false)}
-        >
-          <IoIosArrowForward />
-        </li>
-      </div>
+          <li
+            className={`${css.list} ${css.bigFont}`}
+            onClick={() => currentPage > 1 && onChange(currentPage - 1, batchSize, false, true)}
+          >
+            <IoIosArrowBack />
+          </li>
+          <PoseGroup>
+            {this.createItems().map(v =>
+              <List
+                key={v}
+                posekey={currentPage}
+                className={css.list}
+                pose={v === currentPage ? 'active' : 'inActive'}
+                background={v === currentPage ? theme.primary : theme.default}
+                color={v === currentPage && getColor(theme.primary)}
+                onClick={() => onChange(v, 20, false, false)}
+              >
+                {v}
+              </List>,
+            )}
+          </PoseGroup>
+          <li
+            className={`${css.list} ${css.bigFont}`}
+            onClick={() => currentPage !== totalCount && onChange(currentPage + 1, batchSize, true, false)}
+          >
+            <IoIosArrowForward />
+          </li>
+        </div>
+        <div className={css.totalText}>
+          {showTotal && `${(currentPage - 1) * batchSize}-${currentPage * batchSize} of ${totalCount}`}
+        </div>
+      </>
     );
   }
 
@@ -112,6 +117,11 @@ export class Pagination extends React.Component<PaginationProps, State> {
     },
     bigFont: {
       fontSize: '16px',
+    },
+    totalText: {
+      fontSize: '12px',
+      color: '#aaa',
+      padding: '0 10px',
     },
   })
 }
