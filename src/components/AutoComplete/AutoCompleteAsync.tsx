@@ -37,6 +37,11 @@ export class AutoCompleteAsync<T> extends React.Component<AutoCompleteAsyncProps
 
   componentDidMount() {
     new ThemeService().selectedTheme$.subscribe(theme => this.setState({ theme }));
+    this.props.data('').then(
+      (v) => {
+        this.setState({ data: v });
+      },
+    );
   }
 
   generateSelectedValues = (props = this.props) => {
