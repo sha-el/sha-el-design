@@ -27,3 +27,5 @@ export { Breadcrumb } from './components/Breadcrumb';
 export { Tag } from './components/Tag';
 export { Radio, RadioButton, RadioGroup } from './components/Radio';
 export { Page } from './components/Page';
+export { Timeline, TimelineItem } from './components/Timeline';
+export { InfiniteScroll } from './components/InfiniteScroll';

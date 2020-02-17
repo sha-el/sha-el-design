@@ -54,7 +54,7 @@ export function nestedAccess(obj: any, ...props: string[]): any {
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export function getColor(clr: string, black = '#000000', white = '#ffffff') {
-  return color(clr).lightness() > .5 ? black : white;
+  return color(clr).lightness() > .7 ? black : white;
 }
 
 export function initialize() {

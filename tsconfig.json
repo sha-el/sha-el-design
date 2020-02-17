@@ -27,7 +27,8 @@
     "node_modules",
     "**/*.spec.ts",
     "./src/main.tsx",
-    "./src/components/App.tsx"
+    "./src/components/App.tsx",
+    "./src/**/*.stories.tsx"
   ],
   "awesomeTypescriptLoaderOptions": {
     "reportFiles": [
