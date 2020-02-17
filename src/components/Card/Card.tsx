@@ -1,11 +1,7 @@
 import * as React from 'react';
 import { stylesheet } from 'typestyle';
-import { color } from 'csx';
-
 import { styleEnum } from '../../helpers/constants';
-import { Divider } from '../Divider';
 import { Theme, ThemeService } from '../../helpers/theme';
-import { getColor } from '../../helpers';
 
 export class Card extends React.Component<CardProps, State> {
 
@@ -55,7 +51,7 @@ export class Card extends React.Component<CardProps, State> {
       boxShadow: styleEnum.shadow_bot_2x,
       border: `${styleEnum.borderWidth} ${styleEnum.borderStyle} ${styleEnum.borderColor}`,
       padding: 0,
-      margin: '10px',
+      margin: '10px 0',
       background: 'white',
       boxSizing: 'border-box',
     },

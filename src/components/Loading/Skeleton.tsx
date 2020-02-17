@@ -2,6 +2,7 @@ import * as React from 'react';
 import { stylesheet, keyframes } from 'typestyle';
 
 import { LoadingProps } from './Loading';
+import { Card } from '../Card';
 
 export class Skeleton extends React.Component<LoadingProps, {}> {
   constructor(props) {
@@ -14,7 +15,7 @@ export class Skeleton extends React.Component<LoadingProps, {}> {
 
     if (isLoading) {
       return (
-        <div>
+        <Card>
           <div className={css.wrapper}>
             <div className={css.titleBlock}>
               <div className={`${css.loading} ${css.title}`} />
@@ -31,7 +32,7 @@ export class Skeleton extends React.Component<LoadingProps, {}> {
               <div className={`${css.loading} ${css.content} ${css.lineItemLast}`} />
             </div>
           </div>
-        </div>
+        </Card>
       );
     }
 
