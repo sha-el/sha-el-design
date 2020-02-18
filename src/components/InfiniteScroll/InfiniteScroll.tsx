@@ -10,6 +10,7 @@ export class InfiniteScroll<T> extends React.Component<InfiniteScrollProps<T>, S
     this.state = {
       data: [],
       isLoading: true,
+      pageNumber: 1,
     };
   }
   el: HTMLDivElement;
@@ -20,7 +21,7 @@ export class InfiniteScroll<T> extends React.Component<InfiniteScrollProps<T>, S
   };
 
   componentDidMount() {
-    this.props.data().then(v => this.setState({ data: v, isLoading: false }));
+    this.props.data(this.state.pageNumber).then(v => this.setState({ data: v, isLoading: false }));
     this.initScrollEvent();
   }
 
@@ -33,13 +34,18 @@ export class InfiniteScroll<T> extends React.Component<InfiniteScrollProps<T>, S
 
   onScroll = (data: InfiniteScrollProps<T>['data']) => debounce(
     (event) => {
-      if (this.isElementAtBottom(event.target as HTMLElement) && !this.state.isLoading) {
-        this.setState({ isLoading: true });
-        const d = [...this.state.data];
-        data().then(
-          (v) => this.setState({ data: d.concat(v), isLoading: false }),
-        );
+      if (
+        this.state.data.length >= this.props.count
+        || !this.isElementAtBottom(event.target as HTMLElement)
+        || this.state.isLoading
+      ) {
+        return;
       }
+      this.setState({ isLoading: true });
+      const d = [...this.state.data];
+      data(this.state.pageNumber + 1).then(
+        (v) => this.setState({ data: d.concat(v), isLoading: false, pageNumber: this.state.pageNumber + 1 }),
+      );
     },
     200,
   )
@@ -111,9 +117,10 @@ interface InfiniteScrollProps<T> {
   render: (data: T[]) => React.ReactNode;
   /**
    * Function to fetch data
+   * @param pageNumber current page number
    * @returns Promise of type T
    */
-  data: () => Promise<T[]>;
+  data: (pageNumber: number) => Promise<T[]>;
   /**
    * Defines height of container when you dont want whole body to scroll
    * @default auto
@@ -124,9 +131,14 @@ interface InfiniteScrollProps<T> {
    * @default <Loading />
    */
   loading?: React.ReactNode;
+  /**
+   * Total Count of data
+   */
+  count: number;
 }
 
 interface State<T> {
   data: T[];
   isLoading: boolean;
+  pageNumber: number;
 }
