@@ -280,9 +280,28 @@ export class AutoCompleteAsync<T> extends React.Component<AutoCompleteAsyncProps
 }
 
 interface BaseAutoCompleteProps<T> {
+  /**
+   * Function to fetch data
+   * @param search current string
+   * @returns Promise of type T
+   */
   data: (search: string) => Promise<T[]>;
+  /**
+   * Sets the label of Input
+   * @type React.ReactNode
+   */
   label: React.ReactNode;
+  /**
+   * Function to uniquely identify the selected values
+   * @param v
+   * @returns string
+   */
   uniqueIdentifier: (v: T) => T[keyof T];
+  /**
+   * Function to display selected value(s)
+   * @param v
+   * @returns string
+   */
   displayProp: (v: T) => string;
   inputProps?: InputProps;
   renderOptions?: React.ReactNode[];
@@ -291,7 +310,15 @@ interface BaseAutoCompleteProps<T> {
 }
 
 type SingleAutoCompleteProps<T> = {
+  /**
+   * Defines current mode of selection for Input
+   * @type single @type multiple
+   */
   mode?: 'single';
+  /**
+   * Sets the default value(s) for the Input
+   * @type T
+   */
   value: T;
   onChange: (value: T) => void;
 } & BaseAutoCompleteProps<T>;
