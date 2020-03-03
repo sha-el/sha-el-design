@@ -33,3 +33,17 @@ stories.add(
     </Row>
   )),
 );
+
+stories.add(
+  'With span',
+  withInfo({ inline: true })(() => (
+    <Row justifyContent='flex-end'>
+      <Col style={{ background: '#06e', color: '#fff' }}>
+        Col 1
+      </Col>
+      <Col span={12} style={{ background: '#0fe' }}>
+        Col 2
+      </Col>
+    </Row>
+  )),
+);

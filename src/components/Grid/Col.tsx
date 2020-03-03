@@ -8,8 +8,8 @@ export const Col: React.StatelessComponent<ColProps> = (props) => {
 };
 
 const colStyle = (props: ColProps) => style({
-  maxWidth: props.span && 100 / (24 / props.span) + '%',
-  flexBasis: props.span && 100 / (24 / props.span) + '%',
+  maxWidth: !props.flex && 100 / (24 / props.span) + '%',
+  flexBasis: !props.flex && 100 / (24 / props.span) + '%',
   boxSizing: 'border-box',
   flex: props.flex || '0 0 auto',
   paddingRight: '.5rem',
@@ -27,6 +27,6 @@ export interface ColProps {
   flex?: React.CSSProperties['flex'];
 }
 
-// Col.defaultProps = {
-//   span: 24,
-// };
+Col.defaultProps = {
+  span: 24,
+};
