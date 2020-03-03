@@ -8,10 +8,10 @@ export const Col: React.StatelessComponent<ColProps> = (props) => {
 };
 
 const colStyle = (props: ColProps) => style({
-  maxWidth: 100 / (24 / props.span) + '%',
-  flexBasis: 100 / (24 / props.span) + '%',
+  maxWidth: props.span && 100 / (24 / props.span) + '%',
+  flexBasis: props.span && 100 / (24 / props.span) + '%',
   boxSizing: 'border-box',
-  flex: '0 0 auto',
+  flex: props.flex || '0 0 auto',
   paddingRight: '.5rem',
   paddingLeft: '.5rem',
   marginLeft: props.offset && 100 / (24 / props.offset) + '%',
@@ -20,12 +20,13 @@ const colStyle = (props: ColProps) => style({
 
 export interface ColProps {
   style?: React.CSSProperties;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   span?: number;
   offset?: number;
-  alignSelf?: 'center' | 'end' | 'flex-end' | 'flex-start' | 'self-end' | 'self-start' | 'start';
+  alignSelf?: React.CSSProperties['alignSelf'];
+  flex?: React.CSSProperties['flex'];
 }
 
-Col.defaultProps = {
-  span: 24,
-};
+// Col.defaultProps = {
+//   span: 24,
+// };
