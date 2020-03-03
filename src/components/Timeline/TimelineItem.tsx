@@ -41,7 +41,7 @@ export interface TimelineItemProps {
    * Adds extra element
    * Should be used only with position=altranate
    */
-  extra?: string;
+  extra?: React.ReactNode;
 }
 
 const style = (props: TimelineItemProps) => {
