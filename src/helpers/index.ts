@@ -1,5 +1,5 @@
 import { color } from 'csx';
-import { cssRule, cssRaw, createTypeStyle } from 'typestyle';
+import { cssRaw } from 'typestyle';
 import { normalize } from 'csstips';
 
 import { ThemeService } from './theme';

@@ -29,18 +29,19 @@ export class Button extends React.Component<ButtonProps, State> {
       type,
       size,
       shape,
-      link,
       displayBlock,
+      icon,
       ...rest
     } = this.props;
 
     const linkButtonRestProps = removeObjectProperties(rest as AnchorButtonProps, 'type');
-    if (rest.href !== undefined || link) {
+    if (rest.href !== undefined || type === 'link') {
       return (
         <a
           className={`${style.anchor} ${style.default}`}
           {...linkButtonRestProps}
         >
+          {icon}
           {this.props.children}
         </a>
       );
@@ -52,6 +53,7 @@ export class Button extends React.Component<ButtonProps, State> {
         className={`${style.default} ${style.button}`}
         {...buttonProps}
       >
+        {icon}
         {this.props.children}
       </button>
     );
@@ -61,11 +63,11 @@ export class Button extends React.Component<ButtonProps, State> {
 function getSize(size: sizeTypes, shape: shapeTypes, block: boolean) {
   let style = {
     padding: '0 20px',
-    height: '34px',
+    height: '36px',
     fontSize: '14px',
     width: block ? '100%' : 'auto',
     borderRadius: '4px',
-    lineHeight: '34px',
+    lineHeight: '36px',
   };
   switch (size) {
     case 'big': {
@@ -74,14 +76,6 @@ function getSize(size: sizeTypes, shape: shapeTypes, block: boolean) {
         padding: '0 30px',
         height: '40px',
         fontSize: '16px',
-      };
-    }
-    case 'fat': {
-      style = {
-        ...style,
-        padding: '0 40px',
-        height: '45px',
-        fontSize: '18px',
       };
     }
   }
@@ -96,18 +90,50 @@ function getSize(size: sizeTypes, shape: shapeTypes, block: boolean) {
   return style;
 }
 
+function buttonColor(props: ButtonProps, theme: Theme): [string, string] {
+  if (props.disabled && (props.type !== 'link' && !props.flat)) {
+    return [styleEnum.disabledColor, '#ffffff'];
+  }
+
+  if (props.disabled) {
+    return ['rgba(255,255,255,0)', styleEnum.disabledColor];
+  }
+
+  if (props.type === 'link') {
+    return ['rgba(255,255,255,0)', theme.primary];
+  }
+  if (props.flat) {
+    return ['rgba(255,255,255,0)', props.type === 'default' ? '#000000' : theme[props.type]];
+  }
+
+  const bgColor = {
+    ...theme,
+    default: '#eeeeee',
+  }[props.type];
+
+  return [bgColor, getColor(bgColor)];
+}
+
 function css() {
-  const { disabled } = this.props;
-  const baseColor = this.state.theme[this.props.type];
-  const hoverBgColor = color(baseColor).darken(.1).toHexString();
+  const { disabled, children } = this.props;
+
+  const [bgColor, textColor] = buttonColor(this.props, this.state.theme);
+
+  const hoverBgColor = color(bgColor).darken(.1).toHexString();
   return stylesheet({
     default: {
-      display: 'block',
+      ...getSize(this.props.size, this.props.shape, this.props.displayBlock),
+      display: 'inline-flex',
+      alignItems: 'center',
       border: 'none',
       cursor: 'pointer',
       textDecoration: 'none',
       margin: '0 0 10px 0',
       boxSizing: 'border-box',
+      letterSpacing: '.0892857143em',
+      fontWeight: 500,
+      textAlign: 'center',
+      justifyContent: 'center',
       $nest: {
         '&:focus': {
           outline: 'none',
@@ -116,44 +142,56 @@ function css() {
           transform: 'translate(0, 2px)',
         },
         '&:disabled': {
-          background: styleEnum.borderColor,
+          background: bgColor,
           cursor: 'not-allowed',
-          color: 'white',
+          color: textColor,
+        },
+        'svg': {
+          display: 'inline-block',
+          verticalAlign: 'middle',
+          fontSize: '17px',
+          marginLeft: children && '-4px',
+          marginRight: children && '8px',
         },
       },
     },
     button: {
-      ...getSize(this.props.size, this.props.shape, this.props.displayBlock),
-      boxShadow: '0 2px 0 rgba(0,0,0,0.045)',
+      boxShadow: this.props.flat ? 'none' : '0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12)',
       textAlign: 'center',
-      background: baseColor,
-      color: getColor(baseColor),
+      background: bgColor,
+      color: textColor,
       $nest: {
         '&:hover': !disabled && {
           background: hoverBgColor,
-          color: getColor(hoverBgColor),
+          color: textColor,
         },
       },
     },
     anchor: {
-      color: baseColor,
-      background: 'white',
+      color: textColor,
+      background: bgColor,
       textAlign: 'left',
       cursor: 'pointer',
+      $nest: {
+        '&[disabled]': {
+          cursor: 'not-allowed',
+        },
+      },
     },
   });
 }
 
-declare type sizeTypes = 'default' | 'big' | 'fat';
+declare type sizeTypes = 'default' | 'big';
 declare type shapeTypes = 'default' | 'circle';
 
 export interface BaseButtonProps {
-  type?: keyof Theme;
+  type?: 'default' | 'primary' | 'secondary' | 'danger' | 'link';
   size?: sizeTypes;
   shape?: shapeTypes;
   className?: string;
   displayBlock?: boolean;
-  link?: boolean;
+  flat?: boolean;
+  icon?: React.ReactNode;
 
   // For anchor tag
   href?: string;
@@ -164,7 +202,6 @@ export interface BaseButtonProps {
 export type AnchorButtonProps = {
   href?: string;
   target?: string;
-  link?: true,
   onClick?: React.MouseEventHandler<HTMLAnchorElement>;
 } & BaseButtonProps &
   React.AnchorHTMLAttributes<HTMLAnchorElement>;

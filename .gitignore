@@ -7,3 +7,4 @@ tests/**/*.jsx
 .DS_Store
 yarn-error.log
 /lib
+.storybook

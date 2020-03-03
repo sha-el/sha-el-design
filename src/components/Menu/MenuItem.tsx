@@ -19,16 +19,16 @@ export class MenuItem extends React.Component<ItemProps, State> {
   }
 
   render() {
-    const style = css(this.props, this.state);
     return (
       <SidePanelContext.Consumer>
         {(context => {
           const isBarOpen = context.width > 200;
-          const { nested, icon, name, active, children } = this.props;
+          const { nested, icon, name, children } = this.props;
+          const style = css(this.props, this.state, isBarOpen);
           return (
-            <div
+            <li
               key={name}
-              className={`${style.flex} ${style.menu} ${active ? style.active : style.menuHover}`}
+              className={`${style.flex} ${style.menu}`}
             >
               {icon
                 && <div
@@ -43,7 +43,7 @@ export class MenuItem extends React.Component<ItemProps, State> {
               {(isBarOpen || nested) && <div className={`${style.flex_1}`}>
                 {children}
               </div>}
-            </div>
+            </li>
           );
         })}
       </SidePanelContext.Consumer>

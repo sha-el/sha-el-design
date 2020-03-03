@@ -7,7 +7,7 @@ import { Skeleton } from './Skeleton';
 const stories = storiesOf('Skeleton', module);
 
 stories.add(
-  'With custom icons and iconBgColor',
+  'isLoading set to true',
   withInfo({ inline: true })(() => (
     <Skeleton isLoading={true} />
   )),

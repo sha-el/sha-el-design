@@ -44,6 +44,7 @@
     "typestyle": "^2.0.1"
   },
   "devDependencies": {
+    "@sambego/storybook-state": "^2.0.1",
     "@storybook/addon-actions": "^5.3.13",
     "@storybook/addon-info": "^5.3.13",
     "@storybook/cli": "^3.4.10",

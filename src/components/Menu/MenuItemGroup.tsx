@@ -40,55 +40,84 @@ export class MenuItemGroup extends React.Component<MenuItemGroupProps, State> {
     );
   }
 
+  renderPopup = (isBarOpen: boolean) => {
+    const { icon, title } = this.props;
+    const style = css({ active: false }, this.state, isBarOpen);
+
+    if (isBarOpen) {
+      return (
+        <>
+          {icon
+            && <div
+              className={`${style.icon}`}
+              style={{
+                padding: isBarOpen ? '0 20px 0 0' : '0',
+              }}
+            >
+              {icon}
+            </div>
+          }
+          {isBarOpen && <div className={`${style.flex_1}`}>
+            <span className={style.groupTitle}>{title}</span>
+          </div>}
+          {isBarOpen && <div className={style.flexEnd}>
+            {this.state.active ? <FaChevronDown key='1' /> : <FaChevronUp key='2' />}
+          </div>}
+        </>
+      );
+    }
+
+    return (
+      <Popover
+        content={
+          <div
+            className={`${style.groupContainer} ${style.popoverContent}`}
+          >
+            {this.renderChilden()}
+          </div>
+        }
+        trigger='onClick'
+        position='right'
+        style={{
+          content: {
+            padding: '0',
+          },
+        }}
+      >
+        <div
+          className={`${style.icon}`}
+          style={{
+            padding: isBarOpen ? '0 20px 0 0' : '0',
+          }}
+        >
+          {icon}
+        </div>
+      </Popover>
+    );
+  }
+
   render() {
-    const style = css(this.state, this.state);
     return (
       <SidePanelContext.Consumer>
         {context => {
-          const isBoxOpen = this.props.inline && context.width > 100;
+          const isBarOpen = this.props.inline && context.width > 200;
+          const style = css({ active: false }, this.state, false);
           return (
-            <div
-              key={this.props.name}
-            >
-              <div
+            <>
+              <li
+                key={name}
                 className={`${style.flex} ${style.menu}`}
                 onClick={this.toggle}
               >
-                <div className={`${style.groupTitle} ${style.flex_1}`}>
-                  {isBoxOpen ? this.props.title :
-                    <Popover
-                      content={
-                        <div
-                          className={`${style.groupContainer} ${style.popoverContent}`}
-                        >
-                          {this.renderChilden()}
-                        </div>
-                      }
-                      trigger='onClick'
-                      position='right'
-                      style={{
-                        content: {
-                          padding: '0',
-                        },
-                      }}
-                    >
-                      <div className={`${style.icon} ${style.menu}`}>
-                        {this.props.title}
-                      </div>
-                    </Popover>
-                  }
-                </div>
-                {isBoxOpen && <div className={style.flexEnd}>
-                  {this.state.active ? <FaChevronDown key='1' /> : <FaChevronUp key='2' />}
-                </div>}
-              </div>
-              {isBoxOpen && <Content
+                {this.renderPopup(isBarOpen)}
+              </li>
+              {isBarOpen && <Content
                 className={`${style.groupContainer}`}
                 pose={this.state.active ? 'open' : 'closed'}
               >
                 {this.props.children}
               </Content>}
-            </div>
+            </>
           );
         }}
       </SidePanelContext.Consumer>
@@ -103,6 +132,7 @@ const Content = posed.div({
 
 interface MenuItemGroupProps {
   title: React.ReactNode;
+  icon?: React.ReactNode;
   name?: string;
   defaultActive?: boolean;
   inline?: boolean;

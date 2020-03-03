@@ -63,9 +63,7 @@ export class SidePanel extends React.Component<SidePanelProps, State> {
             // onDragEnd={(e) => (e.target as HTMLDivElement).style.opacity = '1'}
           >
             <div style={!open && { display: 'block' } || {}} className={styleSheet.arrow} onClick={this.switch}>
-              <Button shape='circle'>
-                {!open ? <MdMenu /> : <MdKeyboardArrowLeft />}
-              </Button>
+              <Button shape='circle' icon={!open ? <MdMenu /> : <MdKeyboardArrowLeft />} />
             </div>
           </div>
           <div className={styleSheet.line} />

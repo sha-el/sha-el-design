@@ -9,4 +9,5 @@ export enum styleEnum {
   shadow_bot_white_2x = '0 4px 3px -3px rgba(255,255,255,.2)',
   shadow_bot = '0 2px 1.5px -1.5px rgba(0,0,0,.2)',
   headerBgColor = 'hsla(0,0%,100%,.75)',
+  disabledColor = 'rgba(0, 0, 0, 0.25)',
 }

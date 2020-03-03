@@ -3,10 +3,11 @@ import { BehaviorSubject } from 'rxjs';
 export class ThemeService {
   static instance: ThemeService;
   themes: Theme[] = [{
-    primary: '#4a148c',
-    secondary: '#880e4f',
+    primary: '#1a237e',
+    secondary: '#f06292',
     default: '#FFFFFF',
     error: '#ff0000',
+    danger: '#ff0000',
     warning: '#F09266',
     info: '#67A57F',
   }];
@@ -37,6 +38,7 @@ export interface Theme {
   secondary: string;
   default: string;
   error: string;
+  danger: string;
   warning: string;
   info: string;
 }
