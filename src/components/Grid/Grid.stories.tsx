@@ -47,3 +47,18 @@ stories.add(
     </Row>
   )),
 );
+
+stories.add(
+  'Responsive',
+  withInfo({ inlinr: true })(() => (
+    <Row>
+      <Col style={{ background: '#06e', color: '#fff' }} spanXs={24} spanSm={20} spanMd={16} spanLg={12} spanXl={8}>1</Col>
+      <Col style={{ background: '#06e', color: '#fff' }} spanXs={24} spanSm={20} spanMd={16} spanLg={12} spanXl={8}>2</Col>
+      <Col style={{ background: '#06e', color: '#fff' }} spanXs={24} spanSm={20} spanMd={16} spanLg={12} spanXl={8}>3</Col>
+      <Col style={{ background: '#06e', color: '#fff' }} spanXs={24} spanSm={20} spanMd={16} spanLg={12} spanXl={8}>4</Col>
+      <Col style={{ background: '#06e', color: '#fff' }} spanXs={24} spanSm={20} spanMd={16} spanLg={12} spanXl={8}>5</Col>
+      <Col style={{ background: '#06e', color: '#fff' }} spanXs={24} spanSm={20} spanMd={16} spanLg={12} spanXl={8}>6</Col>
+      <Col style={{ background: '#06e', color: '#fff' }} spanXs={24} spanSm={20} spanMd={16} spanLg={12} spanXl={8}>7</Col>
+    </Row>
+  )),
+);
