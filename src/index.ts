@@ -29,3 +29,4 @@ export { Radio, RadioButton, RadioGroup } from './components/Radio';
 export { Page } from './components/Page';
 export { Timeline, TimelineItem } from './components/Timeline';
 export { InfiniteScroll } from './components/InfiniteScroll';
+export { Badge } from './components/Badge';
