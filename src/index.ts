@@ -30,3 +30,4 @@ export { Page } from './components/Page';
 export { Timeline, TimelineItem } from './components/Timeline';
 export { InfiniteScroll } from './components/InfiniteScroll';
 export { Badge } from './components/Badge';
+export { Drawer } from './components/Drawer';

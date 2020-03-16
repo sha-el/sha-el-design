@@ -32,7 +32,7 @@ export class Card extends React.Component<CardProps, State> {
       <div className={style.container} style={container}>
         {(title || subtitle) &&
           <div className={style.header} style={head}>
-            <h3>{title}</h3>
+            <div>{title}</div>
             <h5>{subtitle}</h5>
           </div>
         }
@@ -58,6 +58,7 @@ export class Card extends React.Component<CardProps, State> {
     header: {
       padding: '16px 24px',
       boxShadow: styleEnum.shadow_bot_2x,
+      fontWeight: 500,
     },
     divider: {
       margin: '0px 0 10px',

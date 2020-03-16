@@ -3,7 +3,6 @@ import { storiesOf } from '@storybook/react';
 import { withInfo } from '@storybook/addon-info';
 
 import { Badge, Button } from '../../index';
-import { MenuItem } from '../Menu';
 import { MdNotifications } from 'react-icons/md';
 
 const stories = storiesOf('Badge', module);

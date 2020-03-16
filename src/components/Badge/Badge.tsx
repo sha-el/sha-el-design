@@ -2,8 +2,8 @@ import * as React from 'react';
 import { stylesheet } from 'typestyle';
 import { getColor } from '../../helpers';
 
-export const Badge: React.FunctionComponent<Props> = (props) => {
-  
+export const Badge: React.FunctionComponent<BadgeProps> = (props) => {
+
   const count = props.maxCount && props.maxCount < props.count ? `${props.maxCount}+` : props.count;
   const style = stylesheet({
     container: {
@@ -30,7 +30,6 @@ export const Badge: React.FunctionComponent<Props> = (props) => {
     },
   });
 
-
   return (
     <div className={style.container}>
       <sup className={style.count}>{count}</sup>
@@ -43,7 +42,7 @@ Badge.defaultProps = {
   color: 'red',
 };
 
-interface Props {
+interface BadgeProps {
   /**
    * Element to show as Children
    */
