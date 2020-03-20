@@ -57,12 +57,16 @@ export class Table<T> extends React.Component<TableProps<T>, State> {
 
   render() {
     const style = this.css();
+    const { header, columns, footer } = this.props;
     return (
       <div className={style.container}>
+        {header && <div className={style.header}>
+          {header}
+        </div>}
         <table className={style.table}>
           <thead>
             <tr>
-              {this.props.columns.map(v => <th key={`table-header-${v.key}`}>{v.header}</th>)}
+              {columns.map(v => <th key={`table-header-${v.key}`}>{v.header}</th>)}
             </tr>
           </thead>
           <tbody>
@@ -70,6 +74,7 @@ export class Table<T> extends React.Component<TableProps<T>, State> {
           </tbody>
         </table>
         {this.showEmptyState()}
+        {footer}
       </div>
     );
   }
@@ -79,7 +84,6 @@ export class Table<T> extends React.Component<TableProps<T>, State> {
       width: '100%',
       borderCollapse: 'collapse',
       background: 'white',
-      boxShadow: this.props.shadow && styleEnum.shadow_2x,
       fontSize: '14px',
       $nest: {
         thead: {
@@ -94,6 +98,7 @@ export class Table<T> extends React.Component<TableProps<T>, State> {
           padding: '15px 5px',
           textAlign: 'left',
           fontFamily: 'Roboto,"Helvetica Neue",sans-serif !important',
+          textTransform: 'capitalize',
           $nest: {
             '&:first-of-type': {
               paddingLeft: '24px',
@@ -120,6 +125,8 @@ export class Table<T> extends React.Component<TableProps<T>, State> {
     },
     container: {
       padding: this.props.shadow && '10px 5px',
+      boxShadow: this.props.shadow && styleEnum.shadow_2x,
+      background: 'white',
     },
     icon: {
       textAlign: 'center',
@@ -127,11 +134,13 @@ export class Table<T> extends React.Component<TableProps<T>, State> {
       padding: '10px',
     },
     empty: {
-      color: this.state.theme.primary,
+      color: '#ccc',
       background: 'white',
-      boxShadow: this.props.shadow && styleEnum.shadow_bot,
       textAlign: 'center',
       padding: '50px',
+    },
+    header: {
+      padding: '15px 24px',
     },
   })
 }
@@ -144,6 +153,8 @@ interface TableProps<T> {
   data: T[];
   columns: Colums<T>[];
   shadow?: boolean;
+  header?: React.ReactNode;
+  footer?: React.ReactNode;
 }
 
 export interface Colums<T> {

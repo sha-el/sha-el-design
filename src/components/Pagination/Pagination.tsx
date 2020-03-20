@@ -91,7 +91,8 @@ export class Pagination extends React.Component<PaginationProps, State> {
           </li>
         </div>
         <div className={css.totalText}>
-          {showTotal && `${(currentPage - 1) * batchSize}-${currentPage * batchSize} of ${totalCount}`}
+          {showTotal && `${((currentPage - 1) * batchSize) + 1}-${(currentPage * batchSize)
+            < totalCount ? (currentPage * batchSize) : totalCount} of ${totalCount}`}
         </div>
       </>
     );

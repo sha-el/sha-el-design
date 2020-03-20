@@ -46,6 +46,7 @@ cssRule(
     $nest: {
       '& .event': {
         position: 'relative',
+        margin: '10px 0',
       },
       '& .content': {
         position: 'relative',

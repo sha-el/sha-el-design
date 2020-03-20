@@ -4,7 +4,7 @@ initialize();
 
 export { AutoComplete, AutoCompleteAsync } from './components/AutoComplete';
 export { Button, ButtonGroup } from './components/Button';
-export { Card } from './components/Card';
+export { Card, CardHeader, CardBody, CardMedia } from './components/Card';
 export { Row, Col } from './components/Grid';
 export { Input, TextArea } from './components/Input';
 export { SidePanel, Container, Content } from './components/Layout';
@@ -14,7 +14,7 @@ export { Modal } from './components/Modal';
 export { Pagination } from './components/Pagination';
 export { Popover } from './components/Popover';
 export { Table } from './components/Table';
-export { TabPanel, Tabs } from './components/Tabs';
+export { TabPanel, Tabs, TabHeader, TabPanelContainer } from './components/Tabs';
 export { validate } from './components/Form';
 export { Calendar } from './components/Calendar';
 export { CheckBox } from './components/CheckBox';

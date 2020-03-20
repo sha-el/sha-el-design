@@ -1,189 +1,60 @@
 export default `
-a {
-  text-decoration: none;
+.secondary-text-color {
+  color: rgba(0, 0, 0, 0.54);
 }
-html {
-  line-height: 1.5;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif !important;
-  font-weight: normal;
-  color: rgba(0, 0, 0, 0.87);
+body {
+  font-family: "Roboto", sans-serif;
 }
-@media only screen and (min-width: 0) {
-  html {
-    font-size: 14px;
-  }
-}
-@media only screen and (min-width: 992px) {
-  html {
-    font-size: 14.5px;
-  }
-}
-@media only screen and (min-width: 1200px) {
-  html {
-    font-size: 15px;
-  }
-}
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 400;
-  line-height: 1.3;
-}
-h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
-  font-weight: inherit;
+h1,h2,h3,h4,h5,h6 {
+  margin: 0;
 }
 h1 {
-  font-size: 3.2rem;
-  line-height: 110%;
-  margin: 1.8rem 0 1.68rem 0;
+  font-size: 6rem;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  line-height: 1.167;
+  letter-spacing: -0.01562em;
 }
 h2 {
-  font-size: 2.56rem;
-  line-height: 110%;
-  margin: 1.3733333333rem 0 1.424rem 0;
+  font-size: 3.75rem;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  line-height: 1.2;
+  letter-spacing: -0.00833em;
 }
 h3 {
-  font-size: 1.92rem;
-  line-height: 110%;
-  margin: 0.9466666667rem 0 1.168rem 0;
+  font-size: 3rem;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  line-height: 1.167;
+  letter-spacing: 0em;
 }
 h4 {
-  font-size: 1.48rem;
-  line-height: 110%;
-  margin: 0.52rem 0 0.912rem 0;
+  font-size: 2.125rem;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  line-height: 1.235;
+  letter-spacing: 0.00735em;
 }
 h5 {
-  font-size: 0.74rem;
-  line-height: 110%;
-  margin: 0.0933333333rem 0 0.656rem 0;
+  font-size: 1.5rem;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  line-height: 1.334;
+  letter-spacing: 0em;
 }
 h6 {
-  font-size: 0.55rem;
-  line-height: 110%;
-  margin: 0.7666666667rem 0 0.46rem 0;
-}
-em {
-  font-style: italic;
-}
-strong {
+  font-size: 1.25rem;
+  font-family: "Roboto", sans-serif;
   font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: 0.0075em;
 }
-small {
-  font-size: 75%;
+.subtitle {
+  font-size: 1rem;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
 }
-.light {
-  font-weight: 300;
-}
-.thin {
-  font-weight: 200;
-}
-@media only screen and (min-width: 360px) {
-  .flow-text {
-    font-size: 1.2rem;
-  }
-}
-@media only screen and (min-width: 390px) {
-  .flow-text {
-    font-size: 1.224rem;
-  }
-}
-@media only screen and (min-width: 420px) {
-  .flow-text {
-    font-size: 1.248rem;
-  }
-}
-@media only screen and (min-width: 450px) {
-  .flow-text {
-    font-size: 1.272rem;
-  }
-}
-@media only screen and (min-width: 480px) {
-  .flow-text {
-    font-size: 1.296rem;
-  }
-}
-@media only screen and (min-width: 510px) {
-  .flow-text {
-    font-size: 1.32rem;
-  }
-}
-@media only screen and (min-width: 540px) {
-  .flow-text {
-    font-size: 1.344rem;
-  }
-}
-@media only screen and (min-width: 570px) {
-  .flow-text {
-    font-size: 1.368rem;
-  }
-}
-@media only screen and (min-width: 600px) {
-  .flow-text {
-    font-size: 1.392rem;
-  }
-}
-@media only screen and (min-width: 630px) {
-  .flow-text {
-    font-size: 1.416rem;
-  }
-}
-@media only screen and (min-width: 660px) {
-  .flow-text {
-    font-size: 1.44rem;
-  }
-}
-@media only screen and (min-width: 690px) {
-  .flow-text {
-    font-size: 1.464rem;
-  }
-}
-@media only screen and (min-width: 720px) {
-  .flow-text {
-    font-size: 1.488rem;
-  }
-}
-@media only screen and (min-width: 750px) {
-  .flow-text {
-    font-size: 1.512rem;
-  }
-}
-@media only screen and (min-width: 780px) {
-  .flow-text {
-    font-size: 1.536rem;
-  }
-}
-@media only screen and (min-width: 810px) {
-  .flow-text {
-    font-size: 1.56rem;
-  }
-}
-@media only screen and (min-width: 840px) {
-  .flow-text {
-    font-size: 1.584rem;
-  }
-}
-@media only screen and (min-width: 870px) {
-  .flow-text {
-    font-size: 1.608rem;
-  }
-}
-@media only screen and (min-width: 900px) {
-  .flow-text {
-    font-size: 1.632rem;
-  }
-}
-@media only screen and (min-width: 930px) {
-  .flow-text {
-    font-size: 1.656rem;
-  }
-}
-@media only screen and (min-width: 960px) {
-  .flow-text {
-    font-size: 1.68rem;
-  }
-}
-@media only screen and (max-width: 360px) {
-  .flow-text {
-    font-size: 1.2rem;
-  }
-}
-
 `;

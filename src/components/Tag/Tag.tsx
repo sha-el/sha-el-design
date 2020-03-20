@@ -8,7 +8,7 @@ export const Tag: React.StatelessComponent<TagProps> = (props) => {
   return (
     <span
       className={css(props)}
-      onClick={() => props.onClose(!props.active)}
+      onClick={() => props.onClick(!props.active)}
     >
       {props.children}
     </span>
@@ -18,26 +18,31 @@ export const Tag: React.StatelessComponent<TagProps> = (props) => {
 const css = (props: TagProps) => style({
   background: props.active ? props.color : 'transparent',
   color: props.active ? props.textColor || getColor(props.color) : props.color,
-  borderRadius: '2px',
-  fontSize: '12px',
-  padding: '5px 10px',
-  fontWeight: 700,
+  fontSize: '0.8125rem',
+  padding: '4px 10px',
+  fontWeight: 500,
   margin: '5px',
   display: 'inline-block',
   boxShadow: props.active && styleEnum.shadow_bot,
   cursor: 'pointer',
   textTransform: 'uppercase',
+  minWidth: '64px',
+  textAlign: 'center',
+  lineHeight: 1.75,
+  borderRadius: '4px',
+  letterSpacing: '0.02857em',
+  boxSizing: 'border-box',
 });
 
 export interface TagProps {
   color: string;
   children: React.ReactNode;
-  onClose?: (closed: boolean) => void;
+  onClick?: (closed: boolean) => void;
   active?: boolean;
   textColor?: string;
 }
 
 Tag.defaultProps = {
   active: true,
-  onClose: () => null,
+  onClick: () => null,
 };

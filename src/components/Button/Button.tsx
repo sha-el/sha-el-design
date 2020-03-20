@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { stylesheet } from 'typestyle';
+import { stylesheet, classes } from 'typestyle';
 import { Theme, ThemeService } from '../../helpers/theme';
 import { getColor, removeObjectProperties } from '../../helpers';
 import { styleEnum } from '../../helpers/constants';
@@ -31,6 +31,8 @@ export class Button extends React.Component<ButtonProps, State> {
       shape,
       displayBlock,
       icon,
+      flat,
+      className,
       ...rest
     } = this.props;
 
@@ -38,7 +40,7 @@ export class Button extends React.Component<ButtonProps, State> {
     if (rest.href !== undefined || type === 'link') {
       return (
         <a
-          className={`${style.anchor} ${style.default}`}
+          className={classes(style.anchor, style.default, className)}
           {...linkButtonRestProps}
         >
           {icon}
@@ -50,7 +52,7 @@ export class Button extends React.Component<ButtonProps, State> {
     const buttonProps = rest as NativeButtonProps;
     return (
       <button
-        className={`${style.default} ${style.button}`}
+        className={classes(style.default, style.button, className)}
         {...buttonProps}
       >
         {icon}
@@ -128,7 +130,6 @@ function css() {
       border: 'none',
       cursor: 'pointer',
       textDecoration: 'none',
-      margin: '0 0 10px 0',
       boxSizing: 'border-box',
       letterSpacing: '.0892857143em',
       fontWeight: 500,

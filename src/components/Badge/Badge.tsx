@@ -27,6 +27,7 @@ export const Badge: React.FunctionComponent<BadgeProps> = (props) => {
       height: '20px',
       fontWeight: 500,
       padding: `0 ${count ? String(count).length * 2 : 0}px`,
+      zIndex: 1,
     },
   });
 

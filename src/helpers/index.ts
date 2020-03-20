@@ -68,9 +68,6 @@ export function initialize() {
   ));
 
   cssRaw(`
-  html {
-    // overflow-x: hidden;
-  }
   body {
     background: #f0f2f5;
   }
@@ -78,11 +75,12 @@ export function initialize() {
     text-decoration: none;
     color: rgba(0,0,0,.87);
   }
+  @import url('https://fonts.googleapis.com/css?family=Roboto:400,400i,500,700&display=swap');
   ${popverCss}
   ${topography}
 `);
 
-  normalize();
+  // normalize();
   initializeNotification();
 }
 
@@ -103,4 +101,12 @@ export function getRandomColor() {
     col += letters[Math.floor(Math.random() * 16)];
   }
   return col;
+}
+
+export function uuidv4() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    // tslint:disable-next-line: no-bitwise
+    const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
 }

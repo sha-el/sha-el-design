@@ -10,5 +10,5 @@ export const TabPanel: React.StatelessComponent<TabPanelProps> = (props) => {
 
 export interface TabPanelProps {
   title: React.ReactNode;
-  name: string;
+  key: string;
 }

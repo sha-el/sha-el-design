@@ -219,7 +219,7 @@ export class AutoCompleteAsync<T> extends React.Component<AutoCompleteAsyncProps
           <Tag
             key={`${this.props.uniqueIdentifier(v)}`}
             color={this.state.theme.secondary}
-            onClose={() => this.removeSelected(index)}
+            onClick={() => this.removeSelected(index)}
           >
             {v && this.props.displayProp(v)}
           </Tag>

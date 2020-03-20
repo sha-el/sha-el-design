@@ -42,9 +42,7 @@ export class Collapse extends React.Component<Props, State> {
               className={css.icon}
               pose={isOpen ? 'open' : 'closed'}
             >
-              <Button shape='circle' type={isOpen ? 'primary' : 'default'}>
-                <MdExpandMore />
-              </Button>
+              <Button shape='circle' flat type={isOpen ? 'primary' : 'default'} icon={<MdExpandMore />} />
             </Rotate>
           </div>
           {children}

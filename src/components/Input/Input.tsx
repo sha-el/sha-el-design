@@ -140,7 +140,7 @@ function style(theme: Theme, isError: boolean, before: boolean, active: boolean)
     container: {
       display: 'flex',
       padding: '3px',
-      marginBottom: '24px',
+      // marginBottom: '24px',
       boxSizing: 'border-box',
       color: 'rgb(9, 30, 66)',
       fontSize: '14px',

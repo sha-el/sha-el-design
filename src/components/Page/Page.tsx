@@ -1,61 +1,77 @@
 import * as React from 'react';
-import { BreadcrumbProps, Breadcrumb } from '../Breadcrumb/Breadcrumb';
 import { Row, Col } from '../../';
-import { TabsProps } from '../Tabs/Tabs';
-import { stylesheet } from 'typestyle';
+import { stylesheet, classes } from 'typestyle';
 import { styleEnum } from '../../helpers/constants';
 import { TagProps } from '../Tag/Tag';
+import { TabPanelProps } from '../Tabs/TabPanel';
+import { TabHeader, TabPanelContainer } from '../Tabs';
+import { nestedAccess } from '../../helpers';
 
-export const Page: React.StatelessComponent<Props> = (props) => {
+export const Page: React.StatelessComponent<PageProps> = (props) => {
+
+  const [activeKey, setActiveKey] = React.useState(nestedAccess(props.tabs, 'defaultActiveKey'));
+
   return (
-    <>
+    <div className={css.container}>
       <div className={css.header}>
-        <Row alignItems='flex-start'>
-          <Col>
-            <Breadcrumb {...props.breadcrumbs} />
+        <Row alignItems='center'>
+          {props.backIcon && <Col flex='0 1 auto'>{props.backIcon}</Col>}
+          <Col flex='0 1 auto'>
+            {props.title}
           </Col>
-          <Col span={12}>
-            <Row>
-              {
-                props.backIcon &&
-                <Col span={2}>
-                  <div className={css.backIcon}>
-                    {props.backIcon}
-                  </div>
-                </Col>
-              }
-              <Col span={22}>
-                <div className={css.inline}><h4>{props.title}</h4></div>
-                <div className={css.inline}>{props.tags}</div>
-              </Col>
-              <Col offset={props.backIcon && 2} span={24}>
-                <h5>{props.subtitle}</h5>
-              </Col>
-            </Row>
+          <Col flex='1 0 auto'>
+            {props.tags}
           </Col>
-          <Col span={12} alignSelf='flex-end'>
+          <Col flex='0 1 auto'>
             {props.extra}
-          </Col>
-          <Col>
-            {props.bottom}
           </Col>
         </Row>
       </div>
+      {props.bottom && (<div style={{ paddingRight: '0', paddingLeft: '0' }} className={classes(css.header, css.bottom)}>
+        <Row style={{ paddingBottom: '0', paddingTop: '0' }} alignItems='flex-end'>
+          {props.tabs && <Col flex='0 1 auto'>
+            <div className={css.tabs}>
+              <TabHeader
+                titles={props.tabs.headers}
+                activeKey={activeKey}
+                onClick={setActiveKey}
+              />
+            </div>
+          </Col>}
+          <Col flex='1 0 auto'>{props.bottom}</Col>
+        </Row>
+      </div>)}
+      {props.tabs && <TabPanelContainer
+        titles={props.tabs.headers}
+        activeKey={activeKey}
+        destroyOnChange={nestedAccess(props.tabs, 'destroyOnChange')}
+      >
+        {props.tabs.panels}
+      </TabPanelContainer>
+      }
       <div>
-        {props.tabs}
         {props.children}
       </div>
-    </>
+    </ div>
   );
 };
 
 const css = stylesheet({
   container: {
+    margin: '20px',
   },
   header: {
-    padding: '0 10px',
+    padding: '0px 15px',
     background: 'white',
-    boxShadow: styleEnum.shadow_bot_2x,
+    boxShadow: styleEnum.shadow_2x,
+    borderRadius: '4px',
+    marginBottom: '10px',
+  },
+  bottom: {
+    marginTop: '24px',
+  },
+  tabs: {
+    marginTop: '-10px',
   },
   inline: {
     display: 'inline-block',
@@ -76,14 +92,17 @@ const css = stylesheet({
   },
 });
 
-interface Props {
+export interface PageProps {
   children?: React.ReactNode;
   title?: React.ReactNode;
-  subtitle?: React.ReactNode;
-  breadcrumbs?: BreadcrumbProps;
   backIcon?: React.ReactNode;
   extra?: React.ReactNode;
   bottom?: React.ReactNode;
   tags?: React.ReactElement<TagProps>[];
-  tabs?: React.ReactElement<TabsProps>;
+  tabs?: {
+    headers: TabPanelProps[];
+    panels: React.ReactElement<TabPanelProps> | React.ReactElement<TabPanelProps>[];
+    defaultActiveKey: string;
+    destroyOnChange?: boolean;
+  };
 }

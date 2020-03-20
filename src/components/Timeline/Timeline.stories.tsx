@@ -16,22 +16,22 @@ stories.add(
   withInfo({ inline: true })(() => (
     <Timeline>
       <TimelineItem iconBgColor='#2196F3'>
-        <Card subtitle='2010-10-10'>
+        <Card>
           SMS
         </Card>
       </TimelineItem>
       <TimelineItem iconBgColor='#F44336'>
-        <Card subtitle='2010-10-10'>
+        <Card>
           SMS
         </Card>
       </TimelineItem>
       <TimelineItem icon={<MdEmail />} iconBgColor='#4CAF50'>
-        <Card subtitle='2010-10-10'>
+        <Card>
           SMS
         </Card>
       </TimelineItem>
       <TimelineItem>
-        <Card subtitle='2010-10-10'>
+        <Card>
           SMS
         </Card>
       </TimelineItem>
@@ -44,22 +44,22 @@ stories.add(
   withInfo({ inline: true })(() => (
     <Timeline position='right'>
       <TimelineItem iconBgColor='#2196F3'>
-        <Card subtitle='2010-10-10'>
+        <Card>
           SMS
         </Card>
       </TimelineItem>
       <TimelineItem iconBgColor='#F44336'>
-        <Card subtitle='2010-10-10'>
+        <Card>
           SMS
         </Card>
       </TimelineItem>
       <TimelineItem icon={<MdEmail />} iconBgColor='#4CAF50'>
-        <Card subtitle='2010-10-10'>
+        <Card>
           SMS
         </Card>
       </TimelineItem>
       <TimelineItem>
-        <Card subtitle='2010-10-10'>
+        <Card>
           SMS
         </Card>
       </TimelineItem>
@@ -72,22 +72,22 @@ stories.add(
   withInfo({ inline: true })(() => (
     <Timeline position='alternate'>
       <TimelineItem iconBgColor='#2196F3'>
-        <Card subtitle='2010-10-10'>
+        <Card>
           SMS
         </Card>
       </TimelineItem>
       <TimelineItem iconBgColor='#F44336'>
-        <Card subtitle='2010-10-10'>
+        <Card>
           SMS
         </Card>
       </TimelineItem>
       <TimelineItem icon={<MdEmail />} iconBgColor='#4CAF50'>
-        <Card subtitle='2010-10-10'>
+        <Card>
           SMS
         </Card>
       </TimelineItem>
       <TimelineItem>
-        <Card subtitle='2010-10-10'>
+        <Card>
           SMS
         </Card>
       </TimelineItem>
