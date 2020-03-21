@@ -161,7 +161,6 @@ function css() {
       textAlign: 'center',
       background: bgColor,
       color: textColor,
-      minWidth: '64px',
       $nest: {
         '&:hover': !disabled && {
           background: hoverBgColor,
