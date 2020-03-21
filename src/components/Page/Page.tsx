@@ -27,16 +27,14 @@ export const Page: React.StatelessComponent<PageProps> = (props) => {
           </Col>
         </Row>
       </div>
-      {props.bottom && (<div style={{ paddingRight: '0', paddingLeft: '0' }} className={classes(css.header, css.bottom)}>
+      {(props.bottom || props.tabs) && (<div style={{ paddingRight: '0', paddingLeft: '0' }} className={classes(css.header, css.bottom)}>
         <Row style={{ paddingBottom: '0', paddingTop: '0' }} alignItems='flex-end'>
           {props.tabs && <Col flex='0 1 auto'>
-            <div className={css.tabs}>
-              <TabHeader
-                titles={props.tabs.headers}
-                activeKey={activeKey}
-                onClick={setActiveKey}
-              />
-            </div>
+            <TabHeader
+              titles={props.tabs.headers}
+              activeKey={activeKey}
+              onClick={setActiveKey}
+            />
           </Col>}
           <Col flex='1 0 auto'>{props.bottom}</Col>
         </Row>
@@ -69,9 +67,7 @@ const css = stylesheet({
   },
   bottom: {
     marginTop: '24px',
-  },
-  tabs: {
-    marginTop: '-10px',
+    minHeight: '50px',
   },
   inline: {
     display: 'inline-block',

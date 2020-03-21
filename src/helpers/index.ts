@@ -70,6 +70,7 @@ export function initialize() {
   cssRaw(`
   body {
     background: #f0f2f5;
+    margin: 0;
   }
   a, a:hover, a:focus, a:active {
     text-decoration: none;

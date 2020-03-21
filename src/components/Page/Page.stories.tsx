@@ -35,19 +35,19 @@ stories.add(
         <Tag key='user' color='#3CD4A0'>Sent</Tag>,
         <Tag key='list' color='#f60'>List</Tag>,
       ]}
-      bottom={
-        <Row alignItems='flex-end' justifyContent='flex-end'>
-          <Col flex='0 1 auto'>
-            <Button flat icon={<MdFilter />} >FIlter</Button>
-          </Col>
-          <Col flex='0 1 auto'>
-            <Button flat icon={<MdFileDownload />} >Download CSV</Button>
-          </Col>
-          <Col flex='0 1 auto'>
-            <Button type='secondary' icon={<MdAdd />} >Add User</Button>
-          </Col>
-        </Row>
-      }
+      // bottom={
+      //   <Row alignItems='flex-end' justifyContent='flex-end'>
+      //     <Col flex='0 1 auto'>
+      //       <Button flat icon={<MdFilter />} >FIlter</Button>
+      //     </Col>
+      //     <Col flex='0 1 auto'>
+      //       <Button flat icon={<MdFileDownload />} >Download CSV</Button>
+      //     </Col>
+      //     <Col flex='0 1 auto'>
+      //       <Button type='secondary' icon={<MdAdd />} >Add User</Button>
+      //     </Col>
+      //   </Row>
+      // }
       tabs={{
         defaultActiveKey: 'a',
         headers: [{ title: 'Hello', key: 'a' }, { title: 'Yolo', key: 'b' }, { title: 'YOLO', key: 'c' }],
