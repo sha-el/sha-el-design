@@ -4,9 +4,15 @@ import { style, keyframes } from 'typestyle';
 import { NestedCSSProperties } from 'typestyle/lib/types';
 
 export const Drawer: React.FunctionComponent<DrawerProps> = (props) => {
+
   if (!props.isVisible) {
+    document.body.style.overflow = 'auto';
+    document.body.style.position = '';
     return null;
   }
+
+  document.body.style.overflow = 'hidden';
+  document.body.style.position = 'relative';
 
   return (
     <Portal>
@@ -39,7 +45,7 @@ const MaskStyle = style({
 
 const DrawerStyle = (props: DrawerProps) => {
   const styles: NestedCSSProperties[] = [{
-    position: 'absolute',
+    position: 'fixed',
     boxSizing: 'border-box',
     background: 'white',
     zIndex: 1000,
@@ -50,6 +56,8 @@ const DrawerStyle = (props: DrawerProps) => {
       },
       '& .body': {
         padding: '16px 24px',
+        overflowY: 'auto',
+        overflowX: 'auto',
       },
       '& .footer': {
         padding: '16px 24px',
@@ -169,7 +177,7 @@ interface DrawerProps {
    */
   isVisible?: boolean;
   /**
-   * Shoould close wjen clicked on mask
+   * Shoould close when clicked on mask
    * Displays X on top when true
    */
   closable?: boolean;
