@@ -11,7 +11,7 @@ const itemColors = (active: boolean, state: { theme: { primary: string; }; }) =>
   return ['white', '#3c4858'];
 };
 
-const itemPadding = (isBaropen: boolean) => isBaropen ? ['15px 20px', '10px 15px 0'] : ['15px', '0'];
+const itemPadding = (isBaropen: boolean) => isBaropen ? ['15px 20px', '10px 10px 0'] : ['15px', '0'];
 
 export const css = (props: { active?: any; }, state: { theme: { primary: string; }; }, isOpen: boolean) => {
   const [bgColor, textColor] = itemColors(props.active, state);
@@ -32,6 +32,7 @@ export const css = (props: { active?: any; }, state: { theme: { primary: string;
       margin,
       borderRadius: '3px',
       textTransform: 'capitalize',
+      textOverflow: 'clip',
       $nest: {
         '&:hover': !props.active && {
           backgroundColor: 'hsla(0,0%,78%)',

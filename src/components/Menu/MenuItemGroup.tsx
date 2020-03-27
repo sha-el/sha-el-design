@@ -6,6 +6,7 @@ import { css } from './style';
 import { Theme, ThemeService } from '../../helpers/theme';
 import { SidePanelContext } from '../Layout/SidePanel';
 import { Popover } from '../Popover';
+import { PopoverProps } from 'components/Popover/Popover';
 
 export class MenuItemGroup extends React.Component<MenuItemGroupProps, State> {
   themeService = new ThemeService();
@@ -21,6 +22,7 @@ export class MenuItemGroup extends React.Component<MenuItemGroupProps, State> {
 
   static defaultProps = {
     inline: true,
+    position: 'right',
   };
 
   toggle = () => {
@@ -46,7 +48,11 @@ export class MenuItemGroup extends React.Component<MenuItemGroupProps, State> {
 
     if (isBarOpen) {
       return (
-        <>
+        <li
+          key={name}
+          className={`${style.flex} ${style.menu}`}
+          onClick={this.toggle}
+        >
           {icon
             && <div
               className={`${style.icon}`}
@@ -63,7 +69,7 @@ export class MenuItemGroup extends React.Component<MenuItemGroupProps, State> {
           {isBarOpen && <div className={style.flexEnd}>
             {this.state.active ? <FaChevronDown key='1' /> : <FaChevronUp key='2' />}
           </div>}
-        </>
+        </li>
       );
     }
 
@@ -76,22 +82,30 @@ export class MenuItemGroup extends React.Component<MenuItemGroupProps, State> {
             {this.renderChilden()}
           </div>
         }
-        trigger='onClick'
-        position='right'
+        trigger={this.props.trigger}
+        position={this.props.position}
+        hideArrow
         style={{
           content: {
             padding: '0',
           },
         }}
+        align={this.props.offset && { offset: this.props.offset }}
       >
-        <div
-          className={`${style.icon}`}
-          style={{
-            padding: isBarOpen ? '0 20px 0 0' : '0',
-          }}
+        {this.props.anchor || <li
+          key={name}
+          className={`${style.flex} ${style.menu}`}
+          onClick={this.toggle}
         >
-          {icon}
-        </div>
+          <div
+            className={`${style.icon}`}
+            style={{
+              padding: isBarOpen ? '0 20px 0 0' : '0',
+            }}
+          >
+            {icon} {!this.props.inline && title}
+          </div>
+        </li>}
       </Popover>
     );
   }
@@ -104,13 +118,7 @@ export class MenuItemGroup extends React.Component<MenuItemGroupProps, State> {
           const style = css({ active: false }, this.state, false);
           return (
             <>
-              <li
-                key={name}
-                className={`${style.flex} ${style.menu}`}
-                onClick={this.toggle}
-              >
-                {this.renderPopup(isBarOpen)}
-              </li>
+              {this.renderPopup(isBarOpen)}
               {isBarOpen && <Content
                 className={`${style.groupContainer}`}
                 pose={this.state.active ? 'open' : 'closed'}
@@ -136,6 +144,20 @@ interface MenuItemGroupProps {
   name?: string;
   defaultActive?: boolean;
   inline?: boolean;
+  position?: PopoverProps['position'];
+  trigger?: PopoverProps['trigger'];
+
+  /**
+   * Custom element to be shown as anchor
+   * Applicable only for popover menu.
+   */
+  anchor?: PopoverProps['children'];
+
+  /**
+   * Offset for element popup placement
+   * [X, Y]
+   */
+  offset?: [number, number];
 }
 
 interface State {

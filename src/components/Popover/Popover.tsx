@@ -123,7 +123,7 @@ function css() {
   });
 }
 
-interface PopoverProps {
+export interface PopoverProps {
   children: React.ReactElement<any>;
   title?: React.ReactNode;
   trigger?: 'onClick' | 'onHover' | 'onFocus';

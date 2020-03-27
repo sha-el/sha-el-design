@@ -15,7 +15,7 @@ export class Calendar extends React.Component<CalendarProps, State> {
   static defaultProps = {
     date: new Date(),
     cellRender: ([, , date]) => date,
-    isDateDisabled: (_) => false,
+    disabledDate: (_) => false,
   };
 
   constructor(props) {
@@ -218,10 +218,11 @@ export class Calendar extends React.Component<CalendarProps, State> {
                           background: isSelectedDate && this.state.theme.primary,
                           color: isSelectedDate && getColor(this.state.theme.primary),
                         }}
-                        className={classes(style.cell, this.cellDisabledStyle(this.props.isDateDisabled([date[0], date[1], nestedAccess(v, f)])))}
+                        className={classes(style.cell, this.cellDisabledStyle(this.props.disabledDate([date[0], date[1], nestedAccess(v, f)])))}
                         key={i}
                         span={24 / 7}
-                        onClick={() => this.props.onClick && this.props.onClick([date[0], date[1], nestedAccess(v, f)] as DateTupple)}
+                        onClick={() => !this.props.disabledDate([date[0], date[1], nestedAccess(v, f)])
+                            && this.props.onClick && this.props.onClick([date[0], date[1], nestedAccess(v, f)] as DateTupple)}
                       >
                         {nestedAccess(v, f) && this.props.cellRender([date[0], date[1], nestedAccess(v, f)], f) || '-'}
                         <div className={style.dateContent}>
@@ -333,7 +334,7 @@ export interface CalendarProps {
   }[];
 
   onClick?: (date: DateTupple) => void;
-  isDateDisabled?: (date: DateTupple) => boolean;
+  disabledDate?: (date: DateTupple) => boolean;
 }
 
 export type DateTupple = [

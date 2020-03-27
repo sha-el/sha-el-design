@@ -41,7 +41,7 @@ stories.add(
         endDate: [2020, 4, 22],
         eventName: 'Event 2',
       }]}
-      isDateDisabled={
+      disabledDate={
         ([year, month, day]) => day === 5
       }
     />

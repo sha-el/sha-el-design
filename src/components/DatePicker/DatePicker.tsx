@@ -13,7 +13,7 @@ import { getColor } from '../../helpers';
 export const DatePicker: React.FunctionComponent<DatePickerProps> = (props) => {
   const {
     after, cellRender,
-    callendarEvents, isDateDisabled,
+    callendarEvents, disabledDate,
     onChange,
     ...rest
   } = props;
@@ -62,7 +62,7 @@ export const DatePicker: React.FunctionComponent<DatePickerProps> = (props) => {
               date={date}
               cellRender={cellRender}
               callendarEvents={callendarEvents}
-              isDateDisabled={isDateDisabled}
+              disabledDate={disabledDate}
               onClick={(d) => {
                 toggleCalendar(false);
                 onChange(d, new Date(...d));

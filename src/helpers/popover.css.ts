@@ -59,7 +59,7 @@ export default `
   font-size: 12px;
   background-color: rgba(0, 0, 0, 0.05);
   padding: 1px;
-  opacity: 0.9;
+  opacity: 1;
 }
 .rc-tooltip-hidden {
   display: none;

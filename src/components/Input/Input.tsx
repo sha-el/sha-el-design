@@ -236,7 +236,6 @@ function style(theme: Theme, isError: boolean, before: boolean, active: boolean)
     },
     help: {
       width: '100%',
-      marginTop: '-20px',
       marginBottom: '20px',
       display: 'flex',
       placeContent: 'space-between',
