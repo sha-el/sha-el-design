@@ -5,7 +5,7 @@ import { styleEnum } from '../../helpers/constants';
 import { style as typeStyle, keyframes } from 'typestyle';
 
 export const Modal: React.FunctionComponent<ModalProps> = (props) => {
-  const { children, onClose, isVisible, style } = props;
+  const { children, onClose, isVisible, style = {}, width } = props;
 
   if (!isVisible) {
     document.body.style.overflow = 'auto';
@@ -22,7 +22,7 @@ export const Modal: React.FunctionComponent<ModalProps> = (props) => {
         <div
           key='container'
           className={containerStyle}
-          style={style}
+          style={{...style, width}}
           onClick={(e) => e.stopPropagation()}
         >
           <div>
@@ -53,6 +53,7 @@ const containerStyle = typeStyle({
   top: '10vh',
   boxShadow: styleEnum.shadow_2x,
   overflowY: 'auto',
+  width: '50vw',
   animation: `${slideInBottom} 0.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
 });
 
@@ -72,6 +73,7 @@ const MaskStyle = typeStyle({
 
 export interface ModalProps {
   children: React.ReactElement<any>;
+  width?: string;
   style?: React.CSSProperties;
   isVisible?: boolean;
   onClose?: () => void;
