@@ -5,6 +5,7 @@ import { withInfo } from '@storybook/addon-info';
 import { Card, CardHeader, CardBody, CardMedia, Button } from '../..';
 import { Col, Row } from '../Grid';
 import { IoMdOptions } from 'react-icons/io';
+import { Input } from '../Input';
 
 const stories = storiesOf('Card', module);
 

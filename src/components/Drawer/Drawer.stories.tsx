@@ -73,7 +73,6 @@ stories.add(
             placement='top'
             isVisible={state.isVisible}
             onClose={() => setState({ isVisible: false })}
-            closable
           >
             <p>LOREM IPSUM....</p>
             <p>LOREM IPSUM....</p>

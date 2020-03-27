@@ -177,11 +177,6 @@ interface DrawerProps {
    */
   isVisible?: boolean;
   /**
-   * Shoould close when clicked on mask
-   * Displays X on top when true
-   */
-  closable?: boolean;
-  /**
    * Callback to be triggered when clicked on close(X) or on mask
    */
   onClose?: () => void;

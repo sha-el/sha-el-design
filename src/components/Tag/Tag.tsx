@@ -9,6 +9,7 @@ export const Tag: React.StatelessComponent<TagProps> = (props) => {
     <span
       className={css(props)}
       onClick={() => props.onClick(!props.active)}
+      style={props.style}
     >
       {props.children}
     </span>
@@ -40,9 +41,11 @@ export interface TagProps {
   onClick?: (closed: boolean) => void;
   active?: boolean;
   textColor?: string;
+  style?: React.CSSProperties;
 }
 
 Tag.defaultProps = {
   active: true,
   onClick: () => null,
+  style: {},
 };

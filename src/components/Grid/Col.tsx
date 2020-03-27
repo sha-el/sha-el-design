@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { style, media } from 'typestyle';
+import { style, media, classes } from 'typestyle';
 
 export const Col: React.StatelessComponent<ColProps> = (props) => {
+  const { className, ...rest } = props;
   return (
-    <div style={props.style} children={props.children} className={colStyle(props)} />
+    <div style={props.style} children={props.children} className={classes(className, colStyle(rest), 'sha-el-col')} {...rest} />
   );
 };
 
@@ -12,8 +13,6 @@ const colStyle = (props: ColProps) => style({
   flexBasis: !props.flex && 100 / (24 / props.span) + '%',
   boxSizing: 'border-box',
   flex: props.flex || '0 0 auto',
-  paddingRight: '.5rem',
-  paddingLeft: '.5rem',
   marginLeft: props.offset && typeof props.offset === 'number' && 100 / (24 / props.offset) + '%',
   alignSelf: props.alignSelf,
 }, props.spanXs && media({
@@ -48,7 +47,7 @@ const colStyle = (props: ColProps) => style({
   marginLeft: props.offset && typeof props.offset === 'object' && 100 / (24 / props.offset.xl) + '%',
 }));
 
-export interface ColProps {
+export interface ColProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   style?: React.CSSProperties;
   children?: React.ReactNode;
   /**
@@ -93,6 +92,7 @@ export interface ColProps {
   };
   alignSelf?: React.CSSProperties['alignSelf'];
   flex?: React.CSSProperties['flex'];
+  className?: string;
 }
 
 Col.defaultProps = {
