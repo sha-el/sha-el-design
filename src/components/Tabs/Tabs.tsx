@@ -35,7 +35,7 @@ export class Tabs extends React.Component<TabsProps, State> {
       const titles = [].map.call(this.props.children, (child) => {
         return {
           title: child.props.title,
-          key: child.props.name,
+          key: child.key,
         };
       });
 
