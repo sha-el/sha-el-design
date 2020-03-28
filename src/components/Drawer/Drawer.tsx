@@ -134,7 +134,7 @@ const DrawerStyle = (props: DrawerProps) => {
         '& .body': {
           height: '100%',
         },
-      }
+      },
     }),
     right: () => styles.push({
       right: '0',
@@ -146,7 +146,7 @@ const DrawerStyle = (props: DrawerProps) => {
         '& .body': {
           height: '100%',
         },
-      }
+      },
     }),
   })[props.placement]();
 

@@ -7,7 +7,6 @@ const stories = storiesOf('Layout', module);
 import { Container, Content, SidePanel } from './';
 import { MenuItem, MenuItemGroup } from '../Menu';
 import { MdHome, Md3DRotation, MdAccountBox } from 'react-icons/md';
-import { Drawer } from '../..';
 
 stories.add(
   'Basic Layout',
@@ -27,7 +26,7 @@ stories.add(
   'With Side Panel Menu',
   withInfo({ inline: true })(() => (
     <Container>
-      <Drawer isVisible={true} >
+      <SidePanel>
         <MenuItem icon={<MdHome />} active name='nav 1'>
           NAV 1
         </MenuItem>
@@ -48,62 +47,7 @@ stories.add(
             NAV 3
         </MenuItem>
         </MenuItemGroup>
-        <MenuItemGroup title='Group' icon={<MdHome />}>
-          <MenuItem icon={<MdHome />} name='nav 1'>
-            NAV 1
-        </MenuItem>
-          <MenuItem icon={<Md3DRotation />} name='nav 2'>
-            NAV 2
-        </MenuItem>
-          <MenuItem icon={<MdAccountBox />} name='nav 3'>
-            NAV 3
-        </MenuItem>
-        </MenuItemGroup>
-        <MenuItemGroup title='Group' icon={<MdHome />}>
-          <MenuItem icon={<MdHome />} name='nav 1'>
-            NAV 1
-        </MenuItem>
-          <MenuItem icon={<Md3DRotation />} name='nav 2'>
-            NAV 2
-        </MenuItem>
-          <MenuItem icon={<MdAccountBox />} name='nav 3'>
-            NAV 3
-        </MenuItem>
-        </MenuItemGroup>
-        <MenuItemGroup title='Group' icon={<MdHome />}>
-          <MenuItem icon={<MdHome />} name='nav 1'>
-            NAV 1
-        </MenuItem>
-          <MenuItem icon={<Md3DRotation />} name='nav 2'>
-            NAV 2
-        </MenuItem>
-          <MenuItem icon={<MdAccountBox />} name='nav 3'>
-            NAV 3
-        </MenuItem>
-        </MenuItemGroup>
-        <MenuItemGroup title='Group' icon={<MdHome />}>
-          <MenuItem icon={<MdHome />} name='nav 1'>
-            NAV 1
-        </MenuItem>
-          <MenuItem icon={<Md3DRotation />} name='nav 2'>
-            NAV 2
-        </MenuItem>
-          <MenuItem icon={<MdAccountBox />} name='nav 3'>
-            NAV 3
-        </MenuItem>
-        </MenuItemGroup>
-        <MenuItemGroup title='Group' icon={<MdHome />}>
-          <MenuItem icon={<MdHome />} name='nav 1'>
-            NAV 1
-        </MenuItem>
-          <MenuItem icon={<Md3DRotation />} name='nav 2'>
-            NAV 2
-        </MenuItem>
-          <MenuItem icon={<MdAccountBox />} name='nav 3'>
-            NAV 3
-        </MenuItem>
-        </MenuItemGroup>
-      </Drawer>
+      </SidePanel>
       <Content>
         Container
       </Content>

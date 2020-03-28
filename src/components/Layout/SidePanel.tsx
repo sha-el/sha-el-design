@@ -88,7 +88,6 @@ export class SidePanel extends React.Component<SidePanelProps, State> {
         background: open ? 'white' : 'none',
         boxShadow: open && styleEnum.shadow_2x,
         transition: '1s width',
-        overflowY: 'auto',
       },
       top: {
         boxShadow: !open && styleEnum.shadow_2x,
