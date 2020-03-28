@@ -110,8 +110,9 @@ export class Table<T> extends React.Component<TableProps<T>, State> {
         },
         td: {
           textAlign: 'left',
-          padding: '10px 5px',
           fontFamily: 'monospace !important',
+          height: '50px',
+          lineHeight: '50px',
           $nest: {
             '&:first-of-type': {
               paddingLeft: '24px',
@@ -124,7 +125,6 @@ export class Table<T> extends React.Component<TableProps<T>, State> {
       },
     },
     container: {
-      padding: this.props.shadow && '10px 5px',
       boxShadow: this.props.shadow && styleEnum.shadow_2x,
       background: 'white',
     },
@@ -140,7 +140,11 @@ export class Table<T> extends React.Component<TableProps<T>, State> {
       padding: '50px',
     },
     header: {
-      padding: '15px 24px',
+      padding: '24px',
+      paddingBottom: '8px',
+      lineHeight: '50px',
+      fontSize: '1.142rem',
+      color: 'rgb(110, 110, 110)',
     },
   })
 }

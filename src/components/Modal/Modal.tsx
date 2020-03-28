@@ -46,8 +46,7 @@ const slideInBottom = keyframes({
 });
 
 const containerStyle = typeStyle({
-  alignSelf: 'middle',
-  display: 'flex',
+  maxHeight: '70vh',
   background: 'white',
   zIndex: 1001,
   top: '10vh',

@@ -23,12 +23,13 @@ export class MenuItem extends React.Component<ItemProps, State> {
       <SidePanelContext.Consumer>
         {(context => {
           const isBarOpen = context.width > 200;
-          const { nested, icon, name, children } = this.props;
+          const { nested, icon, name, children, onClick } = this.props;
           const style = css(this.props, this.state, isBarOpen);
           return (
             <li
               key={name}
               className={`${style.flex} ${style.menu}`}
+              onClick={() => onClick && onClick()}
             >
               {icon
                 && <div
@@ -57,6 +58,7 @@ export interface ItemProps {
   active?: boolean;
   icon?: React.ReactElement<any>;
   nested?: boolean;
+  onClick?: () => void;
 }
 
 export interface State {

@@ -48,7 +48,7 @@ export const TabPanelContainer: React.FunctionComponent<TabPanelContainerProps> 
     <div className={css.tabPanelContainer}>
       {displayList()}
     </div>
-  )
+  );
 };
 
 interface TabPanelContainerProps {

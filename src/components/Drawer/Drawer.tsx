@@ -49,6 +49,7 @@ const DrawerStyle = (props: DrawerProps) => {
     boxSizing: 'border-box',
     background: 'white',
     zIndex: 1000,
+    height: '100%',
     $nest: {
       '& .header': {
         padding: '16px 24px',
@@ -114,11 +115,13 @@ const DrawerStyle = (props: DrawerProps) => {
     top: () => styles.push({
       top: '0',
       width: '100%',
+      height: 'auto',
       animation: `${slideInTop} 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
     }),
     bottom: () => styles.push({
       bottom: '0',
       width: '100%',
+      height: 'auto',
       animation: `${slideInBottom} 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
     }),
     left: () => styles.push({
@@ -127,6 +130,11 @@ const DrawerStyle = (props: DrawerProps) => {
       height: '100%',
       top: '0',
       animation: `${slideInLeft} 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
+      $nest: {
+        '& .body': {
+          height: '100%',
+        },
+      }
     }),
     right: () => styles.push({
       right: '0',
@@ -134,6 +142,11 @@ const DrawerStyle = (props: DrawerProps) => {
       width: 'auto',
       height: '100%',
       animation: `${slideInRight} 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
+      $nest: {
+        '& .body': {
+          height: '100%',
+        },
+      }
     }),
   })[props.placement]();
 

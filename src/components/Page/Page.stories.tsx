@@ -4,10 +4,10 @@ import { withInfo } from '@storybook/addon-info';
 
 import {
   Page, Row, Col, Input, Tag, Button, Tabs, TabPanel, Popover, MenuItemGroup,
-  MenuItem, Table, Pagination, Card, TextArea, Collapse,
+  MenuItem, Table, Pagination, Card, TextArea, Collapse, Tooltip,
 } from '../../index';
 
-import { MdArrowBack, MdSearch, MdArrowForward, MdAdd, MdFilter, MdFileDownload } from 'react-icons/md';
+import { MdArrowBack, MdSearch, MdArrowForward, MdAdd, MdFilter, MdFileDownload, MdSort, MdSortByAlpha } from 'react-icons/md';
 import { Breadcrumb } from '../Breadcrumb';
 
 const stories = storiesOf('Page', module);
@@ -54,7 +54,10 @@ stories.add(
         panels: ([
           <TabPanel key='a' title='Hello'>
             <Table
-              data={[]}
+              data={[{
+                name: 'Name 1',
+                age: '22',
+              }]}
               columns={[{
                 header: 'name',
                 key: 'name',
@@ -65,8 +68,39 @@ stories.add(
                 dataIndex: 'age',
               }]}
               header={
-                <h6>User List</h6>
-              }
+                <Row justifyContent='flex-end' gutter={['0', '0']}>
+                  <Col flex='1 0 auto'>
+                    Profile Table
+                  </Col>
+                  <Col flex='0 1 auto'>
+                    <MenuItemGroup
+                      title=''
+                      icon={<MdSort />}
+                      inline={false}
+                      position='bottom'
+                    >
+                      <MenuItem name={'List'} key={'List'}>{'List'}</MenuItem>
+                    </MenuItemGroup>
+                  </Col>
+                  <Col flex='0 1 auto'>
+                    <Tooltip
+                      overlay='Sorting Order'
+                      trigger={['hover']}
+                    >
+                      <div>
+                        <MenuItemGroup
+                          title=''
+                          icon={<MdSortByAlpha />}
+                          inline={false}
+                          position='bottom'
+                        >
+                          <MenuItem name='asc'>Ascending</MenuItem>
+                          <MenuItem name='desc'>Descening</MenuItem>
+                        </MenuItemGroup>
+                      </div>
+                    </Tooltip>
+                  </Col>
+                </Row>}
               footer={
                 <Pagination
                   batchSize={20}
