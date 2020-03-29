@@ -77,6 +77,7 @@ export function initialize() {
     color: rgba(0,0,0,.87);
   }
   @import url('https://fonts.googleapis.com/css?family=Roboto:400,400i,500,700&display=swap');
+  @import url('https://fonts.googleapis.com/css?family=Fira+Code:300,400,500,600,700&display=swap');
   ${popverCss}
   ${topography}
 `);

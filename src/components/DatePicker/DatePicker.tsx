@@ -15,6 +15,7 @@ export const DatePicker: React.FunctionComponent<DatePickerProps> = (props) => {
     after, cellRender,
     callendarEvents, disabledDate,
     onChange,
+    displayProp,
     ...rest
   } = props;
 

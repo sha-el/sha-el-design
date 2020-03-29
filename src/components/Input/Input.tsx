@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { stylesheet } from 'typestyle';
 import { ThemeService, Theme } from '../../helpers/theme';
-import { styleEnum } from '../../helpers/constants';
 import { Omit, nestedAccess } from '../../helpers';
+import { Row, Col } from '../../';
 
 export class Input extends React.Component<InputProps, State> {
 
@@ -26,7 +26,7 @@ export class Input extends React.Component<InputProps, State> {
   get isInputActive() {
     return !!(
       this.state.focused || this.props.value || this.props.defaultValue || nestedAccess(this.input, 'value')
-      || this.props.placeholder || nestedAccess(this.input, 'placeholder')
+      || this.props.placeholder || nestedAccess(this.input, 'placeholder') || this.props.before
     );
   }
 
@@ -47,28 +47,30 @@ export class Input extends React.Component<InputProps, State> {
       ...rest
     } = this.props;
 
-    const css = style(this.state.theme, !!error, !!before, this.isInputActive);
+    const css = style(this.state.theme, !!error, !!label, this.isInputActive);
     return (
       <>
-        <div className={`${css.container} ${containerClassName}`} style={containerStyle}>
+        <Row gutter={[0, 0]} className={`${css.container} ${containerClassName}`} style={containerStyle}>
           {
             before &&
-            <span
+            <Col
               className={css.seudo}
+              flex='0 1 auto'
             >
               {before}
-            </span>
+            </Col>
           }
-          <section
+          {label && <span
+            key='label'
+            className={css.label}
+          >
+            {label} {required && <span style={{ color: 'red' }}>*</span>}
+          </span>}
+          <Col
             key='input'
             className={css.section}
+            flex='1 0 auto'
           >
-            <label
-              key='label'
-              className={css.label}
-            >
-              {label} {required && <span style={{ color: 'red' }}>*</span>}
-            </label>
             <input
               className={css.input}
               ref={(e) => {
@@ -85,17 +87,18 @@ export class Input extends React.Component<InputProps, State> {
               }}
               {...rest}
             />
-          </section>
+          </Col>
           {
             after &&
-            <span
+            <Col
               className={css.seudo}
+              flex='0 1 auto'
             >
               {after}
-            </span>
+            </Col>
           }
-        </div>
-        <div className={`${css.help}`}>
+        </Row>
+        {(error || hint) && <div className={`${css.help}`}>
           {
             error &&
             <label
@@ -112,7 +115,7 @@ export class Input extends React.Component<InputProps, State> {
               {hint}
             </label>
           }
-        </div>
+        </div>}
       </>
     );
   }
@@ -134,13 +137,12 @@ interface State {
   focused: boolean;
 }
 
-function style(theme: Theme, isError: boolean, before: boolean, active: boolean) {
+function style(theme: Theme, isError: boolean, label: boolean, active: boolean) {
   const borderColor = isError ? theme.error : 'rgba(0,0,0,.24)';
   return stylesheet({
     container: {
       display: 'flex',
-      padding: '3px',
-      // marginBottom: '24px',
+      position: 'relative',
       boxSizing: 'border-box',
       color: 'rgb(9, 30, 66)',
       fontSize: '14px',
@@ -153,12 +155,8 @@ function style(theme: Theme, isError: boolean, before: boolean, active: boolean)
       borderRadius: '4px',
       borderStyle: 'solid',
       cursor: 'text',
-
+      borderTop: (active && label) && 'none',
       $nest: {
-        '*': {
-          color: borderColor,
-          transition: '.2s all',
-        },
         '&:focus-within': {
           borderColor: theme.primary,
           background: '#ffffff',
@@ -166,16 +164,20 @@ function style(theme: Theme, isError: boolean, before: boolean, active: boolean)
           $nest: {
             '*:not(input)': {
               color: theme.primary,
+              $nest: {
+                '&::after, &::before': {
+                  borderColor: theme.primary,
+                },
+              },
             },
           },
         },
         '&:hover': {
-          borderColor: 'rgb(9, 30, 66)',
+          borderColor: !active && 'rgb(9, 30, 66)',
         },
       },
     },
     section: {
-      position: 'relative',
       boxSizing: 'border-box',
       color: 'rgb(9, 30, 66)',
       display: 'flex',
@@ -199,7 +201,7 @@ function style(theme: Theme, isError: boolean, before: boolean, active: boolean)
       outline: 'none',
       flex: '1 1 auto',
       lineHeight: '12px',
-      padding: '8px 5px',
+      padding: '15px',
       maxWidth: '100%',
       color: '#090909',
       $nest: {
@@ -214,24 +216,44 @@ function style(theme: Theme, isError: boolean, before: boolean, active: boolean)
       alignSelf: 'center',
       color: 'rgb(107, 119, 140)',
       boxSizing: 'border-box',
-      transition: '.4s all',
       left: 0,
-      right: 'auto',
-      transformOrigin: 'top left',
-      background: 'white',
-      zIndex: 1000,
+      top: -7,
+      height: '100%',
       pointerEvents: 'none',
+      transition: 'line-height 0.2s',
+      $nest: {
+        '&::after, &::before': {
+          content: `''`,
+          display: 'block',
+          boxSizing: 'border-box',
+          marginTop: '6px',
+          borderTop: 'solid 1px',
+          borderTopColor: active ? borderColor : 'transparent',
+          minWidth: '10px',
+          height: '8px',
+          pointerEvents: 'none',
+          boxShadow: 'inset 0 1px transparent',
+          transition: 'border-color 0.2s, box-shadow 0.2s',
+        },
+        '&::before': {
+          marginRight: '4px',
+          borderTopLeftRadius: '4px',
+        },
+        '&::after': {
+          flexGrow: 1,
+          marginLeft: '4px',
+          borderTopRightRadius: '4px',
+        },
+      },
       ...(active ? {
-        fontSize: '14px',
+        fontSize: '10px',
         fontWeight: 400,
-        lineHeight: 1.13333,
-        transform: 'translateY(-21px)',
-        left: before ? '-21px' : '5px',
+        lineHeight: '14px',
+        width: '100%',
       } : {
           fontSize: '13px',
           fontWeight: 300,
-          lineHeight: 1.13333,
-          top: 'auto',
+          lineHeight: '58px',
         }),
     },
     help: {
@@ -252,7 +274,7 @@ function style(theme: Theme, isError: boolean, before: boolean, active: boolean)
     seudo: {
       display: 'flex',
       alignItems: 'center',
-      padding: '0 .4em',
+      padding: '0 .4rem !important',
     },
   });
 }

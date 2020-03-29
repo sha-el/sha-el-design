@@ -1,9 +1,12 @@
 import * as React from 'react';
-import { style } from 'typestyle';
+import { style, classes } from 'typestyle';
 
 export const Row: React.StatelessComponent<RowProps> = (props) => {
+  const {
+    className,
+  } = props;
   return (
-    <div className={`${rowStyle} ${flexPosition(props)}`} style={props.style} children={props.children} />
+    <div className={classes(rowStyle, flexPosition(props), className)} style={props.style} children={props.children} />
   );
 };
 
@@ -40,6 +43,7 @@ export interface RowProps {
   gutter?: [React.CSSProperties['padding'], React.CSSProperties['padding']];
   justifyContent?: 'flex-start' | 'center' | 'flex-end';
   alignItems?: 'center' | 'end' | 'flex-end' | 'flex-start' | 'self-end' | 'self-start' | 'start';
+  className?: string;
 }
 
 Row.defaultProps = {

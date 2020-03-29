@@ -15,7 +15,7 @@ export const Page: React.StatelessComponent<PageProps> = (props) => {
     <div className={css.container}>
       <div className={css.header}>
         <Row alignItems='center'>
-          {props.backIcon && <Col flex='0 1 auto'>{props.backIcon}</Col>}
+          {props.backIcon && <Col style={{ lineHeight: '0' }} flex='0 1 auto'>{props.backIcon}</Col>}
           <Col flex='0 1 auto'>
             {props.title}
           </Col>

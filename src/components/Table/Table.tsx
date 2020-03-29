@@ -74,7 +74,9 @@ export class Table<T> extends React.Component<TableProps<T>, State> {
           </tbody>
         </table>
         {this.showEmptyState()}
-        {footer}
+        {footer && <div className={style.footer}>
+          {footer}
+        </div>}
       </div>
     );
   }
@@ -110,9 +112,10 @@ export class Table<T> extends React.Component<TableProps<T>, State> {
         },
         td: {
           textAlign: 'left',
-          fontFamily: 'monospace !important',
+          fontFamily: '\'Fira Code\', monospace !important',
           height: '50px',
-          lineHeight: '50px',
+          padding: '5px 0',
+          fontWeight: 400,
           $nest: {
             '&:first-of-type': {
               paddingLeft: '24px',
@@ -140,11 +143,13 @@ export class Table<T> extends React.Component<TableProps<T>, State> {
       padding: '50px',
     },
     header: {
-      padding: '24px',
-      paddingBottom: '8px',
+      padding: '12px 24px 8px',
       lineHeight: '50px',
       fontSize: '1.142rem',
       color: 'rgb(110, 110, 110)',
+    },
+    footer: {
+      padding: '12px 24px 8px',
     },
   })
 }

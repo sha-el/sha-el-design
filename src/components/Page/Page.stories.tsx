@@ -57,11 +57,18 @@ stories.add(
               data={[{
                 name: 'Name 1',
                 age: '22',
+                status: 'abc',
               }]}
               columns={[{
                 header: 'name',
                 key: 'name',
                 dataIndex: 'name',
+                render: (text, obj) => (
+                  <>
+                    <div>{text}</div>
+                    <div>{obj.status}</div>
+                  </>
+                ),
               }, {
                 header: 'age',
                 key: 'age',
