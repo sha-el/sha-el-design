@@ -50,7 +50,7 @@ export class MenuItemGroup extends React.Component<MenuItemGroupProps, State> {
       return (
         <li
           key={name}
-          className={`${style.flex} ${style.menu}`}
+          className={`${style.flex} ${style.menuItem}`}
           onClick={this.toggle}
         >
           {icon
@@ -94,7 +94,7 @@ export class MenuItemGroup extends React.Component<MenuItemGroupProps, State> {
       >
         {this.props.anchor || <li
           key={name}
-          className={`${style.flex} ${style.menu}`}
+          className={`${style.flex} ${style.menuItem}`}
           onClick={this.toggle}
         >
           <div

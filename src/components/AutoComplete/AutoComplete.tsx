@@ -1,373 +1,247 @@
 import * as React from 'react';
-import { MdClear, MdCheck } from 'react-icons/md';
 
-import { Input } from '../Input';
-import { InputProps } from '../Input/Input';
 import { Popover } from '../Popover';
-import { stylesheet } from 'typestyle';
-import { styleEnum } from '../../helpers/constants';
-import { ThemeService, Theme } from '../../helpers/theme';
-import { getColor, nestedAccess } from '../../helpers';
-import { color } from 'csx';
-import { Row, Col } from '../Grid';
+import { Input } from '../Input';
+import { MenuItem, Menu } from '../Menu';
+import { Tag } from '../Tag';
+import { MdExpandMore, MdExpandLess, MdClose } from 'react-icons/md';
+import { Button } from '../Button';
 
 export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State<T>> {
-  css = css.bind(this);
-  private readonly theme = new ThemeService();
-
-  static defaultProps = {
-    filterFunction: (inputValue, value) => value.toLowerCase().includes(inputValue.toLowerCase()),
-    onChange: (value, obj) => { },
-    onSearch: () => { },
-    mode: 'single',
-  };
-
-  constructor(props: AutoCompleteProps<T>) {
+  constructor(props) {
     super(props);
 
     this.state = {
-      displayValue: this.getValue(),
-      theme: this.theme.selectedTheme$.value,
-      data: props.data,
-      totalData: this.props.data.length,
-      focusedData: -1,
-      selectedValues: props.mode === 'multiple' ? this.generateSelectedValues() : [],
-      searchValue: '',
-      isOpen: false,
+      search: '',
+      data: [],
+      open: false,
     };
   }
 
-  componentDidMount() {
-    new ThemeService().selectedTheme$.subscribe(theme => this.setState({ theme }));
+  static defaultProps = {
+    children: <Input />,
+    mode: 'single',
+    searchValue: (e) => String(e),
+    clearable: true,
+  };
+
+  fetchData = async () => {
+    const { data } = this.props;
+    const { search } = this.state;
+
+    let items = data(search);
+
+    if (!Array.isArray(items)) {
+      items = (await items);
+    }
+
+    this.setState({ data: items });
   }
 
-  componentWillReceiveProps(nextProps: AutoCompleteProps<T>) {
-    if (!(this.state.displayValue === this.getValue(nextProps))) {
-      this.setState({ displayValue: this.getValue(nextProps) });
-    }
-    if (nextProps.mode === 'multiple') {
-      this.setState({ selectedValues: this.generateSelectedValues(nextProps) });
-    }
-  }
-
-  getValue = (props = this.props) => {
-    if (props.mode === 'multiple') {
-      return;
-    }
-    const value = props.value;
-    if (typeof value !== 'object') {
-      const obj = props.data.find(v => props.uniqueIdentifier(v) === value);
-      return obj && props.displayProp(obj) || '';
-    } else if (!value) {
-      return this.state.displayValue;
-    }
-    return value && props.displayProp(value as T) || '';
-  }
-
-  generateSelectedValues = (props = this.props) => {
-    const selectedValues = props.data.filter(v => (props.value as T[keyof T][]).includes(props.uniqueIdentifier(v)));
-    return selectedValues;
+  onOpen = (open: boolean) => {
+    open && this.fetchData();
+    this.setState({ open });
   }
 
   displayList = () => {
-    const styleSheet = this.css();
-
-    const {
-      uniqueIdentifier,
-    } = this.props;
-
-    const colStyle = {
-      padding: 0,
-      margin: 0,
-    };
-
-    if (this.props.renderOptions) {
-      return this.props.renderOptions.map((value, index, array) => {
-        const selected = this.state.selectedValues.find(
-          v => uniqueIdentifier(v) === uniqueIdentifier(this.props.data[index]),
-        ) || this.props.value === uniqueIdentifier(this.props.data[index]);
-        return (
-          <div
-            className={`${styleSheet.list} ${index === this.state.focusedData && styleSheet.focusedList}`}
-            key={`${index}-auto`}
-            onClick={() => !selected && this.onSelect(this.props.data, index)}
-          >
-            <Row>
-              <Col span={23} style={colStyle}>
-                {value}
-              </Col>
-              <Col span={1} style={colStyle}>
-                {selected && <MdCheck />}
-              </Col>
-            </Row>
-          </div>);
-      });
-    }
-
-    return this.state.data.map((value, index) => {
-      const selected = this.state.selectedValues.find(v => uniqueIdentifier(v) === uniqueIdentifier(value))
-        || this.props.value === uniqueIdentifier(this.props.data[index]);
-      return (
-        <div
-          className={`${styleSheet.list} ${index === this.state.focusedData && styleSheet.focusedList}`}
-          key={String(this.props.uniqueIdentifier(value))}
-          onClick={() => !selected && this.onSelect(this.state.data, index)}
-        >
-          <Row>
-            <Col span={23} style={colStyle}>
-              {this.props.displayProp(value)}
-            </Col>
-            <Col span={1} style={colStyle}>
-              {selected && <MdCheck />}
-            </Col>
-          </Row>
-        </div>
-      );
-    });
-  }
-
-  onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {
-      displayProp,
-    } = this.props;
-
-    const data = this.props.data.filter((value, index, array) =>
-      this.props.filterFunction(e.target.value, displayProp(value), value, index, array));
-
-    this.setState({
-      displayValue: e.target.value,
-      data,
-    });
-  }
-
-  moveDown = () => {
-    const {
-      focusedData,
-      totalData,
-    } = this.state;
-
-    if (focusedData === totalData - 1) {
-      return this.setState({ focusedData: 0 });
-    }
-    return this.setState({ focusedData: focusedData + 1 });
-  }
-
-  moveUp = () => {
-    const {
-      focusedData,
-      totalData,
-    } = this.state;
-
-    if (focusedData === 0) {
-      return this.setState({ focusedData: totalData - 1 });
-    }
-    return this.setState({ focusedData: focusedData - 1 });
-  }
-
-  onSelect = (data: T[], index?: number) => {
-    const {
-      focusedData,
-      selectedValues,
-    } = this.state;
-
-    const {
-      displayProp,
-      uniqueIdentifier,
-    } = this.props;
-
-    const obj = data[index];
-
-    if (this.props.mode === 'multiple') {
-      const newSelectedValues = selectedValues.concat([obj]);
-      this.setState({ selectedValues: newSelectedValues });
-      this.props.onChange(newSelectedValues.map(uniqueIdentifier), newSelectedValues);
-      return;
-    }
-
-    this.setState({ displayValue: displayProp(obj), searchValue: '', isOpen: false });
-
-    this.props.onChange(
-      this.props.uniqueIdentifier(obj),
-      obj,
-    );
-  }
-
-  onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    switch (e.keyCode) {
-      case 40: {
-        return this.moveDown();
-      }
-      case 38: {
-        return this.moveUp();
-      }
-      case 13: {
-        return this.onSelect(this.state.data, this.state.focusedData);
-      }
-    }
-  }
-
-  renderClear = () => {
-    if (!this.props.allowClear) {
-      return nestedAccess(this.props.inputProps, 'after');
-    }
-    return [(
-      <div
-        key='clear'
-        onClick={() => {
-          this.setState({ displayValue: '', selectedValues: [], searchValue: '' });
-          this.props.onChange(null, null);
-        }}
-      >
-        <MdClear style={{ cursor: 'pointer' }} />
-      </div>
-    ),
-    nestedAccess(this.props.inputProps, 'after'),
-    ];
-  }
-
-  removeSelected = (index: number) => {
-    if (this.props.mode === 'single') {
-      return;
-    }
-    const { selectedValues } = this.state;
-    const { uniqueIdentifier } = this.props;
-
-    selectedValues.splice(index, 1);
-    this.setState({ selectedValues });
-    this.props.onChange(selectedValues.map(uniqueIdentifier), selectedValues);
-  }
-
-  renderSelectedOptions = () => {
-    if (this.props.mode === 'single') {
-      return nestedAccess(this.props.inputProps, 'before');
-    }
-
-    const styleSheet = this.css();
-
-    const selectedValues = (
-      this.state.selectedValues.map(
-        (v, index) => (
-          <div
-            key={`${this.props.uniqueIdentifier(v)}`}
-            className={styleSheet.selectedOptions}
-          >
-            <span>{v && this.props.displayProp(v)}</span>
-            <MdClear className={styleSheet.clearIcon} onClick={() => this.removeSelected(index)} />
-          </div>
-        ),
-      )
-    );
-
-    return [nestedAccess(this.props.inputProps, 'before'), ...selectedValues];
-  }
-
-  updateListState = (isOpen: boolean) => this.setState({ isOpen });
-
-  render() {
-    const styleSheet = this.css();
-
-    const { isOpen } = this.state;
+    const { data, search } = this.state;
+    const { listDisplayProp, uniqueIdentifier, searchValue } = this.props;
 
     return (
-      <div style={{ position: 'relative' }}>
-        <Popover
-          position='bottomLeft'
-          trigger='onClick'
-          content={<div className={styleSheet.listContainer}>
-            {this.displayList()}
-          </div>}
-          visible={isOpen}
-          onVisibleChange={this.updateListState}
-          align={this.props.isSelect && {
-            targetOffset: [0, 45],
+      <Menu style={{ maxHeight: '300px', overflowY: 'auto' }}>
+        {
+          data.filter(v => searchValue(v).toLowerCase().includes(search)).map(
+            (v) => (
+              <MenuItem
+                key={uniqueIdentifier(v)}
+                name={uniqueIdentifier(v)}
+                active={this.isItemSelected(v)}
+                onClick={() => this.onChange(v)}
+              >
+                {listDisplayProp(v)}
+              </MenuItem>
+            ),
+          )
+        }
+      </Menu>
+    );
+  }
+
+  isItemSelected = (current: T) => {
+    const { uniqueIdentifier, value } = this.props;
+
+    if (!value) {
+      return false;
+    }
+
+    if (Array.isArray(value)) {
+      return !!value.find((v) => uniqueIdentifier(v) === uniqueIdentifier(current));
+    }
+
+    return uniqueIdentifier(current) === uniqueIdentifier(value);
+  }
+
+  displayValue = (): string => {
+    const { mode, displayValue, value } = this.props;
+    const { open, search } = this.state;
+    if (open) {
+      return search;
+    }
+
+    if (mode === 'single') {
+      return displayValue(value as T) || '';
+    }
+
+    return '';
+  }
+
+  renderBefore = (): any => {
+    const { mode, displayValue, before, value, uniqueIdentifier } = this.props;
+
+    if (mode === 'single') {
+      return before;
+    }
+
+    return [before, ...(value as T[]).map(v => (
+      <Tag
+        color='#aaa'
+        textColor='#000'
+        onClick={() => this.onChange(v)}
+        outline
+        chips
+        key={uniqueIdentifier(v)}
+      >
+        {displayValue(v)}
+      </Tag>
+    ))];
+  }
+
+  renderAfter = () => {
+    const { open } = this.state;
+    const { value, clearable } = this.props;
+    const afters = [<Button key='expand' flat shape='circle' icon={open ? <MdExpandLess key='expand' /> : <MdExpandMore key='expand' />} />];
+
+    if (value && clearable) {
+      afters.push(
+        <Button
+          onClick={(e: React.MouseEvent) => {
+            e.stopPropagation();
+            this.onChange(null);
           }}
-          hideArrow
-          expand
-          preserveOnClose
-        >
-          <div>
-            <Input
-              {...this.props.inputProps}
-              value={this.state.displayValue}
-              onChange={this.onInputChange}
-              onKeyDown={this.onKeyDown}
-              after={this.renderClear()}
-              before={this.renderSelectedOptions()}
-            />
-          </div>
-        </Popover>
-      </div>
+          key='clear'
+          flat
+          shape='circle'
+          icon={<MdClose />}
+        />,
+      );
+    }
+
+    return afters.reverse();
+  }
+
+  onSearch = (search: string) => {
+    this.setState({ search }, this.fetchData);
+  }
+
+  onChange = (selected: T) => {
+    const { mode, value, onChange, uniqueIdentifier } = this.props;
+    if (mode === 'single') {
+      onChange(selected as any);
+      this.setState({ open: false, search: '' });
+      return;
+    }
+
+    if (!selected) {
+      return onChange([] as any);
+    }
+
+    const selectedValues = [...(value as T[])];
+    const index = selectedValues.findIndex((v) => uniqueIdentifier(v) === uniqueIdentifier(selected));
+    index === -1 ? selectedValues.push(selected) : selectedValues.splice(index, 1);
+    onChange(selectedValues as any);
+    this.setState({ search: '' });
+  }
+
+  onKeyUp = (e: React.KeyboardEvent) => {
+    switch (e.which) {
+      case 27: {
+        return this.onOpen(false);
+      }
+      case 9: {
+        return this.onOpen(true);
+      }
+    }
+  }
+
+  render() {
+    const {
+      children,
+      label,
+      error,
+      hint,
+    } = this.props;
+
+    const { open } = this.state;
+
+    const inputElem = React.cloneElement(children, {
+      label, error, hint,
+      after: this.renderAfter(),
+      value: this.displayValue(),
+      before: this.renderBefore(),
+      onChange: (e) => this.onSearch(e.target.value),
+      onKeyUp: this.onKeyUp,
+    });
+
+    return (
+      <Popover
+        trigger='onClick'
+        position='bottomLeft'
+        content={this.displayList()}
+        onVisibleChange={(v) => this.onOpen(v)}
+        visible={open}
+        expand
+        hideArrow
+      >
+        <div>{inputElem}</div>
+      </Popover>
     );
   }
 }
 
-interface BaseAutoCompleteProps<T> {
-  data: T[];
-  isSelect?: boolean;
-  uniqueIdentifier: (v: T) => T[keyof T];
-  displayProp: (v: T | null) => string;
-  inputProps?: InputProps;
-  filterFunction?: (inputValue: string, displayProp: string, value: T, index: number, array: T[]) => boolean;
-  renderOptions?: React.ReactNode[];
-  allowClear?: boolean;
+export interface BaseAutoComplete<T> {
+  listDisplayProp: (arg: T) => React.ReactNode;
+  uniqueIdentifier: (arg: T) => string;
+
+  data?: (search: string) => Promise<T[]> | T[];
+  displayValue?: (value: T) => string;
+  searchValue?: (value: T) => string;
+
+  clearable?: boolean;
+  children?: React.ReactElement;
+
+  label?: string;
+  error?: string;
+  hint?: string;
+  after?: React.ReactNode;
+  before?: React.ReactNode;
 }
 
-type SingleAutoCompleteProps<T> = {
+export interface SingleAutoComplete<T> extends BaseAutoComplete<T> {
   mode?: 'single';
-  value: T[keyof T] | T;
-  onChange: (value: T[keyof T], obj: T) => void;
-} & BaseAutoCompleteProps<T>;
+  value?: T;
+  onChange?: (value: T) => void;
+}
 
-type MultiAutoCompleteProps<T> = {
+export interface MultiAutoComplete<T> extends BaseAutoComplete<T> {
   mode?: 'multiple';
-  value: Array<T[keyof T] | T>;
-  onChange: (value: Array<T[keyof T]>, obj: T[]) => void;
-} & BaseAutoCompleteProps<T>;
+  value?: T[];
+  onChange?: (value: T[]) => void;
+}
 
-export type AutoCompleteProps<T> = MultiAutoCompleteProps<T> | SingleAutoCompleteProps<T>;
+export type AutoCompleteProps<T> = SingleAutoComplete<T> | MultiAutoComplete<T>;
 
 interface State<T> {
-  displayValue: string | string[];
-  searchValue: string;
-  theme: Theme;
+  search: string;
   data: T[];
-  totalData: number;
-  focusedData: number;
-  selectedValues: T[];
-  isOpen: boolean;
-}
-
-function css() {
-  const hoverColor = color(this.state.theme.primary).lighten(.5);
-  return stylesheet({
-    list: {
-      cursor: 'pointer',
-      padding: '8px 12px 7px',
-      $nest: {
-        '&:hover': {
-          background: hoverColor.toHexString(),
-          color: getColor(hoverColor.toHexString()),
-        },
-      },
-    },
-    listContainer: {
-      maxHeight: '300px',
-      overflowY: 'scroll',
-    },
-    focusedList: {
-      background: hoverColor.toHexString(),
-    },
-    selectedOptions: {
-      border: '1px solid ' + styleEnum.borderColor,
-      padding: '5px 10px',
-      fontSize: '10px',
-      position: 'relative',
-      margin: '0 2px',
-    },
-    clearIcon: {
-      padding: '2px',
-      fontSize: '12px',
-      cursor: 'pointer',
-    },
-  });
+  open: boolean;
 }

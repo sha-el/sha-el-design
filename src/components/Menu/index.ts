@@ -1,4 +1,3 @@
-import { MenuItem } from './MenuItem';
-import { MenuItemGroup } from './MenuItemGroup';
-
-export { MenuItem, MenuItemGroup };
+export { MenuItem } from './MenuItem';
+export { MenuItemGroup } from './MenuItemGroup';
+export { Menu } from './Menu';

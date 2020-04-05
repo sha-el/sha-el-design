@@ -4,14 +4,15 @@ import { initialize } from './helpers';
 
 initialize();
 
-export { AutoComplete, AutoCompleteAsync } from './components/AutoComplete';
+export { AutoComplete } from './components/AutoComplete';
+export { Input, TextArea } from './components/Input';
+
 export { Button, ButtonGroup } from './components/Button';
 export { Card, CardHeader, CardBody, CardMedia } from './components/Card';
 export { Row, Col } from './components/Grid';
-export { Input, TextArea } from './components/Input';
 export { SidePanel, Container, Content } from './components/Layout';
 export { Loading, Skeleton } from './components/Loading';
-export { MenuItem, MenuItemGroup } from './components/Menu';
+export { MenuItem, MenuItemGroup, Menu } from './components/Menu';
 export { Modal } from './components/Modal';
 export { Pagination } from './components/Pagination';
 export { Popover } from './components/Popover';

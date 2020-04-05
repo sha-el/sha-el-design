@@ -4,7 +4,7 @@ import { getDate, getMonth, getDay, getDaysInMonth, getYear, compareDesc } from 
 import { styleEnum } from './../../helpers/constants';
 import { nestedAccess, arrayBetween, getColor } from './../../helpers';
 import { Theme, ThemeService } from './../../helpers/theme';
-import { AutoComplete } from './../../index';
+import { AutoComplete } from '../AutoComplete';
 import { Row, Col } from './../../index';
 import { Card, CardBody } from '../Card';
 import { color } from 'csx';
@@ -180,24 +180,26 @@ export class Calendar extends React.Component<CalendarProps, State> {
             <Row>
               <Col span={12}>
                 <AutoComplete
-                  isSelect
-                  data={months}
-                  inputProps={{ label: 'Month' }}
+                  data={() => months}
+                  label='Month'
                   value={months[date[1]]}
-                  uniqueIdentifier={(e) => e}
-                  displayProp={(e) => e.toString()}
+                  uniqueIdentifier={(e: string) => e}
+                  listDisplayProp={(e) => e}
                   onChange={this.monthChange}
+                  displayValue={(e: string) => e.toString()}
+                  clearable={false}
                 />
               </Col>
               <Col span={12}>
                 <AutoComplete
-                  isSelect
-                  data={arrayBetween(1980, 2030)}
-                  inputProps={{ label: 'Year' }}
+                  data={() => arrayBetween(1980, 2030)}
+                  label='Year'
                   value={date[0]}
-                  uniqueIdentifier={(e) => e}
-                  displayProp={(e) => e}
+                  uniqueIdentifier={(e: string) => e}
+                  listDisplayProp={(e) => e}
                   onChange={this.yearChange}
+                  displayValue={(e) => e}
+                  clearable={false}
                 />
               </Col>
             </Row>

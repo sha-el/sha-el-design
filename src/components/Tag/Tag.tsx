@@ -3,34 +3,60 @@ import { style } from 'typestyle';
 
 import { getColor } from '../../helpers';
 import { styleEnum } from '../../helpers/constants';
+import { MdClear } from 'react-icons/md';
 
 export const Tag: React.StatelessComponent<TagProps> = (props) => {
   return (
     <span
       className={css(props)}
-      onClick={() => props.onClick(!props.active)}
+      onClick={() => props.onClick()}
       style={props.style}
     >
       {props.children}
+      {props.chips && <span
+        className={chipIconCss()}
+      >
+        <MdClear />
+      </span>}
     </span>
   );
 };
 
+const borderStyle = (props: TagProps) => {
+  if (!props.outline) {
+    return {
+      background: props.color,
+      color: props.textColor || getColor(props.color),
+    };
+  }
+
+  return {
+    border: '1px solid ' + props.color,
+    color: props.textColor || props.color,
+  };
+};
+
+const chipIconCss = () => style({
+  marginLeft: '5px',
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+});
+
 const css = (props: TagProps) => style({
-  background: props.active ? props.color : 'transparent',
-  color: props.active ? props.textColor || getColor(props.color) : props.color,
+  ...borderStyle(props),
   fontSize: '0.8125rem',
   padding: '4px 10px',
   fontWeight: 500,
   margin: '5px',
   display: 'inline-block',
-  boxShadow: props.active && styleEnum.shadow_bot,
+  boxShadow: styleEnum.shadow,
   cursor: 'pointer',
   textTransform: 'uppercase',
   minWidth: '64px',
   textAlign: 'center',
   lineHeight: 1.75,
-  borderRadius: '4px',
+  borderRadius: props.chips ? '16px' : '4px',
   letterSpacing: '0.02857em',
   boxSizing: 'border-box',
 });
@@ -38,14 +64,14 @@ const css = (props: TagProps) => style({
 export interface TagProps {
   color: string;
   children: React.ReactNode;
-  onClick?: (closed: boolean) => void;
-  active?: boolean;
+  onClick?: () => void;
   textColor?: string;
   style?: React.CSSProperties;
+  outline?: boolean;
+  chips?: boolean;
 }
 
 Tag.defaultProps = {
-  active: true,
   onClick: () => null,
   style: {},
 };

@@ -3,11 +3,13 @@ import { storiesOf } from '@storybook/react';
 import { withInfo } from '@storybook/addon-info';
 
 import {
-  Page, Row, Col, Input, Tag, Button, Tabs, TabPanel, Popover, MenuItemGroup,
-  MenuItem, Table, Pagination, Card, TextArea, Collapse, Tooltip,
-} from '../../index';
+  Page, Row, Col, Tag, TabPanel, MenuItemGroup,
+  MenuItem, Table, Pagination, Card, Collapse, Tooltip,
+} from '../../';
 
-import { MdArrowBack, MdSearch, MdArrowForward, MdAdd, MdFilter, MdFileDownload, MdSort, MdSortByAlpha } from 'react-icons/md';
+import { TextArea, Input } from '../Input';
+
+import { MdArrowBack, MdSearch, MdSort, MdSortByAlpha } from 'react-icons/md';
 import { Breadcrumb } from '../Breadcrumb';
 
 const stories = storiesOf('Page', module);
@@ -35,19 +37,6 @@ stories.add(
         <Tag key='user' color='#3CD4A0'>Sent</Tag>,
         <Tag key='list' color='#f60'>List</Tag>,
       ]}
-      // bottom={
-      //   <Row alignItems='flex-end' justifyContent='flex-end'>
-      //     <Col flex='0 1 auto'>
-      //       <Button flat icon={<MdFilter />} >FIlter</Button>
-      //     </Col>
-      //     <Col flex='0 1 auto'>
-      //       <Button flat icon={<MdFileDownload />} >Download CSV</Button>
-      //     </Col>
-      //     <Col flex='0 1 auto'>
-      //       <Button type='secondary' icon={<MdAdd />} >Add User</Button>
-      //     </Col>
-      //   </Row>
-      // }
       tabs={{
         defaultActiveKey: 'a',
         headers: [{ title: 'Hello', key: 'a' }, { title: 'Yolo', key: 'b' }, { title: 'YOLO', key: 'c' }],
@@ -132,52 +121,6 @@ stories.add(
           </TabPanel>,
         ]),
       }}
-    // tabs={
-    //   <Tabs defaultActiveKey='a'>
-    // <TabPanel name='a' title='Hello'>
-    //   <Popover
-    //     position='right'
-    //     content={
-    //       <MenuItemGroup inline={false} title='Ola'>
-    //         <MenuItem icon={<MdArrowForward />} name='a'>Hello</MenuItem>
-    //       </MenuItemGroup>}
-    //   >
-    //     <Button>Submit</Button>
-    //   </Popover>
-    //   <Button size='big'>Submit</Button>
-    //   <Table
-    //     data={[]}
-    //     columns={[{
-    //       header: 'name',
-    //       key: 'name',
-    //       dataIndex: 'name',
-    //     }, {
-    //       header: 'age',
-    //       key: 'age',
-    //       dataIndex: 'age',
-    //     }]}
-    //   />
-    //   <Pagination
-    //     batchSize={20}
-    //     totalCount={19}
-    //     currentPage={1}
-    //     showTotal
-    //   />
-    // </TabPanel>
-    // <TabPanel name='b' title='YOLO najdaijdawo'>
-    //   Yolo
-    // </TabPanel>
-    // <TabPanel name='c' title='YOLO'>
-    //   Yolo
-    // </TabPanel>
-    // <TabPanel name='d' title='YOLO'>
-    //   Yolo
-    // </TabPanel>
-    // <TabPanel name='end' title='YOLO'>
-    //   Yolo
-    // </TabPanel>
-    //   </Tabs>
-    // }
     >
       <Card>
         <Col span={12}>

@@ -23,7 +23,7 @@ stories.add(
   'Disabled Date',
   withInfo({ inline: true })(() => (
     <Row justifyContent='center'>
-      <Col flex='0 1 300px'>
+      <Col flex='0 1 400px'>
         <DatePicker
           date={[2020, 0, 2]}
           disabledDate={([year, month, day]) => day > 5 && day < 25}

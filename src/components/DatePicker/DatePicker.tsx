@@ -5,7 +5,7 @@ import { MdPermContactCalendar } from 'react-icons/md';
 import { Calendar } from '../Calendar';
 import { Modal } from '../Modal';
 import { Row, Col } from '../Grid';
-import { CalendarProps, DateTupple } from 'components/Calendar/Calendar';
+import { CalendarProps, DateTupple } from '../Calendar/Calendar';
 import { ThemeService } from '../../helpers/theme';
 import { format } from 'date-fns';
 import { getColor } from '../../helpers';
@@ -106,4 +106,5 @@ DatePicker.defaultProps = {
 
     return date.toLocaleString();
   },
+  date: new Date(),
 };

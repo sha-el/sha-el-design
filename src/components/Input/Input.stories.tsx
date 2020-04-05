@@ -3,7 +3,6 @@ import { storiesOf } from '@storybook/react';
 import { withInfo } from '@storybook/addon-info';
 
 import { Input } from '../Input';
-import { Card } from '../Card';
 import { MdEmail, MdSubject } from 'react-icons/md';
 
 const stories = storiesOf('Input', module);

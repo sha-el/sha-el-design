@@ -28,7 +28,7 @@ export class MenuItem extends React.Component<ItemProps, State> {
           return (
             <li
               key={name}
-              className={`${style.flex} ${style.menu}`}
+              className={`${style.flex} ${style.menuItem}`}
               onClick={() => onClick && onClick()}
             >
               {icon

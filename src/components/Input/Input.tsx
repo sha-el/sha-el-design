@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { stylesheet } from 'typestyle';
+import { stylesheet, classes } from 'typestyle';
 import { ThemeService, Theme } from '../../helpers/theme';
 import { Omit, nestedAccess } from '../../helpers';
 import { Row, Col } from '../../';
@@ -54,7 +54,7 @@ export class Input extends React.Component<InputProps, State> {
           {
             before &&
             <Col
-              className={css.seudo}
+              className={classes(css.seudo, 'seudo')}
               flex='0 1 auto'
             >
               {before}
@@ -62,7 +62,7 @@ export class Input extends React.Component<InputProps, State> {
           }
           {label && <span
             key='label'
-            className={css.label}
+            className={classes(css.label, 'label')}
           >
             {label} {required && <span style={{ color: 'red' }}>*</span>}
           </span>}
@@ -76,6 +76,7 @@ export class Input extends React.Component<InputProps, State> {
               ref={(e) => {
                 getElement && getElement(e);
                 this.input = e;
+                return e;
               }}
               onFocus={(e) => {
                 this.props.onFocus && this.props.onFocus(e);
@@ -91,7 +92,7 @@ export class Input extends React.Component<InputProps, State> {
           {
             after &&
             <Col
-              className={css.seudo}
+              className={classes(css.seudo, 'seudo')}
               flex='0 1 auto'
             >
               {after}
@@ -162,8 +163,10 @@ function style(theme: Theme, isError: boolean, label: boolean, active: boolean) 
           background: '#ffffff',
 
           $nest: {
-            '*:not(input)': {
+            '.seudo, .label': {
               color: theme.primary,
+            },
+            '*': {
               $nest: {
                 '&::after, &::before': {
                   borderColor: theme.primary,

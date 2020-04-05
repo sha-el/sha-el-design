@@ -6,7 +6,13 @@ export const Row: React.StatelessComponent<RowProps> = (props) => {
     className,
   } = props;
   return (
-    <div className={classes(rowStyle, flexPosition(props), className)} style={props.style} children={props.children} />
+    <div
+      onClick={props.onClick}
+      className={classes(rowStyle, flexPosition(props), className)}
+      style={props.style}
+    >
+      {props.children}
+    </div>
   );
 };
 
@@ -44,6 +50,7 @@ export interface RowProps {
   justifyContent?: 'flex-start' | 'center' | 'flex-end';
   alignItems?: 'center' | 'end' | 'flex-end' | 'flex-start' | 'self-end' | 'self-start' | 'start';
   className?: string;
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 Row.defaultProps = {
