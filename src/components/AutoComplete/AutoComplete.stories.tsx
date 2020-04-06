@@ -38,6 +38,7 @@ stories.add(
         label='Select Alter Ego'
         onChange={(e: string[]) => update(e)}
         displayValue={(e) => e}
+        required={true}
       />
     );
   }),
