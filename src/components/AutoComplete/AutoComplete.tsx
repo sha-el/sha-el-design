@@ -6,7 +6,7 @@ import { MenuItem, Menu } from '../Menu';
 import { Tag } from '../Tag';
 import { MdExpandMore, MdExpandLess, MdClose } from 'react-icons/md';
 import { Button } from '../Button';
-
+import { InputProps } from '../Input/Input';
 export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State<T>> {
   constructor(props) {
     super(props);
@@ -179,6 +179,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
       label,
       error,
       hint,
+      required,
     } = this.props;
 
     const { open } = this.state;
@@ -190,6 +191,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
       before: this.renderBefore(),
       onChange: (e) => this.onSearch(e.target.value),
       onKeyUp: this.onKeyUp,
+      required,
     });
 
     return (
@@ -211,7 +213,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
 export interface BaseAutoComplete<T> {
   listDisplayProp: (arg: T) => React.ReactNode;
   uniqueIdentifier: (arg: T) => string;
-
+  required?: InputProps['required'];
   data?: (search: string) => Promise<T[]> | T[];
   displayValue?: (value: T) => string;
   searchValue?: (value: T) => string;
