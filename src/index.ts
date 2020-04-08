@@ -34,5 +34,5 @@ export { Timeline, TimelineItem } from './components/Timeline';
 export { InfiniteScroll } from './components/InfiniteScroll';
 export { Badge } from './components/Badge';
 export { Drawer } from './components/Drawer';
-export { DatePicker } from './components/DatePicker';
+export { DatePicker, TimePicker } from './components/DatePicker';
 export { RCTooltip as Tooltip };

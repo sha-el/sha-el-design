@@ -39,9 +39,6 @@ export class Input extends React.Component<InputProps, State> {
       before,
       required,
       hint,
-    } = this.props;
-
-    const {
       containerStyle,
       containerClassName,
       ...rest
@@ -50,7 +47,7 @@ export class Input extends React.Component<InputProps, State> {
     const css = style(this.state.theme, !!error, !!label, this.isInputActive);
     return (
       <>
-        <Row gutter={[0, 0]} className={`${css.container} ${containerClassName}`} style={containerStyle}>
+        <Row wrap='nowrap' gutter={[0, 0]} className={`${css.container} ${containerClassName}`} style={containerStyle}>
           {
             before &&
             <Col
@@ -68,11 +65,11 @@ export class Input extends React.Component<InputProps, State> {
           </span>}
           <Col
             key='input'
-            className={css.section}
-            flex='1 0 auto'
+            flex='1 1 auto'
           >
             <input
               className={css.input}
+              required={required}
               ref={(e) => {
                 getElement && getElement(e);
                 this.input = e;
@@ -142,28 +139,27 @@ function style(theme: Theme, isError: boolean, label: boolean, active: boolean) 
   const borderColor = isError ? theme.error : 'rgba(0,0,0,.24)';
   return stylesheet({
     container: {
-      display: 'flex',
       position: 'relative',
-      boxSizing: 'border-box',
       color: 'rgb(9, 30, 66)',
       fontSize: '14px',
-      justifyContent: 'space-between',
       lineHeight: 1.12857,
-      maxWidth: '100%',
-      overflowWrap: 'break-word',
       borderWidth: '1px',
       borderColor,
       borderRadius: '4px',
       borderStyle: 'solid',
       cursor: 'text',
       borderTop: (active && label) && 'none',
+      transition: 'background-color 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s',
       $nest: {
         '&:focus-within': {
           borderColor: theme.primary,
           background: '#ffffff',
 
           $nest: {
-            '.seudo, .label': {
+            '.seudo': {
+              color: theme.primary,
+            },
+            '.label': {
               color: theme.primary,
             },
             '*': {
@@ -180,21 +176,8 @@ function style(theme: Theme, isError: boolean, label: boolean, active: boolean) 
         },
       },
     },
-    section: {
-      boxSizing: 'border-box',
-      color: 'rgb(9, 30, 66)',
-      display: 'flex',
-      fontSize: '14px',
-      justifyContent: 'space-between',
-      lineHeight: 1.12857,
-      maxWidth: '100%',
-      flex: '1 0 auto',
-      transition: 'background-color 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s',
-      borderWidth: '1px',
-    },
     input: {
       fontSize: '16px',
-      minWidth: '0px',
       width: '100%',
       background: 'transparent',
       borderWidth: '0px',
@@ -202,11 +185,10 @@ function style(theme: Theme, isError: boolean, label: boolean, active: boolean) 
       borderColor: 'initial',
       borderImage: 'initial',
       outline: 'none',
-      flex: '1 1 auto',
       lineHeight: '12px',
       padding: '15px',
-      maxWidth: '100%',
       color: '#090909',
+      boxSizing: 'border-box',
       $nest: {
         '&::placeholder': {
           color: '#aaaaaa',
@@ -277,7 +259,7 @@ function style(theme: Theme, isError: boolean, label: boolean, active: boolean) 
     seudo: {
       display: 'flex',
       alignItems: 'center',
-      padding: '0 .4rem !important',
+      padding: '0 5px !important',
     },
   });
 }
