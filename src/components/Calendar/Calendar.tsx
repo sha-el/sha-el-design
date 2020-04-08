@@ -219,6 +219,7 @@ export class Calendar extends React.Component<CalendarProps, State> {
                           padding: '0',
                           background: isSelectedDate && this.state.theme.primary,
                           color: isSelectedDate && getColor(this.state.theme.primary),
+                          boxSizing: 'border-box',
                         }}
                         className={classes(style.cell, this.cellDisabledStyle(this.props.disabledDate([date[0], date[1], nestedAccess(v, f)])))}
                         key={i}
