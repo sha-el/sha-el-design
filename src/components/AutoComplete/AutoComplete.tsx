@@ -7,6 +7,10 @@ import { Tag } from '../Tag';
 import { MdExpandMore, MdExpandLess, MdClose } from 'react-icons/md';
 import { Button } from '../Button';
 import { InputProps } from '../Input/Input';
+import { ThemeConsumer } from '../Theme/Theme';
+import { lightText } from '../../helpers/color';
+import { Skeleton } from '../Loading';
+
 export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State<T>> {
   constructor(props) {
     super(props);
@@ -15,6 +19,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
       search: '',
       data: [],
       open: false,
+      loading: false,
     };
   }
 
@@ -32,7 +37,9 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
     let items = data(search);
 
     if (!Array.isArray(items)) {
+      this.setState({ loading: true });
       items = (await items);
+      this.setState({ loading: false });
     }
 
     this.setState({ data: items });
@@ -44,26 +51,31 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
   }
 
   displayList = () => {
-    const { data, search } = this.state;
+    const { data, search, loading } = this.state;
     const { listDisplayProp, uniqueIdentifier, searchValue } = this.props;
 
     return (
-      <Menu style={{ maxHeight: '300px', overflowY: 'auto' }}>
-        {
-          data.filter(v => searchValue(v).toLowerCase().includes(search)).map(
-            (v) => (
-              <MenuItem
-                key={uniqueIdentifier(v)}
-                name={uniqueIdentifier(v)}
-                active={this.isItemSelected(v)}
-                onClick={() => this.onChange(v)}
-              >
-                {listDisplayProp(v)}
-              </MenuItem>
-            ),
-          )
-        }
-      </Menu>
+      <Skeleton
+        isLoading={loading}
+        render={() => (
+          <Menu style={{ maxHeight: '300px', overflowY: 'auto' }}>
+            {
+              data.filter(v => searchValue(v).toLowerCase().includes(search)).map(
+                (v) => (
+                  <MenuItem
+                    key={uniqueIdentifier(v)}
+                    name={uniqueIdentifier(v)}
+                    active={this.isItemSelected(v)}
+                    onClick={() => this.onChange(v)}
+                  >
+                    {listDisplayProp(v)}
+                  </MenuItem>
+                ),
+              )
+            }
+          </Menu>
+        )}
+      />
     );
   }
 
@@ -103,16 +115,20 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
     }
 
     return [before, ...(value as T[]).map(v => (
-      <Tag
-        color='#aaa'
-        textColor='#000'
-        onClick={() => this.onChange(v)}
-        outline
-        chips
-        key={uniqueIdentifier(v)}
-      >
-        {displayValue(v)}
-      </Tag>
+      <ThemeConsumer>
+        {(theme) => (
+          <Tag
+            color='#aaa'
+            textColor={lightText(theme)}
+            onClick={() => this.onChange(v)}
+            outline
+            chips
+            key={uniqueIdentifier(v)}
+          >
+            {displayValue(v)}
+          </Tag>
+        )}
+      </ThemeConsumer>
     ))];
   }
 
@@ -246,4 +262,5 @@ interface State<T> {
   search: string;
   data: T[];
   open: boolean;
+  loading: boolean;
 }

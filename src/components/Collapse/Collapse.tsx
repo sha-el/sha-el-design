@@ -3,84 +3,77 @@ import { stylesheet } from 'typestyle';
 import { MdExpandMore } from 'react-icons/md';
 import posed from 'react-pose';
 
-import { Theme, ThemeService } from '../../helpers/theme';
 import { flex1, flex } from 'csstips';
 import { Button } from '../Button';
-import { styleEnum } from '../../helpers/constants';
+import { Theme, ThemeConsumer } from '../Theme/Theme';
+import { shadow } from '../../helpers/style';
+import { borderColor } from '../../helpers/color';
 
-export class Collapse extends React.Component<Props, State> {
+export const Collapse: React.FunctionComponent<CollapseProps> = (props) => {
+  const {
+    header,
+    children,
+    isOpen,
+    onChange,
+  } = props;
 
-  theme = new ThemeService();
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      theme: this.theme.selectedTheme$.value,
-    };
-  }
-
-  render() {
-    const {
-      header,
-      children,
-      isOpen,
-      onChange,
-    } = this.props;
-
-    const css = this.css();
-
-    return (
-      <div className={css.container}>
-        <Content
-          pose={isOpen ? 'open' : 'closed'}
-          className={css.content}
-        >
-          <div className={css.header} onClick={() => onChange(!isOpen)}>
-            <div className={css.headerTitle}>{header}</div>
-            <Rotate
-              className={css.icon}
+  return (
+    <ThemeConsumer>
+      {(theme) => {
+        const css = style(props, theme);
+        return (
+          <div className={css.container}>
+            <Content
               pose={isOpen ? 'open' : 'closed'}
+              className={css.content}
             >
-              <Button shape='circle' flat type={isOpen ? 'primary' : 'default'} icon={<MdExpandMore />} />
-            </Rotate>
+              <div className={css.header} onClick={() => onChange(!isOpen)}>
+                <div className={css.headerTitle}>{header}</div>
+                <Rotate
+                  className={css.icon}
+                  pose={isOpen ? 'open' : 'closed'}
+                >
+                  <Button shape='circle' flat type={isOpen ? 'primary' : 'default'} icon={<MdExpandMore />} />
+                </Rotate>
+              </div>
+              {children}
+            </Content>
           </div>
-          {children}
-        </Content>
-      </div>
-    );
-  }
+        );
+      }}
+    </ThemeConsumer>
+  );
+};
 
-  css = () => stylesheet({
-    container: {
-      margin: this.props.isOpen && '20px 0',
-      boxShadow: this.props.isOpen && styleEnum.shadow,
-      borderBottom: '1px solid #eeeeee',
-    },
-    header: {
-      display: 'flex',
-      cursor: 'pointer',
-      color: this.props.isOpen ? this.state.theme.primary : '#A8A8A8',
-      fontWeight: 700,
-      paddingBottom: '30px',
-    },
-    headerTitle: {
-      ...flex1,
-    },
-    icon: {
-      ...flex,
-      alignSelf: 'flex-start',
-      marginTop: '-12px',
-      flex: 0,
-    },
-    content: {
-      overflow: 'hidden',
-      boxSizing: 'border-box',
-      padding: '20px 30px',
-      borderLeft: this.props.isOpen && '3px solid ' + this.state.theme.primary,
-    },
-  })
-}
+const style = (props: CollapseProps, theme: Theme) => stylesheet({
+  container: {
+    margin: props.isOpen && '20px 0',
+    boxShadow: props.isOpen && shadow('DEFAULT', theme),
+    borderBottom: '1px solid ' + borderColor,
+  },
+  header: {
+    display: 'flex',
+    cursor: 'pointer',
+    color: props.isOpen ? theme.primary : '#A8A8A8',
+    fontWeight: 700,
+    paddingBottom: '30px',
+  },
+  headerTitle: {
+    ...flex1,
+  },
+  icon: {
+    ...flex,
+    alignSelf: 'flex-start',
+    marginTop: '-12px',
+    flex: 0,
+  },
+  content: {
+    overflow: 'hidden',
+    boxSizing: 'border-box',
+    padding: '20px 30px',
+    borderLeft: props.isOpen && '3px solid ' + theme.primary,
+  },
+});
 
 const Content = posed.div({
   closed: {
@@ -100,12 +93,8 @@ const Rotate = posed.div({
   },
 });
 
-interface Props {
+interface CollapseProps {
   isOpen?: boolean;
   header?: React.ReactNode;
   onChange?: (isOpen: boolean) => void;
-}
-
-interface State {
-  theme: Theme;
 }

@@ -1,72 +1,50 @@
 import * as React from 'react';
 import { stylesheet } from 'typestyle';
-import { Theme, ThemeService } from './../../helpers/theme';
-import { styleEnum } from './../../helpers/constants';
 
 import { Button } from '../Button';
 import { RadioProps } from './Radio';
+import { ThemeConsumer, Theme } from '../Theme/Theme';
+import { nestedAccess } from '../../helpers';
 
-export class RadioButton extends React.Component<RadioProps, State> {
-  private readonly theme = new ThemeService();
-  input = React.createRef<HTMLInputElement>();
+export const RadioButton: React.FunctionComponent<RadioProps> = (props) => {
+  const { label, className, error, checked, disabled } = props;
 
-  constructor(props) {
-    super(props);
+  const input = React.useRef<HTMLInputElement>();
 
-    this.state = {
-      theme: this.theme.selectedTheme$.value,
-    };
-  }
-
-  componentDidMount() {
-    this.theme.selectedTheme$.subscribe(
-      theme => this.setState({ theme }),
-    );
-  }
-
-  onContainerClick = () => {
-    if (this.input.current) {
-      this.input.current.click();
+  const onContainerClick = () => {
+    if (input.current) {
+      input.current.click();
     }
-  }
+  };
 
-  render() {
-    const style = this.css();
-    const { label, className, error, checked, disabled } = this.props;
-    return (
-      <div className={style.container} onClick={() => this.onContainerClick()}>
-        <input className={style.radio} ref={this.input} type='radio' {...this.props} />
-        <Button disabled={disabled} type={checked ? 'primary' : 'default'}>{label}</Button>
-        {error &&
-          <div style={{ marginTop: '0' }} key='error' className={`${style.errorStyle} ${className || ''}`}>
-            {error}
+  return (
+    <ThemeConsumer>
+      {(theme) => {
+        const css = style(props.block, theme);
+        return (
+          <div onClick={() => onContainerClick()}>
+            <input className={css.radio} ref={input} type='radio' {...props} />
+            <Button disabled={disabled} type={(checked || nestedAccess(input.current, 'checked')) ? 'primary' : 'default'}>{label}</Button>
+            {error &&
+              <div key='error' className={`${css.errorStyle} ${className || ''}`}>
+                {error}
+              </div>
+            }
           </div>
-        }
-      </div>
-    );
-  }
+        );
+      }}
+    </ThemeConsumer>
+  );
+};
 
-  css = () => {
-
-    return stylesheet({
-      container: {
-        cursor: 'pointer',
-        fontWeight: 'lighter',
-        boxShadow: this.props.block && styleEnum.shadow_bot,
-        lineHeight: '22px',
-      },
-      errorStyle: {
-        textAlign: 'right',
-        fontSize: '14px',
-        color: this.state.theme.error,
-      },
-      radio: {
-        display: 'none',
-      },
-    });
-  }
-}
-
-interface State {
-  theme: Theme;
-}
+const style = (block: boolean, theme: Theme) => {
+  return stylesheet({
+    errorStyle: {
+      fontSize: '14px',
+      color: theme.error,
+    },
+    radio: {
+      display: 'none',
+    },
+  });
+};

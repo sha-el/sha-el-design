@@ -3,43 +3,37 @@ import { style as typeStyle } from 'typestyle';
 
 import { RadioProps } from './Radio';
 
-export class RadioGroup extends React.Component<Props, {}> {
-  constructor(props) {
-    super(props);
-  }
+export const RadioGroup: React.FunctionComponent<RadioGroupProps> = (props) => {
+  const { value, name, onChange, children } = props;
+  return (
+    <div className={style}>
+      {
+        children.map((v, i) =>
+          React.cloneElement(
+            v,
+            {
+              name,
+              onChange,
+              key: i,
+              checked: v.props.value === value,
+            },
+          ),
+        )
+      }
+    </div>
+  );
+};
 
-  render() {
-    const { value, name, onChange, children } = this.props;
-    return (
-      <div className={this.style}>
-        {
-          children.map((v, i) =>
-            React.cloneElement(
-              v,
-              {
-                name,
-                onChange,
-                key: i,
-                checked: v.props.value === value,
-              },
-            ),
-          )
-        }
-      </div>
-    );
-  }
-
-  style = typeStyle({
-    $nest: {
-      div: {
-        display: 'inline-block',
-        marginRight: '5px',
-      },
+const style = typeStyle({
+  $nest: {
+    div: {
+      display: 'inline-block',
+      marginRight: '5px',
     },
-  });
-}
+  },
+});
 
-interface Props {
+interface RadioGroupProps {
   children: React.ReactElement<RadioProps>[];
   name: string;
   value?: any;

@@ -11,7 +11,7 @@ export const Container: React.StatelessComponent<ContainerProps> = (props) => {
 
 const css = style({
   display: 'flex',
-  flex: '1 1 auto',
+  position: 'relative',
 });
 
 export interface ContainerProps {

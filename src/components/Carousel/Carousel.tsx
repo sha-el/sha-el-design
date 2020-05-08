@@ -3,12 +3,6 @@ import posed, { PoseGroup } from 'react-pose';
 import { stylesheet } from 'typestyle';
 import { styleEnum } from '../../helpers/constants';
 
-const AnimatableDiv = posed.div({
-  active: {
-    x: ({ transform }) => transform,
-  },
-});
-
 export const Carousel: React.StatelessComponent<Props> = (props) => {
   const [sliderIndex, setSlideIndex] = React.useState(0);
   React.useEffect(
@@ -106,8 +100,5 @@ interface Props {
   width: string;
   onChange?: (current: number) => void;
   autoScroll?: boolean;
-  dotPosition?: false | 'top' | 'bottom' | 'left' | 'right';
-  easing?: string;
-  effect?: 'scrollx' | 'fade';
   children: React.ReactNode[];
 }

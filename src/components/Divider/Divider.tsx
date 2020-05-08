@@ -1,18 +1,25 @@
 import * as React from 'react';
-import { style } from 'typestyle';
+import { style as typeStyle, classes } from 'typestyle';
 import { NestedCSSProperties } from 'typestyle/lib/types';
+import { Theme, ThemeConsumer } from '../Theme/Theme';
 
 export const Divider: React.StatelessComponent<Props> = (props) => {
   return (
-    <div style={props.style} className={`${css(props.color)} ${props.children ? psuedoWithChild : psuedoWithoutChild} ${props.className}`}>
-      {props.children}
-    </div>
+    <ThemeConsumer>
+      {(theme) => (
+        <div
+          style={props.style}
+          className={classes(style(props.color, theme), props.children ? psuedoWithChild : psuedoWithoutChild, props.className)}
+        >
+          {props.children}
+        </div>
+      )}
+    </ThemeConsumer>
   );
 };
 
 Divider.defaultProps = {
   className: '',
-  color: '#ccc',
 };
 
 interface Props {
@@ -21,10 +28,10 @@ interface Props {
   color?: string;
 }
 
-const commonStyle = (color: string): NestedCSSProperties => {
+const commonStyle = (color: string, theme: Theme): NestedCSSProperties => {
   return ({
     content: '" "',
-    background: color,
+    background: color || theme.textColor,
     height: '1px',
     zIndex: -1,
     display: 'block',
@@ -33,7 +40,7 @@ const commonStyle = (color: string): NestedCSSProperties => {
   });
 };
 
-const psuedoWithChild = style({
+const psuedoWithChild = typeStyle({
   $nest: {
     '&::before': {
       width: 'calc(50% - 20px)',
@@ -44,7 +51,7 @@ const psuedoWithChild = style({
   },
 });
 
-const psuedoWithoutChild = style({
+const psuedoWithoutChild = typeStyle({
   $nest: {
     '&::before': {
       width: '50%',
@@ -55,22 +62,22 @@ const psuedoWithoutChild = style({
   },
 });
 
-const css = (color: string) => style({
+const style = (color: string, theme: Theme) => typeStyle({
   width: '100%',
   textAlign: 'center',
   position: 'relative',
   zIndex: 2,
   margin: '20px 0',
-  background: 'white',
+  background: theme.background,
   display: 'inline-block',
   $nest: {
     '&::before': {
       left: 0,
-      ...commonStyle(color),
+      ...commonStyle(color, theme),
     },
     '&::after': {
       right: 0,
-      ...commonStyle(color),
+      ...commonStyle(color, theme),
     },
   },
 });

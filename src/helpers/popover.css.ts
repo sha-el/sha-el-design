@@ -68,7 +68,6 @@ export default `
   color: #333333;
   text-align: left;
   text-decoration: none;
-  background-color: #ffffff;
   border-radius: 3px;
 }
 .rc-tooltip-arrow,

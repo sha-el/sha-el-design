@@ -4,7 +4,7 @@ import { withInfo } from '@storybook/addon-info';
 
 import { Skeleton } from './Skeleton';
 
-const stories = storiesOf('Skeleton', module);
+const stories = storiesOf('Skeleton Loading', module);
 
 stories.add(
   'isLoading set to true',

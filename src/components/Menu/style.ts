@@ -1,20 +1,20 @@
 import { stylesheet } from 'typestyle';
-import { styleEnum } from '../../helpers/constants';
-import { color } from 'csx';
 import { getColor } from '../../helpers';
+import { Theme } from '../../components/Theme/Theme';
+import { hoverColor } from '../../helpers/color';
 
-const itemColors = (active: boolean, state: { theme: { primary: string; }; }) => {
+const itemColors = (active: boolean, theme: Theme) => {
   if (active) {
-    return [state.theme.primary, getColor(state.theme.primary)];
+    return [theme.primary, getColor(theme.primary)];
   }
 
-  return ['white', '#3c4858'];
+  return [theme.background, theme.textColor];
 };
 
 const itemPadding = (isBaropen: boolean) => isBaropen ? ['15px 10px', '10px 0'] : ['15px', '0'];
 
-export const css = (props: { active?: any; }, state: { theme: { primary: string; }; }, isOpen: boolean) => {
-  const [bgColor, textColor] = itemColors(props.active, state);
+export const css = (active: boolean, theme: Theme, isOpen: boolean) => {
+  const [bgColor, textColor] = itemColors(active, theme);
 
   const [padding, margin] = itemPadding(isOpen);
 
@@ -22,6 +22,7 @@ export const css = (props: { active?: any; }, state: { theme: { primary: string;
     menu: {
       width: 'auto',
       padding: '5px 0',
+      background: bgColor,
     },
     menuItem: {
       padding,
@@ -39,9 +40,9 @@ export const css = (props: { active?: any; }, state: { theme: { primary: string;
       textOverflow: 'clip',
       whiteSpace: 'nowrap',
       $nest: {
-        '&:hover': !props.active && {
-          backgroundColor: 'hsla(0,0%,78%)',
-          color: '#3c4858',
+        '&:hover': !active && {
+          backgroundColor: hoverColor(bgColor),
+          color: getColor(hoverColor(bgColor)),
           boxShadow: 'none',
         },
       },

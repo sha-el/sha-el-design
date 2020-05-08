@@ -11,7 +11,7 @@
     "target": "es5",
     "sourceMap": true,
     "outDir": "./lib",
-    "baseUrl": "./src",
+    // "baseUrl": "./src",
     "jsx": "react",
     "declarationDir": "./lib/",
     "lib": [

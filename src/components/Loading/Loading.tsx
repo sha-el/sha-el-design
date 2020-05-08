@@ -1,86 +1,70 @@
 import * as React from 'react';
 import { stylesheet, keyframes } from 'typestyle';
 
-import { Theme, ThemeService } from '../../helpers/theme';
+import { ThemeConsumer, Theme } from '../Theme/Theme';
+import { borderColor } from 'csx';
 
-export class Loading extends React.Component<LoadingProps, State> {
-  constructor(props: LoadingProps) {
-    super(props);
+export const Loading: React.FunctionComponent<LoadingProps> = (props) => {
+  const {
+    render,
+    isLoading,
+    ...rest
+  } = props;
 
-    this.state = {
-      theme: this.theme.selectedTheme$.value,
-    };
+  if (!isLoading) {
+    return render();
   }
 
-  theme = new ThemeService();
+  return (
+    <ThemeConsumer>
+      {(theme) => (
+        <div {...rest} className={style(theme).loader} />
+      )}
+    </ThemeConsumer>
+  );
+};
 
-  componentDidMount() {
-    this.theme.selectedTheme$.subscribe(
-      theme => this.setState({ theme }),
-    );
-  }
+const style = (theme: Theme) => {
+  const animation = keyframes({
+    '0%': {
+      transform: 'rotate(0)',
+    },
+    '100%': {
+      transform: 'rotate(360deg)',
+    },
+  });
 
-  render() {
-    const {
-      render,
-      isLoading,
-      ...rest
-    } = this.props;
+  const animation2 = keyframes({
+    '0%': {
+      borderTopColor: theme.error,
+    },
+    '25%': {
+      borderTopColor: theme.warning,
+    },
+    '50%': {
+      borderTopColor: theme.info,
+    },
+    '100%': {
+      borderTopColor: theme.secondary,
+    },
+  });
 
-    if (!isLoading) {
-      return render();
-    }
-
-    return (
-      <div {...rest} className={this.css().loader} />
-    );
-  }
-
-  css = () => {
-    const animation = keyframes({
-      '0%': {
-        transform: 'rotate(0)',
-      },
-      '100%': {
-        transform: 'rotate(360deg)',
-      },
-    });
-
-    const { theme } = this.state;
-
-    const animation2 = keyframes({
-      '0%': {
-        borderTopColor: theme.error,
-      },
-      '25%': {
-        borderTopColor: theme.warning,
-      },
-      '50%': {
-        borderTopColor: theme.info,
-      },
-      '100%': {
-        borderTopColor: theme.secondary,
-      },
-    });
-
-    return stylesheet({
-      loader: {
-        margin: '0px auto',
-        borderRadius: '50%',
-        border: '4px solid #f1f1f1',
-        borderTop: '4px solid red',
-        width: '50px',
-        height: '50px',
-        animation: `1.5s ${animation} infinite linear, 6s ${animation2} infinite linear`,
-        // transform: 'translate(-50%, -50%)',
-      },
-    });
-  }
-}
+  return stylesheet({
+    loader: {
+      margin: '0px auto',
+      borderRadius: '50%',
+      border: `4px solid ${borderColor(theme.bodyBg)}`,
+      borderTop: '4px solid red',
+      width: '50px',
+      height: '50px',
+      animation: `1.5s ${animation} infinite linear, 6s ${animation2} infinite linear`,
+    },
+  });
+};
 
 export interface LoadingProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   isLoading: boolean;
-  render?: () => React.ReactNode;
+  render?: () => React.ReactElement;
   style?: React.CSSProperties;
 }
 

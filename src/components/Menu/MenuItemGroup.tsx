@@ -7,6 +7,7 @@ import { Theme, ThemeService } from '../../helpers/theme';
 import { SidePanelContext } from '../Layout/SidePanel';
 import { Popover } from '../Popover';
 import { PopoverProps } from '../Popover/Popover';
+import { ThemeConsumer } from '../Theme/Theme';
 
 export class MenuItemGroup extends React.Component<MenuItemGroupProps, State> {
   themeService = new ThemeService();
@@ -15,7 +16,6 @@ export class MenuItemGroup extends React.Component<MenuItemGroupProps, State> {
     super(props);
 
     this.state = {
-      theme: this.themeService.selectedTheme$.getValue(),
       active: this.props.defaultActive,
     };
   }
@@ -44,69 +44,82 @@ export class MenuItemGroup extends React.Component<MenuItemGroupProps, State> {
 
   renderPopup = (isBarOpen: boolean) => {
     const { icon, title } = this.props;
-    const style = css({ active: false }, this.state, isBarOpen);
 
     if (isBarOpen) {
       return (
-        <li
-          key={name}
-          className={`${style.flex} ${style.menuItem}`}
-          onClick={this.toggle}
-        >
-          {icon
-            && <div
-              className={`${style.icon}`}
-              style={{
-                padding: isBarOpen ? '0 20px 0 0' : '0',
-              }}
-            >
-              {icon}
-            </div>
-          }
-          {isBarOpen && <div className={`${style.flex_1}`}>
-            <span className={style.groupTitle}>{title}</span>
-          </div>}
-          {isBarOpen && <div className={style.flexEnd}>
-            {this.state.active ? <FaChevronDown key='1' /> : <FaChevronUp key='2' />}
-          </div>}
-        </li>
+        <ThemeConsumer>
+          {(theme) => {
+            const style = css(false, theme, isBarOpen);
+            return (
+              <li
+                key={name}
+                className={`${style.flex} ${style.menuItem}`}
+                onClick={this.toggle}
+              >
+                {icon
+                  && <div
+                    className={`${style.icon}`}
+                    style={{
+                      padding: isBarOpen ? '0 20px 0 0' : '0',
+                    }}
+                  >
+                    {icon}
+                  </div>
+                }
+                {isBarOpen && <div className={`${style.flex_1}`}>
+                  <span className={style.groupTitle}>{title}</span>
+                </div>}
+                {isBarOpen && <div className={style.flexEnd}>
+                  {this.state.active ? <FaChevronDown key='1' /> : <FaChevronUp key='2' />}
+                </div>}
+              </li>
+            );
+          }}
+        </ThemeConsumer>
       );
     }
 
     return (
-      <Popover
-        content={
-          <div
-            className={`${style.groupContainer} ${style.popoverContent}`}
-          >
-            {this.renderChilden()}
-          </div>
-        }
-        trigger={this.props.trigger}
-        position={this.props.position}
-        hideArrow
-        style={{
-          content: {
-            padding: '0',
-          },
+      <ThemeConsumer>
+        {(theme) => {
+          const style = css(false, theme, isBarOpen);
+          return (
+            <Popover
+              content={
+                <div
+                  className={`${style.groupContainer} ${style.popoverContent}`}
+                >
+                  {this.renderChilden()}
+                </div>
+              }
+              trigger={this.props.trigger}
+              position={this.props.position}
+              hideArrow
+              style={{
+                content: {
+                  padding: '0',
+                },
+              }}
+              align={this.props.offset && { offset: this.props.offset }}
+            >
+              {this.props.anchor || <li
+                key={name}
+                className={`${style.flex} ${style.menuItem}`}
+                onClick={this.toggle}
+              >
+                <div
+                  className={`${style.icon}`}
+                  style={{
+                    padding: isBarOpen ? '0 20px 0 0' : '0',
+                  }}
+                >
+                  {icon} {!this.props.inline && title}
+                </div>
+              </li>}
+            </Popover>
+          );
         }}
-        align={this.props.offset && { offset: this.props.offset }}
-      >
-        {this.props.anchor || <li
-          key={name}
-          className={`${style.flex} ${style.menuItem}`}
-          onClick={this.toggle}
-        >
-          <div
-            className={`${style.icon}`}
-            style={{
-              padding: isBarOpen ? '0 20px 0 0' : '0',
-            }}
-          >
-            {icon} {!this.props.inline && title}
-          </div>
-        </li>}
-      </Popover>
+      </ThemeConsumer>
     );
   }
 
@@ -115,17 +128,23 @@ export class MenuItemGroup extends React.Component<MenuItemGroupProps, State> {
       <SidePanelContext.Consumer>
         {context => {
           const isBarOpen = this.props.inline && context.width > 200;
-          const style = css({ active: false }, this.state, false);
           return (
-            <>
-              {this.renderPopup(isBarOpen)}
-              {isBarOpen && <Content
-                className={`${style.groupContainer}`}
-                pose={this.state.active ? 'open' : 'closed'}
-              >
-                {this.props.children}
-              </Content>}
-            </>
+            <ThemeConsumer>
+              {(theme) => {
+                const style = css(false, theme, false);
+                return (
+                  <>
+                    {this.renderPopup(isBarOpen)}
+                    {isBarOpen && <Content
+                      className={`${style.groupContainer}`}
+                      pose={this.state.active ? 'open' : 'closed'}
+                    >
+                      {this.props.children}
+                    </Content>}
+                  </>
+                );
+              }}
+            </ThemeConsumer>
           );
         }}
       </SidePanelContext.Consumer>
@@ -161,6 +180,5 @@ interface MenuItemGroupProps {
 }
 
 interface State {
-  theme: Theme;
   active?: boolean;
 }

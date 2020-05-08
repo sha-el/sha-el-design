@@ -53,28 +53,19 @@ export function nestedAccess(obj: any, ...props: string[]): any {
 
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
-export function getColor(clr: string, black = '#000000', white = '#ffffff') {
+export function getColor(clr: string, black = '#555555', white = '#ffffff') {
   return color(clr).lightness() > .7 ? black : white;
 }
 
 export function initialize() {
-
-  const t = new ThemeService();
-
-  t.selectedTheme$.subscribe(v => cssRaw(`
-    :root {
-      --primary: ${color(v.primary).lighten(.5)}
-    }`,
-  ));
-
   cssRaw(`
   body {
-    background: #f0f2f5;
+    background: var(--background);
+    color: var(--color);
     margin: 0;
   }
   a, a:hover, a:focus, a:active {
     text-decoration: none;
-    color: rgba(0,0,0,.87);
   }
   @import url('https://fonts.googleapis.com/css?family=Roboto:400,400i,500,700&display=swap');
   @import url('https://fonts.googleapis.com/css?family=Fira+Code:300,400,500,600,700&display=swap');

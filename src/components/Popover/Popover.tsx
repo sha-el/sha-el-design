@@ -3,6 +3,9 @@ import { stylesheet } from 'typestyle';
 import RCTooltip from 'rc-tooltip';
 import { styleEnum } from '../../helpers/constants';
 import { isBrowser } from '../../helpers';
+import { ThemeConsumer, Theme } from '../Theme/Theme';
+import { borderColor, colorShades } from '../../helpers/color';
+import { shadow } from '../../helpers/style';
 
 export class Popover extends React.Component<PopoverProps, State> {
 
@@ -13,7 +16,6 @@ export class Popover extends React.Component<PopoverProps, State> {
     style: {},
   };
 
-  css = css.bind(this);
   child = React.createRef<HTMLElement>();
 
   constructor(props: PopoverProps) {
@@ -47,9 +49,9 @@ export class Popover extends React.Component<PopoverProps, State> {
     setTimeout(this.isBrowser, 500);
   }
 
-  renderContent = () => {
-    const styleSheet = this.css();
-    const { hideArrow } = this.props;
+  renderContent = (theme: Theme) => {
+    const { hideArrow, expand } = this.props;
+    const styleSheet = style(expand, this.state.childWidth, theme);
     return (
       <>
         <div>
@@ -70,29 +72,35 @@ export class Popover extends React.Component<PopoverProps, State> {
   render() {
     const { trigger, children, preserveOnClose, position,
       style: { container: containerStyle }, onVisibleChange } = this.props;
-    const style = this.css();
 
     if (!this.state.isBrowser) {
       return React.cloneElement(children, { ref: this.child });
     }
 
     return (
-      <RCTooltip
-        placement={position}
-        trigger={[triggers(trigger)]}
-        overlay={this.renderContent()}
-        destroyTooltipOnHide={!preserveOnClose}
-        overlayClassName={style.container}
-        overlayStyle={containerStyle}
-        onVisibleChange={(v) => {
-          this.setState({ visible: v, childWidth: this.child.current.offsetWidth });
-          onVisibleChange && onVisibleChange(v);
+      <ThemeConsumer>
+        {(theme) => {
+          const css = style(this.props.expand, this.state.childWidth, theme);
+          return (
+            <RCTooltip
+              placement={position}
+              trigger={[triggers(trigger)]}
+              overlay={this.renderContent(theme)}
+              destroyTooltipOnHide={!preserveOnClose}
+              overlayClassName={css.container}
+              overlayStyle={containerStyle}
+              onVisibleChange={(v) => {
+                this.setState({ visible: v });
+                onVisibleChange && onVisibleChange(v);
+              }}
+              visible={this.state.visible}
+              align={this.props.align}
+            >
+              {React.cloneElement(children, { ref: this.child })}
+            </RCTooltip>
+          );
         }}
-        visible={this.state.visible}
-        align={this.props.align}
-      >
-        {React.cloneElement(children, { ref: this.child })}
-      </RCTooltip>
+      </ThemeConsumer>
     );
   }
 }
@@ -103,20 +111,21 @@ const triggers = (t: PopoverProps['trigger']): any => ({
   onFocus: 'focus',
 }[t]);
 
-function css() {
+function style(expand: boolean, childWidth: number, theme: Theme) {
   return stylesheet({
     container: {
-      width: this.props.expand ? this.state.childWidth : 'auto',
+      width: expand ? childWidth : 'auto',
       minWidth: '100px',
-      boxShadow: styleEnum.shadow_2x,
-      background: 'white',
+      boxShadow: shadow('2X', theme),
       borderRadius: '2px',
       padding: '0',
+      background: colorShades(theme.background)[1],
+      color: `${theme.textColor} !important`,
     },
     title: {
       textAlign: 'center',
       padding: '10px',
-      borderBottom: `${styleEnum.borderStyle} ${styleEnum.borderWidth} ${styleEnum.borderColor}`,
+      borderBottom: `${styleEnum.borderStyle} ${styleEnum.borderWidth} ${borderColor(theme.background)}`,
       fontWeight: 500,
     },
   });

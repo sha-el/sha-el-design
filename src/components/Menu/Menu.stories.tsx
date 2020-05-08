@@ -37,7 +37,7 @@ stories.add(
       title='Options'
       inline={false}
       position='bottom'
-      anchor={<Button icon={<IoMdOptions />} />}
+      anchor={<span><Button icon={<IoMdOptions />} /></span>}
       offset={[0, -40]}
     >
       <MenuItem name='1'>Option 1</MenuItem>

@@ -1,29 +1,17 @@
 import * as React from 'react';
 import { stylesheet } from 'typestyle';
-import { styleEnum } from '../../helpers/constants';
 import { GiEmptyMetalBucket } from 'react-icons/gi';
-import { Theme, ThemeService } from '../../helpers/theme';
+import { Theme, ThemeConsumer } from '../Theme/Theme';
+import { lightText, borderColor } from '../../helpers/color';
+import { shadow } from '../../helpers/style';
 
-export class Table<T> extends React.Component<TableProps<T>, State> {
-  constructor(props: TableProps<T>) {
-    super(props);
-
-    this.state = {
-      theme: this.themeService.selectedTheme$.value,
-    };
-  }
-
-  themeService = new ThemeService();
-
-  componentDidMount() {
-    this.themeService.selectedTheme$.subscribe(theme => this.setState({ theme }));
-  }
+export class Table<T> extends React.Component<TableProps<T>, {}> {
 
   static defaultProps = {
     shadow: true,
   };
 
-  renderRow() {
+  renderRow = () => {
     return (
       this.props.data.map((v, index) => (
         <tr key={`table-row-${index}`}>
@@ -39,12 +27,11 @@ export class Table<T> extends React.Component<TableProps<T>, State> {
     );
   }
 
-  showEmptyState = () => {
-    const style = this.css();
+  showEmptyState = (css: Record<'empty' | 'icon', string>) => {
     if (!this.props.data.length) {
       return (
-        <div className={style.empty}>
-          <div className={style.icon}>
+        <div className={css.empty}>
+          <div className={css.icon}>
             <GiEmptyMetalBucket />
           </div>
           <div>
@@ -56,45 +43,54 @@ export class Table<T> extends React.Component<TableProps<T>, State> {
   }
 
   render() {
-    const style = this.css();
-    const { header, columns, footer } = this.props;
+    const { header, columns, footer, shadow: shadowEnabled } = this.props;
     return (
-      <div className={style.container}>
-        {header && <div className={style.header}>
-          {header}
-        </div>}
-        <table className={style.table}>
-          <thead>
-            <tr>
-              {columns.map(v => <th key={`table-header-${v.key}`}>{v.header}</th>)}
-            </tr>
-          </thead>
-          <tbody>
-            {this.renderRow()}
-          </tbody>
-        </table>
-        {this.showEmptyState()}
-        {footer && <div className={style.footer}>
-          {footer}
-        </div>}
-      </div>
+      <ThemeConsumer>
+        {(theme) => {
+          const css = style(shadowEnabled, theme);
+          return (
+            <div className={css.container}>
+              {header && <div className={css.header}>
+                {header}
+              </div>}
+              <table className={css.table}>
+                <thead>
+                  <tr>
+                    {columns.map(v => <th key={`table-header-${v.key}`}>{v.header}</th>)}
+                  </tr>
+                </thead>
+                <tbody>
+                  {this.renderRow()}
+                </tbody>
+              </table>
+              {this.showEmptyState(css)}
+              {footer && <div className={css.footer}>
+                {footer}
+              </div>}
+            </div>
+          );
+        }}
+      </ThemeConsumer>
     );
   }
+}
 
-  css = () => stylesheet({
+const style = (shadowEnabled: boolean, theme: Theme) => {
+  const shadow2x = shadow('2X', theme);
+  return stylesheet({
     table: {
       width: '100%',
       borderCollapse: 'collapse',
-      background: 'white',
+      background: theme.background,
       fontSize: '14px',
       $nest: {
         thead: {
           fontSize: '12px',
           fontWeight: 'bolder',
-          color: 'rgba(0,0,0,.54)',
+          color: theme.textColor,
         },
         tr: {
-          borderBottom: `${styleEnum.borderWidth} ${styleEnum.borderStyle} ${styleEnum.borderColor}`,
+          borderBottom: `1px solid ${borderColor(theme.background)}`,
         },
         th: {
           padding: '15px 5px',
@@ -128,8 +124,8 @@ export class Table<T> extends React.Component<TableProps<T>, State> {
       },
     },
     container: {
-      boxShadow: this.props.shadow && styleEnum.shadow_2x,
-      background: 'white',
+      boxShadow: shadowEnabled && shadow2x,
+      background: theme.background,
     },
     icon: {
       textAlign: 'center',
@@ -137,8 +133,8 @@ export class Table<T> extends React.Component<TableProps<T>, State> {
       padding: '10px',
     },
     empty: {
-      color: '#ccc',
-      background: 'white',
+      color: lightText(theme),
+      background: theme.background,
       textAlign: 'center',
       padding: '50px',
     },
@@ -146,17 +142,13 @@ export class Table<T> extends React.Component<TableProps<T>, State> {
       padding: '12px 24px 8px',
       lineHeight: '50px',
       fontSize: '1.142rem',
-      color: 'rgb(110, 110, 110)',
+      color: lightText(theme),
     },
     footer: {
       padding: '12px 24px 8px',
     },
-  })
-}
-
-interface State {
-  theme: Theme;
-}
+  });
+};
 
 interface TableProps<T> {
   data: T[];

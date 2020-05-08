@@ -1,69 +1,69 @@
 import * as React from 'react';
 import { stylesheet, classes } from 'typestyle';
-import { Theme, ThemeService } from '../../helpers/theme';
-import { getColor, removeObjectProperties } from '../../helpers';
-import { styleEnum } from '../../helpers/constants';
+import { removeObjectProperties } from '../../helpers';
 import { color } from 'csx';
+import { Theme, ThemeConsumer } from '../Theme/Theme';
+import { buttonColor } from '../../helpers/color';
 
-export class Button extends React.Component<ButtonProps, State> {
-  css = css.bind(this);
-  private readonly theme = new ThemeService();
+export const Button: React.FunctionComponent<ButtonProps> = (props) => {
+  const {
+    type,
+    size,
+    shape,
+    displayBlock,
+    icon,
+    flat,
+    className,
+    ...rest
+  } = props;
 
-  static defaultProps = {
-    type: 'default',
-    size: 'default',
-    shape: 'default',
-  };
-
-  constructor(props: ButtonProps) {
-    super(props);
-
-    this.state = {
-      theme: this.theme.selectedTheme$.value,
-    };
-  }
-
-  render() {
-    const style = this.css();
-    const {
-      type,
-      size,
-      shape,
-      displayBlock,
-      icon,
-      flat,
-      className,
-      ...rest
-    } = this.props;
-
-    const linkButtonRestProps = removeObjectProperties(rest as AnchorButtonProps, 'type');
-    if (rest.href !== undefined || type === 'link') {
-      return (
-        <a
-          className={classes(style.anchor, style.default, className)}
-          {...linkButtonRestProps}
-        >
-          {icon}
-          {this.props.children}
-        </a>
-      );
-    }
-
-    const buttonProps = rest as NativeButtonProps;
+  const linkButtonRestProps = removeObjectProperties(rest as AnchorButtonProps, 'type');
+  if (rest.href !== undefined || type === 'link') {
     return (
-      <button
-        className={classes(style.default, style.button, className)}
-        {...buttonProps}
-      >
-        {icon}
-        {this.props.children}
-      </button>
+      <ThemeConsumer>
+        {(theme) => {
+          const css = style(props, theme);
+          return (
+            <a
+              className={classes(css.anchor, css.default, className)}
+              {...linkButtonRestProps}
+            >
+              {icon}
+              {props.children}
+            </a>
+          );
+        }}
+      </ThemeConsumer>
     );
   }
-}
+
+  const buttonProps = rest as NativeButtonProps;
+  return (
+    <ThemeConsumer>
+      {(theme) => {
+        const css = style(props, theme);
+        return (
+          <button
+            className={classes(css.default, css.button, className)}
+            {...buttonProps}
+          >
+            {icon}
+            {props.children}
+          </button>
+        );
+      }}
+    </ThemeConsumer>
+  );
+};
+
+Button.defaultProps = {
+  type: 'default',
+  size: 'default',
+  shape: 'default',
+};
 
 function getSize(size: sizeTypes, shape: shapeTypes, block: boolean) {
-  let style = {
+  let buttonStyles = {
     padding: '0 20px',
     height: '36px',
     fontSize: '14px',
@@ -73,8 +73,8 @@ function getSize(size: sizeTypes, shape: shapeTypes, block: boolean) {
   };
   switch (size) {
     case 'big': {
-      style = {
-        ...style,
+      buttonStyles = {
+        ...buttonStyles,
         padding: '0 30px',
         height: '40px',
         fontSize: '16px',
@@ -82,49 +82,24 @@ function getSize(size: sizeTypes, shape: shapeTypes, block: boolean) {
     }
   }
   if (shape === 'circle') {
-    style.width = style.height;
-    style.borderRadius = '50%';
-    style.padding = '0px';
-    style.lineHeight = (Number(
-      style.height.replace('px', ''),
+    buttonStyles.width = buttonStyles.height;
+    buttonStyles.borderRadius = '50%';
+    buttonStyles.padding = '0px';
+    buttonStyles.lineHeight = (Number(
+      buttonStyles.height.replace('px', ''),
     ) + 5) + 'px';
   }
-  return style;
+  return buttonStyles;
 }
 
-function buttonColor(props: ButtonProps, theme: Theme): [string, string] {
-  if (props.disabled && (props.type !== 'link' && !props.flat)) {
-    return [styleEnum.disabledColor, '#ffffff'];
-  }
+export function style(props: ButtonProps, theme: Theme) {
+  const { disabled, children } = props;
 
-  if (props.disabled) {
-    return ['rgba(255,255,255,0)', styleEnum.disabledColor];
-  }
+  const [bgColor, textColor, hoverBgColor] = buttonColor(props, theme);
 
-  if (props.type === 'link') {
-    return ['rgba(255,255,255,0)', theme.primary];
-  }
-  if (props.flat) {
-    return ['rgba(255,255,255,0)', props.type === 'default' ? '#000000' : theme[props.type]];
-  }
-
-  const bgColor = {
-    ...theme,
-    default: '#eeeeee',
-  }[props.type];
-
-  return [bgColor, getColor(bgColor)];
-}
-
-function css() {
-  const { disabled, children } = this.props;
-
-  const [bgColor, textColor] = buttonColor(this.props, this.state.theme);
-
-  const hoverBgColor = color(bgColor).darken(.1).toHexString();
   return stylesheet({
     default: {
-      ...getSize(this.props.size, this.props.shape, this.props.displayBlock),
+      ...getSize(props.size, props.shape, props.displayBlock),
       display: 'inline-flex',
       alignItems: 'center',
       border: 'none',
@@ -157,7 +132,7 @@ function css() {
       },
     },
     button: {
-      boxShadow: this.props.flat ? 'none' : '0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12)',
+      boxShadow: props.flat ? 'none' : '0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12)',
       textAlign: 'center',
       background: bgColor,
       color: textColor,

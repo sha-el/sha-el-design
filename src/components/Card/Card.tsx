@@ -1,28 +1,35 @@
 import * as React from 'react';
 import { stylesheet, classes } from 'typestyle';
-import { styleEnum } from '../../helpers/constants';
+import { ThemeConsumer, Theme } from '../Theme/Theme';
+import { shadow } from '../../helpers/style';
 
 export const Card: React.FunctionComponent<CardProps> = (props) => {
-  const style = css();
-
   const { className, ...rest } = props;
 
   return (
-    <div className={classes(className, style.container)} {...rest}>
-        {props.children}
-    </div>
+    <ThemeConsumer>
+      {(theme) => {
+        const css = style(theme);
+
+        return (
+          <div className={classes(className, css.container)} {...rest}>
+            {props.children}
+          </div>
+        );
+      }}
+    </ThemeConsumer>
   );
 };
 
-const css = () => stylesheet({
+const style = (theme: Theme) => stylesheet({
   container: {
-    boxShadow: styleEnum.shadow_bot_2x,
-    background: 'white',
+    boxShadow: shadow('2X', theme),
+    background: theme.background,
     boxSizing: 'border-box',
     padding: '16px',
   },
 });
 
-interface CardProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>{
+interface CardProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   children?: React.ReactNode;
 }

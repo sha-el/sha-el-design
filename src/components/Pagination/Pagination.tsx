@@ -2,9 +2,9 @@ import * as React from 'react';
 import { stylesheet } from 'typestyle';
 import posed, { PoseGroup } from 'react-pose';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
-import { Theme, ThemeService } from '../../helpers/theme';
+import { shadow } from '../../helpers/style';
+import { ThemeConsumer, Theme } from '../Theme/Theme';
 import { getColor } from '../../helpers';
-import { styleEnum } from '../../helpers/constants';
 
 const range = (start: number, end: number) => {
   const resp = [];
@@ -17,28 +17,10 @@ const range = (start: number, end: number) => {
   return resp;
 };
 
-export class Pagination extends React.Component<PaginationProps, State> {
-  constructor(props: PaginationProps) {
-    super(props);
+export const Pagination: React.FunctionComponent<PaginationProps> = (props) => {
+  const { currentPage, onChange, batchSize, totalCount, showTotal, cursorBasedPagination } = props;
 
-    this.state = {
-      theme: this.themeService.selectedTheme$.value,
-    };
-  }
-
-  static defaultProps = {
-    onChange: () => { },
-  };
-
-  componentDidMount() {
-    this.themeService.selectedTheme$.subscribe(
-      theme => this.setState({ theme }),
-    );
-  }
-
-  createItems = () => {
-    const { currentPage, cursorBasedPagination, batchSize, totalCount } = this.props;
-
+  const createItems = () => {
     if (cursorBasedPagination) {
       return [currentPage];
     }
@@ -48,84 +30,84 @@ export class Pagination extends React.Component<PaginationProps, State> {
     }
 
     return range(currentPage - 1, Math.ceil(totalCount / batchSize));
-  }
+  };
 
-  themeService = new ThemeService();
-
-  render() {
-    const css = this.css();
-    const { currentPage, onChange, batchSize, totalCount, showTotal } = this.props;
-    const { theme } = this.state;
-    return (
-      <>
-        <div
-          style={this.props.style}
-          className={css.container}
-        >
-          <li
-            className={`${css.list} ${css.bigFont}`}
-            onClick={() => currentPage > 1 && onChange(currentPage - 1, batchSize, false, true)}
-          >
-            <IoIosArrowBack />
-          </li>
-          <PoseGroup>
-            {this.createItems().map(v =>
-              <List
-                key={v}
-                posekey={currentPage}
-                className={css.list}
-                pose={v === currentPage ? 'active' : 'inActive'}
-                background={v === currentPage ? theme.primary : theme.default}
-                color={v === currentPage && getColor(theme.primary)}
-                onClick={() => onChange(v, 20, false, false)}
+  return (
+    <ThemeConsumer>
+      {(theme) => {
+        const css = style(theme);
+        return (
+          <>
+            <div
+              style={props.style}
+              className={css.container}
+            >
+              <li
+                className={`${css.list} ${css.bigFont}`}
+                onClick={() => currentPage > 1 && onChange(currentPage - 1, batchSize, false, true)}
               >
-                {v}
-              </List>,
-            )}
-          </PoseGroup>
-          <li
-            className={`${css.list} ${css.bigFont}`}
-            onClick={() => currentPage !== totalCount && onChange(currentPage + 1, batchSize, true, false)}
-          >
-            <IoIosArrowForward />
-          </li>
-        </div>
-        <div className={css.totalText}>
-          {showTotal && `${((currentPage - 1) * batchSize) + 1}-${(currentPage * batchSize)
-            < totalCount ? (currentPage * batchSize) : totalCount} of ${totalCount}`}
-        </div>
-      </>
-    );
-  }
+                <IoIosArrowBack />
+              </li>
+              <PoseGroup>
+                {createItems().map(v =>
+                  <List
+                    key={v}
+                    posekey={currentPage}
+                    className={css.list}
+                    pose={v === currentPage ? 'active' : 'inActive'}
+                    background={v === currentPage ? theme.primary : theme.default}
+                    color={v === currentPage && getColor(theme.primary)}
+                    onClick={() => onChange(v, 20, false, false)}
+                  >
+                    {v}
+                  </List>,
+                )}
+              </PoseGroup>
+              <li
+                className={`${css.list} ${css.bigFont}`}
+                onClick={() => currentPage !== totalCount && onChange(currentPage + 1, batchSize, true, false)}
+              >
+                <IoIosArrowForward />
+              </li>
+            </div>
+            <div className={css.totalText}>
+              {showTotal && `${((currentPage - 1) * batchSize) + 1}-${(currentPage * batchSize)
+                < totalCount ? (currentPage * batchSize) : totalCount} of ${totalCount}`}
+            </div>
+          </>
+        );
+      }}
+    </ThemeConsumer>
+  );
+};
 
-  css = () => stylesheet({
-    container: {
-      width: 'auto',
-      overflow: 'hidden',
-      display: 'inline-flex',
-      boxShadow: styleEnum.shadow_bot,
-      flex: 0,
-      whiteSpace: 'nowrap',
-      margin: '5px 0',
-    },
-    list: {
-      display: 'inline-flex',
-      padding: '5px 10px',
-      alignContent: 'center',
-      borderCollapse: 'collapse',
-      cursor: 'pointer',
-      margin: '0 1px',
-    },
-    bigFont: {
-      fontSize: '16px',
-    },
-    totalText: {
-      fontSize: '12px',
-      color: '#aaa',
-      padding: '0 10px',
-    },
-  })
-}
+const style = (theme: Theme) => stylesheet({
+  container: {
+    width: 'auto',
+    overflow: 'hidden',
+    display: 'inline-flex',
+    boxShadow: shadow('BOT', theme),
+    flex: 0,
+    whiteSpace: 'nowrap',
+    margin: '5px 0',
+  },
+  list: {
+    display: 'inline-flex',
+    padding: '5px 10px',
+    alignContent: 'center',
+    borderCollapse: 'collapse',
+    cursor: 'pointer',
+    margin: '0 1px',
+  },
+  bigFont: {
+    fontSize: '16px',
+  },
+  totalText: {
+    fontSize: '12px',
+    color: '#aaa',
+    padding: '0 10px',
+  },
+});
 
 const List = posed.li({
   active: {
@@ -136,8 +118,8 @@ const List = posed.li({
 
   inActive: {
     scale: 0.9,
-    background: '#ffffff',
-    color: '#000000',
+    background: ({ background }) => background,
+    color: ({ color }) => color,
   },
 });
 

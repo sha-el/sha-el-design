@@ -1,123 +1,115 @@
 import * as React from 'react';
 import { stylesheet, classes } from 'typestyle';
-import { ThemeService, Theme } from '../../helpers/theme';
-import { Omit, nestedAccess } from '../../helpers';
+import { Omit, nestedAccess, getColor } from '../../helpers';
 import { Row, Col } from '../../';
+import { ThemeConsumer, Theme } from '../Theme/Theme';
+import { lightText, borderColor as borderColorHelper } from '../../helpers/color';
 
-export class Input extends React.Component<InputProps, State> {
+export const Input: React.FunctionComponent<InputProps> = (props) => {
+  const [focused, updateFocused] = React.useState(false);
+  const {
+    error,
+    label,
+    getElement,
+    after,
+    before,
+    required,
+    hint,
+    containerStyle,
+    containerClassName,
+    ...rest
+  } = props;
 
-  static defaultProps = {
-    containerClassName: '',
-    containerStyle: {},
+  const input = React.useRef(null);
+
+  const isInputActive = () => {
+    return !!(
+      focused || props.value || props.defaultValue || nestedAccess(input.current, 'value')
+      || props.placeholder || nestedAccess(input.current, 'placeholder') || props.before
+    );
   };
 
-  theme = new ThemeService();
-  input: HTMLInputElement;
-
-  constructor(props: InputProps) {
-    super(props);
-
-    this.state = {
-      theme: this.theme.selectedTheme$.value,
-      focused: false,
-    };
-  }
-
-  get isInputActive() {
-    return !!(
-      this.state.focused || this.props.value || this.props.defaultValue || nestedAccess(this.input, 'value')
-      || this.props.placeholder || nestedAccess(this.input, 'placeholder') || this.props.before
-    );
-  }
-
-  render() {
-    const {
-      error,
-      label,
-      getElement,
-      after,
-      before,
-      required,
-      hint,
-      containerStyle,
-      containerClassName,
-      ...rest
-    } = this.props;
-
-    const css = style(this.state.theme, !!error, !!label, this.isInputActive);
-    return (
-      <>
-        <Row wrap='nowrap' gutter={[0, 0]} className={`${css.container} ${containerClassName}`} style={containerStyle}>
-          {
-            before &&
-            <Col
-              className={classes(css.seudo, 'seudo')}
-              flex='0 1 auto'
-            >
-              {before}
-            </Col>
-          }
-          {label && <span
-            key='label'
-            className={classes(css.label, 'label')}
-          >
-            {label} {required && <span style={{ color: 'red' }}>*</span>}
-          </span>}
-          <Col
-            key='input'
-            flex='1 1 auto'
-          >
-            <input
-              className={css.input}
-              required={required}
-              ref={(e) => {
-                getElement && getElement(e);
-                this.input = e;
-                return e;
-              }}
-              onFocus={(e) => {
-                this.props.onFocus && this.props.onFocus(e);
-                this.setState({ focused: true });
-              }}
-              onBlur={(e) => {
-                this.props.onBlur && this.props.onBlur(e);
-                this.setState({ focused: false });
-              }}
-              {...rest}
-            />
-          </Col>
-          {
-            after &&
-            <Col
-              className={classes(css.seudo, 'seudo')}
-              flex='0 1 auto'
-            >
-              {after}
-            </Col>
-          }
-        </Row>
-        {(error || hint) && <div className={`${css.help}`}>
-          {
-            error &&
-            <label
-              className={`${css.error}`}
-            >
-              {error}
-            </label>
-          }
-          {
-            hint &&
-            <label
-              className={`${css.hint}`}
-            >
-              {hint}
-            </label>
-          }
-        </div>}
-      </>
-    );
-  }
-}
+  return (
+    <ThemeConsumer>
+      {(theme) => {
+        const css = style(theme, !!error, !!label, isInputActive());
+        return (
+          <>
+            <Row wrap='nowrap' gutter={[0, 0]} className={classes(css.container, containerClassName)} style={containerStyle}>
+              {
+                before &&
+                <Col
+                  className={classes(css.seudo, 'seudo')}
+                  flex='0 1 auto'
+                  style={{ paddingLeft: '15px' }}
+                >
+                  {before}
+                </Col>
+              }
+              {label && <span
+                key='label'
+                className={classes(css.label, 'label')}
+              >
+                {label} {required && <span style={{ color: 'red' }}>*</span>}
+              </span>}
+              <Col
+                key='input'
+                flex='1 1 auto'
+              >
+                <input
+                  className={css.input}
+                  required={required}
+                  ref={(e) => {
+                    getElement && getElement(e);
+                    input.current = e;
+                    return e;
+                  }}
+                  onFocus={(e) => {
+                    props.onFocus && props.onFocus(e);
+                    updateFocused(true);
+                  }}
+                  onBlur={(e) => {
+                    props.onBlur && props.onBlur(e);
+                    updateFocused(false);
+                  }}
+                  {...rest}
+                />
+              </Col>
+              {
+                after &&
+                <Col
+                  className={classes(css.seudo, 'seudo')}
+                  flex='0 1 auto'
+                  style={{ paddingRight: '15px' }}
+                >
+                  {after}
+                </Col>
+              }
+            </Row>
+            {(error || hint) && <div className={`${css.help}`}>
+              {
+                error &&
+                <label
+                  className={`${css.error}`}
+                >
+                  {error}
+                </label>
+              }
+              {
+                hint &&
+                <label
+                  className={`${css.hint}`}
+                >
+                  {hint}
+                </label>
+              }
+            </div>}
+          </>
+        );
+      }}
+    </ThemeConsumer>
+  );
+};
 
 export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'prefix'> {
   label?: React.ReactNode;
@@ -130,17 +122,12 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
   containerClassName?: string;
 }
 
-interface State {
-  theme: Theme;
-  focused: boolean;
-}
-
 function style(theme: Theme, isError: boolean, label: boolean, active: boolean) {
-  const borderColor = isError ? theme.error : 'rgba(0,0,0,.24)';
+  const borderColor = isError ? theme.error : borderColorHelper(theme.background);
   return stylesheet({
     container: {
       position: 'relative',
-      color: 'rgb(9, 30, 66)',
+      color: lightText(theme),
       fontSize: '14px',
       lineHeight: 1.12857,
       borderWidth: '1px',
@@ -153,7 +140,7 @@ function style(theme: Theme, isError: boolean, label: boolean, active: boolean) 
       $nest: {
         '&:focus-within': {
           borderColor: theme.primary,
-          background: '#ffffff',
+          background: theme.background,
 
           $nest: {
             '.seudo': {
@@ -187,7 +174,7 @@ function style(theme: Theme, isError: boolean, label: boolean, active: boolean) 
       outline: 'none',
       lineHeight: '12px',
       padding: '15px',
-      color: '#090909',
+      color: getColor(theme.background),
       boxSizing: 'border-box',
       $nest: {
         '&::placeholder': {
@@ -199,7 +186,7 @@ function style(theme: Theme, isError: boolean, label: boolean, active: boolean) 
       position: 'absolute',
       display: 'flex',
       alignSelf: 'center',
-      color: 'rgb(107, 119, 140)',
+      color: lightText(theme),
       boxSizing: 'border-box',
       left: 0,
       top: -7,
@@ -259,7 +246,6 @@ function style(theme: Theme, isError: boolean, label: boolean, active: boolean) 
     seudo: {
       display: 'flex',
       alignItems: 'center',
-      padding: '0 5px !important',
     },
   });
 }

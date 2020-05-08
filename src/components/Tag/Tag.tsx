@@ -2,23 +2,28 @@ import * as React from 'react';
 import { style } from 'typestyle';
 
 import { getColor } from '../../helpers';
-import { styleEnum } from '../../helpers/constants';
 import { MdClear } from 'react-icons/md';
+import { ThemeConsumer, Theme } from '../Theme/Theme';
+import { shadow } from '../../helpers/style';
 
 export const Tag: React.StatelessComponent<TagProps> = (props) => {
   return (
-    <span
-      className={css(props)}
-      onClick={() => props.onClick()}
-      style={props.style}
-    >
-      {props.children}
-      {props.chips && <span
-        className={chipIconCss()}
-      >
-        <MdClear />
-      </span>}
-    </span>
+    <ThemeConsumer>
+      {(theme) => (
+        <span
+          className={css(props, theme)}
+          onClick={() => props.onClick()}
+          style={props.style}
+        >
+          {props.children}
+          {props.chips && <span
+            className={chipIconCss()}
+          >
+            <MdClear />
+          </span>}
+        </span>
+      )}
+    </ThemeConsumer>
   );
 };
 
@@ -43,14 +48,14 @@ const chipIconCss = () => style({
   justifyContent: 'center',
 });
 
-const css = (props: TagProps) => style({
+const css = (props: TagProps, theme: Theme) => style({
   ...borderStyle(props),
   fontSize: '0.8125rem',
   padding: '4px 10px',
   fontWeight: 500,
   margin: '5px',
   display: 'inline-block',
-  boxShadow: styleEnum.shadow,
+  boxShadow: shadow('DEFAULT', theme),
   cursor: 'pointer',
   textTransform: 'uppercase',
   minWidth: '64px',

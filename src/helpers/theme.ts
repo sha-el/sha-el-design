@@ -6,6 +6,7 @@ export class ThemeService {
     primary: '#536DFE',
     secondary: '#f06292',
     default: '#FFFFFF',
+    background: '#c2c6dc',
     error: '#ff0000',
     danger: '#ff0000',
     warning: '#F09266',
@@ -37,6 +38,7 @@ export interface Theme {
   primary: string;
   secondary: string;
   default: string;
+  background: string;
   error: string;
   danger: string;
   warning: string;

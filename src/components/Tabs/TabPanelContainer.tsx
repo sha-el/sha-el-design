@@ -1,14 +1,10 @@
 import * as React from 'react';
 import posed from 'react-pose';
-import { ThemeService } from '../../helpers/theme';
+import { ThemeConsumer } from '../Theme/Theme';
 import { style } from './style';
 import { TabPanelProps } from './TabPanel';
 
 export const TabPanelContainer: React.FunctionComponent<TabPanelContainerProps> = (props) => {
-  const themeService = new ThemeService();
-  const [theme, setTheme] = React.useState(themeService.selectedTheme$.getValue());
-  const css = style(theme);
-
   const { titles, activeKey, children, destroyOnChange } = props;
   const activeKeyIndex = titles.findIndex(v => v.key === activeKey);
 
@@ -17,18 +13,18 @@ export const TabPanelContainer: React.FunctionComponent<TabPanelContainerProps> 
       return [].map.call(children, (child: any, index: number) => {
         const isActive = index === activeKeyIndex;
         return (
-            <Container
-              key={index}
-              pose={isActive ? 'active' : 'inActive'}
-              x={index - activeKeyIndex}
-              poseKey={index - activeKeyIndex}
+          <Container
+            key={index}
+            pose={isActive ? 'active' : 'inActive'}
+            x={index - activeKeyIndex}
+            poseKey={index - activeKeyIndex}
+          >
+            <div
+              style={{ display: isActive ? 'block' : 'none' }}
             >
-              <div
-                style={{ display: isActive ? 'block' : 'none' }}
-              >
-                {destroyOnChange ? isActive && child : child}
-              </div>
-            </Container>
+              {destroyOnChange ? isActive && child : child}
+            </div>
+          </Container>
         );
       });
     }
@@ -45,9 +41,16 @@ export const TabPanelContainer: React.FunctionComponent<TabPanelContainerProps> 
   };
 
   return (
-    <div className={css.tabPanelContainer}>
-      {displayList()}
-    </div>
+    <ThemeConsumer>
+      {(theme) => {
+        const css = style(theme);
+        return (
+          <div className={css.tabPanelContainer}>
+            {displayList()}
+          </div>
+        );
+      }}
+    </ThemeConsumer>
   );
 };
 

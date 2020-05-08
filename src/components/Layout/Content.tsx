@@ -12,7 +12,7 @@ export const Content: React.StatelessComponent<ContentProps> = (props) => {
 const css = style({
   position: 'relative',
   minWidth: 0,
-  flex: '1 1 auto',
+  flex: '1 0 auto',
   margin: '0 0 0 5px',
 });
 

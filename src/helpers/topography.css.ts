@@ -1,7 +1,4 @@
 export default `
-.secondary-text-color {
-  color: rgba(0, 0, 0, 0.54);
-}
 body {
   font-family: "Roboto", sans-serif;
 }

@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { Portal } from '../Popover/Portal';
-import posed, { PoseGroup } from 'react-pose';
-import { styleEnum } from '../../helpers/constants';
 import { style as typeStyle, keyframes } from 'typestyle';
+import { shadow } from '../../helpers/style';
+import { Theme, ThemeConsumer } from '../Theme/Theme';
+import { colorShades } from '../../helpers/color';
 
 export const Modal: React.FunctionComponent<ModalProps> = (props) => {
   const { children, onClose, isVisible, style = {}, width } = props;
@@ -18,18 +19,22 @@ export const Modal: React.FunctionComponent<ModalProps> = (props) => {
 
   return (
     <Portal key='modal'>
-      <div key='mask' className={MaskStyle} onClick={() => onClose && onClose()}>
-        <div
-          key='container'
-          className={containerStyle}
-          style={{...style, width}}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div>
-            {children}
+      <ThemeConsumer>
+        {(theme) => (
+          <div key='mask' className={MaskStyle} onClick={() => onClose && onClose()}>
+            <div
+              key='container'
+              className={containerStyle(theme)}
+              style={{ ...style, width }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div>
+                {children}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        )}
+      </ThemeConsumer>
     </Portal >
   );
 };
@@ -45,12 +50,12 @@ const slideInBottom = keyframes({
   },
 });
 
-const containerStyle = typeStyle({
+const containerStyle = (theme: Theme) => typeStyle({
   maxHeight: '70vh',
-  background: 'white',
+  background: colorShades(theme.background)[1],
   zIndex: 1001,
   top: '10vh',
-  boxShadow: styleEnum.shadow_2x,
+  boxShadow: shadow('2X', theme),
   overflowY: 'auto',
   width: '50vw',
   animation: `${slideInBottom} 0.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
