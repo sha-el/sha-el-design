@@ -16,7 +16,7 @@ export class Popover extends React.Component<PopoverProps, State> {
     style: {},
   };
 
-  child = React.createRef<HTMLElement>();
+  child = React.createRef<HTMLDivElement>();
 
   constructor(props: PopoverProps) {
     super(props);
@@ -74,7 +74,11 @@ export class Popover extends React.Component<PopoverProps, State> {
       style: { container: containerStyle }, onVisibleChange } = this.props;
 
     if (!this.state.isBrowser) {
-      return React.cloneElement(children, { ref: this.child });
+      return (
+        <div ref={this.child}>
+          {React.cloneElement(children)}
+        </div>
+      )
     }
 
     return (
@@ -96,7 +100,9 @@ export class Popover extends React.Component<PopoverProps, State> {
               visible={this.state.visible}
               align={this.props.align}
             >
-              {React.cloneElement(children, { ref: this.child })}
+              <div style={{ display: 'inline-block' }} ref={this.child}>
+                {React.cloneElement(children)}
+              </div>
             </RCTooltip>
           );
         }}

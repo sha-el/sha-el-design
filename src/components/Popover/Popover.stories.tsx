@@ -17,7 +17,7 @@ stories.add(
           <h1>Hello</h1>
         }
       >
-        <span><Button>Hello</Button></span>
+        <Button>Hello</Button>
       </Popover>
     );
   }),
@@ -36,7 +36,7 @@ stories.add(
                 <span>Hello</span>
               }
             >
-              <span><Button>Top left</Button></span>
+              <Button>Top left</Button>
             </Popover>
           </Col>
           <Col span={8}>
@@ -46,7 +46,7 @@ stories.add(
                 <span>Hello</span>
               }
             >
-              <span><Button>Top</Button></span>
+              <Button>Top</Button>
             </Popover>
           </Col>
           <Col span={8}>
@@ -56,7 +56,7 @@ stories.add(
                 <span>Hello</span>
               }
             >
-              <span><Button>Top Right</Button></span>
+              <Button>Top Right</Button>
             </Popover>
           </Col>
         </Row>
@@ -68,7 +68,7 @@ stories.add(
                 <span>Hello</span>
               }
             >
-              <span><Button>left</Button></span>
+              <Button>left</Button>
             </Popover>
           </Col>
           <Col span={8}>
@@ -78,7 +78,7 @@ stories.add(
                 <span>Hello</span>
               }
             >
-              <span><Button>Right</Button></span>
+              <Button>Right</Button>
             </Popover>
           </Col>
         </Row>
@@ -90,7 +90,7 @@ stories.add(
                 <span>Hello</span>
               }
             >
-              <span><Button>Bottom Left</Button></span>
+              <Button>Bottom Left</Button>
             </Popover>
           </Col>
           <Col span={8}>
@@ -100,7 +100,7 @@ stories.add(
                 <span>Hello</span>
               }
             >
-              <span><Button>Bottom</Button></span>
+              <Button>Bottom</Button>
             </Popover>
           </Col>
           <Col span={8}>
@@ -110,7 +110,7 @@ stories.add(
                 <span>Hello</span>
               }
             >
-              <span><Button>Bottom Right</Button></span>
+              <Button>Bottom Right</Button>
             </Popover>
           </Col>
         </Row>
@@ -130,7 +130,7 @@ stories.add(
             <h1>Hello</h1>
           }
         >
-          <span><Button>Click</Button></span>
+          <Button>Click</Button>
         </Popover>
         <Popover
           trigger='onFocus'
@@ -138,7 +138,7 @@ stories.add(
             <h1>Hello</h1>
           }
         >
-          <span><Button>Focus</Button></span>
+          <Button>Focus</Button>
         </Popover>
         <Popover
           trigger='onHover'
@@ -146,7 +146,7 @@ stories.add(
             <h1>Hello</h1>
           }
         >
-          <span><Button>Hover</Button></span>
+          <Button>Hover</Button>
         </Popover>
       </>
     );
@@ -163,7 +163,7 @@ stories.add(
         }
         hideArrow
       >
-        <span><Button>Hello</Button></span>
+        <Button>Hello</Button>
       </Popover>
     );
   }),
