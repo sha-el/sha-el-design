@@ -4,7 +4,8 @@ LOGO
 
 <h1 align="center">Sha-el-design</h1>
 
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md) 
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md)
+![CI](https://github.com/sha-el/sha-el-design/workflows/CI/badge.svg)
 
 <div align="center">
 
@@ -102,7 +103,7 @@ Just follow [this](https://egghead.io/courses/how-to-contribute-to-an-open-sourc
 
 Make sure coding quality is best you can come up with also please be polite to everyone.
 
-We would love a PR from you (I should make sense though).
+We would love a PR from you (It should make sense though).
 
 ## 👩‍💻 Changelog
 
