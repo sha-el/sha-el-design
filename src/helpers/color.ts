@@ -1,6 +1,6 @@
 import { color as csxColor } from 'csx';
 import { getColor } from './../helpers';
-import { Theme } from '../components/Theme/Theme';
+import { Theme, ThemeConsumer } from '../components/Theme/Theme';
 import { ButtonProps } from '../components/Button/Button';
 import { styleEnum } from './constants';
 
@@ -57,10 +57,13 @@ export const buttonColor = (props: ButtonProps, theme: Theme): [string, string, 
     ];
   }
 
-  const bgColor = {
+  let bgColor = {
     ...theme,
   }[props.type];
 
+  if (props.type === 'default') {
+      bgColor = colorShades(theme.background)[4];
+    }
   return [bgColor, getColor(bgColor), csxColor(bgColor).lighten(.1).toHexString()];
 };
 
