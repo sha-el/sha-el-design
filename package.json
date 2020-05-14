@@ -14,7 +14,7 @@
     "precommit": "lint-staged",
     "storybook": "start-storybook -p 4001 -c configs/.storybook",
     "prepublishOnly": "yarn build",
-    "test": "jest --watch --coverage",
+    "test": "yarn jest",
     "build-storybook": "build-storybook -c configs/.storybook -o .storybook"
   },
   "lint-staged": {
