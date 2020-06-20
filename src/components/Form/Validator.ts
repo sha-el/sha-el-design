@@ -5,7 +5,7 @@ import { int } from './Integer';
 import { text } from './Text';
 import { Validator } from './index';
 
-class Validate<T> {
+export class Validate<T> {
 
   props: Validator<T>;
 
