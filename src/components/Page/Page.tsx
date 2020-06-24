@@ -69,10 +69,10 @@ const style = (theme: Theme) => {
 
   return stylesheet({
     container: {
-      margin: '20px',
+      margin: '1%',
     },
     header: {
-      padding: '0px 15px',
+      padding: '0px 1.5%',
       background: theme.background,
       color: theme.textColor,
       boxShadow: shadow2x,

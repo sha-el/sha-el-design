@@ -71,14 +71,14 @@ export class Popover extends React.Component<PopoverProps, State> {
 
   render() {
     const { trigger, children, preserveOnClose, position,
-      style: { container: containerStyle }, onVisibleChange } = this.props;
+      style: { container: containerStyle, child: childStyle }, onVisibleChange } = this.props;
 
     if (!this.state.isBrowser) {
       return (
-        <div ref={this.child}>
+        <div ref={this.child} style={childStyle}>
           {React.cloneElement(children)}
         </div>
-      )
+      );
     }
 
     return (
@@ -100,7 +100,7 @@ export class Popover extends React.Component<PopoverProps, State> {
               visible={this.state.visible}
               align={this.props.align}
             >
-              <div style={{ display: 'inline-block' }} ref={this.child}>
+              <div ref={this.child} style={childStyle}>
                 {React.cloneElement(children)}
               </div>
             </RCTooltip>
@@ -125,7 +125,7 @@ function style(expand: boolean, childWidth: number, theme: Theme) {
       boxShadow: shadow('2X', theme),
       borderRadius: '2px',
       padding: '0',
-      background: colorShades(theme.background)[1],
+      background: theme.background,
       color: `${theme.textColor} !important`,
     },
     title: {
@@ -149,6 +149,7 @@ export interface PopoverProps {
     container?: React.CSSProperties;
     title?: React.CSSProperties;
     content?: React.CSSProperties;
+    child?: React.CSSProperties;
   };
   expand?: boolean;
   preserveOnClose?: boolean;

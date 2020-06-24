@@ -99,6 +99,9 @@ export class MenuItemGroup extends React.Component<MenuItemGroupProps, State> {
                 content: {
                   padding: '0',
                 },
+                child: {
+                  display: 'inline-block',
+                },
               }}
               align={this.props.offset && { offset: this.props.offset }}
             >

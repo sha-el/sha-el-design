@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Popover } from '../Popover';
 import { Input } from '../Input';
-import { MenuItem, Menu } from '../Menu';
+import { ListItem, List } from '../List';
 import { Tag } from '../Tag';
 import { MdExpandMore, MdExpandLess, MdClose } from 'react-icons/md';
 import { Button } from '../Button';
@@ -58,22 +58,21 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
       <Skeleton
         isLoading={loading}
         render={() => (
-          <Menu style={{ maxHeight: '300px', overflowY: 'auto' }}>
+          <List style={{ maxHeight: '300px', overflowY: 'auto' }}>
             {
               data.filter(v => searchValue(v).toLowerCase().includes(search)).map(
                 (v) => (
-                  <MenuItem
+                  <ListItem
                     key={uniqueIdentifier(v)}
-                    name={uniqueIdentifier(v)}
-                    active={this.isItemSelected(v)}
+                    selected={this.isItemSelected(v)}
                     onClick={() => this.onChange(v)}
                   >
                     {listDisplayProp(v)}
-                  </MenuItem>
+                  </ListItem>
                 ),
               )
             }
-          </Menu>
+          </List>
         )}
       />
     );

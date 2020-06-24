@@ -12,7 +12,7 @@
     "start:prod": "webpack-dev-server --config=configs/webpack/prod.js",
     "build": "rm -rf ./lib && tsc",
     "precommit": "lint-staged",
-    "storybook": "start-storybook -p 4001 -c configs/.storybook",
+    "storybook": "start-storybook -p 4200 -c configs/.storybook",
     "prepublishOnly": "yarn build",
     "test": "yarn jest",
     "build-storybook": "build-storybook -c configs/.storybook -o .storybook"

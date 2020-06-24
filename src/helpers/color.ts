@@ -2,19 +2,22 @@ import { color as csxColor } from 'csx';
 import { getColor } from './../helpers';
 import { Theme, ThemeConsumer } from '../components/Theme/Theme';
 import { ButtonProps } from '../components/Button/Button';
-import { styleEnum } from './constants';
 
 export const lightText = (theme: Theme) => {
-  return getColor(theme.background, '#555', '#999');
+  return getColor(theme.background, 'rgba(0, 0, 0, 0.54)', 'rgba(255, 255, 255, 0.7)');
 };
 
 export const shadowColor = (theme: Theme) => {
-  const color = csxColor(getColor(theme.bodyBg));
+  const color = csxColor(theme.bodyBg);
+
+  if (color.lightness() > 0.7) {
+    return ['#E8EAFC', '#B2B2B21A', '#9A9A9A1A'];
+  }
 
   return [
-    color.fade(.05).toString(),
-    color.mix(theme.primary, .3).fade(.07).toString(),
-    color.mix(theme.primary, .7).fade(.05),
+    'rgba(0, 0, 0, 0.103475)',
+    'rgba(0, 0, 0, 0.0988309)',
+    'rgba(0, 0, 0, 0.10301)',
   ];
 };
 
@@ -62,8 +65,8 @@ export const buttonColor = (props: ButtonProps, theme: Theme): [string, string, 
   }[props.type];
 
   if (props.type === 'default') {
-      bgColor = colorShades(theme.background)[4];
-    }
+    bgColor = colorShades(theme.background)[4];
+  }
   return [bgColor, getColor(bgColor), csxColor(bgColor).lighten(.1).toHexString()];
 };
 

@@ -73,6 +73,7 @@ const MaskStyle = typeStyle({
   top: '0',
   bottom: '0',
   background: 'rgba(0, 0, 0, .3)',
+  zIndex: 1,
 });
 
 export interface ModalProps {
