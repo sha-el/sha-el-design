@@ -27,22 +27,26 @@
       "git add"
     ]
   },
+  "peerDependencies": {
+    "react": "^16.8.6",
+    "react-icons": "^3.3.0",
+    "react-dom": "^16.8.6"
+  },
   "dependencies": {
     "csstips": "^0.3.0",
     "csx": "^9.0.0",
     "date-fns": "^2.11.1",
     "debounce": "^1.2.0",
     "rc-tooltip": "^3.7.3",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-icons": "^3.3.0",
-    "react-icons-kit": "^1.2.1",
     "react-pose": "^4.0.10",
     "react-pose-text": "^3.1.0",
     "rxjs": "^6.3.3",
     "typestyle": "^2.0.1"
   },
   "devDependencies": {
+    "react": "^16.8.6",
+    "react-icons": "^3.3.0",
+    "react-dom": "^16.8.6",
     "@sambego/storybook-state": "^2.0.1",
     "@storybook/addon-actions": "^5.3.18",
     "@storybook/addon-info": "^5.3.18",
@@ -63,7 +67,7 @@
     "clean-webpack-plugin": "^2.0.0",
     "css-loader": "^1.0.0",
     "html-webpack-plugin": "^3.2.0",
-    "husky": "^0.14.3",
+    "husky": "^4.2.5",
     "jest": "^24.5.0",
     "lint-staged": "^7.2.2",
     "postcss-loader": "^3.0.0",
