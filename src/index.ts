@@ -35,4 +35,6 @@ export { InfiniteScroll } from './components/InfiniteScroll';
 export { Badge } from './components/Badge';
 export { Drawer } from './components/Drawer';
 export { DatePicker, TimePicker } from './components/DatePicker';
+export { Transfer } from './components/Transfer';
+export { List, ListItem, CollapsibleList } from './components/List';
 export { RCTooltip as Tooltip };
