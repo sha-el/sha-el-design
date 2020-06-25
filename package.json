@@ -1,6 +1,6 @@
 {
   "name": "sha-el-design",
-  "version": "0.0.107",
+  "version": "0.0.108",
   "description": "React Components",
   "main": "./lib/",
   "typings": "./lib/",
@@ -29,8 +29,8 @@
   },
   "peerDependencies": {
     "react": "^16.8.6",
-    "react-icons": "^3.3.0",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "react-icons": "^3.3.0"
   },
   "dependencies": {
     "csstips": "^0.3.0",
@@ -44,9 +44,6 @@
     "typestyle": "^2.0.1"
   },
   "devDependencies": {
-    "react": "^16.8.6",
-    "react-icons": "^3.3.0",
-    "react-dom": "^16.8.6",
     "@sambego/storybook-state": "^2.0.1",
     "@storybook/addon-actions": "^5.3.18",
     "@storybook/addon-info": "^5.3.18",
@@ -72,8 +69,11 @@
     "lint-staged": "^7.2.2",
     "postcss-loader": "^3.0.0",
     "progress-bar-webpack-plugin": "^1.11.0",
+    "react": "^16.8.6",
     "react-docgen-typescript-loader": "^3.6.0",
+    "react-dom": "^16.8.6",
     "react-hot-loader": "^4.3.4",
+    "react-icons": "^3.3.0",
     "react-router-dom": "^5.1.2",
     "sass-loader": "^7.1.0",
     "source-map-loader": "^0.2.4",
