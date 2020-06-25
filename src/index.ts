@@ -5,7 +5,7 @@ import { initialize } from './helpers';
 initialize();
 
 export { AutoComplete } from './components/AutoComplete';
-export { Input, TextArea } from './components/Input';
+export { Input, Textarea } from './components/Input';
 
 export { Button, ButtonGroup } from './components/Button';
 export { Card, CardHeader, CardBody, CardMedia } from './components/Card';

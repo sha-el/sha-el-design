@@ -6,8 +6,8 @@ const DARK_THEME = {
   primary: '#536DFE',
   secondary: '#f06292',
   default: '#10163a',
-  background: '#10163a',
-  bodyBg: '#34344f', // #f0f2f5
+  background: '#23232D',
+  bodyBg: '#13131A', // #f0f2f5
   error: '#ff0000',
   danger: '#ff0000',
   warning: '#F09266',

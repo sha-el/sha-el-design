@@ -7,7 +7,7 @@ import {
   MenuItem, Table, Pagination, Card, Collapse, Tooltip,
 } from '../../';
 
-import { TextArea, Input } from '../Input';
+import { Textarea, Input } from '../Input';
 
 import { MdArrowBack, MdSearch, MdSort, MdSortByAlpha } from 'react-icons/md';
 import { Breadcrumb } from '../Breadcrumb';
@@ -16,7 +16,7 @@ const stories = storiesOf('Page', module);
 
 stories.add(
   'Page',
-  withInfo({ inline: true })(() => (
+  withInfo()(() => (
     <Page
       title={
         <Breadcrumb
@@ -124,7 +124,7 @@ stories.add(
     >
       <Card>
         <Col span={12}>
-          <TextArea hint='ola' error='ola' before={<MdArrowBack />} after={<MdSearch />} />
+          <Textarea hint='ola' error='ola' before={<MdArrowBack />} after={<MdSearch />} />
         </Col>
         <Collapse header='HEllo?' isOpen={true}>
           <Row>

@@ -31,7 +31,7 @@ interface Props {
 const commonStyle = (color: string, theme: Theme): NestedCSSProperties => {
   return ({
     content: '" "',
-    background: color || theme.textColor,
+    background: color || theme.bodyBg,
     height: '1px',
     zIndex: -1,
     display: 'block',
@@ -67,7 +67,7 @@ const style = (color: string, theme: Theme) => typeStyle({
   textAlign: 'center',
   position: 'relative',
   zIndex: 2,
-  margin: '20px 0',
+  margin: '5px 0',
   background: theme.background,
   display: 'inline-block',
   $nest: {

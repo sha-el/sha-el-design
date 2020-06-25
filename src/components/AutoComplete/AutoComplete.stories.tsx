@@ -64,7 +64,7 @@ stories.add(
         }
         uniqueIdentifier={(e) => e.id}
         listDisplayProp={(e) => (
-          <Row gutter={[0, 0]}>
+          <Row gutter={[0, '0 10px']}>
             <Col flex='0 1 50px'><img width='100%' src={e.avatar} /></Col>
             <Col alignSelf='center' flex='1 0 calc(50% - 100px)'>
               {e.first_name} {e.last_name}

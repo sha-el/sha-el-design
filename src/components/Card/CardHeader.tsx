@@ -11,7 +11,7 @@ export const CardHeader: React.FunctionComponent<CardHeaderProps> = (props) => {
     <ThemeConsumer>
       {(theme) => {
         const css = style({
-          marginBottom: '12px',
+          marginBottom: '10px',
           $nest: {
             '.subtitle': {
               color: lightText(theme),
@@ -36,7 +36,7 @@ export const CardHeader: React.FunctionComponent<CardHeaderProps> = (props) => {
   );
 };
 
-interface CardHeaderProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+export interface CardHeaderProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   subtitle?: React.ReactNode;
   action?: React.ReactNode;
 }
