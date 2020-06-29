@@ -122,6 +122,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
             onClick={() => this.onChange(v)}
             outline
             chips
+            size='SMALL'
             key={uniqueIdentifier(v)}
           >
             {displayValue(v)}

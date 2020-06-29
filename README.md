@@ -36,10 +36,10 @@ Sha-el-design is available as an [npm package](https://www.npmjs.com/package/sha
 
 ```sh
 // with npm
-npm install sha-el-design
+npm install react-icons sha-el-design
 
 // with yarn
-yarn add sha-el-design
+yarn add react-icons sha-el-design
 ```
 
 ## 🃏 Usage

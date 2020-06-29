@@ -79,7 +79,7 @@ export function style(
       borderImage: 'initial',
       outline: 'none',
       lineHeight: '12px',
-      padding: '15px',
+      padding: '9px 15px',
       color: getColor(theme.background),
       boxSizing: 'border-box',
       $nest: {
@@ -154,7 +154,7 @@ export function style(
         : {
             fontSize: '13px',
             fontWeight: 300,
-            lineHeight: '58px',
+            lineHeight: '51px',
           }),
     },
     help: {

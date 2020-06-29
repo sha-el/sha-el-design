@@ -47,16 +47,16 @@ export const BaseInputComponent: React.FunctionComponent<BaseInputProps | BaseTe
                   {before}
                 </Col>
               }
+              {label && <span
+                key='label'
+                className={classes(css.label, 'label')}
+              >
+                {label} {required && <span style={{ color: 'red' }}>*</span>}
+              </span>}
               <section
                 key='textarea'
                 className={css.section}
               >
-                {label && <span
-                  key='label'
-                  className={classes(css.label, 'label')}
-                >
-                  {label} {required && <span style={{ color: 'red' }}>*</span>}
-                </span>}
                 <Col
                   key='input'
                   flex='1 1 auto'

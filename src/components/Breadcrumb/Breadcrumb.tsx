@@ -50,8 +50,6 @@ const css = (theme: Theme) => {
         padding: '1px',
         $nest: {
           '& *': {
-            display: 'flex',
-            alignItems: 'center',
             color: theme.textColor,
           },
           '&:last-child': {
