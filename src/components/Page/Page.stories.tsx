@@ -4,7 +4,7 @@ import { withInfo } from '@storybook/addon-info';
 
 import {
   Page, Row, Col, Tag, TabPanel, MenuItemGroup,
-  MenuItem, Table, Pagination, Card, Collapse, Tooltip,
+  MenuItem, Table, Pagination, Card, Collapse, Tooltip, Button,
 } from '../../';
 
 import { Textarea, Input } from '../Input';
@@ -28,10 +28,17 @@ stories.add(
       }
       backIcon={<MdArrowBack />}
       extra={
-        <Input
-          label='Search'
-          after={<MdSearch style={{ cursor: 'pointer' }} />}
-        />
+        <Row gutter={[0, 0]}>
+          <Col flex='1 0 auto'>
+            <Input
+              label='Search'
+              after={<MdSearch style={{ cursor: 'pointer' }} />}
+            />
+          </Col>
+          <Col flex='0 1 auto'>
+            <Button>Submit</Button>
+          </Col>
+        </Row>
       }
       tags={[
         <Tag key='user' color='#3CD4A0'>Sent</Tag>,

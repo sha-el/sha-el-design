@@ -32,3 +32,12 @@ stories.add(
     );
   }),
 );
+
+stories.add(
+  'Small size',
+  withInfo({ inline: true })(() => {
+    return (
+      <Tag color='red' size='SMALL'>Hello</Tag>
+    );
+  }),
+);
