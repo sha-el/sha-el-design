@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "es6",
     "declaration": true,
     "noImplicitAny": false,
     "removeComments": true,
@@ -8,12 +8,14 @@
     "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es5",
+    "target": "es6",
     "sourceMap": true,
     "outDir": "./lib",
-    // "baseUrl": "./src",
     "jsx": "react",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
     "declarationDir": "./lib/",
+    "skipLibCheck": true,
     "lib": [
       "es6",
       "dom",
@@ -21,7 +23,7 @@
     ]
   },
   "include": [
-    "src/*"
+    "./src"
   ],
   "exclude": [
     "node_modules",
@@ -30,9 +32,4 @@
     "./src/components/App.tsx",
     "./src/**/*.stories.tsx"
   ],
-  "awesomeTypescriptLoaderOptions": {
-    "reportFiles": [
-        "./src/**/*"
-    ]
-  }
 }

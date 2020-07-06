@@ -41,7 +41,6 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
       items = (await items);
       this.setState({ loading: false });
     }
-
     this.setState({ data: items });
   }
 
