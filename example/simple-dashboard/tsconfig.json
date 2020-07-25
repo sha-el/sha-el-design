@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "jsx": "react",
+    "lib": ["es5", "es6", "dom"],
+    "esModuleInterop": true,
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "removeComments": true,
+    "declaration": true,
+    "noLib": false,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "noUnusedLocals": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"],
+      "@components": ["app/components/"],
+      "@components/*": ["app/components/*"]
+    }
+  }
+}

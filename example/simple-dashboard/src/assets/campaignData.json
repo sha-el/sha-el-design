@@ -1,0 +1,10 @@
+[{"name":"Hessel, Wyman and Bode","campaignMode":"call","status":"sent","sent":997,"pending":355,"failed":690},
+{"name":"Roberts-Paucek","campaignMode":"sms","status":"active","sent":442,"pending":699,"failed":699},
+{"name":"Turcotte, Crist and Harvey","campaignMode":"sms","status":"sent","sent":668,"pending":543,"failed":46},
+{"name":"Steuber and Sons","campaignMode":"call","status":"active","sent":608,"pending":775,"failed":793},
+{"name":"Larson Inc","campaignMode":"email","status":"active","sent":334,"pending":982,"failed":22},
+{"name":"Stokes, Borer and Daugherty","campaignMode":"sms","status":"sent","sent":921,"pending":25,"failed":760},
+{"name":"Swaniawski, Crooks and Farrell","campaignMode":"sms","status":"sent","sent":936,"pending":138,"failed":537},
+{"name":"Greenholt Group","campaignMode":"call","status":"active","sent":589,"pending":35,"failed":397},
+{"name":"Tromp, Klein and Harris","campaignMode":"sms","status":"sent","sent":538,"pending":659,"failed":336},
+{"name":"Hilll, Lindgren and Oberbrunner","campaignMode":"call","status":"active","sent":545,"pending":429,"failed":550}]

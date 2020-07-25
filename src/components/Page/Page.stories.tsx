@@ -21,7 +21,7 @@ stories.add(
       title={
         <Breadcrumb
           paths={[
-            () => <a key='hello'>Hello</a>,
+            () => <a key='hello'>Hello world</a>,
             () => <a key='user-list'>User List</a>,
           ]}
         />

@@ -15,7 +15,7 @@
 
 ## 🔥 Features
 
-- 🌹 Material inspired designed.
+- 🌹 Material inspired design.
 - 📦 A complete package of ui resource for any React project.
 - 🛡 Made with ❤ using Typescript.
 - 🎨 Easy theme customization using `ThemeContext`.
@@ -62,7 +62,7 @@ ReactDOM.render(<App />, document.querySelector('#app'));
 
 ## 💫 Examples
 
-Comming soon 🙃
+Check example folder.
 
 ## ✍ Documentation
 
@@ -105,13 +105,9 @@ Make sure coding quality is best you can come up with also please be polite to e
 
 We would love a PR from you (It should make sense though).
 
-## 👩‍💻 Changelog
-
-Will add from next update onwards.
-
 ## 🛣 Roadmap
 
-
+Check Milestone
 
 ## License
 
