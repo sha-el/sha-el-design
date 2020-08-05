@@ -25,7 +25,7 @@ function generateGuid() {
 export const notificationSubject$ = new BehaviorSubject<NotificationProps[]>([]);
 
 export const notify = (props: NotificationProps) => {
-  const duration = props.duration || 1000;
+  const duration = props.duration || 4000;
   const values = notificationSubject$.getValue();
   props.id = generateGuid();
   notificationSubject$.next(values.concat([props]));

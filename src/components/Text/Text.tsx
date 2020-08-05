@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { ThemeConsumer, Theme } from '../Theme/Theme';
 import { format } from '../../helpers/text';
+import {classes} from 'typestyle';
 /**
  * Text component to style your `Text` effortlessly.
  *
@@ -11,7 +12,7 @@ import { format } from '../../helpers/text';
  */
 export const Text: React.FunctionComponent<TextProps> = (props) => {
   const display = (theme: Theme) => {
-    const css = format(props, theme);
+    const css = classes(format(props, theme), props.className);
 
     if (props.variant === 'h1') {
       return (
@@ -79,6 +80,7 @@ export const Text: React.FunctionComponent<TextProps> = (props) => {
 };
 
 export interface TextProps {
+  children: React.ReactNode;
   /**
    *  Defines variant for heading.
    */
@@ -123,6 +125,8 @@ export interface TextProps {
    * Add custom styling
    */
   style?: React.CSSProperties;
+
+  className?: string;
 }
 
 Text.defaultProps = {

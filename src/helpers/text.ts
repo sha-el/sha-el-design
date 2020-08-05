@@ -1,5 +1,5 @@
 import { TextProps } from '../components/Text';
-import { Theme } from './theme';
+import { Theme } from '../components/Theme/Theme';
 import { style } from 'typestyle';
 
 export function format(props: TextProps, theme: Theme) {

@@ -65,7 +65,6 @@ export default `
   display: none;
 }
 .rc-tooltip-inner {
-  color: #333333;
   text-align: left;
   text-decoration: none;
   border-radius: 3px;

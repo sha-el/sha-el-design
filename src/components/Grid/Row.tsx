@@ -48,7 +48,7 @@ export interface RowProps {
    * [Row, Col]
    */
   gutter?: [React.CSSProperties['padding'], React.CSSProperties['padding']];
-  justifyContent?: 'flex-start' | 'center' | 'flex-end';
+  justifyContent?: React.CSSProperties['justifyContent'];
   alignItems?: React.CSSProperties['alignItems'];
   className?: string;
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;

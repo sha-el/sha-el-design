@@ -1,20 +1,24 @@
-import * as React from 'react';
-import { InputProps, Input } from '../Input/Input';
-import { Button } from '../Button';
-import { MdPermContactCalendar } from 'react-icons/md';
-import { Calendar } from '../Calendar';
-import { Modal } from '../Modal';
-import { Row, Col } from '../Grid';
-import { CalendarProps, DateTupple } from '../Calendar/Calendar';
-import { ThemeService } from '../../helpers/theme';
-import { format } from 'date-fns';
-import { getColor } from '../../helpers';
-import { TimePickerProps, TimePicker, TimeTupple } from './TimePicker';
+import * as React from "react";
+import { InputProps, Input } from "../Input/Input";
+import { Button } from "../Button";
+import { Text } from "../Text";
+import { MdPermContactCalendar } from "react-icons/md";
+import { Calendar } from "../Calendar";
+import { Modal } from "../Modal";
+import { Row, Col } from "../Grid";
+import { CalendarProps, DateTupple } from "../Calendar/Calendar";
+import { format } from "date-fns";
+import { getColor } from "../../helpers";
+import { TimePickerProps, TimePicker, TimeTupple } from "./TimePicker";
+import { ThemeConsumer } from "../Theme/Theme";
+import {lightText} from "../../helpers/color";
 
 export const DatePicker: React.FunctionComponent<DatePickerProps> = (props) => {
   const {
-    after, cellRender,
-    callendarEvents, disabledDate,
+    after,
+    cellRender,
+    callendarEvents,
+    disabledDate,
     onChange,
     timePickerProps,
     displayProp = (d) => defaultDisplayProp(d, !!timePickerProps),
@@ -24,8 +28,11 @@ export const DatePicker: React.FunctionComponent<DatePickerProps> = (props) => {
   const date = toDate(props.date);
 
   const [calendar, toggleCalendar] = React.useState(false);
-  const [time, onTimeChange] = React.useState<TimeTupple>([date.getHours(), date.getMinutes(), date.getSeconds()]);
-  const themeService = new ThemeService();
+  const [time, onTimeChange] = React.useState<TimeTupple>([
+    date.getHours(),
+    date.getMinutes(),
+    date.getSeconds(),
+  ]);
 
   return (
     <>
@@ -38,7 +45,7 @@ export const DatePicker: React.FunctionComponent<DatePickerProps> = (props) => {
           <>
             <Button
               flat
-              shape='circle'
+              shape="circle"
               icon={<MdPermContactCalendar />}
               onClick={() => toggleCalendar(true)}
             />
@@ -46,58 +53,66 @@ export const DatePicker: React.FunctionComponent<DatePickerProps> = (props) => {
           </>
         }
       />
-      <Modal
-        isVisible={calendar}
-        onClose={() => toggleCalendar(false)}
-      >
-        <Row gutter={['0', '0']}>
-          <Col style={{ display: 'flex' }} span={8}>
-            <div
-              style={{
-                background: themeService.selectedTheme$.value.primary,
-                padding: '16px',
-                borderTopRightRadius: '4px',
-                color: getColor(themeService.selectedTheme$.value.primary),
-                width: '100%',
-              }}
-            >
-              <h6 className='secondary-text-color'>{date.getFullYear()}</h6>
-              <h5>{format(date, 'eee')},</h5>
-              <h4>{format(date, 'MMM')} {format(date, 'do')}</h4>
-              {
-                timePickerProps && (
-                  <>
-                    <h6>At</h6>
-                    <TimePicker
-                      {...timePickerProps}
-                      time={time}
-                      onChange={(t) => handleTimeChange(t, date, onTimeChange, props.onChange)}
-                    />
-                  </>
-                )
-              }
-            </div>
-          </Col>
-          <Col span={16}>
-            <Calendar
-              date={date}
-              cellRender={cellRender}
-              callendarEvents={callendarEvents}
-              disabledDate={disabledDate}
-              onClick={(d) => {
-                toggleCalendar(false);
-                handleDateChange(toDate(d), time, props.onChange);
-              }}
-            />
-          </Col>
-        </Row>
+      <Modal isVisible={calendar} onClose={() => toggleCalendar(false)}>
+        <ThemeConsumer>
+          {(theme) => (
+            <Row gutter={["0", "0"]}>
+              <Col style={{ display: "flex" }} span={8}>
+                <div
+                  style={{
+                    background: theme.primary,
+                    padding: "16px",
+                    borderTopRightRadius: "4px",
+                    color: getColor(theme.primary),
+                    width: "100%",
+                  }}
+                >
+                  <Text margin="0" variant="h4" color={lightText(theme)}>{date.getFullYear()}</Text>
+                  <h5>{format(date, "eee")},</h5>
+                  <h4>
+                    {format(date, "MMM")} {format(date, "do")}
+                  </h4>
+                  {timePickerProps && (
+                    <>
+                      <h6>At</h6>
+                      <TimePicker
+                        {...timePickerProps}
+                        time={time}
+                        onChange={(t) =>
+                          handleTimeChange(
+                            t,
+                            date,
+                            onTimeChange,
+                            props.onChange
+                          )
+                        }
+                      />
+                    </>
+                  )}
+                </div>
+              </Col>
+              <Col span={16}>
+                <Calendar
+                  date={date}
+                  cellRender={cellRender}
+                  callendarEvents={callendarEvents}
+                  disabledDate={disabledDate}
+                  onClick={(d) => {
+                    toggleCalendar(false);
+                    handleDateChange(toDate(d), time, props.onChange);
+                  }}
+                />
+              </Col>
+            </Row>
+          )}
+        </ThemeConsumer>
       </Modal>
     </>
   );
 };
 
-type InputType = Omit<InputProps, 'onClick' | 'value' | 'onChange'>;
-type CalendarType = Omit<CalendarProps, 'onClick'>;
+type InputType = Omit<InputProps, "onClick" | "value" | "onChange">;
+type CalendarType = Omit<CalendarProps, "onClick">;
 
 export interface DatePickerProps extends InputType, CalendarType {
   displayProp?: (date?: DateTupple | Date) => string;
@@ -129,12 +144,21 @@ const toDateTupple = (date: Date | DateTupple): DateTupple => {
   return [date.getFullYear(), date.getMonth(), date.getDate()];
 };
 
-const handleTimeChange = (time: TimeTupple, date: Date, onChange: (time: TimeTupple) => void, update: DatePickerProps['onChange']) => {
+const handleTimeChange = (
+  time: TimeTupple,
+  date: Date,
+  onChange: (time: TimeTupple) => void,
+  update: DatePickerProps["onChange"]
+) => {
   onChange(time);
   handleDateChange(date, time, update);
 };
 
-const handleDateChange = (d: Date, time: TimeTupple, onChange: DatePickerProps['onChange']) => {
+const handleDateChange = (
+  d: Date,
+  time: TimeTupple,
+  onChange: DatePickerProps["onChange"]
+) => {
   if (time) {
     d.setHours(...time);
   }
@@ -155,3 +179,4 @@ const defaultDisplayProp = (d: DateTupple | Date, withTime: boolean) => {
 DatePicker.defaultProps = {
   date: new Date(),
 };
+

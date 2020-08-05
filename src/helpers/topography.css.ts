@@ -5,7 +5,11 @@ a {
 
 body {
 	font-family: "Roboto", sans-serif;
-	@media only screen and (min-width: 0) {
+	font-weight: normal;
+	color: var(--color);
+}
+
+@media only screen and (min-width: 0) {
 		font-size: 14px;
 	}
 	@media only screen and (min-width: 992px) {
@@ -14,9 +18,7 @@ body {
 	@media only screen and (min-width: 1200px) {
 		font-size: 15px;
 	}
-	font-weight: normal;
-	color: rgba(0, 0, 0, 0.87) !default;
-}
+
 
 h1 a,
 h2 a,
@@ -28,38 +30,38 @@ h6 a {
 }
 
 h1 {
-	font-size: 4.2rem !default;
+	font-size: 4.2rem;
 	line-height: 110%;
-	margin: (4.2rem !default / 1.5) 0 (4.2rem !default / 2.5) 0;
+	margin: calc(4.2rem / 1.5) 0 calc(4.2rem  / 2.5) 0;
 }
 
 h2 {
-	font-size: 3.56rem !default;
+	font-size: 3.56rem;
 	line-height: 110%;
-	margin: (3.56rem !default / 1.5) 0 (3.56rem !default / 2.5) 0;
+	margin: calc(3.56rem / 1.5) 0 calc(3.56rem  / 2.5) 0;
 }
 
 h3 {
-	font-size: 2.92rem !default;
+	font-size: 2.92rem;
 	line-height: 110%;
-	margin: (2.92rem !default / 1.5) 0 (2.92rem !default / 2.5) 0;
+	margin: calc(2.92rem / 1.5) 0 calc(2.92rem  / 2.5) 0;
 }
 
 h4 {
-	font-size: 2.28rem !default;
+	font-size: 2.28rem;
 	line-height: 110%;
-	margin: (2.28rem !default / 1.5) 0 (2.28rem !default / 2.5) 0;
+	margin: calc(2.28rem / 1.5) 0 calc(2.28rem / 2.5) 0;
 }
 
 h5 {
-	font-size: 1.64rem !default;
+	font-size: 1.64rem;
 	line-height: 110%;
-	margin: (1.64rem !default / 1.5) 0 (1.64rem !default / 2.5) 0;
+	margin: calc(1.64rem / 1.5) 0 calc(1.64rem  / 2.5) 0;
 }
 
 h6 {
-	font-size: 1.15rem !default;
+	font-size: 1.15rem;
 	line-height: 110%;
-	margin: (1.15rem !default / 1.5) 0 (1.15rem !default / 2.5) 0;
+	margin: calc(1.15rem / 1.5) 0 calc(1.15rem  / 2.5) 0;
 }
 `;

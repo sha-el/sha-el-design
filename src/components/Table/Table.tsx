@@ -4,6 +4,7 @@ import { GiEmptyMetalBucket } from 'react-icons/gi';
 import { Theme, ThemeConsumer } from '../Theme/Theme';
 import { lightText, borderColor } from '../../helpers/color';
 import { shadow } from '../../helpers/style';
+import { Text } from '../Text';
 
 export class Table<T> extends React.Component<TableProps<T>, {}> {
 
@@ -50,9 +51,9 @@ export class Table<T> extends React.Component<TableProps<T>, {}> {
           const css = style(shadowEnabled, theme);
           return (
             <div className={css.container}>
-              {header && <div className={css.header}>
+              {header && <Text variant="h6" className={css.header}>
                 {header}
-              </div>}
+              </Text>}
               <table className={css.table}>
                 <thead>
                   <tr>
@@ -141,8 +142,6 @@ const style = (shadowEnabled: boolean, theme: Theme) => {
     header: {
       padding: '12px 24px 8px',
       lineHeight: '50px',
-      fontSize: '1.142rem',
-      color: lightText(theme),
     },
     footer: {
       padding: '12px 24px 8px',

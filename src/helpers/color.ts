@@ -4,7 +4,7 @@ import { Theme, ThemeConsumer } from '../components/Theme/Theme';
 import { ButtonProps } from '../components/Button/Button';
 
 export const lightText = (theme: Theme) => {
-  return getColor(theme.background, 'rgba(0, 0, 0, 0.54)', 'rgba(255, 255, 255, 0.7)');
+  return getColor(theme.background, 'rgba(0, 0, 0, 0.54)', 'rgb(118, 118, 123)');
 };
 
 export const shadowColor = (theme: Theme) => {

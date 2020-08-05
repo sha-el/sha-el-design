@@ -8,11 +8,11 @@ const DARK_THEME = {
   default: '#10163a',
   background: '#23232D',
   bodyBg: '#13131A', // #f0f2f5
-  error: '#ff0000',
-  danger: '#ff0000',
-  warning: '#F09266',
-  info: '#67A57F',
-  textColor: '#c2c6dc',
+  error: '#f44336',
+  danger: '#f44336',
+  warning: '#ff9800',
+  info: '#2196f3',
+  textColor: '#fff',
 };
 
 const LIGHT_THEME = {
@@ -21,11 +21,11 @@ const LIGHT_THEME = {
   default: '#eeeeee',
   background: '#ffffff',
   bodyBg: '#f0f2f5',
-  error: '#ff0000',
-  danger: '#ff0000',
-  warning: '#F09266',
-  info: '#67A57F',
-  textColor: '#555',
+  error: '#f44336',
+  danger: '#f44336',
+  warning: '#ff9800',
+  info: '#2196f3',
+  textColor: 'rgba(0,0,0,0.87)',
 };
 
 const ThemeContext = React.createContext<Theme>(LIGHT_THEME);

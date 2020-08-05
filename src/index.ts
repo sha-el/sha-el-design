@@ -18,7 +18,6 @@ export { Pagination } from './components/Pagination';
 export { Popover } from './components/Popover';
 export { Table } from './components/Table';
 export { TabPanel, Tabs, TabHeader, TabPanelContainer } from './components/Tabs';
-export { validate } from './components/Form';
 export { Calendar } from './components/Calendar';
 export { CheckBox } from './components/CheckBox';
 export { Progress } from './components/Progress';
