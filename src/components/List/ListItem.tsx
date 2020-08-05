@@ -3,7 +3,8 @@ import { Row, Col } from '../Grid';
 import { RowProps } from '../Grid/Row';
 import { ThemeConsumer } from '../Theme/Theme';
 import { style as listStyle } from './style';
-import { colorShades } from '../../helpers/color';
+import { colorShades, lightText } from '../../helpers/color';
+import { Text } from '../Text';
 
 export interface ListItemProps {
   subtitle?: React.ReactNode;
@@ -47,9 +48,9 @@ export const ListItem: React.FC<ListItemProps> = (props) => {
                 <div>
                   {children}
                 </div>
-                <div className='list-subtitle'>
+                <Text color={lightText(theme)}>
                   {subtitle}
-                </div>
+                </Text>
               </Col>
               <Col flex='0 1 auto'>
                 {action}

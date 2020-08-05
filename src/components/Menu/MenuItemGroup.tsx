@@ -3,14 +3,12 @@ import posed from 'react-pose';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 
 import { css } from './style';
-import { Theme, ThemeService } from '../../helpers/theme';
 import { SidePanelContext } from '../Layout/SidePanel';
 import { Popover } from '../Popover';
 import { PopoverProps } from '../Popover/Popover';
 import { ThemeConsumer } from '../Theme/Theme';
 
 export class MenuItemGroup extends React.Component<MenuItemGroupProps, State> {
-  themeService = new ThemeService();
 
   constructor(props: MenuItemGroupProps) {
     super(props);

@@ -18,13 +18,13 @@ export const Loading: React.FunctionComponent<LoadingProps> = (props) => {
   return (
     <ThemeConsumer>
       {(theme) => (
-        <div {...rest} className={style(theme).loader} />
+        <div {...rest} className={style(theme, props).loader} />
       )}
     </ThemeConsumer>
   );
 };
 
-const style = (theme: Theme) => {
+const style = (theme: Theme, props: LoadingProps) => {
   const animation = keyframes({
     '0%': {
       transform: 'rotate(0)',
@@ -36,27 +36,33 @@ const style = (theme: Theme) => {
 
   const animation2 = keyframes({
     '0%': {
-      borderTopColor: theme.error,
+      borderTopColor: props.color || theme.error,
     },
     '25%': {
-      borderTopColor: theme.warning,
+      borderTopColor: props.color || theme.warning,
     },
     '50%': {
-      borderTopColor: theme.info,
+      borderTopColor: props.color || theme.info,
     },
     '100%': {
-      borderTopColor: theme.secondary,
+      borderTopColor: props.color || theme.secondary,
     },
   });
+
+  const diameter = {
+    small: '20px',
+    big: '100px',
+  }[props.size] || '50px';
 
   return stylesheet({
     loader: {
       margin: '0px auto',
       borderRadius: '50%',
-      border: `4px solid ${borderColor(theme.bodyBg)}`,
+      border: `4px solid transparent`,
       borderTop: '4px solid red',
-      width: '50px',
-      height: '50px',
+      width: diameter,
+      height: diameter,
+      background: 'transparent',
       animation: `1.5s ${animation} infinite linear, 6s ${animation2} infinite linear`,
     },
   });
@@ -66,8 +72,7 @@ export interface LoadingProps extends React.DetailedHTMLProps<React.HTMLAttribut
   isLoading: boolean;
   render?: () => React.ReactElement;
   style?: React.CSSProperties;
+  size?: 'small' | 'default' | 'big';
+  color?: string;
 }
 
-interface State {
-  theme: Theme;
-}

@@ -1,19 +1,14 @@
 import * as React from 'react';
 import { TabPanelProps } from './TabPanel';
-import { style } from './style';
-import { Theme, ThemeService } from '../../helpers/theme';
 import { TabHeader, TabPanelContainer } from '.';
 
 export class Tabs extends React.Component<TabsProps, State> {
-
-  theme = new ThemeService();
 
   constructor(props: TabsProps) {
     super(props);
 
     this.state = {
       titles: [],
-      theme: this.theme.selectedTheme$.value,
       activeKey: props.defaultActiveKey,
       inkStyle: {
         top: 0,
@@ -27,7 +22,6 @@ export class Tabs extends React.Component<TabsProps, State> {
 
   componentDidMount() {
     this.findTitles();
-    this.theme.selectedTheme$.subscribe(theme => this.setState({ theme }));
   }
 
   findTitles = () => {
@@ -74,7 +68,6 @@ export interface TabsProps {
 interface State {
   titles: TabPanelProps[];
   activeKey: string;
-  theme: Theme;
   inkStyle: {
     top: number;
     width: number;

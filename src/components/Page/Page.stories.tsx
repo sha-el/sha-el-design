@@ -32,11 +32,9 @@ stories.add(
           <Col flex='1 0 auto'>
             <Input
               label='Search'
+              borderLess
               after={<MdSearch style={{ cursor: 'pointer' }} />}
             />
-          </Col>
-          <Col flex='0 1 auto'>
-            <Button>Submit</Button>
           </Col>
         </Row>
       }
