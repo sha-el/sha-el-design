@@ -4,7 +4,7 @@ import RCTooltip from 'rc-tooltip';
 import { styleEnum } from '../../helpers/constants';
 import { isBrowser } from '../../helpers';
 import { ThemeConsumer, Theme } from '../Theme/Theme';
-import { borderColor, colorShades } from '../../helpers/color';
+import { borderColor } from '../../helpers/color';
 import { shadow } from '../../helpers/style';
 
 export class Popover extends React.Component<PopoverProps, State> {
@@ -100,7 +100,7 @@ export class Popover extends React.Component<PopoverProps, State> {
               visible={this.state.visible}
               align={this.props.align}
             >
-              <div ref={this.child} style={childStyle}>
+              <div ref={this.child} style={{ display: 'inline-block', ...childStyle }}>
                 {React.cloneElement(children)}
               </div>
             </RCTooltip>

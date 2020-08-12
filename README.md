@@ -19,7 +19,7 @@
 - 📦 A complete package of ui resource for any React project.
 - 🛡 Made with ❤ using Typescript.
 - 🎨 Easy theme customization using `ThemeContext`.
-- 🤏 Smaller Footprint @ 7kb without compression.
+- 🤏 Smaller Footprint @ 75kb GZIPED.
 
 ## 🎛 Environment Support
 
