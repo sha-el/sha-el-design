@@ -32,28 +32,25 @@ const ThemeContext = React.createContext<Theme>(LIGHT_THEME);
 
 export const ThemeProvider: React.FunctionComponent<ThemeProps> = (props) => {
   const theme = { ...(props.theme === 'DARK' ? DARK_THEME : LIGHT_THEME), ...(props.colors || {}) };
-  return (
-    <ThemeContext.Provider value={theme}>
-      {props.children}
-    </ThemeContext.Provider>
-  );
+  return <ThemeContext.Provider value={theme}>{props.children}</ThemeContext.Provider>;
 };
 
 ThemeProvider.defaultProps = {
   theme: 'DARK',
 };
 
-export const ThemeConsumer: React.FunctionComponent<{ children: (theme: Theme) => (React.ReactElement | null) }> = (props) => {
+export const ThemeConsumer: React.FunctionComponent<{ children: (theme: Theme) => React.ReactElement | null }> = (
+  props,
+) => {
   return (
     <ThemeContext.Consumer>
       {(theme) => {
         cssRaw(`
           :root {
-            --primary: ${color(theme.primary).lighten(.5)};
+            --primary: ${color(theme.primary).lighten(0.5)};
             --background: ${theme.bodyBg};
             --color: ${theme.textColor}
-          }`,
-        );
+          }`);
         return props.children(theme);
       }}
     </ThemeContext.Consumer>

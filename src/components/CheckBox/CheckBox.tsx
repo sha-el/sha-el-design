@@ -1,9 +1,7 @@
 import * as React from 'react';
 import { stylesheet, classes } from 'typestyle';
-import { styleEnum } from './../../helpers/constants';
 import { ThemeConsumer, Theme } from '../Theme/Theme';
 import { shadow } from '../../helpers/style';
-import { colorShades } from '../../helpers/color';
 
 export const CheckBox: React.FunctionComponent<CheckBoxProps> = (props) => {
   const input = React.createRef<HTMLInputElement>();
@@ -22,13 +20,13 @@ export const CheckBox: React.FunctionComponent<CheckBoxProps> = (props) => {
 
         return (
           <div className={css.container} onClick={() => onContainerClick()}>
-            <input className={css.checkbox} ref={input} type='checkbox' {...props} />
+            <input className={css.checkbox} ref={input} type="checkbox" {...props} />
             <label className={`${css.label}`}>{label}</label>
-            {error &&
-              <div style={{ marginTop: '0' }} key='error' className={classes(css.errorStyle, className)}>
+            {error && (
+              <div style={{ marginTop: '0' }} key="error" className={classes(css.errorStyle, className)}>
                 {error}
               </div>
-            }
+            )}
           </div>
         );
       }}
@@ -120,9 +118,10 @@ const style = (theme: Theme, block: boolean) => {
       },
     },
   });
-}
+};
 
-export interface CheckBoxProps extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
+export interface CheckBoxProps
+  extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
   label?: string;
   error?: string;
   block?: boolean;

@@ -1,21 +1,25 @@
-import * as React from 'react';
-import { storiesOf } from '@storybook/react';
-import { withInfo } from '@storybook/addon-info';
+import React from 'react';
+import { Story, Meta } from '@storybook/react';
 
 import { Modal } from '.';
 import { Card, CardHeader } from '../Card';
 import { Row, Col } from '../Grid';
+import { ModalProps } from './Modal';
 
-const stories = storiesOf('Modal', module);
+export default {
+  title: 'Feedback/Modal',
+  component: Modal,
+  argTypes: {
+    // backgroundColor: { control: 'color' },
+  },
+} as Meta;
 
-stories.add(
-  'Basic',
-  withInfo()(() => (
-    <Modal isVisible>
+export const Basic: Story<ModalProps> = (args) => {
+  const [isVisible, toggle] = React.useState(true);
+  return (
+    <Modal {...args} isVisible={isVisible} onClose={() => toggle(false)}>
       <Row>
-        <Col span={12}>
-          Hello
-        </Col>
+        <Col span={12}>Hello</Col>
         <Col span={12}>
           <Card>
             <CardHeader>Hello</CardHeader>
@@ -23,5 +27,9 @@ stories.add(
         </Col>
       </Row>
     </Modal>
-  )),
-);
+  );
+};
+
+Basic.args = {
+  isVisible: true,
+};

@@ -11,17 +11,13 @@ export const Tag: React.StatelessComponent<TagProps> = (props) => {
   return (
     <ThemeConsumer>
       {(theme) => (
-        <span
-          className={css(props, theme)}
-          onClick={() => props.onClick()}
-          style={props.style}
-        >
+        <span className={css(props, theme)} onClick={() => props.onClick()} style={props.style}>
           {props.children}
-          {props.chips && <span
-            className={chipIconCss()}
-          >
-            <MdClear />
-          </span>}
+          {props.chips && (
+            <span className={chipIconCss()}>
+              <MdClear />
+            </span>
+          )}
         </span>
       )}
     </ThemeConsumer>
@@ -60,29 +56,31 @@ const sizeCss = (size: TagProps['size']): NestedCSSProperties => {
   };
 };
 
-const chipIconCss = () => style({
-  marginLeft: '5px',
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-});
+const chipIconCss = () =>
+  style({
+    marginLeft: '5px',
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  });
 
-const css = (props: TagProps, theme: Theme) => style({
-  ...borderStyle(props),
-  ...sizeCss(props.size),
-  fontWeight: 500,
-  margin: '5px',
-  display: 'inline-flex',
-  boxShadow: shadow('DEFAULT', theme),
-  cursor: 'pointer',
-  textTransform: 'uppercase',
-  minWidth: '64px',
-  textAlign: 'center',
-  borderRadius: props.chips ? '16px' : '4px',
-  letterSpacing: '0.02857em',
-  boxSizing: 'border-box',
-  alignItems: 'center',
-});
+const css = (props: TagProps, theme: Theme) =>
+  style({
+    ...borderStyle(props),
+    ...sizeCss(props.size),
+    fontWeight: 500,
+    margin: '5px',
+    display: 'inline-flex',
+    boxShadow: shadow('DEFAULT', theme),
+    cursor: 'pointer',
+    textTransform: 'uppercase',
+    minWidth: '64px',
+    textAlign: 'center',
+    borderRadius: props.chips ? '16px' : '4px',
+    letterSpacing: '0.02857em',
+    boxSizing: 'border-box',
+    alignItems: 'center',
+  });
 
 export interface TagProps {
   color: string;

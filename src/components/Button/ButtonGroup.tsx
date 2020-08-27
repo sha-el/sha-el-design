@@ -1,18 +1,13 @@
 import * as React from 'react';
 import { style as typeStyle } from 'typestyle';
 
-export const ButtonGroup: React.StatelessComponent<{}> = (props) => {
-  return (
-    <div className={style}>
-      {props.children}
-    </div>
-  );
+export const ButtonGroup: React.FC<unknown> = (props) => {
+  return <div className={style}>{props.children}</div>;
 };
 
 const style = typeStyle({
   $nest: {
     button: {
-      display: 'inline-block',
       borderRadius: '0',
       $nest: {
         '&:first-child': {
@@ -25,7 +20,6 @@ const style = typeStyle({
     },
     a: {
       boxSizing: 'border-box',
-      display: 'inline-block',
       borderRadius: '0',
       $nest: {
         '&:first-child': {
@@ -33,6 +27,20 @@ const style = typeStyle({
         },
         '&:last-child': {
           borderRadius: '0 5px 5px 0',
+        },
+      },
+    },
+    '*:first-child': {
+      $nest: {
+        button: {
+          borderRadius: '5px 0 0 5px !important',
+        },
+      },
+    },
+    '*:last-child': {
+      $nest: {
+        button: {
+          borderRadius: '0 5px 5px 0 !important',
         },
       },
     },

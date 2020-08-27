@@ -19,13 +19,13 @@ export const Radio: React.FunctionComponent<RadioProps> = (props) => {
         const css = style(props.disabled, props.block, theme);
         return (
           <div className={css.container} onClick={() => onContainerClick()}>
-            <input className={css.radio} ref={input} type='radio' {...props} />
+            <input className={css.radio} ref={input} type="radio" {...props} />
             <label className={`${css.label}`}>{label}</label>
-            {error &&
-              <div style={{ marginTop: '0' }} key='error' className={`${css.errorStyle} ${className || ''}`}>
+            {error && (
+              <div style={{ marginTop: '0' }} key="error" className={`${css.errorStyle} ${className || ''}`}>
                 {error}
               </div>
-            }
+            )}
           </div>
         );
       }}
@@ -43,6 +43,7 @@ const style = (disabled: boolean, block: boolean, theme: Theme) => {
       fontWeight: 'lighter',
       boxShadow: block && shadow('BOT', theme),
       lineHeight: '22px',
+      display: 'inline',
     },
     label: {
       color: theme.textColor,
@@ -111,7 +112,8 @@ const style = (disabled: boolean, block: boolean, theme: Theme) => {
   });
 };
 
-export interface RadioProps extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
+export interface RadioProps
+  extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
   label?: string;
   error?: string;
   block?: boolean;

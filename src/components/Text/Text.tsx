@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ThemeConsumer, Theme } from '../Theme/Theme';
 import { format } from '../../helpers/text';
-import {classes} from 'typestyle';
+import { classes } from 'typestyle';
 /**
  * Text component to style your `Text` effortlessly.
  *
@@ -100,7 +100,7 @@ export interface TextProps {
   /**
    * Size of the font.
    */
-  fontSize?: number;
+  fontSize?: string;
   /**
    * Padding for the font.
    */

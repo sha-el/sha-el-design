@@ -1,17 +1,17 @@
-import * as React from "react";
-import { InputProps, Input } from "../Input/Input";
-import { Button } from "../Button";
-import { Text } from "../Text";
-import { MdPermContactCalendar } from "react-icons/md";
-import { Calendar } from "../Calendar";
-import { Modal } from "../Modal";
-import { Row, Col } from "../Grid";
-import { CalendarProps, DateTupple } from "../Calendar/Calendar";
-import { format } from "date-fns";
-import { getColor } from "../../helpers";
-import { TimePickerProps, TimePicker, TimeTupple } from "./TimePicker";
-import { ThemeConsumer } from "../Theme/Theme";
-import {lightText} from "../../helpers/color";
+import * as React from 'react';
+import { InputProps, Input } from '../Input/Input';
+import { Button } from '../Button';
+import { Text } from '../Text';
+import { MdPermContactCalendar } from 'react-icons/md';
+import { Calendar } from '../Calendar';
+import { Modal } from '../Modal';
+import { Row, Col } from '../Grid';
+import { CalendarProps, DateTupple } from '../Calendar/Calendar';
+import { format } from 'date-fns';
+import { getColor } from '../../helpers';
+import { TimePickerProps, TimePicker, TimeTupple } from './TimePicker';
+import { ThemeConsumer } from '../Theme/Theme';
+import { lightText } from '../../helpers/color';
 
 export const DatePicker: React.FunctionComponent<DatePickerProps> = (props) => {
   const {
@@ -28,11 +28,7 @@ export const DatePicker: React.FunctionComponent<DatePickerProps> = (props) => {
   const date = toDate(props.date);
 
   const [calendar, toggleCalendar] = React.useState(false);
-  const [time, onTimeChange] = React.useState<TimeTupple>([
-    date.getHours(),
-    date.getMinutes(),
-    date.getSeconds(),
-  ]);
+  const [time, onTimeChange] = React.useState<TimeTupple>([date.getHours(), date.getMinutes(), date.getSeconds()]);
 
   return (
     <>
@@ -43,12 +39,7 @@ export const DatePicker: React.FunctionComponent<DatePickerProps> = (props) => {
         onFocus={() => toggleCalendar(true)}
         after={
           <>
-            <Button
-              flat
-              shape="circle"
-              icon={<MdPermContactCalendar />}
-              onClick={() => toggleCalendar(true)}
-            />
+            <Button flat shape="circle" icon={<MdPermContactCalendar />} onClick={() => toggleCalendar(true)} />
             {after}
           </>
         }
@@ -56,21 +47,23 @@ export const DatePicker: React.FunctionComponent<DatePickerProps> = (props) => {
       <Modal isVisible={calendar} onClose={() => toggleCalendar(false)}>
         <ThemeConsumer>
           {(theme) => (
-            <Row gutter={["0", "0"]}>
-              <Col style={{ display: "flex" }} span={8}>
+            <Row gutter={['0', '0']}>
+              <Col style={{ display: 'flex' }} span={8}>
                 <div
                   style={{
                     background: theme.primary,
-                    padding: "16px",
-                    borderTopRightRadius: "4px",
+                    padding: '16px',
+                    borderTopRightRadius: '4px',
                     color: getColor(theme.primary),
-                    width: "100%",
+                    width: '100%',
                   }}
                 >
-                  <Text margin="0" variant="h4" color={lightText(theme)}>{date.getFullYear()}</Text>
-                  <h5>{format(date, "eee")},</h5>
+                  <Text margin="0" variant="h4" color={lightText(theme)}>
+                    {date.getFullYear()}
+                  </Text>
+                  <h5>{format(date, 'eee')},</h5>
                   <h4>
-                    {format(date, "MMM")} {format(date, "do")}
+                    {format(date, 'MMM')} {format(date, 'do')}
                   </h4>
                   {timePickerProps && (
                     <>
@@ -78,14 +71,7 @@ export const DatePicker: React.FunctionComponent<DatePickerProps> = (props) => {
                       <TimePicker
                         {...timePickerProps}
                         time={time}
-                        onChange={(t) =>
-                          handleTimeChange(
-                            t,
-                            date,
-                            onTimeChange,
-                            props.onChange
-                          )
-                        }
+                        onChange={(t) => handleTimeChange(t, date, onTimeChange, onChange)}
                       />
                     </>
                   )}
@@ -99,7 +85,7 @@ export const DatePicker: React.FunctionComponent<DatePickerProps> = (props) => {
                   disabledDate={disabledDate}
                   onClick={(d) => {
                     toggleCalendar(false);
-                    handleDateChange(toDate(d), time, props.onChange);
+                    handleDateChange(toDate(d), time, onChange);
                   }}
                 />
               </Col>
@@ -111,8 +97,8 @@ export const DatePicker: React.FunctionComponent<DatePickerProps> = (props) => {
   );
 };
 
-type InputType = Omit<InputProps, "onClick" | "value" | "onChange">;
-type CalendarType = Omit<CalendarProps, "onClick">;
+type InputType = Omit<InputProps, 'onClick' | 'value' | 'onChange'>;
+type CalendarType = Omit<CalendarProps, 'onClick'>;
 
 export interface DatePickerProps extends InputType, CalendarType {
   displayProp?: (date?: DateTupple | Date) => string;
@@ -148,17 +134,13 @@ const handleTimeChange = (
   time: TimeTupple,
   date: Date,
   onChange: (time: TimeTupple) => void,
-  update: DatePickerProps["onChange"]
+  update: DatePickerProps['onChange'],
 ) => {
   onChange(time);
   handleDateChange(date, time, update);
 };
 
-const handleDateChange = (
-  d: Date,
-  time: TimeTupple,
-  onChange: DatePickerProps["onChange"]
-) => {
+const handleDateChange = (d: Date, time: TimeTupple, onChange: DatePickerProps['onChange']) => {
   if (time) {
     d.setHours(...time);
   }
@@ -179,4 +161,3 @@ const defaultDisplayProp = (d: DateTupple | Date, withTime: boolean) => {
 DatePicker.defaultProps = {
   date: new Date(),
 };
-

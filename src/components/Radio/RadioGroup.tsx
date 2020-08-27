@@ -1,41 +1,27 @@
 import * as React from 'react';
-import { style as typeStyle } from 'typestyle';
+import { ButtonGroup } from '../Button';
 
 import { RadioProps } from './Radio';
 
 export const RadioGroup: React.FunctionComponent<RadioGroupProps> = (props) => {
   const { value, name, onChange, children } = props;
   return (
-    <div className={style}>
-      {
-        children.map((v, i) =>
-          React.cloneElement(
-            v,
-            {
-              name,
-              onChange,
-              key: i,
-              checked: v.props.value === value,
-            },
-          ),
-        )
-      }
-    </div>
+    <ButtonGroup>
+      {children.map((v, i) =>
+        React.cloneElement(v, {
+          name,
+          onChange,
+          key: i,
+          checked: v.props.value === value,
+        }),
+      )}
+    </ButtonGroup>
   );
 };
 
-const style = typeStyle({
-  $nest: {
-    div: {
-      display: 'inline-block',
-      marginRight: '5px',
-    },
-  },
-});
-
-interface RadioGroupProps {
+export interface RadioGroupProps {
   children: React.ReactElement<RadioProps>[];
   name: string;
-  value?: any;
+  value?: string | boolean | number;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }

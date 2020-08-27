@@ -1,42 +1,19 @@
 import * as React from 'react';
-import { css } from './style';
-import { SidePanelContext } from '../Layout/SidePanel';
-import { ThemeConsumer } from '../Theme/Theme';
+import { SidePanelContext } from '../Layout/Container';
+import { ListItem } from '../List';
 
 export const MenuItem: React.FunctionComponent<MenuItemProps> = (props) => {
   return (
     <SidePanelContext.Consumer>
-      {(context => (
-        <ThemeConsumer>
-          {(theme) => {
-            const isBarOpen = context.width > 200;
-            const { nested, icon, name, children, onClick } = props;
-            const style = css(props.active, theme, isBarOpen);
-            return (
-              <li
-                key={name}
-                className={`${style.flex} ${style.menuItem}`}
-                onClick={() => onClick && onClick()}
-              >
-                {icon
-                  && <div
-                    className={`${style.icon}`}
-                    style={{
-                      padding: isBarOpen || nested ? '0 20px 0 0' : '0',
-                    }}
-                  >
-                    {icon}
-                  </div>
-                }
-                {(isBarOpen || nested) && <div className={`${style.flex_1}`}>
-                  {children}
-                </div>}
-              </li>
-            );
-
-          }}
-        </ThemeConsumer>
-      ))}
+      {(context) => {
+        const isBarOpen = context.width > 200;
+        const { nested, icon, name, children, onClick } = props;
+        return (
+          <ListItem key={name} onClick={onClick} avatar={icon}>
+            {(isBarOpen || nested) && children}
+          </ListItem>
+        );
+      }}
     </SidePanelContext.Consumer>
   );
 };
@@ -45,7 +22,7 @@ export interface MenuItemProps {
   name: string;
   children: React.ReactNode;
   active?: boolean;
-  icon?: React.ReactElement<any>;
+  icon?: React.ReactElement;
   nested?: boolean;
   onClick?: () => void;
 }

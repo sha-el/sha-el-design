@@ -24,8 +24,9 @@ export const TabHeader: React.FunctionComponent<TabHeaderProps> = (props) => {
   };
 
   React.useEffect(() => {
-    (inkStyle.left === 0 && inkStyle.width === 0) && onContainerClick(document.body.querySelector(`.${className}0`));
+    inkStyle.left === 0 && inkStyle.width === 0 && onContainerClick(document.body.querySelector(`.${className}0`));
     return () => {
+      // Blank
     };
   });
 
@@ -35,12 +36,7 @@ export const TabHeader: React.FunctionComponent<TabHeaderProps> = (props) => {
         const css = style(theme);
         return (
           <div className={css.tabHeaderContainer} onClick={(e) => onContainerClick(e.target as HTMLDivElement)}>
-            <InkBar
-              pose='active'
-              className={css.inkBar}
-              poseKey={`${inkStyle.left} ${inkStyle.width}`}
-              {...inkStyle}
-            />
+            <InkBar pose="active" className={css.inkBar} poseKey={`${inkStyle.left} ${inkStyle.width}`} {...inkStyle} />
             {props.titles.map((v, i) => (
               <div
                 key={v.key}

@@ -37,4 +37,5 @@ export { DatePicker, TimePicker } from './components/DatePicker';
 export { Transfer } from './components/Transfer';
 export { List, ListItem, CollapsibleList } from './components/List';
 export { RCTooltip as Tooltip };
-export {Text} from './components/Text';
+export { Text } from './components/Text';
+export { Upload } from './components/Upload';

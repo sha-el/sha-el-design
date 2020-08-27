@@ -3,7 +3,6 @@ import { stylesheet } from 'typestyle';
 import { getColor } from '../../helpers';
 
 export const Badge: React.FunctionComponent<BadgeProps> = (props) => {
-
   const count = props.maxCount && props.maxCount < props.count ? `${props.maxCount}+` : props.count;
   const style = stylesheet({
     container: {
@@ -43,7 +42,7 @@ Badge.defaultProps = {
   color: 'red',
 };
 
-interface BadgeProps {
+export interface BadgeProps {
   /**
    * Element to show as Children
    */

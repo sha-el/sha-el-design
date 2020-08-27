@@ -8,7 +8,6 @@ import { borderColor } from '../../helpers/color';
 import { shadow } from '../../helpers/style';
 
 export class Popover extends React.Component<PopoverProps, State> {
-
   public static defaultProps: Partial<PopoverProps> = {
     title: '',
     trigger: 'onClick',
@@ -47,7 +46,7 @@ export class Popover extends React.Component<PopoverProps, State> {
       return this.setState({ isBrowser: true });
     }
     setTimeout(this.isBrowser, 500);
-  }
+  };
 
   renderContent = (theme: Theme) => {
     const { hideArrow, expand } = this.props;
@@ -55,23 +54,29 @@ export class Popover extends React.Component<PopoverProps, State> {
     return (
       <>
         <div>
-          <div className='rc-tooltip-arrow' style={{ display: !hideArrow && 'block' }} />
+          <div className="rc-tooltip-arrow" style={{ display: !hideArrow && 'block' }} />
           <div>
-            {this.props.title && <div style={this.props.style.title} className={styleSheet.title}>
-              {this.props.title}
-            </div>}
-            <div style={this.props.style.content}>
-              {this.props.content}
-            </div>
+            {this.props.title && (
+              <div style={this.props.style.title} className={styleSheet.title}>
+                {this.props.title}
+              </div>
+            )}
+            <div style={this.props.style.content}>{this.props.content}</div>
           </div>
         </div>
       </>
     );
-  }
+  };
 
   render() {
-    const { trigger, children, preserveOnClose, position,
-      style: { container: containerStyle, child: childStyle }, onVisibleChange } = this.props;
+    const {
+      trigger,
+      children,
+      preserveOnClose,
+      position,
+      style: { container: containerStyle, child: childStyle },
+      onVisibleChange,
+    } = this.props;
 
     if (!this.state.isBrowser) {
       return (
@@ -111,11 +116,12 @@ export class Popover extends React.Component<PopoverProps, State> {
   }
 }
 
-const triggers = (t: PopoverProps['trigger']): any => ({
-  onClick: 'click',
-  onHover: 'hover',
-  onFocus: 'focus',
-}[t]);
+const triggers = (t: PopoverProps['trigger']) =>
+  ({
+    onClick: 'click',
+    onHover: 'hover',
+    onFocus: 'focus',
+  }[t]);
 
 function style(expand: boolean, childWidth: number, theme: Theme) {
   return stylesheet({
@@ -138,11 +144,10 @@ function style(expand: boolean, childWidth: number, theme: Theme) {
 }
 
 export interface PopoverProps {
-  children: React.ReactElement<any>;
+  children: React.ReactElement;
   title?: React.ReactNode;
   trigger?: 'onClick' | 'onHover' | 'onFocus';
-  position?: 'left' | 'right' | 'top' | 'bottom' |
-  'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight';
+  position?: 'left' | 'right' | 'top' | 'bottom' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight';
   content?: React.ReactNode;
   hideArrow?: boolean;
   style?: {
@@ -155,7 +160,7 @@ export interface PopoverProps {
   preserveOnClose?: boolean;
   visible?: boolean;
   onVisibleChange?: (visible?: boolean) => void;
-  align?: object;
+  align?: Record<string, unknown>;
 }
 
 interface State {

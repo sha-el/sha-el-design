@@ -2,7 +2,7 @@ import React from 'react';
 import { MenuItem, MenuItemGroup, Button } from 'sha-el-design';
 import { MdMoreVert } from 'react-icons/md';
 
-export const CardDropDown: React.FC<{}> = (props) => {
+export const CardDropDown: React.FC<unknown> = () => {
   return (
     <MenuItemGroup
       anchor={

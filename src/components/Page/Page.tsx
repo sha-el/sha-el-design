@@ -10,7 +10,6 @@ import { lightText } from '../../helpers/color';
 import { shadow } from '../../helpers/style';
 
 export const Page: React.StatelessComponent<PageProps> = (props) => {
-
   const [activeKey, setActiveKey] = React.useState(nestedAccess(props.tabs, 'defaultActiveKey'));
 
   return (
@@ -20,43 +19,40 @@ export const Page: React.StatelessComponent<PageProps> = (props) => {
         return (
           <div className={css.container}>
             <div className={css.header}>
-              <Row alignItems='center' gutter={['5px 0', '0 .5rem']}>
-                {props.backIcon && <Col style={{ lineHeight: '0' }} flex='0 1 auto'>{props.backIcon}</Col>}
-                <Col flex='0 1 auto'>
-                  {props.title}
-                </Col>
-                <Col flex='1 0 auto'>
-                  {props.tags}
-                </Col>
-                <Col flex='0 1 auto'>
-                  {props.extra}
-                </Col>
+              <Row alignItems="center" gutter={['5px 0', '0 .5rem']}>
+                {props.backIcon && (
+                  <Col style={{ lineHeight: '0' }} flex="0 1 auto">
+                    {props.backIcon}
+                  </Col>
+                )}
+                <Col flex="0 1 auto">{props.title}</Col>
+                <Col flex="1 0 auto">{props.tags}</Col>
+                <Col flex="0 1 auto">{props.extra}</Col>
               </Row>
             </div>
-            {(props.bottom || props.tabs) && (<div style={{ paddingRight: '0', paddingLeft: '0' }} className={classes(css.header, css.bottom)}>
-              <Row style={{ paddingBottom: '0', paddingTop: '0' }} alignItems='flex-end'>
-                {props.tabs && <Col flex='0 1 auto'>
-                  <TabHeader
-                    titles={props.tabs.headers}
-                    activeKey={activeKey}
-                    onClick={setActiveKey}
-                  />
-                </Col>}
-                <Col flex='1 0 auto'>{props.bottom}</Col>
-              </Row>
-            </div>)}
-            {props.tabs && <TabPanelContainer
-              titles={props.tabs.headers}
-              activeKey={activeKey}
-              destroyOnChange={nestedAccess(props.tabs, 'destroyOnChange')}
-            >
-              {props.tabs.panels}
-            </TabPanelContainer>
-            }
-            <div>
-              {props.children}
-            </div>
-          </ div>
+            {(props.bottom || props.tabs) && (
+              <div style={{ paddingRight: '0', paddingLeft: '0' }} className={classes(css.header, css.bottom)}>
+                <Row style={{ paddingBottom: '0', paddingTop: '0' }} alignItems="flex-end">
+                  {props.tabs && (
+                    <Col flex="0 1 auto">
+                      <TabHeader titles={props.tabs.headers} activeKey={activeKey} onClick={setActiveKey} />
+                    </Col>
+                  )}
+                  <Col flex="1 0 auto">{props.bottom}</Col>
+                </Row>
+              </div>
+            )}
+            {props.tabs && (
+              <TabPanelContainer
+                titles={props.tabs.headers}
+                activeKey={activeKey}
+                unMountOnChange={nestedAccess(props.tabs, 'unMountOnChange')}
+              >
+                {props.tabs.panels}
+              </TabPanelContainer>
+            )}
+            <div>{props.children}</div>
+          </div>
         );
       }}
     </ThemeConsumer>
@@ -114,6 +110,6 @@ export interface PageProps {
     headers: TabPanelProps[];
     panels: React.ReactElement<TabPanelProps> | React.ReactElement<TabPanelProps>[];
     defaultActiveKey: string;
-    destroyOnChange?: boolean;
+    unMountOnChange?: boolean;
   };
 }

@@ -1,61 +1,26 @@
-import * as React from 'react';
-import { storiesOf } from '@storybook/react';
-import { withInfo } from '@storybook/addon-info';
-import { DatePicker } from './DatePicker';
-import { Row, Col } from '../Grid';
+import React from 'react';
+import { Story, Meta } from '@storybook/react';
 
-const stories = storiesOf('DatePicker', module);
+import { DatePicker, DatePickerProps } from './DatePicker';
 
-stories.add(
-  'Basic Date Picker',
-  withInfo({ inline: true })(() => (
-    <Row justifyContent='center'>
-      <Col flex='0 1 500px'>
-        <DatePicker
-          date={[2020, 0, 2]}
-        />
-      </Col>
-    </Row>
-  )),
-);
+export default {
+  title: 'Inputs/DatePicker',
+  component: DatePicker,
+  argTypes: {
+    // backgroundColor: { control: 'color' },
+  },
+} as Meta;
 
-stories.add(
-  'Disabled Date',
-  withInfo({ inline: true })(() => {
-    const [date, setDate] = React.useState(new Date());
-    return (
-      <Row justifyContent='center'>
-        <Col flex='0 1 500px'>
-          <DatePicker
-            date={date}
-            disabledDate={([year, month, day]) => day > 5 && day < 25}
-            onChange={(e_, d) => {
-              setDate(d);
-            }}
-          />
-        </Col>
-      </Row>
-    );
-  }),
-);
+const Template: Story<DatePickerProps> = (args) => <DatePicker {...args} />;
 
-stories.add(
-  'With Timepicker',
-  withInfo({ inline: true })(() => {
-    const [date, setDate] = React.useState(new Date());
-    return (
-      <Row justifyContent='center'>
-        <Col flex='0 1 500px'>
-          <DatePicker
-            date={date}
-            disabledDate={([year, month, day]) => day > 5 && day < 25}
-            onChange={(e_, d) => {
-              setDate(d);
-            }}
-            timePickerProps={{}}
-          />
-        </Col>
-      </Row>
-    );
-  }),
-);
+export const Basic = Template.bind({});
+
+export const DisabledDates = Template.bind({});
+DisabledDates.args = {
+  disabledDate: ([__year, __month, day]) => day > 5 && day < 25,
+};
+
+export const WithTimePicker = Template.bind({});
+WithTimePicker.args = {
+  timePickerProps: {},
+};

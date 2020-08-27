@@ -1,21 +1,27 @@
 import * as React from 'react';
 import { style } from 'typestyle';
+import { SidePanelContext } from './Container';
 
-export const Content: React.StatelessComponent<ContentProps> = (props) => {
+export const Content: React.FC<ContentProps> = (props) => {
   return (
-    <div className={css}>
-      {props.children}
-    </div>
+    <SidePanelContext.Consumer>
+      {({ width }) => <main className={css(width)}>{props.children}</main>}
+    </SidePanelContext.Consumer>
   );
 };
 
-const css = style({
-  position: 'relative',
-  minWidth: 0,
-  flex: '1 0 auto',
-  margin: '0 0 0 5px',
-});
+const css = (width: number) =>
+  style({
+    position: 'relative',
+    minWidth: 0,
+    flex: '1 0 auto',
+    margin: '0 0 0 5px',
+    zIndex: 0,
+    minHeight: '100%',
+    width: `calc(100% - ${width}px)`,
+    marginLeft: width,
+  });
 
 export interface ContentProps {
-  children: any;
+  children: React.ReactNode;
 }

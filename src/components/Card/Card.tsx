@@ -21,15 +21,16 @@ export const Card: React.FunctionComponent<CardProps> = (props) => {
   );
 };
 
-const style = (theme: Theme) => stylesheet({
-  container: {
-    boxShadow: shadow('2X', theme),
-    background: theme.background,
-    boxSizing: 'border-box',
-    padding: '16px',
-  },
-});
+const style = (theme: Theme) =>
+  stylesheet({
+    container: {
+      boxShadow: shadow('2X', theme),
+      background: theme.background,
+      boxSizing: 'border-box',
+      padding: '16px',
+    },
+  });
 
-interface CardProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+export interface CardProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   children?: React.ReactNode;
 }

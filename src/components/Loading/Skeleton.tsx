@@ -19,31 +19,31 @@ export const Skeleton: React.FunctionComponent<LoadingProps> = (props) => {
             <Card>
               <CardBody>
                 <div className={css.wrapper}>
-                  <div className='skeleton'>
-                    <div className='skeleton-content'>
-                      <div className='skeleton-header'>
-                        <div className='skeleton-line' style={{ width: '60%' }} />
+                  <div className="skeleton">
+                    <div className="skeleton-content">
+                      <div className="skeleton-header">
+                        <div className="skeleton-line" style={{ width: '60%' }} />
                       </div>
-                      <div className='skeleton-text'>
-                        <div className='skeleton-line' style={{ width: '90%' }} />
-                        <div className='skeleton-line' style={{ width: '100%' }} />
-                        <div className='skeleton-line' style={{ width: '35%' }} />
+                      <div className="skeleton-text">
+                        <div className="skeleton-line" style={{ width: '90%' }} />
+                        <div className="skeleton-line" style={{ width: '100%' }} />
+                        <div className="skeleton-line" style={{ width: '35%' }} />
                       </div>
-                      <div className='skeleton-header'>
-                        <div className='skeleton-line' style={{ width: '60%' }} />
+                      <div className="skeleton-header">
+                        <div className="skeleton-line" style={{ width: '60%' }} />
                       </div>
-                      <div className='skeleton-text'>
-                        <div className='skeleton-line' style={{ width: '90%' }} />
-                        <div className='skeleton-line' style={{ width: '100%' }} />
-                        <div className='skeleton-line' style={{ width: '35%' }} />
+                      <div className="skeleton-text">
+                        <div className="skeleton-line" style={{ width: '90%' }} />
+                        <div className="skeleton-line" style={{ width: '100%' }} />
+                        <div className="skeleton-line" style={{ width: '35%' }} />
                       </div>
-                      <div className='skeleton-header'>
-                        <div className='skeleton-line' style={{ width: '60%' }} />
+                      <div className="skeleton-header">
+                        <div className="skeleton-line" style={{ width: '60%' }} />
                       </div>
-                      <div className='skeleton-text'>
-                        <div className='skeleton-line' style={{ width: '90%' }} />
-                        <div className='skeleton-line' style={{ width: '100%' }} />
-                        <div className='skeleton-line' style={{ width: '35%' }} />
+                      <div className="skeleton-text">
+                        <div className="skeleton-line" style={{ width: '90%' }} />
+                        <div className="skeleton-line" style={{ width: '100%' }} />
+                        <div className="skeleton-line" style={{ width: '35%' }} />
                       </div>
                     </div>
                   </div>
@@ -60,7 +60,6 @@ export const Skeleton: React.FunctionComponent<LoadingProps> = (props) => {
 };
 
 function style(theme: Theme) {
-
   const animation = keyframes({
     '0%': {
       opacity: 0.2,
@@ -110,7 +109,7 @@ function style(theme: Theme) {
             },
           },
         },
-        'skeleton': {
+        skeleton: {
           background: col2,
         },
       },

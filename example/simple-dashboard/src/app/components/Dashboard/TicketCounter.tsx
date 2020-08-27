@@ -16,14 +16,7 @@ export const TicketCounter = () => {
         <Col span={20}>
           <ResponsiveContainer width="100%" height={100}>
             <PieChart width={800} height={400}>
-              <Pie
-                data={data}
-                dataKey="value"
-                innerRadius={40}
-                outerRadius={50}
-                startAngle={0}
-                endAngle={270}
-              >
+              <Pie data={data} dataKey="value" innerRadius={40} outerRadius={50} startAngle={0} endAngle={270}>
                 {data.map((_entry, index) => (
                   <Cell key={`cell-${index}`} fill="#EE266D" stroke="#EE266D" />
                 ))}
@@ -36,7 +29,9 @@ export const TicketCounter = () => {
                     const x = cx + radius * Math.cos(-125 * RADIAN);
                     const y = cy + radius * Math.sin(0 * RADIAN);
                     return (
-                      <text x={x} y={y} fill="#EE266D">{(56000/676).toFixed(2)}%</text>
+                      <text x={x} y={y} fill="#EE266D">
+                        {(56000 / 676).toFixed(2)}%
+                      </text>
                     );
                   }}
                 />
@@ -54,7 +49,7 @@ export const TicketCounter = () => {
           <CardHeader subtitle="Closed" />
           560
         </Col>
-        <Col style={{ color: "#ab003c" }} span={8}>
+        <Col style={{ color: '#ab003c' }} span={8}>
           <CardHeader subtitle="New" />
           49
         </Col>

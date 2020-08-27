@@ -1,43 +1,41 @@
-import * as React from 'react';
-import { storiesOf } from '@storybook/react';
-import { withInfo } from '@storybook/addon-info';
+import React from 'react';
+import { Story, Meta } from '@storybook/react';
 
-import { Tag } from './Tag';
+import { Tag, TagProps } from './Tag';
 
-const stories = storiesOf('Tag', module);
+export default {
+  title: 'Display/Tag',
+  component: Tag,
+  argTypes: {
+    // backgroundColor: { control: 'color' },
+  },
+} as Meta;
 
-stories.add(
-  'Basic',
-  withInfo({ inline: true })(() => {
-    return (
-      <Tag color='red'>Hello</Tag>
-    );
-  }),
-);
+const Template: Story<TagProps> = (args) => <Tag {...args} />;
 
-stories.add(
-  'Outline',
-  withInfo({ inline: true })(() => {
-    return (
-      <Tag outline color='red'>Hello</Tag>
-    );
-  }),
-);
+export const Basic = Template.bind({});
+Basic.args = {
+  color: 'red',
+  children: 'Basic',
+};
 
-stories.add(
-  'Chips',
-  withInfo({ inline: true })(() => {
-    return (
-      <Tag color='red' chips>Hello</Tag>
-    );
-  }),
-);
+export const Outline = Template.bind({});
+Outline.args = {
+  color: 'red',
+  outline: true,
+  children: 'Outline',
+};
 
-stories.add(
-  'Small size',
-  withInfo({ inline: true })(() => {
-    return (
-      <Tag color='red' size='SMALL'>Hello</Tag>
-    );
-  }),
-);
+export const Chips = Template.bind({});
+Chips.args = {
+  color: 'red',
+  chips: true,
+  children: 'Chips',
+};
+
+export const Size = Template.bind({});
+Size.args = {
+  color: 'red',
+  size: 'SMALL',
+  children: 'Size',
+};

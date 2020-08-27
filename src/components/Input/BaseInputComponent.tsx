@@ -1,13 +1,11 @@
-import * as React from "react";
-import { classes } from "typestyle";
-import { Omit, nestedAccess } from "../../helpers";
-import { Row, Col } from "../../";
-import { ThemeConsumer } from "../Theme/Theme";
-import { style } from "./style";
+import * as React from 'react';
+import { classes } from 'typestyle';
+import { Omit, nestedAccess } from '../../helpers';
+import { Row, Col } from '../../';
+import { ThemeConsumer } from '../Theme/Theme';
+import { style } from './style';
 
-export const BaseInputComponent: React.FunctionComponent<
-  BaseInputProps | BaseTextAreaProps
-> = (props) => {
+export const BaseInputComponent: React.FunctionComponent<BaseInputProps | BaseTextAreaProps> = (props) => {
   const [focused, updateFocused] = React.useState(false);
   const {
     error,
@@ -31,9 +29,9 @@ export const BaseInputComponent: React.FunctionComponent<
       focused ||
       props.value ||
       props.defaultValue ||
-      nestedAccess(input.current, "value") ||
+      nestedAccess(input.current, 'value') ||
       props.placeholder ||
-      nestedAccess(input.current, "placeholder") ||
+      nestedAccess(input.current, 'placeholder') ||
       props.before
     );
   };
@@ -47,30 +45,26 @@ export const BaseInputComponent: React.FunctionComponent<
             <Row
               wrap="wrap"
               gutter={[0, 0]}
-              className={classes(
-                css.container,
-                containerClassName,
-                "sha-el-input"
-              )}
+              className={classes(css.container, containerClassName, 'sha-el-input')}
               style={containerStyle}
             >
               {before && (
                 <Col
-                  className={classes(css.seudo, "seudo")}
+                  className={classes(css.seudo, 'seudo')}
                   flex="0 1 auto"
-                  style={{ paddingLeft: !borderLess && "15px" }}
+                  style={{ paddingLeft: !borderLess && '5px' }}
                 >
                   {before}
                 </Col>
               )}
               {label && (
-                <span key="label" className={classes(css.label, "label")}>
-                  {label} {required && <span style={{ color: "red" }}>*</span>}
+                <span key="label" className={classes(css.label, 'label')}>
+                  {label} {required && <span style={{ color: 'red' }}>*</span>}
                 </span>
               )}
               <Col flex="1 0 auto">
                 <section key="textarea" className={css.section}>
-                  <Row gutter={["0", "0"]}>
+                  <Row gutter={['0', '0']}>
                     <Col key="input" flex="1 0 auto">
                       {React.cloneElement(children, {
                         className: css.input,
@@ -93,9 +87,9 @@ export const BaseInputComponent: React.FunctionComponent<
                     </Col>
                     {after && (
                       <Col
-                        className={classes(css.seudo, "seudo")}
+                        className={classes(css.seudo, 'seudo')}
                         flex="0 1 auto"
-                        style={{ paddingRight: "15px" }}
+                        style={{ paddingRight: !borderLess && '5px' }}
                       >
                         {after}
                       </Col>
@@ -131,17 +125,12 @@ export interface Props {
   children: React.ReactElement;
 }
 
-export interface BaseInputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size" | "prefix">,
-    Props {
+export interface BaseInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'prefix'>, Props {
   children: React.ReactElement;
 }
 
 export interface BaseTextAreaProps
-  extends React.DetailedHTMLProps<
-      React.TextareaHTMLAttributes<HTMLTextAreaElement>,
-      HTMLTextAreaElement
-    >,
+  extends React.DetailedHTMLProps<React.TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement>,
     Props {
   children: React.ReactElement;
 }

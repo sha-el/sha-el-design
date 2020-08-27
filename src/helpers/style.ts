@@ -3,8 +3,15 @@ import { Theme } from './../components/Theme/Theme';
 
 export type ShadowType = 'DEFAULT' | '2X' | 'BOT' | 'BOT2X';
 
-export const shadow = (type: ShadowType, theme: Theme) => {
-  const [first, second, third] = shadowColor(theme);
+export const shadow = (type: ShadowType, theme: Theme, color?: string) => {
+  let [first, second, third] = shadowColor(theme);
+
+  if (color) {
+    first = color;
+    second = color;
+    third = color;
+  }
+
   switch (type) {
     case 'DEFAULT':
       return `0 3px 1px -2px ${first},

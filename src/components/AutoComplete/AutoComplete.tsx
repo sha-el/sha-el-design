@@ -38,16 +38,16 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
 
     if (!Array.isArray(items)) {
       this.setState({ loading: true });
-      items = (await items);
+      items = await items;
       this.setState({ loading: false });
     }
     this.setState({ data: items });
-  }
+  };
 
   onOpen = (open: boolean) => {
     open && this.fetchData();
     this.setState({ open });
-  }
+  };
 
   displayList = () => {
     const { data, search, loading } = this.state;
@@ -58,24 +58,18 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
         isLoading={loading}
         render={() => (
           <List style={{ maxHeight: '300px', overflowY: 'auto' }}>
-            {
-              data.filter(v => searchValue(v).toLowerCase().includes(search)).map(
-                (v) => (
-                  <ListItem
-                    key={uniqueIdentifier(v)}
-                    selected={this.isItemSelected(v)}
-                    onClick={() => this.onChange(v)}
-                  >
-                    {listDisplayProp(v)}
-                  </ListItem>
-                ),
-              )
-            }
+            {data
+              .filter((v) => searchValue(v).toLowerCase().includes(search))
+              .map((v) => (
+                <ListItem key={uniqueIdentifier(v)} selected={this.isItemSelected(v)} onClick={() => this.onChange(v)}>
+                  {listDisplayProp(v)}
+                </ListItem>
+              ))}
           </List>
         )}
       />
     );
-  }
+  };
 
   isItemSelected = (current: T) => {
     const { uniqueIdentifier, value } = this.props;
@@ -89,7 +83,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
     }
 
     return uniqueIdentifier(current) === uniqueIdentifier(value);
-  }
+  };
 
   displayValue = (): string => {
     const { mode, displayValue, value } = this.props;
@@ -103,38 +97,48 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
     }
 
     return '';
-  }
+  };
 
-  renderBefore = (): any => {
+  renderBefore = () => {
     const { mode, displayValue, before, value, uniqueIdentifier } = this.props;
 
     if (mode === 'single') {
       return before;
     }
 
-    return [before, ...(value as T[]).map(v => (
-      <ThemeConsumer>
-        {(theme) => (
-          <Tag
-            color='#aaa'
-            textColor={lightText(theme)}
-            onClick={() => this.onChange(v)}
-            outline
-            chips
-            size='SMALL'
-            key={uniqueIdentifier(v)}
-          >
-            {displayValue(v)}
-          </Tag>
-        )}
-      </ThemeConsumer>
-    ))];
-  }
+    return [
+      before,
+      ...(value as T[]).map((v) => (
+        <ThemeConsumer key={uniqueIdentifier(v)}>
+          {(theme) => (
+            <Tag
+              color="#aaa"
+              textColor={lightText(theme)}
+              onClick={() => this.onChange(v)}
+              outline
+              chips
+              size="SMALL"
+              key={uniqueIdentifier(v)}
+            >
+              {displayValue(v)}
+            </Tag>
+          )}
+        </ThemeConsumer>
+      )),
+    ];
+  };
 
   renderAfter = () => {
     const { open } = this.state;
     const { value, clearable } = this.props;
-    const afters = [<Button key='expand' flat shape='circle' icon={open ? <MdExpandLess key='expand' /> : <MdExpandMore key='expand' />} />];
+    const afters = [
+      <Button
+        key="expand"
+        flat
+        shape="circle"
+        icon={open ? <MdExpandLess key="expand" /> : <MdExpandMore key="expand" />}
+      />,
+    ];
 
     if (value && clearable) {
       afters.push(
@@ -143,39 +147,39 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
             e.stopPropagation();
             this.onChange(null);
           }}
-          key='clear'
+          key="clear"
           flat
-          shape='circle'
+          shape="circle"
           icon={<MdClose />}
         />,
       );
     }
 
     return afters.reverse();
-  }
+  };
 
   onSearch = (search: string) => {
     this.setState({ search }, this.fetchData);
-  }
+  };
 
-  onChange = (selected: T) => {
+  onChange = (selected: AutoCompleteProps<T>['value']) => {
     const { mode, value, onChange, uniqueIdentifier } = this.props;
     if (mode === 'single') {
-      onChange(selected as any);
+      onChange(selected as never);
       this.setState({ open: false, search: '' });
       return;
     }
 
     if (!selected) {
-      return onChange([] as any);
+      return onChange([] as never);
     }
 
     const selectedValues = [...(value as T[])];
-    const index = selectedValues.findIndex((v) => uniqueIdentifier(v) === uniqueIdentifier(selected));
-    index === -1 ? selectedValues.push(selected) : selectedValues.splice(index, 1);
-    onChange(selectedValues as any);
+    const index = selectedValues.findIndex((v) => uniqueIdentifier(v) === uniqueIdentifier(selected as never));
+    index === -1 ? selectedValues.push(selected as never) : selectedValues.splice(index, 1);
+    onChange(selectedValues as never);
     this.setState({ search: '' });
-  }
+  };
 
   onKeyUp = (e: React.KeyboardEvent) => {
     switch (e.which) {
@@ -186,21 +190,17 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
         return this.onOpen(true);
       }
     }
-  }
+  };
 
   render() {
-    const {
-      children,
-      label,
-      error,
-      hint,
-      required,
-    } = this.props;
+    const { children, label, error, hint, required } = this.props;
 
     const { open } = this.state;
 
     const inputElem = React.cloneElement(children, {
-      label, error, hint,
+      label,
+      error,
+      hint,
       after: this.renderAfter(),
       value: this.displayValue(),
       before: this.renderBefore(),
@@ -211,8 +211,8 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
 
     return (
       <Popover
-        trigger='onClick'
-        position='bottomLeft'
+        trigger="onClick"
+        position="bottomLeft"
         content={this.displayList()}
         onVisibleChange={(v) => this.onOpen(v)}
         visible={open}

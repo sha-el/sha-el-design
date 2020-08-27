@@ -3,7 +3,6 @@ import { TabPanelProps } from './TabPanel';
 import { TabHeader, TabPanelContainer } from '.';
 
 export class Tabs extends React.Component<TabsProps, State> {
-
   constructor(props: TabsProps) {
     super(props);
 
@@ -36,22 +35,14 @@ export class Tabs extends React.Component<TabsProps, State> {
       return this.setState({ titles });
     }
     this.setState({ titles: [{ title: this.props.children.props.title, key: this.props.children.props.name }] });
-  }
+  };
 
   render() {
     const { titles, activeKey } = this.state;
     return (
       <div>
-        <TabHeader
-          titles={titles}
-          activeKey={activeKey}
-          onClick={(key) => this.setState({ activeKey: key })}
-        />
-        <TabPanelContainer
-          titles={titles}
-          activeKey={activeKey}
-          destroyOnChange={this.props.destroyOnChange}
-        >
+        <TabHeader titles={titles} activeKey={activeKey} onClick={(key) => this.setState({ activeKey: key })} />
+        <TabPanelContainer titles={titles} activeKey={activeKey} unMountOnChange={this.props.unMountOnChange}>
           {this.props.children}
         </TabPanelContainer>
       </div>
@@ -62,7 +53,7 @@ export class Tabs extends React.Component<TabsProps, State> {
 export interface TabsProps {
   children: React.ReactElement<TabPanelProps> | React.ReactElement<TabPanelProps>[];
   defaultActiveKey: string;
-  destroyOnChange?: boolean;
+  unMountOnChange?: boolean;
 }
 
 interface State {

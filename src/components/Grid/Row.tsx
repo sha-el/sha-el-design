@@ -2,9 +2,7 @@ import * as React from 'react';
 import { style, classes } from 'typestyle';
 
 export const Row: React.StatelessComponent<RowProps> = (props) => {
-  const {
-    className,
-  } = props;
+  const { className } = props;
   return (
     <div
       onClick={props.onClick}
@@ -18,7 +16,7 @@ export const Row: React.StatelessComponent<RowProps> = (props) => {
 
 Row.defaultProps = {
   justifyContent: 'flex-start',
-  gutter: ['10px 0', '0 .5rem'],
+  gutter: ['10px 0', '.5rem'],
   wrap: 'wrap',
 };
 
@@ -28,17 +26,18 @@ const rowStyle = style({
   flexDirection: 'row',
 });
 
-const flexPosition = (props: RowProps) => style({
-  justifyContent: props.justifyContent,
-  alignItems: props.alignItems,
-  padding: props.gutter[0],
-  flexWrap: props.wrap,
-  $nest: {
-    '& .sha-el-col': {
-      padding: props.gutter[1],
+const flexPosition = (props: RowProps) =>
+  style({
+    justifyContent: props.justifyContent,
+    alignItems: props.alignItems,
+    padding: props.gutter[0],
+    flexWrap: props.wrap,
+    $nest: {
+      '& .sha-el-col': {
+        padding: props.gutter[1],
+      },
     },
-  },
-});
+  });
 
 export interface RowProps {
   children: React.ReactNode;

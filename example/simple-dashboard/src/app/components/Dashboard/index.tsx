@@ -5,11 +5,11 @@ import { FcCalendar } from 'react-icons/fc';
 import { CardDropDown } from '@components/Dashboard/CardDropDown';
 import campaignData from '@/assets/campaignData.json';
 import { LineChartExample } from '@components/Dashboard/LineChart';
-import {TicketCounter} from './TicketCounter';
-import {CampaignAnalysis} from './CampaignAnalysis';
-import {ClientReach} from './ClientReach';
+import { TicketCounter } from './TicketCounter';
+import { CampaignAnalysis } from './CampaignAnalysis';
+import { ClientReach } from './ClientReach';
 
-const tableColumns: Colums<any>[] = [
+const tableColumns: Colums<unknown>[] = [
   {
     header: 'Name',
     key: 'name',
@@ -35,30 +35,24 @@ const tableColumns: Colums<any>[] = [
   {
     header: <div>Sent</div>,
     key: 'sent',
-    render: (_v, obj) => {
-      return (
-        <>
-          <div style={{ color: '#00e676' }}>{obj.sent}</div>
-          <div style={{ color: 'rgba(0, 0, 0, 0.54)' }}>
-            {((obj.sent * 100) / (obj.sent + obj.pending)).toFixed(2)}%
-          </div>
-        </>
-      );
-    },
+    render: (_v, obj) => (
+      <>
+        <div style={{ color: '#00e676' }}>{obj.sent}</div>
+        <div style={{ color: 'rgba(0, 0, 0, 0.54)' }}>{((obj.sent * 100) / (obj.sent + obj.pending)).toFixed(2)}%</div>
+      </>
+    ),
   },
   {
     header: <div>Pending</div>,
     key: 'pending',
-    render: (_v, obj) => {
-      return (
-        <>
-          <div style={{ /*textAlign: 'right',*/ color: '#ff9100' }}>{obj.pending}</div>
-          <div style={{ color: 'rgba(0, 0, 0, 0.54)' }}>
-            {((obj.pending * 100) / (obj.sent + obj.pending)).toFixed(2)}%
-          </div>
-        </>
-      );
-    },
+    render: (_v, obj) => (
+      <>
+        <div style={{ color: '#ff9100' }}>{obj.pending}</div>
+        <div style={{ color: 'rgba(0, 0, 0, 0.54)' }}>
+          {((obj.pending * 100) / (obj.sent + obj.pending)).toFixed(2)}%
+        </div>
+      </>
+    ),
   },
   {
     header: 'Status',
@@ -77,7 +71,7 @@ const tableColumns: Colums<any>[] = [
   },
 ];
 
-export const Dashboard: React.FC<null> = (_props) => {
+export const Dashboard: React.FC<null> = () => {
   return (
     <Page
       title="Dashboard"

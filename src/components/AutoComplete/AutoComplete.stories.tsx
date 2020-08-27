@@ -1,90 +1,85 @@
-import * as React from "react";
-import { storiesOf } from "@storybook/react";
-import { withInfo } from "@storybook/addon-info";
-import { AutoComplete } from "./index";
-import { Col, Row } from "../Grid";
+import React from 'react';
+import { Story, Meta } from '@storybook/react';
 
-const stories = storiesOf("AutoComplete", module);
+import { AutoComplete } from './index';
+// import { Col, Row } from '../Grid';
+import { SingleAutoComplete, MultiAutoComplete } from './AutoComplete';
+import { Row, Col } from '../..';
 
-stories.add(
-  "AutoComplete with single mode",
-  withInfo({ inline: true })(() => {
-    const [value, update] = React.useState("Clark");
-    return (
-      <div style={{ width: "400px", margin: "auto" }}>
-        <AutoComplete
-          data={() => ["Bruce", "Clark", "Arthur", "Diana"]}
-          uniqueIdentifier={(e) => e}
-          listDisplayProp={(e) => e}
-          label="Select Alter Ego"
-          value={value}
-          onChange={(e: string) => update(e)}
-          displayValue={(e) => e}
-        />
-      </div>
-    );
-  })
-);
+export default {
+  title: 'Inputs/AutoComplete',
+  component: AutoComplete,
+  argTypes: {
+    // backgroundColor: { control: 'color' },
+  },
+} as Meta;
 
-stories.add(
-  "AutoComplete with multiple mode",
-  withInfo({ inline: true })(() => {
-    const [value, update] = React.useState(["Clark", "Bruce"]);
-    return (
-      <div style={{ width: "400px", margin: "auto" }}>
-        <AutoComplete<string>
-          mode="multiple"
-          value={value}
-          data={() => ["Bruce", "Clark", "Arthur", "Diana"]}
-          uniqueIdentifier={(e) => e}
-          listDisplayProp={(e) => e}
-          label="Select Alter Ego"
-          onChange={(e: string[]) => update(e)}
-          displayValue={(e) => e}
-          required={true}
-        />
-      </div>
-    );
-  })
-);
+export const Single: Story<SingleAutoComplete<string>> = () => {
+  const [value, update] = React.useState('Clark');
 
-stories.add(
-  "AutoComplete with async fetch",
-  withInfo({ inline: true })(() => {
-    const [value, update] = React.useState({
-      avatar:
-        "https://s3.amazonaws.com/uifaces/faces/twitter/calebogden/128.jpg",
-      email: "george.bluth@reqres.in",
-      first_name: "George",
-      id: 1,
-      last_name: "Bluth",
-    });
-    return (
-      <div style={{ width: "400px", margin: "auto" }}>
-        <AutoComplete<any>
-          value={value}
-          data={() =>
-            fetch("https://reqres.in/api/users")
-              .then((r) => r.json())
-              .then((r) => r.data)
-          }
-          uniqueIdentifier={(e) => e.id}
-          listDisplayProp={(e) => (
-            <Row gutter={[0, "0 10px"]}>
-              <Col flex="0 1 50px">
-                <img width="100%" src={e.avatar} />
-              </Col>
-              <Col alignSelf="center" flex="1 0 calc(50% - 100px)">
-                {e.first_name} {e.last_name}
-              </Col>
-            </Row>
-          )}
-          label="Select User"
-          onChange={(e) => update(e)}
-          displayValue={(e) => e && e.first_name}
-          searchValue={(e) => e.first_name}
-        />
-      </div>
-    );
-  })
-);
+  return (
+    <AutoComplete
+      mode="single"
+      data={() => ['Bruce', 'Clark', 'Arthur', 'Diana']}
+      uniqueIdentifier={(e) => e}
+      listDisplayProp={(e) => e}
+      label="Select Alter Ego"
+      value={value}
+      displayValue={(e) => e as string}
+      onChange={(e: string) => update(e)}
+    />
+  );
+};
+
+export const Multiple: Story<MultiAutoComplete<string>> = () => {
+  const [value, update] = React.useState(['Clark', 'Arthur']);
+
+  return (
+    <AutoComplete<string>
+      mode="multiple"
+      data={() => ['Bruce', 'Clark', 'Arthur', 'Diana']}
+      uniqueIdentifier={(e) => e}
+      listDisplayProp={(e) => e}
+      label="Select Alter Ego"
+      value={value}
+      displayValue={(e) => e as string}
+      onChange={(e: string[]) => update(e)}
+    />
+  );
+};
+
+export const AsyncFetch: Story = () => {
+  const [value, update] = React.useState({
+    avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/calebogden/128.jpg',
+    email: 'george.bluth@reqres.in',
+    first_name: 'George',
+    id: 1,
+    last_name: 'Bluth',
+  });
+
+  return (
+    <AutoComplete<typeof value>
+      value={value}
+      data={() =>
+        fetch('https://reqres.in/api/users')
+          .then((r) => r.json())
+          .then((r) => r.data)
+      }
+      uniqueIdentifier={(e) => String(e.id)}
+      listDisplayProp={(e) => (
+        <Row gutter={[0, '0 10px']}>
+          <Col flex="0 1 50px">
+            <img width="100%" src={e.avatar} />
+          </Col>
+          <Col alignSelf="center" flex="1 0 calc(50% - 100px)">
+            {e.first_name} {e.last_name}
+          </Col>
+        </Row>
+      )}
+      label="Select User"
+      onChange={(e) => update(e)}
+      displayValue={(e) => e && e.first_name}
+      searchValue={(e) => e.first_name}
+    />
+  );
+};

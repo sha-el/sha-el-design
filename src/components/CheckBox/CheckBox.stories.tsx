@@ -1,28 +1,25 @@
-import * as React from 'react';
-import { storiesOf } from '@storybook/react';
-import { withInfo } from '@storybook/addon-info';
+import React from 'react';
+import { Story, Meta } from '@storybook/react';
 
-import { CheckBox } from './CheckBox';
+import { CheckBox, CheckBoxProps } from './CheckBox';
 
-const stories = storiesOf('Checkbox', module);
+export default {
+  title: 'Inputs/CheckBox',
+  component: CheckBox,
+  argTypes: {
+    // backgroundColor: { control: 'color' },
+  },
+} as Meta;
 
-stories.add(
-  'Basic',
-  withInfo({ inline: true })(() => (
-    <CheckBox />
-  )),
-);
+const Template: Story<CheckBoxProps> = (args) => <CheckBox {...args} />;
+export const Basic = Template.bind({});
 
-stories.add(
-  'With Label',
-  withInfo({ inline: true })(() => (
-    <CheckBox label='Done?' />
-  )),
-);
+export const Label = Template.bind({});
+Label.args = {
+  label: 'Label',
+};
 
-stories.add(
-  'With Error',
-  withInfo({ inline: true })(() => (
-    <CheckBox label='Done?' error='Some Error' />
-  )),
-);
+export const Error = Template.bind({});
+Error.args = {
+  error: 'Error',
+};

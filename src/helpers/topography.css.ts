@@ -7,6 +7,7 @@ body {
 	font-family: "Roboto", sans-serif;
 	font-weight: normal;
 	color: var(--color);
+	font-size: 14px;
 }
 
 @media only screen and (min-width: 0) {

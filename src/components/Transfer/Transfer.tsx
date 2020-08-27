@@ -26,7 +26,6 @@ interface State<T> {
 }
 
 export class Transfer<T> extends React.Component<TransferProps<T>, State<T>> {
-
   constructor(props: TransferProps<T>) {
     super(props);
 
@@ -44,7 +43,7 @@ export class Transfer<T> extends React.Component<TransferProps<T>, State<T>> {
     searchValue: (e) => String(e),
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.fetchData();
   }
 
@@ -56,12 +55,12 @@ export class Transfer<T> extends React.Component<TransferProps<T>, State<T>> {
 
     if (!Array.isArray(items)) {
       this.setState({ loading: true });
-      items = (await items);
+      items = await items;
       this.setState({ loading: false });
     }
 
     this.setState({ data: items });
-  }
+  };
 
   isItemMoved = (current: T) => {
     const { uniqueIdentifier, values } = this.props;
@@ -71,7 +70,7 @@ export class Transfer<T> extends React.Component<TransferProps<T>, State<T>> {
     }
 
     return !!values.find((v) => uniqueIdentifier(v) === uniqueIdentifier(current));
-  }
+  };
 
   isItemSelected = (current: T, selections: T[]) => {
     const { uniqueIdentifier } = this.props;
@@ -81,7 +80,7 @@ export class Transfer<T> extends React.Component<TransferProps<T>, State<T>> {
     }
 
     return !!selections.find((v) => uniqueIdentifier(v) === uniqueIdentifier(current));
-  }
+  };
 
   makeSelection = (current: T, key: 'selectedRight' | 'selectedLeft') => {
     const { uniqueIdentifier } = this.props;
@@ -95,7 +94,7 @@ export class Transfer<T> extends React.Component<TransferProps<T>, State<T>> {
     }
     const state = { ...this.state, [key]: selections };
     this.setState(state);
-  }
+  };
 
   displayList = () => {
     const { data, search, loading, selectedLeft } = this.state;
@@ -106,24 +105,25 @@ export class Transfer<T> extends React.Component<TransferProps<T>, State<T>> {
         isLoading={loading}
         render={() => (
           <List style={{ maxHeight: '300px', overflowY: 'auto' }}>
-            {
-              data.filter(v => searchValue(v).toLowerCase().includes(search)).map(
-                (v) => !this.isItemMoved(v) && (
-                  <ListItem
-                    key={uniqueIdentifier(v)}
-                    selected={this.isItemSelected(v, selectedLeft)}
-                    onClick={() => this.makeSelection(v, 'selectedLeft')}
-                  >
-                    {listDisplayProp(v)}
-                  </ListItem>
-                ),
-              )
-            }
+            {data
+              .filter((v) => searchValue(v).toLowerCase().includes(search))
+              .map(
+                (v) =>
+                  !this.isItemMoved(v) && (
+                    <ListItem
+                      key={uniqueIdentifier(v)}
+                      selected={this.isItemSelected(v, selectedLeft)}
+                      onClick={() => this.makeSelection(v, 'selectedLeft')}
+                    >
+                      {listDisplayProp(v)}
+                    </ListItem>
+                  ),
+              )}
           </List>
         )}
       />
     );
-  }
+  };
 
   displayValue = () => {
     const { selectedRight } = this.state;
@@ -131,22 +131,18 @@ export class Transfer<T> extends React.Component<TransferProps<T>, State<T>> {
 
     return (
       <List style={{ maxHeight: '300px', overflowY: 'auto' }}>
-        {
-          values.map(
-            (v) => (
-              <ListItem
-                key={uniqueIdentifier(v)}
-                selected={this.isItemSelected(v, selectedRight)}
-                onClick={() => this.makeSelection(v, 'selectedRight')}
-              >
-                {listDisplayProp(v)}
-              </ListItem>
-            ),
-          )
-        }
+        {values.map((v) => (
+          <ListItem
+            key={uniqueIdentifier(v)}
+            selected={this.isItemSelected(v, selectedRight)}
+            onClick={() => this.makeSelection(v, 'selectedRight')}
+          >
+            {listDisplayProp(v)}
+          </ListItem>
+        ))}
       </List>
     );
-  }
+  };
 
   transfer = (to: 'right' | 'left') => {
     const { onChange, values, uniqueIdentifier } = this.props;
@@ -157,51 +153,43 @@ export class Transfer<T> extends React.Component<TransferProps<T>, State<T>> {
       return;
     }
 
-    onChange(values.filter(v => !selectedRight.find(
-      sr => uniqueIdentifier(sr) === uniqueIdentifier(v),
-    )));
+    onChange(values.filter((v) => !selectedRight.find((sr) => uniqueIdentifier(sr) === uniqueIdentifier(v))));
     this.setState({ selectedRight: [] });
-  }
+  };
 
   render() {
     const { selectedLeft, selectedRight, data } = this.state;
     return (
-      <Row alignItems='center'>
-        <Col span={11} alignSelf='stretch'>
-          <Card>
-            <CardHeader
-              subtitle={`${data.length} item(s)`}
-            />
+      <Card style={{ minWidth: '500px' }}>
+        <Row alignItems="center">
+          <Col span={10} alignSelf="stretch">
+            <CardHeader subtitle={`${data.length} item(s)`} />
             {this.displayList()}
-          </Card>
-        </Col>
-        <Col span={2}>
-          <Button
-            displayBlock
-            flat
-            disabled={!selectedLeft.length}
-            icon={<MdKeyboardArrowRight />}
-            type='primary'
-            onClick={() => this.transfer('right')}
-          />
-          <Button
-            displayBlock
-            flat
-            disabled={!selectedRight.length}
-            icon={<MdKeyboardArrowLeft />}
-            type='primary'
-            onClick={() => this.transfer('left')}
-          />
-        </Col>
-        <Col span={11} alignSelf='stretch'>
-          <Card>
-            <CardHeader
-              subtitle={`${this.props.values.length} item(s)`}
+          </Col>
+          <Col span={4}>
+            <Button
+              displayBlock
+              flat
+              disabled={!selectedLeft.length}
+              icon={<MdKeyboardArrowRight />}
+              type="primary"
+              onClick={() => this.transfer('right')}
             />
+            <Button
+              displayBlock
+              flat
+              disabled={!selectedRight.length}
+              icon={<MdKeyboardArrowLeft />}
+              type="primary"
+              onClick={() => this.transfer('left')}
+            />
+          </Col>
+          <Col span={10} alignSelf="stretch">
+            <CardHeader subtitle={`${this.props.values.length} item(s)`} />
             {this.displayValue()}
-          </Card>
-        </Col>
-      </Row>
+          </Col>
+        </Row>
+      </Card>
     );
   }
 }

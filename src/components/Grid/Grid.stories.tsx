@@ -1,64 +1,120 @@
-import * as React from 'react';
-import { storiesOf } from '@storybook/react';
-import { withInfo } from '@storybook/addon-info';
+import React from 'react';
+import { Story, Meta } from '@storybook/react';
 
-const stories = storiesOf('Grid', module);
+import { Row, Col } from '.';
+import { RowProps } from './Row';
+import { ColProps } from './Col';
+import { Card } from '../Card';
 
-import { Row, Col } from './';
+export default {
+  title: 'Layout/Grid',
+  component: Col,
+  subcomponents: { Row },
+  argTypes: {
+    // backgroundColor: { control: 'color' },
+  },
+} as Meta;
 
-stories.add(
-  'using Flex',
-  withInfo({ inline: true })(() => (
-    <Row>
-      <Col flex='1 1 200px' style={{ background: '#06e', color: '#fff' }}>
-        flex=1 1 200px
-      </Col>
-      <Col flex='0 1 400px' style={{ background: '#0fe' }}>
-        flex=0 1 400px
-      </Col>
-    </Row>
-  )),
+const RowTemplate: Story<RowProps> = (args) => <Row {...args} />;
+
+export const Span: Story<ColProps> = (args) => (
+  <Row {...RowTemplate.args} style={{ textAlign: 'center' }}>
+    <Col span={24} {...args}>
+      <Card>Span 24</Card>
+    </Col>
+    <Col span={12}>
+      <Card>Span 12</Card>
+    </Col>
+    <Col span={12}>
+      <Card>Span 12</Card>
+    </Col>
+    <Col span={6}>
+      <Card>Span 6</Card>
+    </Col>
+    <Col span={6}>
+      <Card>Span 6</Card>
+    </Col>
+    <Col span={6}>
+      <Card>Span 6</Card>
+    </Col>
+    <Col span={6}>
+      <Card>Span 6</Card>
+    </Col>
+  </Row>
 );
 
-stories.add(
-  'Justify Content',
-  withInfo({ inline: true })(() => (
-    <Row justifyContent='flex-end'>
-      <Col flex='0 1 200px' style={{ background: '#06e', color: '#fff' }}>
-        Col 1
-      </Col>
-      <Col flex='0 1 400px' style={{ background: '#0fe' }}>
-        Col 2
-      </Col>
-    </Row>
-  )),
+export const FlexBox: Story<ColProps> = (args) => (
+  <Row {...RowTemplate.args}>
+    <Col flex="1 0 200px" {...args}>
+      <Card>flex=1 0 200px</Card>
+    </Col>
+    <Col flex="0 1 400px">
+      <Card>flex=0 1 400px</Card>
+    </Col>
+  </Row>
 );
 
-stories.add(
-  'With span',
-  withInfo({ inline: true })(() => (
-    <Row justifyContent='flex-end'>
-      <Col style={{ background: '#06e', color: '#fff' }}>
-        Col 1
-      </Col>
-      <Col span={12} style={{ background: '#0fe' }}>
-        Col 2
-      </Col>
-    </Row>
-  )),
+export const JustifyContent: Story<ColProps> = (args) => (
+  <Row {...RowTemplate.args} justifyContent="flex-end">
+    <Col flex="0 1 200px" {...args}>
+      <Card>flex=0 1 200px</Card>
+    </Col>
+    <Col flex="0 1 400px">
+      <Card>flex=0 1 400px</Card>
+    </Col>
+  </Row>
 );
 
-stories.add(
-  'Responsive',
-  withInfo({ inlinr: true })(() => (
-    <Row>
-      <Col style={{ background: '#06e', color: '#fff' }} spanXs={24} spanSm={20} spanMd={16} spanLg={12} spanXl={8}>1</Col>
-      <Col style={{ background: '#06e', color: '#fff' }} spanXs={24} spanSm={20} spanMd={16} spanLg={12} spanXl={8}>2</Col>
-      <Col style={{ background: '#06e', color: '#fff' }} spanXs={24} spanSm={20} spanMd={16} spanLg={12} spanXl={8}>3</Col>
-      <Col style={{ background: '#06e', color: '#fff' }} spanXs={24} spanSm={20} spanMd={16} spanLg={12} spanXl={8}>4</Col>
-      <Col style={{ background: '#06e', color: '#fff' }} spanXs={24} spanSm={20} spanMd={16} spanLg={12} spanXl={8}>5</Col>
-      <Col style={{ background: '#06e', color: '#fff' }} spanXs={24} spanSm={20} spanMd={16} spanLg={12} spanXl={8}>6</Col>
-      <Col style={{ background: '#06e', color: '#fff' }} spanXs={24} spanSm={20} spanMd={16} spanLg={12} spanXl={8}>7</Col>
-    </Row>
-  )),
+export const Responsive: Story<ColProps> = () => (
+  <Row>
+    <Col spanXs={24} spanSm={20} spanMd={16} spanLg={12} spanXl={8}>
+      <Card>1</Card>
+    </Col>
+    <Col spanXs={24} spanSm={20} spanMd={16} spanLg={12} spanXl={8}>
+      <Card>2</Card>
+    </Col>
+    <Col spanXs={24} spanSm={20} spanMd={16} spanLg={12} spanXl={8}>
+      <Card>3</Card>
+    </Col>
+    <Col spanXs={24} spanSm={20} spanMd={16} spanLg={12} spanXl={8}>
+      <Card>4</Card>
+    </Col>
+    <Col spanXs={24} spanSm={20} spanMd={16} spanLg={12} spanXl={8}>
+      <Card>5</Card>
+    </Col>
+    <Col spanXs={24} spanSm={20} spanMd={16} spanLg={12} spanXl={8}>
+      <Card>6</Card>
+    </Col>
+    <Col spanXs={24} spanSm={20} spanMd={16} spanLg={12} spanXl={8}>
+      <Card>7</Card>
+    </Col>
+  </Row>
 );
+
+export const Gutter: Story<ColProps> = (args) => {
+  return (
+    <Row {...RowTemplate.args} style={{ textAlign: 'center' }} gutter={['10px', '20px']}>
+      <Col span={24} {...args}>
+        <Card>Span 24</Card>
+      </Col>
+      <Col span={12}>
+        <Card>Span 12</Card>
+      </Col>
+      <Col span={12}>
+        <Card>Span 12</Card>
+      </Col>
+      <Col span={6}>
+        <Card>Span 6</Card>
+      </Col>
+      <Col span={6}>
+        <Card>Span 6</Card>
+      </Col>
+      <Col span={6}>
+        <Card>Span 6</Card>
+      </Col>
+      <Col span={6}>
+        <Card>Span 6</Card>
+      </Col>
+    </Row>
+  );
+};

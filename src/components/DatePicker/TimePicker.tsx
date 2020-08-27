@@ -9,11 +9,7 @@ import { MdTimer } from 'react-icons/md';
 import { style } from 'typestyle';
 
 export const TimePicker: React.FunctionComponent<TimePickerProps> = (props) => {
-  const {
-    onChange,
-    time,
-    ...inputProps
-  } = props;
+  const { onChange, time, ...inputProps } = props;
 
   const [amPmValue, updateAmPm] = React.useState<'AM' | 'PM'>(to12HourFormat(time[0])[1] as 'AM' | 'PM');
 
@@ -28,12 +24,7 @@ export const TimePicker: React.FunctionComponent<TimePickerProps> = (props) => {
 
   return (
     <>
-      <Popover
-        content={content(props, handleChange, amPmValue)}
-        trigger='onClick'
-        expand
-        hideArrow
-      >
+      <Popover content={content(props, handleChange, amPmValue)} trigger="onClick" expand hideArrow>
         <div>
           <Input
             {...inputProps}
@@ -41,11 +32,7 @@ export const TimePicker: React.FunctionComponent<TimePickerProps> = (props) => {
             readOnly
             after={
               <>
-                <Button
-                  flat
-                  shape='circle'
-                  icon={<MdTimer />}
-                />
+                <Button flat shape="circle" icon={<MdTimer />} />
                 {inputProps.after}
               </>
             }
@@ -60,7 +47,7 @@ const content = (props: TimePickerProps, onChange: (h?: number, m?: number, s?: 
   <div className={css}>
     <Row>
       <Col span={6}>
-        {arrayBetween(0, props.use24Hour ? 24 : 12).map(v => (
+        {arrayBetween(0, props.use24Hour ? 24 : 12).map((v) => (
           <div
             onClick={() => {
               if (props.use24Hour) {
@@ -75,31 +62,33 @@ const content = (props: TimePickerProps, onChange: (h?: number, m?: number, s?: 
         ))}
       </Col>
       <Col span={6}>
-        {arrayBetween(0, 60).map(v => <div onClick={() => onChange(null, v)} key={v}>{v}</div>)}
+        {arrayBetween(0, 60).map((v) => (
+          <div onClick={() => onChange(null, v)} key={v}>
+            {v}
+          </div>
+        ))}
       </Col>
       <Col span={6}>
-        {arrayBetween(0, 60).map(v => <div onClick={() => onChange(null, null, v)} key={v}>{v}</div>)}
+        {arrayBetween(0, 60).map((v) => (
+          <div onClick={() => onChange(null, null, v)} key={v}>
+            {v}
+          </div>
+        ))}
       </Col>
-      {
-        !props.use24Hour && (
-          <Col span={6}>
-            <div onClick={() => handleAmPmChange('AM', props.time, onChange)}>AM</div>
-            <div onClick={() => handleAmPmChange('PM', props.time, onChange)}>PM</div>
-          </Col>
-        )
-      }
+      {!props.use24Hour && (
+        <Col span={6}>
+          <div onClick={() => handleAmPmChange('AM', props.time, onChange)}>AM</div>
+          <div onClick={() => handleAmPmChange('PM', props.time, onChange)}>PM</div>
+        </Col>
+      )}
     </Row>
     <Button
       flat
-      type='secondary'
+      type="secondary"
       onClick={() => {
         const date = new Date();
 
-        onChange(
-          date.getHours(),
-          date.getMinutes(),
-          date.getSeconds(),
-        );
+        onChange(date.getHours(), date.getMinutes(), date.getSeconds());
       }}
     >
       Now
@@ -118,7 +107,7 @@ const css = style({
         '&:hover': {
           overflowY: 'auto',
         },
-        'div': {
+        div: {
           padding: '2px',
           $nest: {
             '&:hover': {
@@ -141,7 +130,11 @@ export interface TimePickerProps extends InputType {
   use24Hour?: boolean;
 }
 
-const handleAmPmChange = (amPm: 'AM' | 'PM', time: TimeTupple, onChange: (h?: number, m?: number, s?: number) => void) => {
+const handleAmPmChange = (
+  amPm: 'AM' | 'PM',
+  time: TimeTupple,
+  onChange: (h?: number, m?: number, s?: number) => void,
+) => {
   if (amPm === 'AM') {
     return onChange(time[0] % 12);
   }
@@ -156,10 +149,11 @@ const formatNum = (n: number) => {
 const formatTime = (time: TimeTupple, use24Hour: boolean) => {
   // tslint:disable-next-line: prefer-const
   let [hour, amPm] = to12HourFormat(time[0]);
+  amPm = amPm;
 
   if (use24Hour) {
     hour = time[0];
-    (amPm as any) = '';
+    (amPm as '') = '';
   }
 
   const min = formatNum(time[1]);
