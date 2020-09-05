@@ -1,52 +1,45 @@
-import * as React from 'react';
-import { storiesOf } from '@storybook/react';
-import { withInfo } from '@storybook/addon-info';
+import React from 'react';
+import { Story, Meta } from '@storybook/react';
 
-import { MdHome, MdMenu, MdNavigateNext } from 'react-icons/md';
-import { Breadcrumb } from './Breadcrumb';
+import { MdHome, MdNavigateNext } from 'react-icons/md';
+import { Breadcrumb, BreadcrumbProps } from './Breadcrumb';
 import { MenuItemGroup, MenuItem } from '../Menu';
 
-const stories = storiesOf('Breadcrumb', module);
+export default {
+  title: 'Navigation/Breadcrumb',
+  component: Breadcrumb,
+  argTypes: {
+    // backgroundColor: { control: 'color' },
+  },
+} as Meta;
 
-stories.add(
-  'Basic',
-  withInfo({ inline: true })(() => (
-    <Breadcrumb
-      seperator='>'
-      paths={[
-        () => <a href='#'>Home</a>,
-        () => <a href='#'>Breadcrumb</a>,
-      ]}
-    />
-  )),
-);
+const Template: Story<BreadcrumbProps> = (args) => <Breadcrumb {...args} />;
 
-stories.add(
-  'With icons',
-  withInfo({ inline: true })(() => (
-    <Breadcrumb
-      seperator={<MdNavigateNext />}
-      paths={[
-        () => <a href='#'><MdHome /></a>,
-        () => <a href='#'><MdMenu /> Breadcrumb</a>,
-      ]}
-    />
-  )),
-);
+export const Basic = Template.bind({});
+Basic.args = {
+  seperator: '>',
+  paths: [() => <a href="#">Home</a>, () => <a href="#">Breadcrumb</a>],
+};
 
-stories.add(
-  'With menu',
-  withInfo({ inline: true })(() => (
-    <Breadcrumb
-      seperator='/'
-      paths={[
-        () => <a href='#'><MdHome /></a>,
-        () => (
-          <MenuItemGroup title='hello' inline={false}>
-            <MenuItem name='1'>Option 1</MenuItem>
-          </MenuItemGroup>
-        ),
-      ]}
-    />
-  )),
-);
+export const Icons = Template.bind({});
+Icons.args = {
+  seperator: <MdNavigateNext />,
+  paths: [() => <a href="#">Home</a>, () => <a href="#">Breadcrumb</a>],
+};
+
+export const Menu = Template.bind({});
+Menu.args = {
+  seperator: '>',
+  paths: [
+    () => (
+      <a href="#">
+        <MdHome />
+      </a>
+    ),
+    () => (
+      <MenuItemGroup title="hello" inline={false}>
+        <MenuItem name="1">Option 1</MenuItem>
+      </MenuItemGroup>
+    ),
+  ],
+};

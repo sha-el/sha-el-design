@@ -1,25 +1,45 @@
-import * as React from 'react';
-import { storiesOf } from '@storybook/react';
-import { withInfo } from '@storybook/addon-info';
+import React from 'react';
+import { Story, Meta } from '@storybook/react';
 
-import { Textarea } from './index';
+import { Textarea } from './Textarea';
+import { MdEmail, MdSubject } from 'react-icons/md';
+import { Divider } from '../Divider';
+import { TextareaProps } from './Textarea';
 
-const stories = storiesOf('Textarea', module);
+export default {
+  title: 'Inputs/Textarea',
+  component: Textarea,
+  argTypes: {
+    // backgroundColor: { control: 'color' },
+  },
+} as Meta;
 
-stories.add(
-  'Basic Textarea',
-  withInfo({ inline: true })(() => (
-    <div style={{ padding: '10px' }}>
-      <Textarea rows={8} cols={10} placeholder={'Enter'} />
-    </div>
-  )),
+const Template: Story<TextareaProps> = (args) => (
+  <>
+    <Textarea {...args} />
+    <Divider />
+    <Textarea {...args} borderLess />
+  </>
 );
 
-stories.add(
-  'Textarea with Label',
-  withInfo({ inline: true })(() => (
-    <div style={{ padding: '10px' }}>
-      <Textarea rows={8} cols={10} label={'Label'} />
-    </div>
-  )),
-);
+export const Basic = Template.bind({});
+Basic.args = {
+  placeholder: 'placeholder',
+};
+
+export const Label = Template.bind({});
+Label.args = {
+  label: 'Label',
+};
+
+export const ErrorAndHint = Template.bind({});
+ErrorAndHint.args = {
+  error: 'Some error',
+  hint: 'Some hint',
+};
+
+export const BeforeAndAfter = Template.bind({});
+BeforeAndAfter.args = {
+  before: <MdEmail />,
+  after: <MdSubject />,
+};

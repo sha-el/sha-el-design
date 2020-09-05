@@ -1,146 +1,84 @@
-import * as React from "react";
-import { storiesOf } from "@storybook/react";
-import { withInfo } from "@storybook/addon-info";
+import React from 'react';
+import { Story, Meta } from '@storybook/react';
 
-import { Button, ButtonGroup } from "./";
-import { MdEmail, MdFilter } from "react-icons/md";
+import { Button, AnchorButtonProps, NativeButtonProps } from './Button';
+import { ButtonGroup } from '.';
+import { MdEmail, MdFilter } from 'react-icons/md';
 
-const stories = storiesOf("Button", module);
+export default {
+  title: 'Inputs/Button',
+  component: Button,
+  subcomponents: { ButtonGroup },
+  argTypes: {
+    // backgroundColor: { control: 'color' },
+  },
+} as Meta;
 
-stories.add(
-  "Button Type",
-  withInfo({ inline: true })(() => (
-    <>
-      <Button>Default</Button>
-      <Button type="primary">Primary</Button>
-      <Button type="secondary">Secondary</Button>
-      <Button type="danger">Danger</Button>
-      <Button type="link">Link</Button>
-    </>
-  ))
+const BlockTemplate: Story<AnchorButtonProps & NativeButtonProps> = (args) => (
+  <>
+    <Button {...args}>Default</Button>
+    <Button {...args} type="primary">
+      Primary
+    </Button>
+    <Button {...args} type="secondary">
+      Secondary
+    </Button>
+    <Button {...args} type="danger">
+      Danger
+    </Button>
+    <Button {...args} type="link">
+      Link
+    </Button>
+  </>
 );
 
-stories.add(
-  "Flat Buttons",
-  withInfo({ inline: true })(() => (
-    <>
-      <Button flat>Button</Button>
-      <Button flat type="primary">
-        Primary
-      </Button>
-      <Button flat type="secondary">
-        Secondary
-      </Button>
-      <Button flat type="danger">
-        Danger
-      </Button>
-    </>
-  ))
+const CircleTemplate: Story<AnchorButtonProps & NativeButtonProps> = (args) => (
+  <>
+    <Button {...args} shape="circle" />
+    <Button {...args} type="primary" shape="circle" />
+    <Button {...args} type="secondary" shape="circle" />
+    <Button {...args} type="danger" shape="circle" />
+    <Button {...args} type="link" shape="circle" />
+  </>
 );
 
-stories.add(
-  "With Icons",
-  withInfo({ inline: true })(() => (
-    <>
-      <Button type="primary" size="big" icon={<MdEmail />}>
-        Button
-      </Button>
-      <Button type="primary" icon={<MdEmail />}>
-        Button
-      </Button>
-      <Button type="primary" icon={<MdFilter />} />
-      <Button type="primary" shape="circle" icon={<MdFilter />} />
-    </>
-  ))
+export const Type = BlockTemplate.bind({});
+
+export const FlatButtons = BlockTemplate.bind({});
+FlatButtons.args = {
+  flat: true,
+};
+
+export const Icons = BlockTemplate.bind({});
+Icons.args = {
+  icon: <MdEmail />,
+};
+
+export const Circle = CircleTemplate.bind({});
+Circle.args = {
+  icon: <MdFilter />,
+};
+
+export const Disabled = BlockTemplate.bind({});
+Disabled.args = {
+  disabled: true,
+};
+
+export const Block = BlockTemplate.bind({});
+Block.args = {
+  displayBlock: true,
+};
+
+export const Loading = BlockTemplate.bind({});
+Loading.args = {
+  loading: true,
+};
+
+export const Group = () => (
+  <ButtonGroup>
+    <Button>Default</Button>
+    <Button type="primary">Primary</Button>
+    <Button type="secondary">Secondary</Button>
+    <Button type="danger">Danger</Button>
+  </ButtonGroup>
 );
-
-stories.add(
-  "Disabled Button",
-  withInfo({ inline: true })(() => (
-    <>
-      <div>
-        <Button disabled>Button Disabled</Button>
-      </div>
-      <div>
-        <Button flat disabled>
-          Flat Button Disabled
-        </Button>
-      </div>
-      <div>
-        <Button type="link" disabled>
-          Link Disabled
-        </Button>
-      </div>
-    </>
-  ))
-);
-
-stories.add(
-  "Block Button",
-  withInfo({ inline: true })(() => (
-    <>
-      <div>
-        <Button displayBlock>Button</Button>
-      </div>
-      <div>
-        <Button flat displayBlock>
-          Flat Button
-        </Button>
-      </div>
-      <div>
-        <Button type="link" displayBlock>
-          Link
-        </Button>
-      </div>
-    </>
-  ))
-);
-
-stories.add(
-  "Loading State",
-  withInfo({ inline: true })(() => {
-    const [loading, toggleLoading] = React.useState(true);
-
-    return (
-      <>
-        <Button
-          loading={loading}
-          onClick={() => toggleLoading(true)}
-          type="primary"
-        >
-          Primary
-        </Button>
-        <Button
-          loading={loading}
-          onClick={() => toggleLoading(true)}
-          type="secondary"
-        >
-          Secondary
-        </Button>
-        <Button
-          loading={loading}
-          onClick={() => toggleLoading(true)}
-          type="danger"
-        >
-          Danger
-        </Button>
-        <Button
-          loading={loading}
-          onClick={() => toggleLoading(true)}
-          type="link"
-        >
-          Link
-        </Button>
-        <Button
-          loading={loading}
-          onClick={() => toggleLoading(true)}
-          flat
-          type="secondary"
-        >
-          Secondary
-        </Button>
-      </>
-    );
-  })
-);
-

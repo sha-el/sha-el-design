@@ -22,14 +22,19 @@ export const RadioButton: React.FunctionComponent<RadioProps> = (props) => {
       {(theme) => {
         const css = style(props.block, theme);
         return (
-          <div onClick={() => onContainerClick()}>
-            <input className={css.radio} ref={input} type='radio' {...props} />
-            <Button disabled={disabled} type={(checked || nestedAccess(input.current, 'checked')) ? 'primary' : 'default'}>{label}</Button>
-            {error &&
-              <div key='error' className={`${css.errorStyle} ${className || ''}`}>
+          <div style={{ display: 'inline' }} onClick={() => onContainerClick()}>
+            <input className={css.radio} ref={input} type="radio" {...props} />
+            <Button
+              disabled={disabled}
+              type={checked || nestedAccess(input.current, 'checked') ? 'primary' : 'default'}
+            >
+              {label}
+            </Button>
+            {error && (
+              <div key="error" className={`${css.errorStyle} ${className || ''}`}>
                 {error}
               </div>
-            }
+            )}
           </div>
         );
       }}

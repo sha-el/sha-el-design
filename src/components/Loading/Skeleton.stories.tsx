@@ -1,14 +1,32 @@
-import * as React from 'react';
-import { storiesOf } from '@storybook/react';
-import { withInfo } from '@storybook/addon-info';
+import React from 'react';
+import { Story, Meta } from '@storybook/react';
 
-import { Skeleton } from './Skeleton';
+import { Skeleton } from '.';
+import { LoadingProps } from './Loading';
 
-const stories = storiesOf('Skeleton Loading', module);
+export default {
+  title: 'Feedback/Skeleton',
+  component: Skeleton,
+  argTypes: {
+    // backgroundColor: { control: 'color' },
+  },
+} as Meta;
 
-stories.add(
-  'isLoading set to true',
-  withInfo({ inline: true })(() => (
-    <Skeleton isLoading={true} />
-  )),
-);
+const Template: Story<LoadingProps> = (args) => <Skeleton {...args} />;
+
+export const Basic = Template.bind({});
+Basic.args = {
+  isLoading: true,
+};
+
+export const Size = Template.bind({});
+Size.args = {
+  size: 'big',
+  isLoading: true,
+};
+
+export const Color = Template.bind({});
+Color.args = {
+  color: 'red',
+  isLoading: true,
+};

@@ -18,24 +18,22 @@ export const Modal: React.FunctionComponent<ModalProps> = (props) => {
   document.body.style.position = 'relative';
 
   return (
-    <Portal key='modal'>
+    <Portal key="modal">
       <ThemeConsumer>
         {(theme) => (
-          <div key='mask' className={MaskStyle} onClick={() => onClose && onClose()}>
+          <div key="mask" className={MaskStyle} onClick={() => onClose && onClose()}>
             <div
-              key='container'
+              key="container"
               className={containerStyle(theme)}
               style={{ ...style, width }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div>
-                {children}
-              </div>
+              <div>{children}</div>
             </div>
           </div>
         )}
       </ThemeConsumer>
-    </Portal >
+    </Portal>
   );
 };
 
@@ -50,16 +48,17 @@ const slideInBottom = keyframes({
   },
 });
 
-const containerStyle = (theme: Theme) => typeStyle({
-  maxHeight: '70vh',
-  background: colorShades(theme.background)[1],
-  zIndex: 1001,
-  top: '10vh',
-  boxShadow: shadow('2X', theme),
-  overflowY: 'auto',
-  width: '50vw',
-  animation: `${slideInBottom} 0.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
-});
+const containerStyle = (theme: Theme) =>
+  typeStyle({
+    maxHeight: '70vh',
+    background: colorShades(theme.background)[1],
+    zIndex: 1001,
+    top: '10vh',
+    boxShadow: shadow('2X', theme),
+    overflowY: 'auto',
+    width: '50vw',
+    animation: `${slideInBottom} 0.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
+  });
 
 const MaskStyle = typeStyle({
   position: 'fixed',
@@ -77,7 +76,7 @@ const MaskStyle = typeStyle({
 });
 
 export interface ModalProps {
-  children: React.ReactElement<any>;
+  children: React.ReactElement;
   width?: string;
   style?: React.CSSProperties;
   isVisible?: boolean;

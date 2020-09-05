@@ -3,7 +3,7 @@ import { stylesheet } from 'typestyle';
 import { Loading } from '../Loading';
 import { debounce } from 'debounce';
 
-export class InfiniteScroll<T> extends React.Component<InfiniteScrollProps<T>, State<T>, {}> {
+export class InfiniteScroll<T> extends React.Component<InfiniteScrollProps<T>, State<T>, unknown> {
   constructor(props: InfiniteScrollProps<T>) {
     super(props);
 
@@ -21,7 +21,7 @@ export class InfiniteScroll<T> extends React.Component<InfiniteScrollProps<T>, S
   };
 
   componentDidMount() {
-    this.props.data(this.state.pageNumber).then(v => this.setState({ data: v, isLoading: false }));
+    this.props.data(this.state.pageNumber).then((v) => this.setState({ data: v, isLoading: false }));
     this.initScrollEvent();
   }
 
@@ -30,41 +30,44 @@ export class InfiniteScroll<T> extends React.Component<InfiniteScrollProps<T>, S
       return document;
     }
     return this.el;
-  }
+  };
 
-  onScroll = (data: InfiniteScrollProps<T>['data']) => debounce(
-    (event) => {
+  onScroll = (data: InfiniteScrollProps<T>['data']) =>
+    debounce((event) => {
       if (
-        this.state.data.length >= this.props.count
-        || !this.isElementAtBottom(event.target as HTMLElement)
-        || this.state.isLoading
+        this.state.data.length >= this.props.count ||
+        !this.isElementAtBottom(event.target as HTMLElement) ||
+        this.state.isLoading
       ) {
         return;
       }
       this.setState({ isLoading: true });
       const d = [...this.state.data];
-      data(this.state.pageNumber + 1).then(
-        (v) => this.setState({ data: d.concat(v), isLoading: false, pageNumber: this.state.pageNumber + 1 }),
+      data(this.state.pageNumber + 1).then((v) =>
+        this.setState({ data: d.concat(v), isLoading: false, pageNumber: this.state.pageNumber + 1 }),
       );
-    },
-    200,
-  )
+    }, 200);
 
   initScrollEvent = () => {
     const { data } = this.props;
     const scrollElement = this.scrollElement();
     scrollElement.onscroll = this.onScroll(data);
-  }
+  };
 
-  isElementAtBottom(
-    target: any,
-  ) {
+  isElementAtBottom(target: HTMLDocument | HTMLElement) {
     if (target === document) {
       return (
-        Math.abs(window.innerHeight + window.pageYOffset - document.body.offsetHeight) <= (document.body.scrollHeight * 10) / 100
+        Math.abs(window.innerHeight + window.pageYOffset - document.body.offsetHeight) <=
+        (document.body.scrollHeight * 10) / 100
       );
     }
-    return Math.abs(target.scrollTop - (target.scrollHeight - target.offsetHeight)) <= (target.scrollHeight * 10) / 100;
+    return (
+      Math.abs(
+        (target as HTMLElement).scrollTop -
+          ((target as HTMLElement).scrollHeight - (target as HTMLElement).offsetHeight),
+      ) <=
+      ((target as HTMLElement).scrollHeight * 10) / 100
+    );
   }
 
   css = () => {
@@ -86,7 +89,7 @@ export class InfiniteScroll<T> extends React.Component<InfiniteScrollProps<T>, S
         position: 'relative',
       },
     });
-  }
+  };
 
   render() {
     const { data, isLoading } = this.state;
@@ -94,21 +97,16 @@ export class InfiniteScroll<T> extends React.Component<InfiniteScrollProps<T>, S
     const css = this.css();
     return (
       <>
-        <div
-          className={css.container}
-          ref={(el) => this.el = el}
-        >
+        <div className={css.container} ref={(el) => (this.el = el)}>
           {render(data)}
         </div>
-        <div className={css.loadingContainer}>
-          {isLoading && <div className={css.loadingIndicator} >{loading}</div>}
-        </div>
+        <div className={css.loadingContainer}>{isLoading && <div className={css.loadingIndicator}>{loading}</div>}</div>
       </>
     );
   }
 }
 
-interface InfiniteScrollProps<T> {
+export interface InfiniteScrollProps<T> {
   /**
    * Function To render Content
    * @param data of type T

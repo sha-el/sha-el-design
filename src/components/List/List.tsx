@@ -18,7 +18,7 @@ export const List: React.FC<ListProps<unknown>> = (props) => {
         return (
           <div>
             <ul className={css.list} style={props.style}>
-              {props.children || props.data.map(v => props.render(v))}
+              {props.children || props.data.map((v) => props.render(v))}
             </ul>
           </div>
         );

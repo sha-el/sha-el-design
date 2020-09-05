@@ -13,7 +13,7 @@ export const CardMedia: React.FunctionComponent<CardMediaProps> = (props) => {
     backgroundPosition: 'center',
   });
 
-  const {className, image, height, ...rest} = props;
+  const { className, image: __image, height: __height, ...rest } = props;
   return (
     <div className={classes(className, css)} {...rest}>
       {props.children}

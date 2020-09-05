@@ -11,17 +11,16 @@ export const Breadcrumb: React.StatelessComponent<BreadcrumbProps> = (props) => 
         <div className={css(theme)}>
           {props.paths.map((v, index) => {
             const buttonClasses = buttonStyles({ type: 'link' }, theme);
-            return ([
-              <li className={classes(buttonClasses.default, buttonClasses.anchor)} key={`breadcrumb-item-${index}`}>{v()}</li>,
-              index !== props.paths.length - 1
-              && <li
-                style={{ margin: '0 5px' }}
-                className='breadcrumb-seperator'
-                key={`breadcrumb-seperator-${index}`}
-              >
-                {props.seperator}
+            return [
+              <li className={classes(buttonClasses.default, buttonClasses.anchor)} key={`breadcrumb-item-${index}`}>
+                {v()}
               </li>,
-            ]);
+              index !== props.paths.length - 1 && (
+                <li style={{ margin: '0 5px' }} className="breadcrumb-seperator" key={`breadcrumb-seperator-${index}`}>
+                  {props.seperator}
+                </li>
+              ),
+            ];
           })}
         </div>
       )}

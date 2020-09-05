@@ -1,87 +1,36 @@
-import * as React from 'react';
-import { storiesOf } from '@storybook/react';
-import { withInfo } from '@storybook/addon-info';
+import React from 'react';
+import { Story, Meta } from '@storybook/react';
 
 import { Drawer } from './';
+import { DrawerProps } from './Drawer';
 import { Button } from '../Button';
-import { RadioGroup, Radio } from '../Radio';
 
-const stories = storiesOf('Drawer', module);
+export default {
+  title: 'Navigation/Drawer',
+  component: Drawer,
+  argTypes: {
+    // backgroundColor: { control: 'color' },
+  },
+} as Meta;
 
-const WithState = (props) => {
-  const [state, setState] = React.useState({});
+const Template: Story<DrawerProps> = (args) => {
+  const [open, update] = React.useState(true);
   return (
-    <div>{props.children(state, setState)}</div>
+    <>
+      <Button onClick={() => update(!open)}>Open</Button>
+      <Drawer {...args} isVisible={open} onClose={() => update(!open)} />
+    </>
   );
 };
 
-stories.add(
-  'Basic',
-  withInfo({ inline: true })(() => (
-    <Drawer
-      header='Basic Drawer'
-      isVisible={true}
-    >
+export const Basic = Template.bind({});
+Basic.args = {
+  children: (
+    <>
       <p>LOREM IPSUM....</p>
       <p>LOREM IPSUM....</p>
       <p>LOREM IPSUM....</p>
       <p>LOREM IPSUM....</p>
-    </Drawer>
-  )),
-);
-
-stories.add(
-  'Custom Position',
-  withInfo({ inline: true })(() => (
-    <WithState>
-      {(state, setState) => (
-        <>
-          <Drawer
-            header='Basic Drawer'
-            placement={state.position}
-            isVisible={true}
-          >
-            <p>LOREM IPSUM....</p>
-            <p>LOREM IPSUM....</p>
-            <p>LOREM IPSUM....</p>
-            <p>LOREM IPSUM....</p>
-            <RadioGroup
-              name='position'
-              onChange={(e) => setState({ position: e.target.value })}
-              value={state.position}
-            >
-              <Radio label='Left' value='left' />
-              <Radio label='Right' value='right' />
-              <Radio label='Top' value='top' />
-              <Radio label='Bottom' value='bottom' />
-            </RadioGroup>
-          </Drawer>
-        </>
-      )}
-    </WithState>
-  )),
-);
-
-stories.add(
-  'With closable prop',
-  withInfo({ inline: true })(() => (
-    <WithState>
-      {(state, setState) => (
-        <>
-          <Drawer
-            header='Basic Drawer'
-            placement='top'
-            isVisible={state.isVisible}
-            onClose={() => setState({ isVisible: false })}
-          >
-            <p>LOREM IPSUM....</p>
-            <p>LOREM IPSUM....</p>
-            <p>LOREM IPSUM....</p>
-            <p>LOREM IPSUM....</p>
-          </Drawer>
-          <Button onClick={() => setState({ isVisible: true })}>Open</Button>
-        </>
-      )}
-    </WithState>
-  )),
-);
+    </>
+  ),
+};

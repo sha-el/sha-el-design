@@ -1,49 +1,44 @@
-import * as React from 'react';
-import { storiesOf } from '@storybook/react';
-import { withInfo } from '@storybook/addon-info';
+import React from 'react';
+import { Story, Meta } from '@storybook/react';
 
 import { Calendar } from '../..';
-import { weeksEnum } from './Calendar';
+import { CalendarProps, weeksEnum } from './Calendar';
 
-const stories = storiesOf('Calendar', module);
+export default {
+  title: 'Display/Calendar',
+  component: Calendar,
+  argTypes: {
+    // backgroundColor: { control: 'color' },
+  },
+} as Meta;
 
-stories.add(
-  'Basic Calendar',
-  withInfo({ inline: true })(() => (
-    <Calendar />
-  )),
-);
+const Template: Story<CalendarProps> = (args) => <Calendar {...args} />;
 
-stories.add(
-  'With Cell Append',
-  withInfo({ inline: true })(() => (
-    <Calendar
-      cellRender={([year, month, day], week) => {
-        if (week === weeksEnum.SUNDAY) {
-          return <div style={{ background: 'red', color: 'white' }}>{day}</div>;
-        }
-      }}
-    />
-  )),
-);
+export const Basic = Template.bind({});
 
-stories.add(
-  'With Calendar Events',
-  withInfo({ inline: true })(() => (
-    <Calendar
-      callendarEvents={[{
-        startDate: [2020, 2, 5],
-        endDate: [2020, 2, 20],
-        eventName: 'Event 1',
-        color: '#fcf',
-      }, {
-        startDate: [2020, 2, 15],
-        endDate: [2020, 4, 22],
-        eventName: 'Event 2',
-      }]}
-      disabledDate={
-        ([year, month, day]) => day === 5
-      }
-    />
-  )),
-);
+export const CellAppend = Template.bind({});
+CellAppend.args = {
+  cellRender: ([__year, __month, day], week: weeksEnum) => {
+    if (week === weeksEnum.SUNDAY) {
+      return <div style={{ background: 'red', color: 'white' }}>{day}</div>;
+    }
+  },
+};
+
+export const Events = Template.bind({});
+Events.args = {
+  callendarEvents: [
+    {
+      startDate: new Date(),
+      endDate: new Date(new Date().getTime() + 5 * 24 * 60 * 60 * 1000),
+      eventName: 'Event 1',
+      color: '#fcf',
+    },
+    {
+      startDate: new Date(new Date().getTime() - 5 * 24 * 60 * 60 * 1000),
+      endDate: new Date(),
+      eventName: 'Event 2',
+    },
+  ],
+  disabledDate: ([__year, __month, day]) => day === 5,
+};

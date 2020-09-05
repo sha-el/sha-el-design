@@ -1,69 +1,48 @@
-import * as React from 'react';
-import { storiesOf } from '@storybook/react';
-import { withInfo } from '@storybook/addon-info';
+import React from 'react';
+import { Story, Meta } from '@storybook/react';
 
 import { Card, CardHeader, CardBody, CardMedia, Button } from '../..';
-import { Col, Row } from '../Grid';
 import { IoMdOptions } from 'react-icons/io';
+import { CardProps } from './Card';
 
-const stories = storiesOf('Card', module);
+export default {
+  title: 'Display/Card',
+  component: Card,
+  subcomponents: { CardHeader, CardBody, CardMedia },
+  argTypes: {
+    // backgroundColor: { control: 'color' },
+  },
+} as Meta;
 
-stories.add(
-  'Basic',
-  withInfo()(() => (
-    <Row justifyContent='center'>
-      <Col flex='0 1 400px'>
-        <Card>
-          <CardHeader subtitle='Do you Know Lorem Ipsum?'>Lorem Ipsum</CardHeader>
-          <CardBody>
-            Lorem Ipsum is simply dummy text of the printing and
-            typesetting industry. Lorem Ipsum has been the industry's
-            standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-            scrambled it to make a type specimen book.
-          </CardBody>
-        </Card>
-      </Col>
-    </Row>
-  )),
-);
+const Template: Story<CardProps> = (args) => <Card {...args} />;
 
-stories.add(
-  'With CardMedia',
-  withInfo()(() => (
-    <Row justifyContent='center'>
-      <Col flex='0 1 400px'>
-        <Card>
-          <CardMedia
-            height='300px'
-            image='https://placeholder.com/wp-content/uploads/2019/06/lorem-ipsum.png'
-          />
-          <CardHeader subtitle='Do you Know Lorem Ipsum?'>Lorem Ipsum</CardHeader>
-          <CardBody>
-            Lorem Ipsum is simply dummy text of the printing and
-            typesetting industry. Lorem Ipsum has been the industry's
-            standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-          </CardBody>
-        </Card>
-      </Col>
-      <Col flex='0 1 400px'>
-        <Card>
-          <CardHeader
-            subtitle='Do you Know Lorem Ipsum?'
-            action={<Button flat icon={<IoMdOptions />} />}
-          >
-            Lorem Ipsum
-          </CardHeader>
-          <CardMedia
-            height='300px'
-            image='https://placeholder.com/wp-content/uploads/2019/06/lorem-ipsum.png'
-          />
-          <CardBody>
-            Lorem Ipsum is simply dummy text of the printing and
-            typesetting industry. Lorem Ipsum has been the industry's
-            standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-          </CardBody>
-        </Card>
-      </Col>
-    </Row>
-  )),
-);
+export const HeaderAndBody = Template.bind({});
+HeaderAndBody.args = {
+  children: (
+    <>
+      <CardHeader subtitle="Do you Know Lorem Ipsum?">Lorem Ipsum</CardHeader>
+      <CardBody>
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the standard
+        dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type
+        specimen book.
+      </CardBody>
+    </>
+  ),
+};
+
+export const CardMediaAndBody = Template.bind({});
+CardMediaAndBody.args = {
+  children: (
+    <>
+      <CardMedia height="300px" image="https://placeholder.com/wp-content/uploads/2019/06/lorem-ipsum.png" />
+      <CardHeader subtitle="Do you Know Lorem Ipsum?" action={<Button flat icon={<IoMdOptions />} />}>
+        Lorem Ipsum
+      </CardHeader>
+      <CardBody>
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the standard
+        dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type
+        specimen book.
+      </CardBody>
+    </>
+  ),
+};

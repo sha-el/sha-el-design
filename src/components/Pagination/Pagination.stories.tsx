@@ -1,71 +1,45 @@
-import * as React from 'react';
-import { storiesOf } from '@storybook/react';
-import { withInfo } from '@storybook/addon-info';
+import React from 'react';
+import { Story, Meta } from '@storybook/react';
 
-import { Pagination } from './Pagination';
+import { Pagination, PaginationProps } from './Pagination';
 
-const stories = storiesOf('Pagination', module);
+export default {
+  title: 'Navigation/Pagination',
+  component: Pagination,
+  argTypes: {
+    // backgroundColor: { control: 'color' },
+  },
+} as Meta;
 
-stories.add(
-  'Basic',
-  withInfo({ inline: true })(() => {
-    const [pageNumber, updatePageNumber] = React.useState(4);
-    return (
-      <Pagination
-        totalCount={100}
-        currentPage={pageNumber}
-        batchSize={10}
-        onChange={(np) => updatePageNumber(np)}
-      />
-    );
-  }),
-);
+const Template: Story<PaginationProps> = (args) => {
+  const [pageNumber, updatePageNumber] = React.useState(4);
+  return <Pagination {...args} currentPage={pageNumber} onChange={(np) => updatePageNumber(np)} />;
+};
 
-stories.add(
-  'Cursor based Pagination',
-  withInfo({ inline: true })(() => {
-    const [pageNumber, updatePageNumber] = React.useState(4);
-    return (
-      <Pagination
-        totalCount={Infinity}
-        currentPage={pageNumber}
-        batchSize={10}
-        cursorBasedPagination
-        onChange={(np) => updatePageNumber(np)}
-      />
-    );
-  }),
-);
+export const Basic = Template.bind({});
+Basic.args = {
+  totalCount: 100,
+  batchSize: 10,
+};
 
-stories.add(
-  'Hide page numbers',
-  withInfo({ inline: true })(() => {
-    const [pageNumber, updatePageNumber] = React.useState(4);
-    return (
-      <Pagination
-        totalCount={100}
-        batchSize={10}
-        hideCurrentPageNumber
-        hidePageNumberList
-        currentPage={pageNumber}
-        onChange={(np) => updatePageNumber(np)}
-      />
-    );
-  }),
-);
+export const CursorBasedPagination = Template.bind({});
+CursorBasedPagination.args = {
+  totalCount: Infinity,
+  batchSize: 10,
+  cursorBasedPagination: true,
+};
 
-stories.add(
-  'Show total',
-  withInfo({ inline: true })(() => {
-    const [pageNumber, updatePageNumber] = React.useState(4);
-    return (
-      <Pagination
-        totalCount={100}
-        batchSize={10}
-        showTotal
-        currentPage={pageNumber}
-        onChange={(np) => updatePageNumber(np)}
-      />
-    );
-  }),
-);
+export const HidePageNumbers = Template.bind({});
+HidePageNumbers.args = {
+  totalCount: 100,
+  batchSize: 10,
+  hideCurrentPageNumber: true,
+  hidePageNumberList: true,
+};
+
+export const ShowTotal = Template.bind({});
+ShowTotal.args = {
+  totalCount: 100,
+  batchSize: 10,
+  showTotal: true,
+};

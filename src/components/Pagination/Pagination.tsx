@@ -12,7 +12,9 @@ const range = (start: number, end: number) => {
   for (let i = start; i <= end; i++) {
     resp.push(i);
     j++;
-    if (j === 5) { break; }
+    if (j === 5) {
+      break;
+    }
   }
   return resp;
 };
@@ -38,10 +40,7 @@ export const Pagination: React.FunctionComponent<PaginationProps> = (props) => {
         const css = style(theme);
         return (
           <>
-            <div
-              style={props.style}
-              className={css.container}
-            >
+            <div style={props.style} className={css.container}>
               <li
                 className={`${css.list} ${css.bigFont}`}
                 onClick={() => currentPage > 1 && onChange(currentPage - 1, batchSize, false, true)}
@@ -49,7 +48,7 @@ export const Pagination: React.FunctionComponent<PaginationProps> = (props) => {
                 <IoIosArrowBack />
               </li>
               <PoseGroup>
-                {createItems().map(v =>
+                {createItems().map((v) => (
                   <List
                     key={v}
                     posekey={currentPage}
@@ -60,8 +59,8 @@ export const Pagination: React.FunctionComponent<PaginationProps> = (props) => {
                     onClick={() => onChange(v, 20, false, false)}
                   >
                     {v}
-                  </List>,
-                )}
+                  </List>
+                ))}
               </PoseGroup>
               <li
                 className={`${css.list} ${css.bigFont}`}
@@ -71,8 +70,10 @@ export const Pagination: React.FunctionComponent<PaginationProps> = (props) => {
               </li>
             </div>
             <div className={css.totalText}>
-              {showTotal && `${((currentPage - 1) * batchSize) + 1}-${(currentPage * batchSize)
-                < totalCount ? (currentPage * batchSize) : totalCount} of ${totalCount}`}
+              {showTotal &&
+                `${(currentPage - 1) * batchSize + 1}-${
+                  currentPage * batchSize < totalCount ? currentPage * batchSize : totalCount
+                } of ${totalCount}`}
             </div>
           </>
         );
@@ -81,33 +82,34 @@ export const Pagination: React.FunctionComponent<PaginationProps> = (props) => {
   );
 };
 
-const style = (theme: Theme) => stylesheet({
-  container: {
-    width: 'auto',
-    overflow: 'hidden',
-    display: 'inline-flex',
-    boxShadow: shadow('BOT', theme),
-    flex: 0,
-    whiteSpace: 'nowrap',
-    margin: '5px 0',
-  },
-  list: {
-    display: 'inline-flex',
-    padding: '5px 10px',
-    alignContent: 'center',
-    borderCollapse: 'collapse',
-    cursor: 'pointer',
-    margin: '0 1px',
-  },
-  bigFont: {
-    fontSize: '16px',
-  },
-  totalText: {
-    fontSize: '12px',
-    color: '#aaa',
-    padding: '0 10px',
-  },
-});
+const style = (theme: Theme) =>
+  stylesheet({
+    container: {
+      width: 'auto',
+      overflow: 'hidden',
+      display: 'inline-flex',
+      boxShadow: shadow('BOT', theme),
+      flex: 0,
+      whiteSpace: 'nowrap',
+      margin: '5px 0',
+    },
+    list: {
+      display: 'inline-flex',
+      padding: '5px 10px',
+      alignContent: 'center',
+      borderCollapse: 'collapse',
+      cursor: 'pointer',
+      margin: '0 1px',
+    },
+    bigFont: {
+      fontSize: '16px',
+    },
+    totalText: {
+      fontSize: '12px',
+      color: '#aaa',
+      padding: '0 10px',
+    },
+  });
 
 const List = posed.li({
   active: {
@@ -123,7 +125,7 @@ const List = posed.li({
   },
 });
 
-interface PaginationProps {
+export interface PaginationProps {
   totalCount: number;
   currentPage: number;
   batchSize: number;

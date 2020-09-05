@@ -1,48 +1,43 @@
-import * as React from 'react';
-import { storiesOf } from '@storybook/react';
-import { withInfo } from '@storybook/addon-info';
+import React from 'react';
+import { Story, Meta } from '@storybook/react';
 
-import { MenuItemGroup, MenuItem } from '.';
+import { MenuItemGroup, MenuItem, Menu } from '.';
 import { Button } from '../Button';
 import { IoMdOptions } from 'react-icons/io';
+import { MenuItemGroupProps } from './MenuItemGroup';
 
-const stories = storiesOf('Menu', module);
+export default {
+  title: 'Navigation/Menu',
+  component: MenuItemGroup,
+  subcomponents: { MenuItem, MenuItemGroup },
+  argTypes: {
+    // backgroundColor: { control: 'color' },
+  },
+} as Meta;
 
-stories.add(
-  'Collapsible Menu',
-  withInfo({ inline: true })(() => (
-    <MenuItemGroup title='Options'>
-      <MenuItem name='1'>Option 1</MenuItem>
-      <MenuItem name='2'>Option 2</MenuItem>
-      <MenuItem name='2'>Option 3</MenuItem>
+export const Collapsible: Story<MenuItemGroupProps> = (args) => (
+  <Menu>
+    <MenuItemGroup {...args} title="Options">
+      <MenuItem name="1">Option 1</MenuItem>
+      <MenuItem name="2">Option 2</MenuItem>
+      <MenuItem name="2">Option 3</MenuItem>
     </MenuItemGroup>
-  )),
+  </Menu>
 );
 
-stories.add(
-  'Popup Menu',
-  withInfo({ inline: true })(() => (
-    <MenuItemGroup title='Options' inline={false}>
-      <MenuItem name='1'>Option 1</MenuItem>
-      <MenuItem name='2'>Option 2</MenuItem>
-      <MenuItem name='2'>Option 3</MenuItem>
-    </MenuItemGroup>
-  )),
-);
+export const PopupMenu = Collapsible.bind({});
+PopupMenu.args = {
+  inline: false,
+};
 
-stories.add(
-  'With Custom Anchor and offset',
-  withInfo({ inline: true })(() => (
-    <MenuItemGroup
-      title='Options'
-      inline={false}
-      position='bottom'
-      anchor={<span><Button icon={<IoMdOptions />} /></span>}
-      offset={[0, -40]}
-    >
-      <MenuItem name='1'>Option 1</MenuItem>
-      <MenuItem name='2'>Option 2</MenuItem>
-      <MenuItem name='2'>Option 3</MenuItem>
-    </MenuItemGroup>
-  )),
-);
+export const AnchorAndOffset = Collapsible.bind({});
+AnchorAndOffset.args = {
+  inline: false,
+  position: 'bottom',
+  anchor: (
+    <span>
+      <Button icon={<IoMdOptions />} />
+    </span>
+  ),
+  offset: [0, -40],
+};

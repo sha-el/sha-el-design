@@ -1,24 +1,16 @@
-import * as React from 'react';
-import { storiesOf } from '@storybook/react';
-import { withInfo } from '@storybook/addon-info';
-import { TimePicker, TimeTupple } from './TimePicker';
-import { Row, Col } from '../Grid';
+import React from 'react';
+import { Story, Meta } from '@storybook/react';
 
-const stories = storiesOf('TimePicker', module);
+import { TimePicker, TimePickerProps } from './TimePicker';
 
-stories.add(
-  'Basic Time Picker',
-  withInfo({ inline: true })(() => {
-    const [time, update] = React.useState<TimeTupple>();
-    return (
-      <Row justifyContent='center'>
-        <Col flex='0 1 320px'>
-          <TimePicker
-            time={time}
-            onChange={(t) => {update(t); console.log(t);}}
-          />
-        </Col>
-      </Row>
-    );
-  }),
-);
+export default {
+  title: 'Inputs/TimePicker',
+  component: TimePicker,
+  argTypes: {
+    // backgroundColor: { control: 'color' },
+  },
+} as Meta;
+
+const Template: Story<TimePickerProps> = (args) => <TimePicker {...args} />;
+
+export const Basic = Template.bind({});

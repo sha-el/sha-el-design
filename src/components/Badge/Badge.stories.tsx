@@ -1,57 +1,56 @@
-import * as React from 'react';
-import { storiesOf } from '@storybook/react';
-import { withInfo } from '@storybook/addon-info';
+import React from 'react';
+import { Story, Meta } from '@storybook/react';
 
 import { Badge, Button } from '../../index';
 import { MdNotifications } from 'react-icons/md';
+import { BadgeProps } from './Badge';
 
-const stories = storiesOf('Badge', module);
+export default {
+  title: 'Display/Badge',
+  component: Badge,
+  argTypes: {
+    // backgroundColor: { control: 'color' },
+  },
+} as Meta;
 
-stories.add(
-  'Basic',
-  withInfo({ inline: true })(() => (
-    <Badge count={2}>
-      <Button>Submit</Button>
-    </Badge>
-  )),
-);
+const Template: Story<BadgeProps> = (args) => <Badge {...args} />;
 
-stories.add(
-  'With Colors',
-  withInfo({ inline: true })(() => (
-    <Badge count={3} color='green'>
-      <div style={{ fontSize: '20px', padding: '20px', background: '#fcf' }}>
-        <MdNotifications />
-      </div>
-    </Badge>
-  )),
-);
+export const Basic = Template.bind({});
+Basic.args = {
+  count: 2,
+  children: <Button>Submit</Button>,
+};
 
-stories.add(
-  'With Just a Dot',
-  withInfo({ inline: true })(() => (
-    <Badge color='green'>
-      <div style={{ fontSize: '20px', padding: '20px', background: '#fcf' }}>
-        <MdNotifications />
-      </div>
-    </Badge>
-  )),
-);
+export const WithColors = Template.bind({});
+WithColors.args = {
+  count: 3,
+  color: 'green',
+  children: (
+    <div style={{ fontSize: '20px', padding: '20px', background: '#fcf' }}>
+      <MdNotifications />
+    </div>
+  ),
+};
 
-stories.add(
-  'With Max Count',
-  withInfo({ inline: true })(() => (
-  <>
-    <Badge count={22} maxCount={99} color='#f60'>
-      <div style={{ fontSize: '20px', padding: '20px', background: '#fcf' }}>
-        <MdNotifications />
-      </div>
-    </Badge>
-    <Badge count={139} maxCount={99} color='#f60'>
-      <div style={{ fontSize: '20px', padding: '20px', background: '#fcf', marginLeft: '20px' }}>
-        <MdNotifications />
-      </div>
-    </Badge>
-  </>
-  )),
-);
+export const WithJustADot = Template.bind({});
+WithJustADot.args = {
+  // count: 3,
+  color: 'green',
+  children: (
+    <div style={{ fontSize: '20px', padding: '20px', background: '#fcf' }}>
+      <MdNotifications />
+    </div>
+  ),
+};
+
+export const WithMaxCount = Template.bind({});
+WithMaxCount.args = {
+  count: 22,
+  maxCount: 99,
+  color: '#f60',
+  children: (
+    <div style={{ fontSize: '20px', padding: '20px', background: '#fcf' }}>
+      <MdNotifications />
+    </div>
+  ),
+};

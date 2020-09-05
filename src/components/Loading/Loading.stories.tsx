@@ -1,34 +1,31 @@
-import * as React from "react";
-import { storiesOf } from "@storybook/react";
-import { withInfo } from "@storybook/addon-info";
+import React from 'react';
+import { Story, Meta } from '@storybook/react';
 
-import { Loading } from "./Loading";
+import { Loading, LoadingProps } from './Loading';
 
-const stories = storiesOf("Circular Loading", module);
+export default {
+  title: 'Feedback/Loading',
+  component: Loading,
+  argTypes: {
+    // backgroundColor: { control: 'color' },
+  },
+} as Meta;
 
-stories.add(
-  "isLoading set to true",
-  withInfo({ inline: true })(() => <Loading isLoading={true} />)
-);
+const Template: Story<LoadingProps> = (args) => <Loading {...args} />;
 
-stories.add(
-  "size prop",
-  withInfo({ inline: true })(() => (
-    <>
-      <Loading size="small" isLoading={true} />
-      <Loading isLoading={true} />
-      <Loading size="big" isLoading={true} />
-    </>
-  ))
-);
+export const Basic = Template.bind({});
+Basic.args = {
+  isLoading: true,
+};
 
-stories.add(
-  "color prop",
-  withInfo({ inline: true })(() => (
-    <>
-      <Loading color="red" size="small" isLoading={true} />
-      <Loading color="blue" isLoading={true} />
-      <Loading color="green" size="big" isLoading={true} />
-    </>
-  ))
-);
+export const Size = Template.bind({});
+Size.args = {
+  size: 'big',
+  isLoading: true,
+};
+
+export const Color = Template.bind({});
+Color.args = {
+  color: 'red',
+  isLoading: true,
+};

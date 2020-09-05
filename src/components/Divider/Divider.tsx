@@ -3,13 +3,17 @@ import { style as typeStyle, classes } from 'typestyle';
 import { NestedCSSProperties } from 'typestyle/lib/types';
 import { Theme, ThemeConsumer } from '../Theme/Theme';
 
-export const Divider: React.StatelessComponent<Props> = (props) => {
+export const Divider: React.FC<DividerProps> = (props) => {
   return (
     <ThemeConsumer>
       {(theme) => (
         <div
           style={props.style}
-          className={classes(style(props.color, theme), props.children ? psuedoWithChild : psuedoWithoutChild, props.className)}
+          className={classes(
+            style(props.color, theme),
+            props.children ? psuedoWithChild : psuedoWithoutChild,
+            props.className,
+          )}
         >
           {props.children}
         </div>
@@ -22,14 +26,14 @@ Divider.defaultProps = {
   className: '',
 };
 
-interface Props {
+export interface DividerProps {
   style?: React.CSSProperties;
   className?: string;
   color?: string;
 }
 
 const commonStyle = (color: string, theme: Theme): NestedCSSProperties => {
-  return ({
+  return {
     content: '" "',
     background: color || theme.bodyBg,
     height: '1px',
@@ -37,7 +41,7 @@ const commonStyle = (color: string, theme: Theme): NestedCSSProperties => {
     display: 'block',
     position: 'absolute',
     top: 'calc(50% - 2px)',
-  });
+  };
 };
 
 const psuedoWithChild = typeStyle({
@@ -62,22 +66,26 @@ const psuedoWithoutChild = typeStyle({
   },
 });
 
-const style = (color: string, theme: Theme) => typeStyle({
-  width: '100%',
-  textAlign: 'center',
-  position: 'relative',
-  zIndex: 2,
-  margin: '5px 0',
-  background: theme.background,
-  display: 'inline-block',
-  $nest: {
-    '&::before': {
-      left: 0,
-      ...commonStyle(color, theme),
+const style = (color: string, theme: Theme) =>
+  typeStyle({
+    width: '100%',
+    textAlign: 'center',
+    position: 'relative',
+    zIndex: 2,
+    margin: '5px 0',
+    background: theme.background,
+    display: 'inline-block',
+    $nest: {
+      '& svg': {
+        display: 'inline-block',
+      },
+      '&::before': {
+        left: 0,
+        ...commonStyle(color, theme),
+      },
+      '&::after': {
+        right: 0,
+        ...commonStyle(color, theme),
+      },
     },
-    '&::after': {
-      right: 0,
-      ...commonStyle(color, theme),
-    },
-  },
-});
+  });

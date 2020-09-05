@@ -14,9 +14,10 @@ function generateGuid() {
   let result, i, j;
   result = '';
   for (j = 0; j < 32; j++) {
-    if (j === 8 || j === 12 || j === 16 || j === 20)
-      result = result + '-';
-    i = Math.floor(Math.random() * 16).toString(16).toUpperCase();
+    if (j === 8 || j === 12 || j === 16 || j === 20) result = result + '-';
+    i = Math.floor(Math.random() * 16)
+      .toString(16)
+      .toUpperCase();
     result = result + i;
   }
   return result;
@@ -33,7 +34,7 @@ export const notify = (props: NotificationProps) => {
 };
 
 const removeNotification = (props: NotificationProps) => {
-  const values = notificationSubject$.getValue().filter(v => v.id !== props.id);
+  const values = notificationSubject$.getValue().filter((v) => v.id !== props.id);
   notificationSubject$.next(values);
   if (props.callBack) {
     props.callBack();

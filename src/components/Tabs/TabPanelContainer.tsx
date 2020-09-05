@@ -5,12 +5,12 @@ import { style } from './style';
 import { TabPanelProps } from './TabPanel';
 
 export const TabPanelContainer: React.FunctionComponent<TabPanelContainerProps> = (props) => {
-  const { titles, activeKey, children, destroyOnChange } = props;
-  const activeKeyIndex = titles.findIndex(v => v.key === activeKey);
+  const { titles, activeKey, children, unMountOnChange } = props;
+  const activeKeyIndex = titles.findIndex((v) => v.key === activeKey);
 
   const displayList = () => {
     if (Array.isArray(children)) {
-      return [].map.call(children, (child: any, index: number) => {
+      return [].map.call(children, (child: React.ReactChild, index: number) => {
         const isActive = index === activeKeyIndex;
         return (
           <Container
@@ -19,22 +19,13 @@ export const TabPanelContainer: React.FunctionComponent<TabPanelContainerProps> 
             x={index - activeKeyIndex}
             poseKey={index - activeKeyIndex}
           >
-            <div
-              style={{ display: isActive ? 'block' : 'none' }}
-            >
-              {destroyOnChange ? isActive && child : child}
-            </div>
+            <div style={{ display: isActive ? 'block' : 'none' }}>{unMountOnChange ? isActive && child : child}</div>
           </Container>
         );
       });
     }
     return (
-      <Container
-        key={0}
-        pose={'active'}
-        x={0}
-        poseKey={0}
-      >
+      <Container key={0} pose={'active'} x={0} poseKey={0}>
         {children}
       </Container>
     );
@@ -44,11 +35,7 @@ export const TabPanelContainer: React.FunctionComponent<TabPanelContainerProps> 
     <ThemeConsumer>
       {(theme) => {
         const css = style(theme);
-        return (
-          <div className={css.tabPanelContainer}>
-            {displayList()}
-          </div>
-        );
+        return <div className={css.tabPanelContainer}>{displayList()}</div>;
       }}
     </ThemeConsumer>
   );
@@ -58,7 +45,7 @@ interface TabPanelContainerProps {
   titles: TabPanelProps[];
   activeKey: string;
   children: React.ReactNode;
-  destroyOnChange: boolean;
+  unMountOnChange: boolean;
 }
 
 const Container = posed.div({

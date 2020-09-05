@@ -9,24 +9,13 @@
   "author": "Anit <anit.nilay20@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --config=configs/webpack/dev.js",
-    "start:prod": "webpack-dev-server --config=configs/webpack/prod.js",
     "build": "rm -rf ./lib && tsc",
     "precommit": "lint-staged",
-    "storybook": "start-storybook -p 4200 -c configs/.storybook",
+    "storybook": "start-storybook -p 6006",
     "prepublishOnly": "yarn build",
     "test": "yarn jest",
-    "build-storybook": "build-storybook -c configs/.storybook -o .storybook"
-  },
-  "lint-staged": {
-    "*.ts": [
-      "tslint --fix",
-      "git add"
-    ],
-    "*.tsx": [
-      "tslint --fix",
-      "git add"
-    ]
+    "build-storybook": "build-storybook",
+    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix --max-warnings=0 . && tsc --noEmit"
   },
   "peerDependencies": {
     "react": "^16.8.6",
@@ -34,65 +23,73 @@
     "react-icons": "^3.3.0"
   },
   "dependencies": {
-    "@babel/core": "^7.10.5",
-    "@babel/preset-env": "^7.10.4",
-    "@babel/preset-react": "^7.10.4",
-    "babel-loader": "^8.1.0",
     "csstips": "^1.2.0",
     "csx": "^10.0.1",
-    "date-fns": "^2.14.0",
+    "date-fns": "^2.15.0",
     "debounce": "^1.2.0",
+    "rc-slider": "^9.3.1",
     "rc-tooltip": "^4.2.1",
     "react-pose": "^4.0.10",
     "react-pose-text": "^3.1.0",
-    "rxjs": "^6.5.5",
+    "rxjs": "^6.6.2",
     "typestyle": "^2.1.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.11.4",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-react": "^7.10.4",
     "@sambego/storybook-state": "^2.0.1",
-    "@storybook/addon-actions": "^5.3.19",
-    "@storybook/addon-info": "^5.3.19",
-    "@storybook/cli": "^5.3.19",
-    "@storybook/react": "^5.3.19",
+    "@storybook/addon-actions": "^6.0.19",
+    "@storybook/addon-contexts": "^5.3.21",
+    "@storybook/addon-essentials": "^6.0.19",
+    "@storybook/addon-info": "^5.3.20",
+    "@storybook/addon-links": "^6.0.19",
+    "@storybook/cli": "^6.0.19",
+    "@storybook/react": "^6.0.19",
     "@types/debounce": "^1.2.0",
-    "@types/jest": "^26.0.3",
+    "@types/jest": "^26.0.10",
     "@types/rc-tooltip": "^3.7.3",
-    "@types/react": "^16.9.41",
+    "@types/react": "^16.9.48",
     "@types/react-dom": "^16.9.8",
     "@types/react-icons": "^3.0.0",
     "@types/react-router-dom": "^5.1.5",
-    "clean-webpack-plugin": "^3.0.0",
-    "css-loader": "^3.6.0",
-    "html-webpack-plugin": "^4.3.0",
+    "@typescript-eslint/eslint-plugin": "^3.5.0",
+    "@typescript-eslint/parser": "^3.5.0",
+    "babel-loader": "^8.1.0",
+    "eslint": "^7.4.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.3",
     "husky": "^4.2.5",
-    "jest": "^26.1.0",
-    "lint-staged": "^10.2.11",
-    "postcss-loader": "^3.0.0",
-    "progress-bar-webpack-plugin": "^2.1.0",
+    "jest": "^26.4.2",
+    "lint-staged": "^10.2.13",
+    "prettier": "^2.0.5",
     "react": "^16.13.1",
     "react-docgen-typescript-loader": "^3.7.2",
     "react-dom": "^16.13.1",
     "react-hot-loader": "^4.12.21",
-    "react-icons": "^3.3.0",
+    "react-icons": "^3.11.0",
+    "react-is": "^16.13.1",
     "react-router-dom": "^5.2.0",
-    "sass-loader": "^8.0.2",
-    "source-map-loader": "^1.0.1",
+    "source-map-loader": "^1.0.2",
     "stylelint": "^13.6.1",
-    "stylelint-webpack-plugin": "^2.1.0",
-    "ts-jest": "^26.1.1",
-    "ts-loader": "^7.0.5",
-    "tslint": "^6.1.2",
-    "tslint-react": "^5.0.0",
-    "typescript": "^3.9.5",
-    "uglifyjs-webpack-plugin": "^2.2.0",
-    "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0",
-    "webpack-merge": "^4.2.2"
+    "ts-jest": "^26.3.0",
+    "ts-loader": "^8.0.3",
+    "typescript": "^4.0.2"
   },
   "browserslist": [
     "last 2 versions",
     "Firefox ESR",
     "> 1%"
-  ]
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "eslint --fix"
+    ]
+  }
 }

@@ -6,27 +6,25 @@ import { lightText, borderColor } from '../../helpers/color';
 import { shadow } from '../../helpers/style';
 import { Text } from '../Text';
 
-export class Table<T> extends React.Component<TableProps<T>, {}> {
-
+export class Table<T> extends React.Component<TableProps<T>, never> {
   static defaultProps = {
     shadow: true,
   };
 
   renderRow = () => {
-    return (
-      this.props.data.map((v, index) => (
-        <tr key={`table-row-${index}`}>
-          {this.props.columns.map(f => {
-            return (
-              <td key={`table-column-${f.key}-${index}`}>
-                {f.render ? f.render(v[f.dataIndex], v, index) : v[f.dataIndex]}
-                {f.children ? f.children(v[f.dataIndex], v, index) : ''}
-              </td>
-            );
-          })}
-        </tr>))
-    );
-  }
+    return this.props.data.map((v, index) => (
+      <tr key={`table-row-${index}`}>
+        {this.props.columns.map((f) => {
+          return (
+            <td key={`table-column-${f.key}-${index}`}>
+              {f.render ? f.render(v[f.dataIndex], v, index) : v[f.dataIndex]}
+              {f.children ? f.children(v[f.dataIndex], v, index) : ''}
+            </td>
+          );
+        })}
+      </tr>
+    ));
+  };
 
   showEmptyState = (css: Record<'empty' | 'icon', string>) => {
     if (!this.props.data.length) {
@@ -35,13 +33,11 @@ export class Table<T> extends React.Component<TableProps<T>, {}> {
           <div className={css.icon}>
             <GiEmptyMetalBucket />
           </div>
-          <div>
-            No Data
-          </div>
+          <div>No Data</div>
         </div>
       );
     }
-  }
+  };
 
   render() {
     const { header, columns, footer, shadow: shadowEnabled } = this.props;
@@ -51,23 +47,23 @@ export class Table<T> extends React.Component<TableProps<T>, {}> {
           const css = style(shadowEnabled, theme);
           return (
             <div className={css.container}>
-              {header && <Text variant="h6" className={css.header}>
-                {header}
-              </Text>}
+              {header && (
+                <Text variant="h6" className={css.header}>
+                  {header}
+                </Text>
+              )}
               <table className={css.table}>
                 <thead>
                   <tr>
-                    {columns.map(v => <th key={`table-header-${v.key}`}>{v.header}</th>)}
+                    {columns.map((v) => (
+                      <th key={`table-header-${v.key}`}>{v.header}</th>
+                    ))}
                   </tr>
                 </thead>
-                <tbody>
-                  {this.renderRow()}
-                </tbody>
+                <tbody>{this.renderRow()}</tbody>
               </table>
               {this.showEmptyState(css)}
-              {footer && <div className={css.footer}>
-                {footer}
-              </div>}
+              {footer && <div className={css.footer}>{footer}</div>}
             </div>
           );
         }}
@@ -109,7 +105,7 @@ const style = (shadowEnabled: boolean, theme: Theme) => {
         },
         td: {
           textAlign: 'left',
-          fontFamily: '\'Fira Code\', monospace !important',
+          fontFamily: "'Fira Code', monospace !important",
           height: '50px',
           padding: '5px 0',
           fontWeight: 400,
@@ -149,7 +145,7 @@ const style = (shadowEnabled: boolean, theme: Theme) => {
   });
 };
 
-interface TableProps<T> {
+export interface TableProps<T> {
   data: T[];
   columns: Colums<T>[];
   shadow?: boolean;

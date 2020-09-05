@@ -1,54 +1,28 @@
-import * as React from 'react';
-import { storiesOf } from '@storybook/react';
-import { withInfo } from '@storybook/addon-info';
+import React from 'react';
+import { Story, Meta } from '@storybook/react';
 
-import { Radio, RadioButton, RadioGroup } from '.';
+import { Radio } from '.';
+import { RadioProps } from './Radio';
 
-const stories = storiesOf('Radio', module);
+export default {
+  title: 'Inputs/Radio',
+  component: Radio,
+  argTypes: {
+    // backgroundColor: { control: 'color' },
+  },
+} as Meta;
 
-stories.add(
-  'Basic',
-  withInfo({ inline: true })(() => {
-    return (
-      <Radio label='Radio' />
-    );
-  }),
-);
+const Template: Story<RadioProps> = (args) => <Radio {...args} />;
 
-stories.add(
-  'Radio Group',
-  withInfo({ inline: true })(() => {
-    return (
-      <RadioGroup name='sex'>
-        <Radio label='Male' />
-        <Radio label='Female' />
-      </RadioGroup>
-    );
-  }),
-);
+export const Basic = Template.bind({});
 
-stories.add(
-  'Radio Button',
-  withInfo({ inline: true })(() => {
-    const [sex, updateSex] = React.useState('male');
-    return (
-      <RadioGroup name='sex' value={sex} onChange={(e) => updateSex(e.target.value)}>
-        <RadioButton label='Male' value='male' />
-        <RadioButton label='Female' value='female' />
-        <RadioButton disabled label='Disabled' value='other' />
-      </RadioGroup>
-    );
-  }),
-);
+export const Label = Template.bind({});
+Label.args = {
+  label: 'Label',
+};
 
-stories.add(
-  'Error',
-  withInfo({ inline: true })(() => {
-    return (
-      <>
-        <Radio label='Radio' error='Error' />
-        <RadioButton label='Radio' error='Error' />
-      </>
-    );
-  }),
-);
+export const Error = Template.bind({});
+Error.args = {
+  label: 'Label',
+  error: 'error',
+};
