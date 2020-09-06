@@ -218,6 +218,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
         visible={open}
         expand
         hideArrow
+        style={{ child: { display: 'block' } }}
       >
         <div>{inputElem}</div>
       </Popover>
