@@ -31,7 +31,7 @@ export class Table<T> extends React.Component<TableProps<T>, never> {
       return (
         <div className={css.empty}>
           <div className={css.icon}>
-            <GiEmptyMetalBucket />
+            <GiEmptyMetalBucket style={{ margin: 'auto' }} />
           </div>
           <div>No Data</div>
         </div>

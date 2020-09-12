@@ -19,13 +19,6 @@ export const BasicTableWithHeadersAndFooters: Story<TableProps<{ name: string; a
 ) => (
   <Table
     {...args}
-    data={[
-      {
-        name: 'Name 1',
-        age: '22',
-        status: 'abc',
-      },
-    ]}
     columns={[
       {
         header: 'name',
@@ -69,3 +62,18 @@ export const BasicTableWithHeadersAndFooters: Story<TableProps<{ name: string; a
     footer={<Pagination batchSize={20} totalCount={19} currentPage={1} showTotal />}
   />
 );
+
+BasicTableWithHeadersAndFooters.args = {
+  data: [
+    {
+      name: 'Name 1',
+      age: '22',
+      status: 'abc',
+    },
+  ],
+};
+
+export const EmptyState = BasicTableWithHeadersAndFooters.bind({});
+EmptyState.args = {
+  data: [],
+};

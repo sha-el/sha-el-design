@@ -52,3 +52,60 @@ export const SidePanelMenu = () => (
     </Content>
   </Container>
 );
+
+export const SidePanelMenuWithBottom = () => (
+  <Container>
+    <SidePanel
+      bottom={
+        <Menu>
+          <MenuItem icon={<MdHome />} active name="nav 1">
+            NAV 1
+          </MenuItem>
+          <MenuItem icon={<Md3DRotation />} name="nav 2">
+            NAV 2
+          </MenuItem>
+          <MenuItem icon={<MdAccountBox />} name="nav 3">
+            NAV 3
+          </MenuItem>
+          <MenuItemGroup title="Group" icon={<MdHome />}>
+            <MenuItem icon={<MdHome />} name="nav 1">
+              NAV 1
+            </MenuItem>
+            <MenuItem icon={<Md3DRotation />} name="nav 2">
+              NAV 2
+            </MenuItem>
+            <MenuItem icon={<MdAccountBox />} name="nav 3">
+              NAV 3
+            </MenuItem>
+          </MenuItemGroup>
+        </Menu>
+      }
+    >
+      <Menu>
+        <MenuItem icon={<MdHome />} active name="nav 1">
+          NAV 1
+        </MenuItem>
+        <MenuItem icon={<Md3DRotation />} name="nav 2">
+          NAV 2
+        </MenuItem>
+        <MenuItem icon={<MdAccountBox />} name="nav 3">
+          NAV 3
+        </MenuItem>
+        <MenuItemGroup title="Group" icon={<MdHome />}>
+          <MenuItem icon={<MdHome />} name="nav 1">
+            NAV 1
+          </MenuItem>
+          <MenuItem icon={<Md3DRotation />} name="nav 2">
+            NAV 2
+          </MenuItem>
+          <MenuItem icon={<MdAccountBox />} name="nav 3">
+            NAV 3
+          </MenuItem>
+        </MenuItemGroup>
+      </Menu>
+    </SidePanel>
+    <Content>
+      <div>Content</div>
+    </Content>
+  </Container>
+);

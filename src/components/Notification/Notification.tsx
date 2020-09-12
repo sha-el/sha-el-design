@@ -7,7 +7,7 @@ import { Portal } from '../Popover/Portal';
 import { NotificationProps, notificationSubject$ } from './NotificationService';
 import posed, { PoseGroup } from 'react-pose';
 import { isBrowser, getColor } from '../../helpers';
-import { Theme, ThemeConsumer } from '../Theme/Theme';
+import { DARK_THEME, Theme } from '../Theme/Theme';
 import { ListItem } from '../List';
 import { Text } from '../Text';
 import { shadow } from '../../helpers/style';
@@ -59,32 +59,30 @@ export class NotificationContainer extends React.Component<unknown, State> {
 
   render() {
     const css = this.style();
+
+    const theme = DARK_THEME;
     return (
       <Portal>
         <div className={css.body}>
-          <ThemeConsumer>
-            {(theme) => (
-              <PoseGroup>
-                {this.state.notification.map((notification, index) => (
-                  <NotificationTile style={notification.style || {}} key={`noti-${index}`}>
-                    <ListItem
-                      avatar={this.getIcon(index, theme)}
-                      subtitle={<Text color={getColor(this.color(index, theme))}>{notification.message}</Text>}
-                      style={{
-                        background: this.color(index, theme),
-                        boxShadow: shadow('2X', theme),
-                        borderRadius: '4px',
-                        minWidth: '400px',
-                        color: getColor(this.color(index, theme)),
-                      }}
-                    >
-                      {notification.title}
-                    </ListItem>
-                  </NotificationTile>
-                ))}
-              </PoseGroup>
-            )}
-          </ThemeConsumer>
+          <PoseGroup>
+            {this.state.notification.map((notification, index) => (
+              <NotificationTile style={notification.style || {}} key={`noti-${index}`}>
+                <ListItem
+                  avatar={this.getIcon(index, theme)}
+                  subtitle={<Text color={getColor(this.color(index, theme))}>{notification.message}</Text>}
+                  style={{
+                    background: this.color(index, theme),
+                    boxShadow: shadow('2X', theme),
+                    borderRadius: '4px',
+                    minWidth: '400px',
+                    color: getColor(this.color(index, theme)),
+                  }}
+                >
+                  {notification.title}
+                </ListItem>
+              </NotificationTile>
+            ))}
+          </PoseGroup>
         </div>
       </Portal>
     );

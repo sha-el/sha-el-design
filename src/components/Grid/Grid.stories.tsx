@@ -118,3 +118,21 @@ export const Gutter: Story<ColProps> = (args) => {
     </Row>
   );
 };
+
+export const Nested: Story<ColProps> = (args) => {
+  return (
+    <Row {...RowTemplate.args}>
+      <Col flex="1 0 200px" {...args}>
+        <Card>
+          <Row gutter={[0, 0]}>
+            <Col span={10}>a</Col>
+            <Col span={10}>b</Col>
+          </Row>
+        </Card>
+      </Col>
+      <Col flex="0 1 400px">
+        <Card>flex=0 1 400px</Card>
+      </Col>
+    </Row>
+  );
+};

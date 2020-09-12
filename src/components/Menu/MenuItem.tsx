@@ -7,9 +7,9 @@ export const MenuItem: React.FunctionComponent<MenuItemProps> = (props) => {
     <SidePanelContext.Consumer>
       {(context) => {
         const isBarOpen = context.width > 200;
-        const { nested, icon, name, children, onClick } = props;
+        const { nested, icon, name, children, onClick, element } = props;
         return (
-          <ListItem key={name} onClick={onClick} avatar={icon}>
+          <ListItem key={name} onClick={onClick} avatar={icon} element={element}>
             {(isBarOpen || nested) && children}
           </ListItem>
         );
@@ -25,4 +25,5 @@ export interface MenuItemProps {
   icon?: React.ReactElement;
   nested?: boolean;
   onClick?: () => void;
+  element?: React.ReactElement;
 }

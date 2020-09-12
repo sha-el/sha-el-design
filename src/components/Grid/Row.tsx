@@ -33,7 +33,7 @@ const flexPosition = (props: RowProps) =>
     padding: props.gutter[0],
     flexWrap: props.wrap,
     $nest: {
-      '& .sha-el-col': {
+      '& > .sha-el-col': {
         padding: props.gutter[1],
       },
     },

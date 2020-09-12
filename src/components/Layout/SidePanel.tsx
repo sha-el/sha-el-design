@@ -2,7 +2,6 @@ import * as React from 'react';
 import { stylesheet } from 'typestyle';
 
 import { MdMenu, MdKeyboardArrowLeft } from 'react-icons/md';
-import { styleEnum } from '../../helpers/constants';
 import { Button } from '../../index';
 import { shadow } from '../../helpers/style';
 import { ThemeConsumer, Theme } from '../Theme/Theme';
@@ -112,7 +111,7 @@ const style = (open: boolean, theme: Theme, width: number) => {
       position: 'absolute',
       bottom: 0,
       width: '100%',
-      boxShadow: !open && styleEnum.shadow_2x,
+      boxShadow: !open && shadow('2X', theme),
     },
   });
 };

@@ -18,6 +18,7 @@ export const style = (theme: Theme, __paper?: PaperProps) => {
       cursor: 'pointer',
       listStyle: 'none',
       overflow: 'hidden',
+      display: 'block',
       $nest: {
         '&:hover': {
           background: hoverColor(theme.background),

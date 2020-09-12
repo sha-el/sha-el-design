@@ -1,15 +1,12 @@
 import * as React from 'react';
 import { stylesheet } from 'typestyle';
 import RCTooltip from 'rc-tooltip';
-import { styleEnum } from '../../helpers/constants';
 import { isBrowser } from '../../helpers';
 import { ThemeConsumer, Theme } from '../Theme/Theme';
-import { borderColor } from '../../helpers/color';
 import { shadow } from '../../helpers/style';
 
 export class Popover extends React.Component<PopoverProps, State> {
   public static defaultProps: Partial<PopoverProps> = {
-    title: '',
     trigger: 'onClick',
     position: 'bottom',
     style: {},
@@ -48,23 +45,15 @@ export class Popover extends React.Component<PopoverProps, State> {
     setTimeout(this.isBrowser, 500);
   };
 
-  renderContent = (theme: Theme) => {
-    const { hideArrow, expand } = this.props;
-    const styleSheet = style(expand, this.state.childWidth, theme);
+  renderContent = () => {
+    const { hideArrow } = this.props;
     return (
-      <>
+      <div>
+        <div className="rc-tooltip-arrow" style={{ display: !hideArrow && 'block' }} />
         <div>
-          <div className="rc-tooltip-arrow" style={{ display: !hideArrow && 'block' }} />
-          <div>
-            {this.props.title && (
-              <div style={this.props.style.title} className={styleSheet.title}>
-                {this.props.title}
-              </div>
-            )}
-            <div style={this.props.style.content}>{this.props.content}</div>
-          </div>
+          <div style={this.props.style.content}>{this.props.content}</div>
         </div>
-      </>
+      </div>
     );
   };
 
@@ -94,7 +83,7 @@ export class Popover extends React.Component<PopoverProps, State> {
             <RCTooltip
               placement={position}
               trigger={[triggers(trigger)]}
-              overlay={this.renderContent(theme)}
+              overlay={this.renderContent()}
               destroyTooltipOnHide={!preserveOnClose}
               overlayClassName={css.container}
               overlayStyle={containerStyle}
@@ -134,18 +123,11 @@ function style(expand: boolean, childWidth: number, theme: Theme) {
       background: theme.background,
       color: `${theme.textColor} !important`,
     },
-    title: {
-      textAlign: 'center',
-      padding: '10px',
-      borderBottom: `${styleEnum.borderStyle} ${styleEnum.borderWidth} ${borderColor(theme.background)}`,
-      fontWeight: 500,
-    },
   });
 }
 
 export interface PopoverProps {
   children: React.ReactElement;
-  title?: React.ReactNode;
   trigger?: 'onClick' | 'onHover' | 'onFocus';
   position?: 'left' | 'right' | 'top' | 'bottom' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight';
   content?: React.ReactNode;

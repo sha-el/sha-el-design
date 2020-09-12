@@ -2,7 +2,7 @@ import * as React from 'react';
 import { cssRaw } from 'typestyle';
 import { color } from 'csx';
 
-const DARK_THEME = {
+export const DARK_THEME = {
   primary: '#536DFE',
   secondary: '#f06292',
   default: '#10163a',

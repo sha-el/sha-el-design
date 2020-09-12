@@ -12,24 +12,28 @@ export interface ListItemProps {
   onClick?: (e: React.MouseEvent) => void;
   style?: React.CSSProperties;
   selected?: boolean;
+  element?: React.ReactElement;
 }
 
 export const ListItem: React.FC<ListItemProps> = (props) => {
   const { style = {}, onClick, avatar, children, subtitle, action, selected } = props;
-
   return (
     <ThemeConsumer>
       {(theme) => {
         const css = listStyle(theme);
-        return (
-          <li
-            className={css.listItem}
-            onClick={onClick}
-            style={{
+        const Element: React.FC<unknown> = (p) =>
+          React.cloneElement(props.element || <li />, {
+            className: css.listItem,
+            onClick: onClick,
+            style: {
               background: selected && colorShades(theme.primary)[4],
               ...style,
-            }}
-          >
+            },
+            ...p,
+          });
+
+        return (
+          <Element>
             <Row wrap="nowrap" gutter={[0, '12px 16px 12px 18px']} alignItems="center">
               {avatar && <Col flex="0 1 auto">{avatar}</Col>}
               {children && (
@@ -42,7 +46,7 @@ export const ListItem: React.FC<ListItemProps> = (props) => {
               )}
               {action && <Col flex="0 1 auto">{action}</Col>}
             </Row>
-          </li>
+          </Element>
         );
       }}
     </ThemeConsumer>

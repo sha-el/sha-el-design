@@ -67,7 +67,13 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
             {...buttonProps}
           >
             {icon}
-            <Loading color="white" isLoading={loading} size="small" render={() => <span>{props.children}</span>} />
+            <Loading
+              style={{ margin: '0' }}
+              color="white"
+              isLoading={loading}
+              size="small"
+              render={() => <span>{props.children}</span>}
+            />
             {loading && <Text margin="0 10px">Loading</Text>}
           </BaseElement>
         );
