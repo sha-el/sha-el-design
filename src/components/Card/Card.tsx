@@ -30,7 +30,7 @@ const style = (theme: Theme) => {
       boxSizing: 'border-box',
       padding: '16px',
     },
-    ...elevations,
+    ...elevations(theme),
   });
 };
 
