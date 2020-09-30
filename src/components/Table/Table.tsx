@@ -1,14 +1,16 @@
 import * as React from 'react';
-import { stylesheet } from 'typestyle';
+import { stylesheet, classes } from 'typestyle';
 import { GiEmptyMetalBucket } from 'react-icons/gi';
 import { Theme, ThemeConsumer } from '../Theme/Theme';
 import { lightText, borderColor } from '../../helpers/color';
 import { shadow } from '../../helpers/style';
 import { Text } from '../Text';
+import elevations from '../../helpers/elevations';
 
 export class Table<T> extends React.Component<TableProps<T>, never> {
   static defaultProps = {
     shadow: true,
+    elevation: 0,
   };
 
   renderRow = () => {
@@ -46,7 +48,7 @@ export class Table<T> extends React.Component<TableProps<T>, never> {
         {(theme) => {
           const css = style(shadowEnabled, theme);
           return (
-            <div className={css.container}>
+            <div className={classes(css.container, css[`elevation${this.props.elevation}`])}>
               {header && (
                 <Text variant="h6" className={css.header}>
                   {header}
@@ -142,6 +144,7 @@ const style = (shadowEnabled: boolean, theme: Theme) => {
     footer: {
       padding: '12px 24px 8px',
     },
+    ...elevations(theme),
   });
 };
 
@@ -149,6 +152,7 @@ export interface TableProps<T> {
   data: T[];
   columns: Colums<T>[];
   shadow?: boolean;
+  elevation?: number;
   header?: React.ReactNode;
   footer?: React.ReactNode;
 }
