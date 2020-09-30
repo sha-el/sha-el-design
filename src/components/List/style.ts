@@ -3,6 +3,7 @@ import { Theme } from '../Theme/Theme';
 import { PaperProps } from '../Paper';
 import { shadow } from '../../helpers/style';
 import { hoverColor } from '../../helpers/color';
+import elevations from '../../helpers/elevations';
 
 export const style = (theme: Theme, __paper?: PaperProps) => {
   return stylesheet({
@@ -31,5 +32,6 @@ export const style = (theme: Theme, __paper?: PaperProps) => {
       overflowY: 'hidden',
       transition: 'all .6s cubic-bezier(0.4, 0, 0.2, 1)',
     },
+    ...elevations(theme),
   });
 };
