@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Portal } from '../Popover/Portal';
 import { style as typeStyle, stylesheet, keyframes, classes } from 'typestyle';
-import { shadow } from '../../helpers/style';
 import { Theme, ThemeConsumer } from '../Theme/Theme';
 import { colorShades } from '../../helpers/color';
 import elevations from '../../helpers/elevations';
@@ -59,7 +58,6 @@ const modalStyle = (theme: Theme) => {
       background: colorShades(theme.background)[1],
       zIndex: 1001,
       top: '10vh',
-      boxShadow: shadow('2X', theme),
       overflowY: 'auto',
       width: '50vw',
       animation: `${slideInBottom} 0.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,

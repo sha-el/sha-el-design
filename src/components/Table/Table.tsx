@@ -3,7 +3,6 @@ import { stylesheet, classes } from 'typestyle';
 import { GiEmptyMetalBucket } from 'react-icons/gi';
 import { Theme, ThemeConsumer } from '../Theme/Theme';
 import { lightText, borderColor } from '../../helpers/color';
-import { shadow } from '../../helpers/style';
 import { Text } from '../Text';
 import elevations from '../../helpers/elevations';
 
@@ -42,11 +41,11 @@ export class Table<T> extends React.Component<TableProps<T>, never> {
   };
 
   render() {
-    const { header, columns, footer, shadow: shadowEnabled } = this.props;
+    const { header, columns, footer } = this.props;
     return (
       <ThemeConsumer>
         {(theme) => {
-          const css = style(shadowEnabled, theme);
+          const css = style(theme);
           return (
             <div className={classes(css.container, css[`elevation${this.props.elevation}`])}>
               {header && (
@@ -74,8 +73,7 @@ export class Table<T> extends React.Component<TableProps<T>, never> {
   }
 }
 
-const style = (shadowEnabled: boolean, theme: Theme) => {
-  const shadow2x = shadow('2X', theme);
+const style = (theme: Theme) => {
   return stylesheet({
     table: {
       width: '100%',
@@ -123,7 +121,6 @@ const style = (shadowEnabled: boolean, theme: Theme) => {
       },
     },
     container: {
-      boxShadow: shadowEnabled && shadow2x,
       background: theme.background,
     },
     icon: {
@@ -151,7 +148,6 @@ const style = (shadowEnabled: boolean, theme: Theme) => {
 export interface TableProps<T> {
   data: T[];
   columns: Colums<T>[];
-  shadow?: boolean;
   elevation?: number;
   header?: React.ReactNode;
   footer?: React.ReactNode;
