@@ -1,7 +1,8 @@
 import React from 'react';
-import { Meta } from '@storybook/react';
+import { Story, Meta } from '@storybook/react';
 
 import { List, ListItem, CollapsibleList } from '../List';
+import { ListProps } from './List';
 import { MdAcUnit, Md3DRotation, MdAccessAlarm } from 'react-icons/md';
 import { Divider } from '../Divider';
 
@@ -14,8 +15,8 @@ export default {
   },
 } as Meta;
 
-export const Basic = () => (
-  <List>
+export const Basic: Story<ListProps<any>> = (args) => (
+  <List {...args}>
     <ListItem avatar={<MdAcUnit />}>Basic Item List</ListItem>
     <ListItem avatar={<Md3DRotation />}>Basic Item List</ListItem>
     <Divider />
@@ -24,8 +25,8 @@ export const Basic = () => (
   </List>
 );
 
-export const Subtitle = () => (
-  <List>
+export const Subtitle: Story<ListProps<any>> = (args) => (
+  <List {...args}>
     <ListItem avatar={<MdAcUnit />} subtitle="Do you Know Lorem Ipsum?">
       Basic Item List
     </ListItem>
@@ -39,8 +40,8 @@ export const Subtitle = () => (
   </List>
 );
 
-export const Collapsible = () => (
-  <List>
+export const Collapsible: Story<ListProps<any>> = (args) => (
+  <List {...args}>
     <ListItem avatar={<MdAcUnit />} subtitle="Do you Know Lorem Ipsum?">
       Basic Item List
     </ListItem>

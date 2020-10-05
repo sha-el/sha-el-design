@@ -1,10 +1,13 @@
 import * as React from 'react';
 import { Portal } from '../Popover/Portal';
-import { style, keyframes } from 'typestyle';
+import { style, keyframes, stylesheet, classes } from 'typestyle';
 import { NestedCSSProperties } from 'typestyle/lib/types';
 import { Theme, ThemeConsumer } from '../Theme/Theme';
+import elevations from '../../helpers/elevations';
 
 export const Drawer: React.FunctionComponent<DrawerProps> = (props) => {
+  const { elevation = 0 } = props;
+
   if (!props.isVisible) {
     document.body.style.overflow = 'auto';
     document.body.style.position = '';
@@ -17,28 +20,34 @@ export const Drawer: React.FunctionComponent<DrawerProps> = (props) => {
   return (
     <Portal>
       <ThemeConsumer>
-        {(theme) => (
-          <>
-            <div className={MaskStyle()} onClick={() => props.onClose && props.onClose()} />
-            <div style={props.style.container} className={DrawerStyle(props, theme)}>
-              {props.header && (
-                <div style={props.style.header} className="header">
-                  {props.header}
-                </div>
-              )}
+        {(theme) => {
+          const css = elevationCss(theme);
+          return (
+            <>
+              <div className={MaskStyle()} onClick={() => props.onClose && props.onClose()} />
+              <div
+                style={props.style.container}
+                className={classes(DrawerStyle(props, theme), css[`elevation${elevation}`])}
+              >
+                {props.header && (
+                  <div style={props.style.header} className="header">
+                    {props.header}
+                  </div>
+                )}
 
-              <div style={props.style.body} className="body">
-                {props.children}
+                <div style={props.style.body} className="body">
+                  {props.children}
+                </div>
+
+                {props.footer && (
+                  <div style={props.style.footer} className="footer">
+                    {props.footer}
+                  </div>
+                )}
               </div>
-
-              {props.footer && (
-                <div style={props.style.footer} className="footer">
-                  {props.footer}
-                </div>
-              )}
-            </div>
-          </>
-        )}
+            </>
+          );
+        }}
       </ThemeConsumer>
     </Portal>
   );
@@ -55,6 +64,8 @@ const MaskStyle = () =>
     bottom: '0',
     background: 'rgba(0, 0, 0, 0.5)',
   });
+
+const elevationCss = (theme) => stylesheet({ ...elevations(theme) });
 
 const DrawerStyle = (props: DrawerProps, theme: Theme) => {
   const styles: NestedCSSProperties[] = [
@@ -79,6 +90,7 @@ const DrawerStyle = (props: DrawerProps, theme: Theme) => {
           borderTop: '1px solid #ccc',
         },
       },
+      ...elevations(theme),
     },
   ];
 
@@ -212,4 +224,5 @@ export interface DrawerProps {
    * Callback to be triggered when clicked on close(X) or on mask
    */
   onClose?: () => void;
+  elevation?: number;
 }

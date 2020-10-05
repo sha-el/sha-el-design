@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { stylesheet, classes } from 'typestyle';
 import { ThemeConsumer, Theme } from '../Theme/Theme';
-import { shadow } from '../../helpers/style';
 import elevations from '../../helpers/elevations';
 
 export const Card: React.FunctionComponent<CardProps> = (props) => {
@@ -25,7 +24,6 @@ export const Card: React.FunctionComponent<CardProps> = (props) => {
 const style = (theme: Theme) => {
   return stylesheet({
     container: {
-      boxShadow: shadow('2X', theme),
       background: theme.background,
       boxSizing: 'border-box',
       padding: '16px',

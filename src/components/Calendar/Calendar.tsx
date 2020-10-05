@@ -15,6 +15,7 @@ export class Calendar extends React.Component<CalendarProps, State> {
     date: new Date(),
     cellRender: ([, , date]) => date,
     disabledDate: () => false,
+    elevation: 0,
   };
 
   constructor(props: CalendarProps) {
@@ -184,7 +185,7 @@ export class Calendar extends React.Component<CalendarProps, State> {
     return (
       <ThemeConsumer>
         {(theme) => (
-          <Card>
+          <Card elevation={this.props.elevation}>
             <CardBody>
               <div>
                 <Row>
@@ -370,6 +371,7 @@ export interface CalendarProps {
     color?: string;
   }[];
 
+  elevation?: number;
   onClick?: (date: DateTupple) => void;
   disabledDate?: (date: DateTupple) => boolean;
 }

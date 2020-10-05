@@ -3,7 +3,6 @@ import { stylesheet } from 'typestyle';
 
 import { MdMenu, MdKeyboardArrowLeft } from 'react-icons/md';
 import { Button } from '../../index';
-import { shadow } from '../../helpers/style';
 import { ThemeConsumer, Theme } from '../Theme/Theme';
 import { COLLAPSED_WIDTH, SidePanelContext } from './Container';
 
@@ -32,7 +31,7 @@ export const SidePanel: React.FunctionComponent<SidePanelProps> = (props) => {
                   </div>
                 </div>
                 <div className={css.line} />
-                <div className={css.top}>{props.children}</div>
+                <div>{props.children}</div>
                 <div className={css.bottom}>{props.bottom}</div>
               </aside>
               // </SidePanelContext.Provider>
@@ -53,14 +52,10 @@ const style = (open: boolean, theme: Theme, width: number) => {
       height: '100vh',
       maxHeight: '100%',
       background: open ? theme.background : 'none',
-      boxShadow: open && shadow('2X', theme),
       transition: '.3s all',
       zIndex: 1,
       left: 0,
       top: 0,
-    },
-    top: {
-      boxShadow: !open && shadow('2X', theme),
     },
     line: {
       width: !open && '3px',
@@ -111,7 +106,6 @@ const style = (open: boolean, theme: Theme, width: number) => {
       position: 'absolute',
       bottom: 0,
       width: '100%',
-      boxShadow: !open && shadow('2X', theme),
     },
   });
 };

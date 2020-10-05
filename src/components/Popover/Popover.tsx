@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { stylesheet } from 'typestyle';
+import { stylesheet, classes } from 'typestyle';
 import RCTooltip from 'rc-tooltip';
 import { isBrowser } from '../../helpers';
 import { ThemeConsumer, Theme } from '../Theme/Theme';
-import { shadow } from '../../helpers/style';
+import elevations from '../../helpers/elevations';
 
 export class Popover extends React.Component<PopoverProps, State> {
   public static defaultProps: Partial<PopoverProps> = {
@@ -65,6 +65,7 @@ export class Popover extends React.Component<PopoverProps, State> {
       position,
       style: { container: containerStyle, child: childStyle },
       onVisibleChange,
+      elevation = 0,
     } = this.props;
 
     if (!this.state.isBrowser) {
@@ -85,7 +86,7 @@ export class Popover extends React.Component<PopoverProps, State> {
               trigger={[triggers(trigger)]}
               overlay={this.renderContent()}
               destroyTooltipOnHide={!preserveOnClose}
-              overlayClassName={css.container}
+              overlayClassName={classes(css.container, css[`elevation${elevation}`])}
               overlayStyle={containerStyle}
               onVisibleChange={(v) => {
                 this.setState({ visible: v });
@@ -117,12 +118,12 @@ function style(expand: boolean, childWidth: number, theme: Theme) {
     container: {
       width: expand ? childWidth : 'auto',
       minWidth: '100px',
-      boxShadow: shadow('2X', theme),
       borderRadius: '2px',
       padding: '0',
       background: theme.background,
       color: `${theme.textColor} !important`,
     },
+    ...elevations(theme),
   });
 }
 
@@ -143,6 +144,7 @@ export interface PopoverProps {
   visible?: boolean;
   onVisibleChange?: (visible?: boolean) => void;
   align?: Record<string, unknown>;
+  elevation: number;
 }
 
 interface State {

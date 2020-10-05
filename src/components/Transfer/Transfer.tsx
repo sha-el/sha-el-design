@@ -14,6 +14,7 @@ export interface TransferProps<T> {
   searchValue?: (value: T) => string;
   onChange?: (values: T[]) => void;
   values?: T[];
+  elevation?: number;
 }
 
 interface State<T> {
@@ -41,6 +42,7 @@ export class Transfer<T> extends React.Component<TransferProps<T>, State<T>> {
 
   static defaultProps = {
     searchValue: (e) => String(e),
+    elevation: 0,
   };
 
   componentDidMount() {
@@ -160,7 +162,7 @@ export class Transfer<T> extends React.Component<TransferProps<T>, State<T>> {
   render() {
     const { selectedLeft, selectedRight, data } = this.state;
     return (
-      <Card style={{ minWidth: '500px' }}>
+      <Card elevation={this.props.elevation} style={{ minWidth: '500px' }}>
         <Row alignItems="center">
           <Col span={10} alignSelf="stretch">
             <CardHeader subtitle={`${data.length} item(s)`} />
