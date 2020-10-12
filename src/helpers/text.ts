@@ -1,9 +1,10 @@
 import { TextProps } from '../components/Text/Text';
 import { Theme } from '../components/Theme/Theme';
 import { style } from 'typestyle';
+import { NestedCSSProperties } from 'typestyle/lib/types';
 
 export function format(props: TextProps, theme: Theme) {
-  let fontWeight: 'bold' | 'normal' = 'normal';
+  let fontWeight: NestedCSSProperties['fontWeight'] = 'normal';
   let fontStyle: 'normal' | 'italic' = 'normal';
   const fontFamily = props.fontFamily;
   const fontSize = props.fontSize;
@@ -20,8 +21,8 @@ export function format(props: TextProps, theme: Theme) {
     textDecoration += ' line-through';
   }
 
-  if (props.bold) {
-    fontWeight = 'bold';
+  if (props.fontWeight) {
+    fontWeight = props.fontWeight;
   }
 
   if (props.italicize) {
