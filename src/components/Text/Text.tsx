@@ -90,10 +90,6 @@ export interface TextProps {
    */
   italicize?: boolean;
   /**
-   * Sets the font weight to bold.
-   */
-  bold?: boolean;
-  /**
    * Defines the font family.
    */
   fontFamily?: 'mono' | 'cursive' | 'normal' | string;
@@ -126,12 +122,17 @@ export interface TextProps {
    */
   style?: React.CSSProperties;
 
+  /**
+   * Add font weight
+   */
+  fontWeight?: React.CSSProperties['fontWeight'];
+
   className?: string;
 }
 
 Text.defaultProps = {
   italicize: false,
-  bold: false,
+  fontWeight: 'normal',
   padding: '',
   margin: '',
   style: {},
