@@ -32,12 +32,31 @@ const BlockTemplate: Story<AnchorButtonProps & NativeButtonProps> = (args) => (
   </>
 );
 
+const MixedTemplate: Story<AnchorButtonProps & NativeButtonProps> = (args) => (
+  <>
+    <Button {...args}>Default</Button>
+    <Button {...args} type="primary">
+      Primary
+    </Button>
+    <Button {...args} outline type="secondary">
+      Secondary
+    </Button>
+    <Button {...args} flat type="danger">
+      Danger
+    </Button>
+    <Button {...args} type="link">
+      Link
+    </Button>
+  </>
+);
+
 const CircleTemplate: Story<AnchorButtonProps & NativeButtonProps> = (args) => (
   <>
     <Button {...args} shape="circle" />
     <Button {...args} type="primary" shape="circle" />
-    <Button {...args} type="secondary" shape="circle" />
-    <Button {...args} type="danger" shape="circle" />
+    <Button {...args} type="secondary" outline shape="circle" />
+    <Button {...args} type="secondary" flat shape="circle" />
+    <Button {...args} type="danger" disabled shape="circle" />
     <Button {...args} type="link" shape="circle" />
   </>
 );
@@ -47,6 +66,11 @@ export const Type = BlockTemplate.bind({});
 export const FlatButtons = BlockTemplate.bind({});
 FlatButtons.args = {
   flat: true,
+};
+
+export const OutlineButtons = BlockTemplate.bind({});
+OutlineButtons.args = {
+  outline: true,
 };
 
 export const Icons = BlockTemplate.bind({});
@@ -59,17 +83,17 @@ Circle.args = {
   icon: <MdFilter />,
 };
 
-export const Disabled = BlockTemplate.bind({});
+export const Disabled = MixedTemplate.bind({});
 Disabled.args = {
   disabled: true,
 };
 
-export const Block = BlockTemplate.bind({});
+export const Block = MixedTemplate.bind({});
 Block.args = {
   displayBlock: true,
 };
 
-export const Loading = BlockTemplate.bind({});
+export const Loading = MixedTemplate.bind({});
 Loading.args = {
   loading: true,
 };

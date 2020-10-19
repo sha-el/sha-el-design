@@ -1,4 +1,4 @@
-import { color as csxColor } from 'csx';
+import { color, color as csxColor } from 'csx';
 import { getColor } from './../helpers';
 import { Theme } from '../components/Theme/Theme';
 import { ButtonProps } from '../components/Button/Button';
@@ -31,35 +31,55 @@ export const disabledColor = (theme: Theme) => {
   return getColor(theme.background, 'rgba(0, 0, 0, 0.25)', 'rgba(255,255,255,0.25)');
 };
 
-export const buttonColor = (props: ButtonProps, theme: Theme): [string, string, string] => {
-  if (props.disabled && props.type !== 'link' && !props.flat) {
-    return [disabledColor(theme), '#ffffff', 'none'];
-  }
+/**
+ * @param props: ButtonProps,
+ * @param theme: Theme
+ * @returns [backgroundColor, textColor, hoverBgColor, border],
+ */
+export const buttonColor = (props: ButtonProps, theme: Theme): [string, string, string, string] => {
+  let backgroundColor = 'transparent';
+  let textColor = '';
+  let hoverBgColor = 'none';
+  let border = 'none';
 
-  if (props.disabled) {
-    return ['rgba(255,255,255,0)', disabledColor(theme), 'none'];
-  }
+  const defaultColor = () => (props.type === 'default' ? getColor(theme.background) : theme[props.type]);
 
   if (props.type === 'link') {
-    return [
-      'rgba(255,255,255,0)',
-      getColor(theme.background, theme.primary, csxColor(theme.primary).lighten(0.7).toString()),
-      'none',
-    ];
-  }
-  if (props.flat) {
-    const textColor = props.type === 'default' ? getColor(theme.background) : theme[props.type];
-    return ['rgba(255,255,255,0)', textColor, csxColor(textColor).fade(0.2).toString()];
+    textColor = getColor(theme.background, theme.primary, csxColor(theme.primary).lighten(0.7).toString());
+  } else if (props.flat) {
+    textColor = defaultColor();
+    hoverBgColor = csxColor(textColor).fade(0.2).toString();
+  } else if (props.outline) {
+    border = `1px solid ${defaultColor()}`;
+    textColor = defaultColor();
+    hoverBgColor = csxColor(theme[props.type]).fade(0.2).toString();
   }
 
-  let bgColor = {
-    ...theme,
-  }[props.type];
-
-  if (props.type === 'default') {
-    bgColor = colorShades(theme.background)[1];
+  if (!(props.flat || props.outline || props.type === 'link')) {
+    backgroundColor = props.type === 'default' ? colorShades(theme.background)[1] : theme[props.type];
+    textColor = getColor(backgroundColor);
+    hoverBgColor = csxColor(backgroundColor).lighten(0.1).toHexString();
   }
-  return [bgColor, getColor(bgColor), csxColor(bgColor).lighten(0.1).toHexString()];
+
+  if (props.disabled && props.outline) {
+    border = `1px solid ${disabledColor(theme)}`;
+    textColor = disabledColor(theme);
+  } else if (props.disabled && !(props.type === 'link' || props.flat) && !props.outline) {
+    backgroundColor = disabledColor(theme);
+    textColor = getColor(disabledColor(theme));
+  } else if (props.disabled && !props.outline) {
+    backgroundColor = 'transparent';
+    textColor = disabledColor(theme);
+  }
+
+  if (props.loading) {
+    backgroundColor =
+      backgroundColor === 'transparent' || props.type === 'default'
+        ? 'transparent'
+        : color(backgroundColor).lighten(0.1).toHexString();
+  }
+
+  return [backgroundColor, textColor, hoverBgColor, border];
 };
 
 export const colorShades = (color: string) => {

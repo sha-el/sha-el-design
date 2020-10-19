@@ -57,7 +57,7 @@ export const Styling = () => (
 
 export const HeadingAndParagraph = () => (
   <>
-    <Text variant="h3" bold padding="5px">
+    <Text variant="h3" padding="5px">
       What is Lorem Ipsum?
     </Text>
     <Text variant="p" padding="5px" style={{ marginTop: -15 }}>

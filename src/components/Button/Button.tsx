@@ -2,7 +2,7 @@ import * as React from 'react';
 import { stylesheet, classes } from 'typestyle';
 import { removeObjectProperties } from '../../helpers';
 import { Theme, ThemeConsumer } from '../Theme/Theme';
-import { buttonColor, colorShades } from '../../helpers/color';
+import { buttonColor } from '../../helpers/color';
 import { Loading } from '../Loading';
 import { Text } from '../Text';
 
@@ -18,6 +18,7 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
     loading,
     component,
     onClick,
+    outline: __outline,
     ...rest
   } = props;
 
@@ -47,7 +48,12 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
               {...linkButtonRestProps}
             >
               {icon}
-              <Loading color="white" isLoading={loading} size="small" render={() => <span>{props.children}</span>} />
+              <Loading
+                color={buttonColor(props, theme)[1]}
+                isLoading={loading}
+                size="small"
+                render={() => <span>{props.children}</span>}
+              />
             </BaseElement>
           );
         }}
@@ -69,7 +75,7 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
             {icon}
             <Loading
               style={{ margin: '0' }}
-              color="white"
+              color={buttonColor(props, theme)[1]}
               isLoading={loading}
               size="small"
               render={() => <span>{props.children}</span>}
@@ -119,16 +125,14 @@ function getSize(size: sizeTypes, shape: shapeTypes, block: boolean) {
 export function style(props: ButtonProps, theme: Theme) {
   const { disabled, children } = props;
 
-  const [bgColor, textColor, hoverBgColor] = buttonColor(props, theme);
-
-  const loadingColor = colorShades(bgColor)[4];
+  const [bgColor, textColor, hoverBgColor, border] = buttonColor(props, theme);
 
   return stylesheet({
     default: {
       ...getSize(props.size, props.shape, props.displayBlock),
       display: 'inline-flex',
       alignItems: 'center',
-      border: 'none',
+      border,
       cursor: props.loading ? 'wait' : 'pointer',
       textDecoration: 'none',
       boxSizing: 'border-box',
@@ -136,7 +140,7 @@ export function style(props: ButtonProps, theme: Theme) {
       fontWeight: 500,
       textAlign: 'center',
       justifyContent: 'center',
-      background: props.loading ? loadingColor : bgColor,
+      background: bgColor,
       whiteSpace: 'nowrap',
       $nest: {
         '&:focus': {
@@ -160,9 +164,10 @@ export function style(props: ButtonProps, theme: Theme) {
       },
     },
     button: {
-      boxShadow: props.flat
-        ? 'none'
-        : '0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12)',
+      boxShadow:
+        props.flat || props.outline
+          ? 'none'
+          : '0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12)',
       textAlign: 'center',
       color: textColor,
       $nest: {
@@ -195,6 +200,7 @@ export interface BaseButtonProps {
   className?: string;
   displayBlock?: boolean;
   flat?: boolean;
+  outline?: boolean;
   icon?: React.ReactNode;
   loading?: boolean;
   component?: React.ReactElement;
