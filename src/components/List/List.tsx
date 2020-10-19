@@ -2,27 +2,25 @@ import * as React from 'react';
 import { classes } from 'typestyle';
 import { ThemeConsumer } from '../Theme/Theme';
 import { style } from './style';
-import { PaperProps } from '../Paper';
 
-export interface ListProps<T> extends PaperProps {
-  data?: T[];
+export interface ListProps {
   children?: React.ReactNode;
-  render?: (data: T) => React.ReactNode;
   style?: React.CSSProperties;
   elevation?: number;
+  className?: string;
 }
 
-export const List: React.FC<ListProps<unknown>> = (props) => {
-  const { elevation = 0 } = props;
+export const List: React.FC<ListProps> = (props) => {
+  const { elevation = 2 } = props;
 
   return (
     <ThemeConsumer>
       {(theme) => {
-        const css = style(theme, props);
+        const css = style(theme);
         return (
-          <div className={classes(css[`elevation${elevation}`])}>
+          <div className={classes(css[`elevation${elevation}`], props.className)}>
             <ul className={css.list} style={props.style}>
-              {props.children || props.data.map((v) => props.render(v))}
+              {props.children}
             </ul>
           </div>
         );

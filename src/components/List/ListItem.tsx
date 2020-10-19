@@ -2,8 +2,11 @@ import * as React from 'react';
 import { Row, Col } from '../Grid';
 import { ThemeConsumer } from '../Theme/Theme';
 import { style as listStyle } from './style';
-import { colorShades, lightText } from '../../helpers/color';
+import { lightText } from '../../helpers/color';
 import { Text } from '../Text';
+import { classes } from 'typestyle';
+import { RowProps } from '../Grid/Row';
+import { getColor } from '../../helpers';
 
 export interface ListItemProps {
   subtitle?: React.ReactNode;
@@ -13,20 +16,32 @@ export interface ListItemProps {
   style?: React.CSSProperties;
   selected?: boolean;
   element?: React.ReactElement;
+  className?: string;
+  gutter?: RowProps['gutter'];
 }
 
 export const ListItem: React.FC<ListItemProps> = (props) => {
-  const { style = {}, onClick, avatar, children, subtitle, action, selected } = props;
+  const {
+    style = {},
+    onClick,
+    avatar,
+    children,
+    subtitle,
+    action,
+    selected,
+    gutter = [0, '12px 16px 12px 18px'],
+  } = props;
   return (
     <ThemeConsumer>
       {(theme) => {
         const css = listStyle(theme);
         const Element: React.FC<unknown> = (p) =>
           React.cloneElement(props.element || <li />, {
-            className: css.listItem,
+            className: classes(css.listItem, props.className),
             onClick: onClick,
             style: {
-              background: selected && colorShades(theme.primary)[4],
+              background: selected && theme.primary,
+              color: selected && getColor(theme.primary),
               ...style,
             },
             ...p,
@@ -34,7 +49,7 @@ export const ListItem: React.FC<ListItemProps> = (props) => {
 
         return (
           <Element>
-            <Row wrap="nowrap" gutter={[0, '12px 16px 12px 18px']} alignItems="center">
+            <Row wrap="nowrap" gutter={gutter} alignItems="center">
               {avatar && <Col flex="0 1 auto">{avatar}</Col>}
               {children && (
                 <Col flex="1 0 auto">

@@ -13,7 +13,18 @@ export default {
 
 const Template: Story<PaginationProps> = (args) => {
   const [pageNumber, updatePageNumber] = React.useState(4);
-  return <Pagination {...args} currentPage={pageNumber} onChange={(np) => updatePageNumber(np)} />;
+  const [pageSize, updatePageSize] = React.useState(10);
+  return (
+    <Pagination
+      {...args}
+      batchSize={pageSize}
+      currentPage={pageNumber}
+      onChange={(np, pg) => {
+        updatePageNumber(np);
+        updatePageSize(pg);
+      }}
+    />
+  );
 };
 
 export const Basic = Template.bind({});
@@ -22,24 +33,14 @@ Basic.args = {
   batchSize: 10,
 };
 
-export const CursorBasedPagination = Template.bind({});
-CursorBasedPagination.args = {
-  totalCount: Infinity,
-  batchSize: 10,
-  cursorBasedPagination: true,
+export const ItemsPerPage = Template.bind({});
+ItemsPerPage.args = {
+  ...Basic.args,
+  itemsPerPage: [10, 20, 30],
 };
 
-export const HidePageNumbers = Template.bind({});
-HidePageNumbers.args = {
-  totalCount: 100,
-  batchSize: 10,
-  hideCurrentPageNumber: true,
-  hidePageNumberList: true,
-};
-
-export const ShowTotal = Template.bind({});
-ShowTotal.args = {
-  totalCount: 100,
-  batchSize: 10,
-  showTotal: true,
+export const Justify = Template.bind({});
+Justify.args = {
+  ...ItemsPerPage.args,
+  justify: 'flex-end',
 };

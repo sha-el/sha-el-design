@@ -6,6 +6,7 @@ import { MdExpandMore, MdExpandLess } from 'react-icons/md';
 
 export interface CollapseProps extends ListItemProps {
   header: React.ReactNode;
+  expandable?: boolean;
   open?: boolean;
   onChange?: (open: boolean) => void;
 }

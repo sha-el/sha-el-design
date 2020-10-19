@@ -1,18 +1,17 @@
 import { stylesheet } from 'typestyle';
 import { Theme } from '../Theme/Theme';
-import { PaperProps } from '../Paper';
-import { shadow } from '../../helpers/style';
 import { hoverColor } from '../../helpers/color';
 import elevations from '../../helpers/elevations';
 
-export const style = (theme: Theme, __paper?: PaperProps) => {
+export const style = (theme: Theme) => {
   return stylesheet({
     list: {
       padding: '8px 0',
       margin: 0,
       listStyle: 'none',
+      width: '100%',
+      boxSizing: 'border-box',
       background: theme.background,
-      boxShadow: shadow('2X', theme),
     },
     listItem: {
       transition: 'background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
@@ -20,7 +19,7 @@ export const style = (theme: Theme, __paper?: PaperProps) => {
       listStyle: 'none',
       overflow: 'hidden',
       display: 'block',
-      color: theme.textColor,
+      // color: theme.textColor,
       $nest: {
         '&:hover': {
           background: hoverColor(theme.background),

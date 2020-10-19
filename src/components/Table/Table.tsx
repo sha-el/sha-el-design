@@ -6,11 +6,19 @@ import { lightText, borderColor } from '../../helpers/color';
 import { Text } from '../Text';
 import elevations from '../../helpers/elevations';
 
+/**
+ * @deprecated Will be removed in 1.0.0
+ */
 export class Table<T> extends React.Component<TableProps<T>, never> {
   static defaultProps = {
     shadow: true,
     elevation: 0,
   };
+
+  constructor(props) {
+    super(props);
+    console.warn('This table component has been deprecated in favor of FlexTable. Please make the change.');
+  }
 
   renderRow = () => {
     return this.props.data.map((v, index) => (

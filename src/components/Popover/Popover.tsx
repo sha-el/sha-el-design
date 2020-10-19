@@ -65,7 +65,7 @@ export class Popover extends React.Component<PopoverProps, State> {
       position,
       style: { container: containerStyle, child: childStyle },
       onVisibleChange,
-      elevation = 0,
+      elevation = 12,
     } = this.props;
 
     if (!this.state.isBrowser) {
