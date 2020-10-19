@@ -108,7 +108,7 @@ export interface TextProps {
   /**
    * Sets color of the font.
    */
-  color?: keyof Theme | string;
+  color?: keyof Theme | string | 'light';
   /**
    * Underlines the text
    */

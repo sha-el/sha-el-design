@@ -10,6 +10,7 @@ export class MenuItemGroup extends React.Component<MenuItemGroupProps, State> {
 
     this.state = {
       active: this.props.defaultActive,
+      open: false,
     };
   }
 
@@ -19,18 +20,18 @@ export class MenuItemGroup extends React.Component<MenuItemGroupProps, State> {
   };
 
   toggle = () => {
-    this.setState({ active: !this.state.active });
+    this.setState({ open: !this.state.open });
   };
 
   renderChilden = () => {
     if (Array.isArray(this.props.children)) {
       return this.props.children.map((el) => {
         if (['string', 'number', 'boolean'].indexOf(typeof el) < 0) {
-          return React.cloneElement(el as React.ReactElement, { nested: true });
+          return React.cloneElement(el as React.ReactElement, { nested: true, close: this.toggle });
         }
       });
     }
-    return React.cloneElement(this.props.children as React.ReactElement, { nested: true });
+    return React.cloneElement(this.props.children as React.ReactElement, { nested: true, close: this.toggle });
   };
 
   renderPopup = (isBarOpen: boolean) => {
@@ -49,6 +50,8 @@ export class MenuItemGroup extends React.Component<MenuItemGroupProps, State> {
         content={this.renderChilden()}
         trigger={this.props.trigger}
         position={this.props.position}
+        visible={this.state.open}
+        onVisibleChange={(open) => this.setState({ open })}
         hideArrow
         style={{
           content: {
@@ -105,4 +108,5 @@ export interface MenuItemGroupProps {
 
 interface State {
   active?: boolean;
+  open: boolean;
 }

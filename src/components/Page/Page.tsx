@@ -9,7 +9,7 @@ import { nestedAccess } from '../../helpers';
 import { lightText } from '../../helpers/color';
 import { shadow } from '../../helpers/style';
 
-export const Page: React.StatelessComponent<PageProps> = (props) => {
+export const Page: React.FC<PageProps> = (props) => {
   const [activeKey, setActiveKey] = React.useState(nestedAccess(props.tabs, 'defaultActiveKey'));
 
   return (
@@ -29,19 +29,19 @@ export const Page: React.StatelessComponent<PageProps> = (props) => {
                 <Col flex="1 0 auto">{props.tags}</Col>
                 <Col flex="0 1 auto">{props.extra}</Col>
               </Row>
+              {(props.bottom || props.tabs) && (
+                <div style={{ paddingRight: '0', paddingLeft: '0' }} className={classes(css.bottom)}>
+                  <Row gutter={[0, 0]} alignItems="flex-end">
+                    {props.tabs && (
+                      <Col flex="0 1 auto">
+                        <TabHeader titles={props.tabs.headers} activeKey={activeKey} onClick={setActiveKey} />
+                      </Col>
+                    )}
+                    <Col flex="1 0 auto">{props.bottom}</Col>
+                  </Row>
+                </div>
+              )}
             </div>
-            {(props.bottom || props.tabs) && (
-              <div style={{ paddingRight: '0', paddingLeft: '0' }} className={classes(css.header, css.bottom)}>
-                <Row style={{ paddingBottom: '0', paddingTop: '0' }} alignItems="flex-end">
-                  {props.tabs && (
-                    <Col flex="0 1 auto">
-                      <TabHeader titles={props.tabs.headers} activeKey={activeKey} onClick={setActiveKey} />
-                    </Col>
-                  )}
-                  <Col flex="1 0 auto">{props.bottom}</Col>
-                </Row>
-              </div>
-            )}
             {props.tabs && (
               <TabPanelContainer
                 titles={props.tabs.headers}
