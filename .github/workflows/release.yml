@@ -11,12 +11,16 @@ jobs:
     name: Create Release
     runs-on: ubuntu-latest
     steps:
-      - uses: heinrichreimer/github-changelog-generator-action@v2.1.1
-        id: change_log
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout code
         uses: actions/checkout@v2
+      - uses: heinrichreimer/github-changelog-generator-action@v2.1.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Read Changelog
+        id: change_log
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./CHANGELOG.md
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -25,6 +29,6 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-          body: ${{ steps.change_log.outputs.changelog }}
+          body: ${{ steps.change_log.outputs.content }}
           draft: true
           prerelease: false
