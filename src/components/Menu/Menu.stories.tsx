@@ -18,7 +18,9 @@ export default {
 export const Collapsible: Story<MenuItemGroupProps> = (args) => (
   <Menu>
     <MenuItemGroup {...args} title="Options">
-      <MenuItem name="1">Option 1</MenuItem>
+      <MenuItem element={<a />} name="1">
+        Option 1
+      </MenuItem>
       <MenuItem name="2">Option 2</MenuItem>
       <MenuItem name="2">Option 3</MenuItem>
     </MenuItemGroup>

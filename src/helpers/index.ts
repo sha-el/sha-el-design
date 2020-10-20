@@ -62,6 +62,7 @@ export function initialize() {
   }
   a, a:hover, a:focus, a:active {
     text-decoration: none;
+    color: var(--color);
   }
   svg {
     display: flex;
