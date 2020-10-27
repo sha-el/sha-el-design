@@ -1,9 +1,16 @@
 import { stylesheet } from 'typestyle';
-import { lightText, borderColor as borderColorHelper } from '../../helpers/color';
+import { lightText, borderColor as borderColorHelper, disabledColor, colorShades } from '../../helpers/color';
 import { Theme } from '../Theme/Theme';
 import { getColor } from '../../helpers';
 
-export function style(theme: Theme, isError: boolean, label: boolean, active: boolean, borderLess: boolean) {
+export function style(
+  theme: Theme,
+  isError: boolean,
+  label: boolean,
+  active: boolean,
+  borderLess: boolean,
+  disabled: boolean,
+) {
   const borderColor = isError ? theme.error : borderColorHelper(theme.background);
 
   const borderStyle = borderLess
@@ -26,6 +33,7 @@ export function style(theme: Theme, isError: boolean, label: boolean, active: bo
       cursor: 'text',
       borderTop: active && label && 'none',
       transition: 'background-color 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s',
+      background: disabled && colorShades(disabledColor(theme))[4],
       $nest: {
         '&:focus-within': {
           borderColor: theme.primary,
@@ -79,6 +87,9 @@ export function style(theme: Theme, isError: boolean, label: boolean, active: bo
       $nest: {
         '&::placeholder': {
           color: '#aaaaaa',
+        },
+        '&:disabled': {
+          cursor: 'not-allowed',
         },
       },
     },

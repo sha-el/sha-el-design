@@ -2,7 +2,7 @@ import { stylesheet } from 'typestyle';
 import { lightText, shadowColor } from '../../helpers/color';
 import { Theme } from '../Theme/Theme';
 
-export const style = (theme: Theme, nested: boolean) => {
+export const style = (theme: Theme, nested: boolean, clickableRow: boolean) => {
   return stylesheet({
     tableContainer: {
       display: 'flex',
@@ -30,7 +30,7 @@ export const style = (theme: Theme, nested: boolean) => {
     },
     tableRow: {
       padding: '0',
-      cursor: !nested && 'auto !important',
+      cursor: !nested && !clickableRow && 'auto !important',
       fontFamily: "'Fira Code', monospace !important",
       $nest: {
         '& .table-cell': {

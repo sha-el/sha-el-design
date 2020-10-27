@@ -7,7 +7,7 @@ export const MenuItem: React.FC<MenuItemProps> = (props) => {
     <SidePanelContext.Consumer>
       {(context) => {
         const isBarOpen = context.width > 200;
-        const { nested, icon, name, children, onClick, element, close } = props;
+        const { nested, icon, name, children, onClick, element, close, active } = props;
         return (
           <ListItem
             key={name}
@@ -17,6 +17,7 @@ export const MenuItem: React.FC<MenuItemProps> = (props) => {
             }}
             avatar={icon}
             element={element}
+            selected={active}
           >
             {(isBarOpen || nested) && children}
           </ListItem>

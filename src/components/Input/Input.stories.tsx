@@ -24,7 +24,7 @@ const Template: Story<InputProps> = (args) => (
 
 export const Basic = Template.bind({});
 Basic.args = {
-  placeholder: 'placeholder',
+  placeholder: 'Placeholder',
 };
 
 export const Label = Template.bind({});
@@ -42,4 +42,10 @@ export const BeforeAndAfter = Template.bind({});
 BeforeAndAfter.args = {
   before: <MdEmail />,
   after: <MdSubject />,
+};
+
+export const Disabled = Template.bind({});
+Disabled.args = {
+  placeholder: 'Disabled',
+  disabled: true,
 };

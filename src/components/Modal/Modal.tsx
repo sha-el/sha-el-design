@@ -27,7 +27,7 @@ export const Modal: React.FunctionComponent<ModalProps> = (props) => {
               <div
                 key="container"
                 className={classes(css.container, css[`elevation${elevation}`])}
-                style={{ ...style, width }}
+                style={{ width, ...style }}
                 onClick={(e) => e.stopPropagation()}
               >
                 <div>{children}</div>
@@ -61,6 +61,7 @@ const modalStyle = (theme: Theme) => {
       overflowY: 'auto',
       width: '50vw',
       animation: `${slideInBottom} 0.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
+      borderRadius: '2px',
     },
     ...elevations(theme),
   });

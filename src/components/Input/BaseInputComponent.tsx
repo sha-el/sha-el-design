@@ -39,7 +39,7 @@ export const BaseInputComponent: React.FunctionComponent<BaseInputProps | BaseTe
   return (
     <ThemeConsumer>
       {(theme) => {
-        const css = style(theme, !!error, !!label, isInputActive(), borderLess);
+        const css = style(theme, !!error, !!label, isInputActive(), borderLess, props.disabled);
         return (
           <>
             <Row

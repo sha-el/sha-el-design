@@ -45,6 +45,9 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
   };
 
   onOpen = (open: boolean) => {
+    if (this.props.disabled) {
+      return;
+    }
     open && this.fetchData();
     this.setState({ open });
   };
@@ -130,7 +133,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
 
   renderAfter = () => {
     const { open } = this.state;
-    const { value, clearable } = this.props;
+    const { value, clearable, mode } = this.props;
     const afters = [
       <Button
         key="expand"
@@ -140,10 +143,11 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
       />,
     ];
 
-    if (value && clearable) {
+    if ((mode === 'single' ? value : (value as T[]).length) && clearable) {
       afters.push(
         <Button
           onClick={(e: React.MouseEvent) => {
+            e.preventDefault();
             e.stopPropagation();
             this.onChange(null);
           }}
@@ -207,12 +211,13 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
       onChange: (e) => this.onSearch(e.target.value),
       onKeyUp: this.onKeyUp,
       required,
+      disabled: this.props.disabled,
     });
 
     return (
       <Popover
         trigger="onClick"
-        position="bottomLeft"
+        position="bottom"
         content={this.displayList()}
         onVisibleChange={(v) => this.onOpen(v)}
         visible={open}
@@ -237,6 +242,7 @@ export interface BaseAutoComplete<T> {
   clearable?: boolean;
   children?: React.ReactElement;
 
+  disabled?: boolean;
   label?: string;
   error?: string;
   hint?: string;
