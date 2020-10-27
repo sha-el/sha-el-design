@@ -16,7 +16,7 @@ export const CardHeader: React.FunctionComponent<CardHeaderProps> = (props) => {
         });
         return (
           <div className={classes(css, className)} {...restProps}>
-            <Row>
+            <Row alignItems="center">
               <Col style={{ paddingLeft: '0' }} flex="1 0 auto">
                 <Text margin="0" variant="h5">
                   {children}

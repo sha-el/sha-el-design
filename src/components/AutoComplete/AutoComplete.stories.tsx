@@ -5,6 +5,8 @@ import { AutoComplete } from './index';
 // import { Col, Row } from '../Grid';
 import { SingleAutoComplete, MultiAutoComplete } from './AutoComplete';
 import { Row, Col } from '../..';
+import { Button } from '../Button';
+import { MdExpandMore } from 'react-icons/md';
 
 export default {
   title: 'Inputs/AutoComplete',
@@ -81,5 +83,26 @@ export const AsyncFetch: Story = () => {
       displayValue={(e) => e && e.first_name}
       searchValue={(e) => e.first_name}
     />
+  );
+};
+
+export const CustomTrigger: Story<SingleAutoComplete<string>> = () => {
+  const [value, update] = React.useState('Clark');
+
+  return (
+    <AutoComplete
+      mode="single"
+      data={() => ['Bruce', 'Clark', 'Arthur', 'Diana']}
+      uniqueIdentifier={(e) => e}
+      listDisplayProp={(e) => e}
+      label="Select Alter Ego"
+      value={value}
+      displayValue={(e) => e as string}
+      onChange={(e: string) => update(e)}
+    >
+      <Button type="primary" displayBlock outline>
+        {value} <MdExpandMore />
+      </Button>
+    </AutoComplete>
   );
 };

@@ -28,7 +28,7 @@ export const borderColor = (bodyBg: string) => {
 };
 
 export const disabledColor = (theme: Theme) => {
-  return getColor(theme.background, 'rgba(0, 0, 0, 0.25)', 'rgba(255,255,255,0.25)');
+  return getColor(theme.background, 'rgba(0, 0, 0, 0.20)', 'rgba(255,255,255,0.20)');
 };
 
 /**

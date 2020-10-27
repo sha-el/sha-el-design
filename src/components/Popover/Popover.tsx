@@ -25,7 +25,7 @@ export class Popover extends React.Component<PopoverProps, State> {
   }
 
   componentDidMount() {
-    this.setState({ childWidth: this.child.current.offsetWidth });
+    this.setState({ childWidth: this.child.current.getBoundingClientRect().width });
     this.isBrowser();
   }
 

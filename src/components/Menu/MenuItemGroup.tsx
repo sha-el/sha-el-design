@@ -47,7 +47,7 @@ export class MenuItemGroup extends React.Component<MenuItemGroupProps, State> {
 
     return (
       <Popover
-        content={this.renderChilden()}
+        content={<div style={{ maxHeight: '500px', overflow: 'auto' }}>{this.renderChilden()}</div>}
         trigger={this.props.trigger}
         position={this.props.position}
         visible={this.state.open}

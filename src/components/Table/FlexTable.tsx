@@ -13,21 +13,22 @@ import { ThemeConsumer } from '../Theme/Theme';
 import { style as tableStyle } from './style';
 
 export function Column<T>(props: ColumnProps<T>) {
-  const { header: __header, data, children, className, ...rest } = props;
+  const { header: __header, data, children, className, index, ...rest } = props;
   return (
     <Col style={{ display: 'flex', alignItems: 'center' }} className={classes(className, 'table-cell')} {...rest}>
-      {children(data)}
+      {children(data, index)}
     </Col>
   );
 }
 
 export function FlexTable<T>(props: FlexTableProps<T>) {
-  const { data, nested, responsive, style = {}, loading, pagination, ...rest } = props;
+  const { data, nested, responsive, style = {}, loading, pagination, onRowClick, rowStyle, ...rest } = props;
 
   const headers = Array.isArray(props.children)
-    ? props.children.map((v) => React.cloneElement(v, { children: () => v.props.header as never }))
+    ? props.children.map((v) => React.cloneElement(v, { children: () => v.props.header as never, index: -1 }))
     : React.cloneElement(props.children, {
         children: () => (props.children as React.ReactElement<ColumnProps<T>>).props.header,
+        index: -1,
       });
 
   const showEmptyState = (className: string) => {
@@ -46,7 +47,7 @@ export function FlexTable<T>(props: FlexTableProps<T>) {
   return (
     <ThemeConsumer>
       {(theme) => {
-        const css = tableStyle(theme, !!nested);
+        const css = tableStyle(theme, !!nested, !!onRowClick);
         return (
           <List
             {...rest}
@@ -75,11 +76,11 @@ export function FlexTable<T>(props: FlexTableProps<T>) {
                   {data.map((v, index) => {
                     const children = Array.isArray(props.children)
                       ? props.children.map((el, elIndex) =>
-                          React.cloneElement(el, { data: v as never, key: `col-${index}-${elIndex}` }),
+                          React.cloneElement(el, { data: v as never, key: `col-${index}-${elIndex}`, index }),
                         )
-                      : React.cloneElement(props.children, { data: v, key: `col-${index}` });
+                      : React.cloneElement(props.children, { data: v, key: `col-${index}`, index });
 
-                    if (nested && nested.exapandable(v)) {
+                    if (nested && nested.exapandable(v, index)) {
                       return (
                         <CollapsibleList
                           header={
@@ -90,8 +91,9 @@ export function FlexTable<T>(props: FlexTableProps<T>) {
                           key={`row-${index}`}
                           className={css.tableRow}
                           gutter={[0, 0]}
+                          style={rowStyle && rowStyle(v, index)}
                         >
-                          <div className={css.nestedContent}>{nested.render(v)}</div>
+                          <div className={css.nestedContent}>{nested.render(v, index)}</div>
                         </CollapsibleList>
                       );
                     }
@@ -102,6 +104,8 @@ export function FlexTable<T>(props: FlexTableProps<T>) {
                         key={`row-${index}`}
                         className={css.tableRow}
                         gutter={[0, 0]}
+                        onClick={() => onRowClick && onRowClick(v, index)}
+                        style={rowStyle && rowStyle(v, index)}
                       >
                         <Row gutter={[0, '15px']} alignItems="stretch">
                           {children}
@@ -126,8 +130,8 @@ interface FlexTableProps<T> extends Omit<ListProps, 'style'> {
   data: T[];
   children: React.ReactElement<ColumnProps<T>> | React.ReactElement<ColumnProps<T>>[];
   nested?: {
-    render: (data: T) => React.ReactNode;
-    exapandable?: (data: T) => boolean;
+    render: (data: T, index: number) => React.ReactNode;
+    exapandable?: (data: T, index: number) => boolean;
   };
   responsive?: boolean;
   style?: {
@@ -136,11 +140,17 @@ interface FlexTableProps<T> extends Omit<ListProps, 'style'> {
   };
   pagination?: React.ReactElement<PaginationProps>;
   loading?: boolean;
+  onRowClick?: (data: T, index: number) => void;
+  rowStyle?: (data: T, index: number) => React.CSSProperties;
 }
 
 interface ColumnProps<T> extends ColProps {
   data?: T;
-  children: (data: T) => React.ReactNode;
+  index?: number;
+  /**
+   * Index will have -1 for header
+   */
+  children: (data: T, index: number) => React.ReactNode;
   header?: React.ReactNode;
   key: string;
 }

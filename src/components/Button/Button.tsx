@@ -94,9 +94,9 @@ Button.defaultProps = {
   shape: 'default',
 };
 
-function getSize(size: sizeTypes, shape: shapeTypes, block: boolean) {
+function getSize(size: sizeTypes, shape: shapeTypes, block: boolean, flat: boolean) {
   let buttonStyles = {
-    padding: '0 20px',
+    padding: `0 ${flat ? 5 : 20}px`,
     height: '36px',
     fontSize: '14px',
     width: block ? '100%' : 'auto',
@@ -107,7 +107,7 @@ function getSize(size: sizeTypes, shape: shapeTypes, block: boolean) {
     case 'big': {
       buttonStyles = {
         ...buttonStyles,
-        padding: '0 30px',
+        padding: `0 ${flat ? 5 : 30}px`,
         height: '40px',
         fontSize: '16px',
       };
@@ -129,7 +129,7 @@ export function style(props: ButtonProps, theme: Theme) {
 
   return stylesheet({
     default: {
-      ...getSize(props.size, props.shape, props.displayBlock),
+      ...getSize(props.size, props.shape, props.displayBlock, props.flat),
       display: 'inline-flex',
       alignItems: 'center',
       border,
