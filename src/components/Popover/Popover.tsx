@@ -89,7 +89,7 @@ export class Popover extends React.Component<PopoverProps, State> {
               overlayClassName={classes(css.container, css[`elevation${elevation}`])}
               overlayStyle={containerStyle}
               onVisibleChange={(v) => {
-                this.setState({ visible: v });
+                this.setState({ visible: v, childWidth: this.child.current?.getBoundingClientRect().width });
                 onVisibleChange && onVisibleChange(v);
               }}
               visible={this.state.visible}
