@@ -11,6 +11,9 @@ export const Badge: React.FunctionComponent<BadgeProps> = (props) => {
       display: 'inline-block',
     },
     count: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
       position: 'absolute',
       top: '0',
       right: '0',
@@ -21,7 +24,6 @@ export const Badge: React.FunctionComponent<BadgeProps> = (props) => {
       whiteSpace: 'nowrap',
       fontSize: '12px',
       lineHeight: '20px',
-      textAlign: 'center',
       minWidth: '20px',
       height: '20px',
       fontWeight: 500,

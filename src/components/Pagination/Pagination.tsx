@@ -16,7 +16,6 @@ export const Pagination: React.FC<PaginationProps> = (props) => {
             anchor={
               <Input
                 style={{ width: '50px' }}
-                disabled
                 after={<MdExpandMore />}
                 label="Items/Page"
                 value={batchSize}

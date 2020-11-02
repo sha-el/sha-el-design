@@ -19,7 +19,21 @@ Label.args = {
   label: 'Label',
 };
 
-export const Error = Template.bind({});
-Error.args = {
-  error: 'Error',
+export const Color = Template.bind({});
+Color.args = {
+  label: 'Label',
+  color: 'secondary',
+};
+
+export const Disabled = Template.bind({});
+Disabled.args = {
+  label: 'Label',
+  disabled: true,
+};
+
+export const Intermediate = Template.bind({});
+Intermediate.args = {
+  label: 'Label',
+  color: 'primary',
+  intermediate: true,
 };

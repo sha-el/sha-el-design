@@ -132,6 +132,7 @@ export function style(props: ButtonProps, theme: Theme) {
       ...getSize(props.size, props.shape, props.displayBlock, props.flat),
       display: 'inline-flex',
       alignItems: 'center',
+      justifyItems: 'center',
       border,
       cursor: props.loading ? 'wait' : 'pointer',
       textDecoration: 'none',
@@ -157,7 +158,7 @@ export function style(props: ButtonProps, theme: Theme) {
         svg: {
           display: 'inline-block',
           verticalAlign: 'middle',
-          fontSize: '17px',
+          fontSize: '20px',
           marginLeft: children && '-4px',
           marginRight: children && '8px',
         },

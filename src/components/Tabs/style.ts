@@ -35,6 +35,7 @@ export const style = (theme: Theme) => {
       maxWidth: '360px',
       outline: 'none',
       position: 'relative',
+      boxSizing: 'border-box',
       textDecoration: 'none',
       userSelect: 'none',
       $nest: {
@@ -49,6 +50,7 @@ export const style = (theme: Theme) => {
       height: '2px',
       position: 'absolute',
       zIndex: 1,
+      transition: '.2s all',
     },
     tabPanelContainer: {
       overflowX: 'hidden',

@@ -10,6 +10,7 @@ export function style(
   active: boolean,
   borderLess: boolean,
   disabled: boolean,
+  before: boolean,
 ) {
   const borderColor = isError ? theme.error : borderColorHelper(theme.background);
 
@@ -37,7 +38,7 @@ export function style(
       $nest: {
         '&:focus-within': {
           borderColor: theme.primary,
-          background: theme.background,
+          // background: theme.background,
 
           $nest: {
             '.seudo': {
@@ -81,9 +82,10 @@ export function style(
       borderImage: 'initial',
       outline: 'none',
       lineHeight: '12px',
-      padding: `9px ${borderLess ? '0px' : '15px'}`,
+      padding: `9px ${borderLess ? '0' : before ? '5px' : '10px'}`,
       color: getColor(theme.background),
       boxSizing: 'border-box',
+      height: '36px',
       $nest: {
         '&::placeholder': {
           color: '#aaaaaa',

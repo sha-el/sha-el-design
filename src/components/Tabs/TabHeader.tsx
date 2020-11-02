@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { style } from './style';
-import posed from 'react-pose';
 import { classes } from 'typestyle';
 import { TabPanelProps } from './TabPanel';
 import { ThemeConsumer } from '../Theme/Theme';
@@ -14,13 +13,16 @@ export const TabHeader: React.FunctionComponent<TabHeaderProps> = (props) => {
     if (!target) {
       return;
     }
+    const left = target.offsetLeft;
+    const width = target.getBoundingClientRect().width;
+
     if (![].find.call(target.classList, (v: string) => v.includes(className))) {
       return;
     }
-    if (target.offsetLeft === inkStyle.left && target.clientWidth === inkStyle.width) {
+    if (left === inkStyle.left && width === inkStyle.width) {
       return;
     }
-    setInkStyle({ left: target.offsetLeft, width: target.clientWidth });
+    setInkStyle({ left, width });
   };
 
   React.useEffect(() => {
@@ -36,7 +38,7 @@ export const TabHeader: React.FunctionComponent<TabHeaderProps> = (props) => {
         const css = style(theme);
         return (
           <div className={css.tabHeaderContainer} onClick={(e) => onContainerClick(e.target as HTMLDivElement)}>
-            <InkBar pose="active" className={css.inkBar} poseKey={`${inkStyle.left} ${inkStyle.width}`} {...inkStyle} />
+            <div className={css.inkBar} style={{ ...inkStyle, bottom: '0' }} />
             {props.titles.map((v, i) => (
               <div
                 key={v.key}
@@ -55,20 +57,6 @@ export const TabHeader: React.FunctionComponent<TabHeaderProps> = (props) => {
     </ThemeConsumer>
   );
 };
-
-const InkBar = posed.div({
-  active: {
-    left: ({ left }) => left,
-    width: ({ width }) => width,
-    bottom: () => 0,
-  },
-
-  props: {
-    left: 0,
-    width: 50,
-    bottom: 0,
-  },
-});
 
 interface TabHeaderProps {
   titles: TabPanelProps[];

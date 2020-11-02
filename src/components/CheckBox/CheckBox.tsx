@@ -1,9 +1,16 @@
 import * as React from 'react';
-import { stylesheet, classes } from 'typestyle';
+import { stylesheet } from 'typestyle';
 import { ThemeConsumer, Theme } from '../Theme/Theme';
-import { shadow } from '../../helpers/style';
+import { Text } from '../Text';
+import { MdCheckBox, MdCheckBoxOutlineBlank, MdIndeterminateCheckBox } from 'react-icons/md';
+import { Col, Row } from '../Grid';
+import { disabledColor, lightText } from '../../helpers/color';
 
 export const CheckBox: React.FunctionComponent<CheckBoxProps> = (props) => {
+  const { label, intermediate, onChange, color, disabled, ...rest } = props;
+
+  const [checked, updateChecked] = React.useState(props.checked || intermediate || false);
+
   const input = React.createRef<HTMLInputElement>();
 
   const onContainerClick = () => {
@@ -12,110 +19,60 @@ export const CheckBox: React.FunctionComponent<CheckBoxProps> = (props) => {
     }
   };
 
-  const { label, className, error } = props;
   return (
     <ThemeConsumer>
       {(theme) => {
-        const css = style(theme, props.block);
+        const css = style(theme, checked, color, disabled);
 
         return (
-          <div className={css.container} onClick={() => onContainerClick()}>
-            <input className={css.checkbox} ref={input} type="checkbox" {...props} />
-            <label className={`${css.label}`}>{label}</label>
-            {error && (
-              <div style={{ marginTop: '0' }} key="error" className={classes(css.errorStyle, className)}>
-                {error}
-              </div>
-            )}
-          </div>
+          <Row
+            alignItems="center"
+            gutter={[0, 0]}
+            className={css.container}
+            onClick={() => !disabled && onContainerClick()}
+          >
+            <input
+              className={css.input}
+              ref={input}
+              type="checkbox"
+              checked={checked}
+              onChange={(e) => {
+                onChange?.(e);
+                updateChecked(e.target.checked);
+              }}
+              {...rest}
+            />
+            <Col flex="0 1 auto">
+              {intermediate ? (
+                <MdIndeterminateCheckBox size="22px" className={css.svg} />
+              ) : checked ? (
+                <MdCheckBox size="22px" className={css.svg} />
+              ) : (
+                <MdCheckBoxOutlineBlank size="22px" className={css.svg} />
+              )}
+            </Col>
+            <Col flex="1 0 auto">
+              <Text color={disabled && disabledColor(theme)} fontSize="1rem" margin="0 0 0 9px">
+                {label}
+              </Text>
+            </Col>
+          </Row>
         );
       }}
     </ThemeConsumer>
   );
 };
 
-const style = (theme: Theme, block: boolean) => {
-  const backgroundColor = theme.textColor;
-
+const style = (theme: Theme, checked: boolean, color: CheckBoxProps['color'], disabled: boolean) => {
   return stylesheet({
     container: {
-      cursor: 'pointer',
-      margin: '10px 0',
-      fontWeight: 'lighter',
-      boxShadow: block && shadow('BOT', theme),
-      lineHeight: '22px',
+      cursor: disabled ? 'not-allowed' : 'pointer',
     },
-    label: {
-      color: theme.textColor,
-      transition: 'all .5s',
-      pointerEvents: 'none',
-      fontSize: '16px',
-      marginLeft: '30px',
-      position: 'relative',
-      $nest: {
-        '&::before': {
-          cursor: 'pointer',
-          content: '""',
-          border: '1px solid ' + backgroundColor,
-          position: 'absolute',
-          left: '-23px',
-          top: '0',
-          width: '16px',
-          height: '16px',
-          zIndex: 0,
-          transition: '.4s ease',
-        },
-        '&::after': {
-          content: '""',
-          cursor: 'pointer',
-          position: 'absolute',
-          left: '0',
-          top: '0',
-          margin: '4px',
-          width: '16px',
-          height: '16px',
-          zIndex: 0,
-          transition: '.28s ease',
-        },
-      },
-    },
-    errorStyle: {
-      fontSize: '14px',
-      padding: '0 7px',
-      color: theme.error,
-    },
-    checkbox: {
+    input: {
       display: 'none',
-      $nest: {
-        '&:checked': {
-          $nest: {
-            '& ~ label:after': {
-              content: '""',
-              cursor: 'pointer',
-              position: 'absolute',
-              left: '-23px',
-              top: '0',
-              margin: '4px',
-              width: '16px',
-              height: '16px',
-              zIndex: 0,
-              transition: '.28s ease',
-            },
-            '& ~ label:before': {
-              borderTop: '1px solid transparent',
-              borderLeft: '1px solid transparent',
-              borderRight: '1px solid ' + backgroundColor,
-              borderBottom: '1px solid ' + backgroundColor,
-              display: 'inline-block',
-              transform: 'rotateZ(390deg)',
-              top: '0',
-              left: '-23px',
-              width: '8px',
-              transformOrigin: '100% 100%',
-            },
-          },
-        },
-      },
+    },
+    svg: {
+      fill: disabled ? disabledColor(theme) : checked ? theme[color] || color : lightText(theme),
     },
   });
 };
@@ -123,10 +80,7 @@ const style = (theme: Theme, block: boolean) => {
 export interface CheckBoxProps
   extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
   label?: string;
-  error?: string;
-  block?: boolean;
-}
-
-interface State {
-  theme: Theme;
+  intermediate?: boolean;
+  color?: keyof Theme | string;
+  disabled?: boolean;
 }
