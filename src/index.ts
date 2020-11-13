@@ -39,3 +39,4 @@ export { List, ListItem, CollapsibleList } from './components/List';
 export { RCTooltip as Tooltip };
 export { Text } from './components/Text';
 export { Upload } from './components/Upload';
+export { Slider } from './components/Slider';
