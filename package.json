@@ -27,7 +27,7 @@
     "csx": "^10.0.1",
     "date-fns": "^2.15.0",
     "debounce": "^1.2.0",
-    "rc-slider": "^9.3.1",
+    "rc-slider": "^9.6.2",
     "rc-tooltip": "^4.2.1",
     "react-pose": "^4.0.10",
     "react-pose-text": "^3.1.0",

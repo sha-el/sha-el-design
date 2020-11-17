@@ -26,9 +26,9 @@ export const Upload: React.FC<UploadProps> = (props) => {
         onClick: () => inputEl.current.click(),
         onDrop: (e: React.DragEvent) => {
           e.preventDefault();
-          console.log(e);
           inputEl.current.files = e.dataTransfer.files;
           updateFiles(e.dataTransfer.files);
+          props.onChange?.((e as unknown) as React.ChangeEvent<HTMLInputElement>);
         },
         onDragOver: (e: React.DragEvent) => {
           e.preventDefault();
