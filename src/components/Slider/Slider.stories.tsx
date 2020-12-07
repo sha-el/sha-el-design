@@ -1,7 +1,7 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 
-import { Slider, SliderProps, Range as SlRange, RangeProps, Handle } from './Slider';
+import { Slider, SliderProps, Range as SlRange, RangeProps, SliderHandle } from './Slider';
 import { Text } from '../Text';
 import { SliderTooltip } from 'rc-slider';
 
@@ -39,7 +39,7 @@ Marks.args = {
 export const WithTooltip: Story<SliderProps> = (args) => {
   const handle = ({ value, dragging, ...rest }: { value: number; dragging?: boolean }) => (
     <SliderTooltip visible={dragging} prefixCls="rc-slider-tooltip" overlay={`${value} KM`} placement="top">
-      <Handle value={value} {...rest} />
+      <SliderHandle value={value} {...rest} />
     </SliderTooltip>
   );
   return <Slider {...args} handle={handle} />;

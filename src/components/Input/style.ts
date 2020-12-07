@@ -1,5 +1,5 @@
 import { stylesheet } from 'typestyle';
-import { lightText, borderColor as borderColorHelper, disabledColor, colorShades } from '../../helpers/color';
+import { lightText, borderColor as borderColorHelper, disabledText } from '../../helpers/color';
 import { Theme } from '../Theme/Theme';
 import { getColor } from '../../helpers';
 
@@ -16,11 +16,11 @@ export function style(
 
   const borderStyle = borderLess
     ? {
-        borderBottom: `1px solid ${borderColor}`,
+        borderBottom: `1px ${disabled ? 'dotted' : 'solid'} ${borderColor}`,
         borderRadius: '0',
       }
     : {
-        border: `1px solid ${borderColor}`,
+        border: `1px ${disabled ? 'dotted' : 'solid'} ${borderColor}`,
         borderRadius: '4px',
       };
 
@@ -28,17 +28,15 @@ export function style(
     container: {
       ...borderStyle,
       position: 'relative',
-      color: lightText(theme),
+      color: disabled ? disabledText(theme) : lightText(theme),
       fontSize: '14px',
       lineHeight: 1.12857,
       cursor: 'text',
-      borderTop: active && label && 'none',
+      borderTop: (active && label && 'none') || undefined,
       transition: 'background-color 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s',
-      background: disabled && colorShades(disabledColor(theme))[4],
       $nest: {
         '&:focus-within': {
           borderColor: theme.primary,
-          // background: theme.background,
 
           $nest: {
             '.seudo': {
@@ -57,15 +55,14 @@ export function style(
           },
         },
         '&:hover': {
-          borderColor: !active && 'rgb(9, 30, 66)',
+          borderColor: (!active && !disabled && 'rgb(9, 30, 66)') || undefined,
         },
       },
     },
-
     section: {
       position: 'relative',
       boxSizing: 'border-box',
-      color: lightText(theme),
+      color: disabled ? disabledText(theme) : lightText(theme),
       fontSize: '14px',
       lineHeight: 1.12857,
       maxWidth: '100%',
@@ -73,8 +70,10 @@ export function style(
       borderWidth: '1px',
     },
     input: {
-      fontSize: '16px',
-      width: '100%',
+      fontSize: '14px',
+      minWidth: '100%',
+      display: 'inline',
+      maxWidth: '100%',
       background: 'transparent',
       borderWidth: '0px',
       borderStyle: 'initial',
@@ -83,9 +82,10 @@ export function style(
       outline: 'none',
       lineHeight: '12px',
       padding: `9px ${borderLess ? '0' : before ? '5px' : '10px'}`,
-      color: getColor(theme.background),
+      color: disabled ? disabledText(theme) : getColor(theme.background),
       boxSizing: 'border-box',
       height: '36px',
+      fontFamily: '"Roboto", sans-serif',
       $nest: {
         '&::placeholder': {
           color: '#aaaaaa',
@@ -96,7 +96,7 @@ export function style(
       },
     },
     textarea: {
-      fontSize: '16px',
+      fontSize: '14px',
       minWidth: '0px',
       width: '100%',
       background: 'transparent',
@@ -109,7 +109,8 @@ export function style(
       lineHeight: '1em',
       padding: '8px 5px',
       maxWidth: '100%',
-      color: getColor(theme.background),
+      color: disabled ? disabledText(theme) : lightText(theme),
+      fontFamily: '"Roboto", sans-serif',
       $nest: {
         '&::placeholder': {
           color: '#aaaaaa',
@@ -120,7 +121,7 @@ export function style(
       position: 'absolute',
       display: 'flex',
       alignSelf: 'center',
-      color: lightText(theme),
+      color: disabled ? disabledText(theme) : lightText(theme),
       boxSizing: 'border-box',
       left: 0,
       top: -7,
@@ -133,7 +134,7 @@ export function style(
           display: 'block',
           boxSizing: 'border-box',
           marginTop: '6px',
-          borderTop: 'solid 1px',
+          borderTop: `${disabled ? 'dotted' : 'solid'} 1px`,
           borderTopColor: active && !borderLess ? borderColor : 'transparent',
           minWidth: borderLess ? '0px' : '10px',
           height: '8px',

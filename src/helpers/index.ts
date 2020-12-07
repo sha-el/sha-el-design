@@ -5,7 +5,10 @@ import { initializeNotification } from './../components/Notification/Notificatio
 import popverCss from './popover.css';
 import topography from './topography.css';
 
-export function removeObjectProperties<T>(obj: T, ...props: (keyof T)[]): Omit<T, keyof T> {
+export function removeObjectProperties<T extends Record<string, unknown>>(
+  obj: T,
+  ...props: (keyof T)[]
+): Omit<T, keyof T> {
   obj = { ...obj };
   for (let i = 0; i < props.length; i++) {
     if (obj.hasOwnProperty(props[i])) {
@@ -78,7 +81,7 @@ export function initialize() {
 }
 
 export function arrayBetween(num1: number, num2: number) {
-  const arr = [];
+  const arr: number[] = [];
   for (let i = num1; i < num2; i++) {
     arr.push(i);
   }

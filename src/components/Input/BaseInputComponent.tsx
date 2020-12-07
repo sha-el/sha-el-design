@@ -39,7 +39,15 @@ export const BaseInputComponent: React.FunctionComponent<BaseInputProps | BaseTe
   return (
     <ThemeConsumer>
       {(theme) => {
-        const css = style(theme, !!error, !!label, isInputActive(), borderLess, props.disabled, !!before);
+        const css = style(
+          theme,
+          !!error,
+          !!label,
+          isInputActive(),
+          borderLess || false,
+          props.disabled || false,
+          !!before,
+        );
         return (
           <>
             <Row
@@ -52,7 +60,7 @@ export const BaseInputComponent: React.FunctionComponent<BaseInputProps | BaseTe
                 <Col
                   className={classes(css.seudo, 'seudo')}
                   flex="0 1 auto"
-                  style={{ paddingLeft: !borderLess && '5px' }}
+                  style={{ paddingLeft: (!borderLess && '5px') || undefined }}
                 >
                   {before}
                 </Col>
@@ -89,7 +97,7 @@ export const BaseInputComponent: React.FunctionComponent<BaseInputProps | BaseTe
                       <Col
                         className={classes(css.seudo, 'seudo')}
                         flex="0 1 auto"
-                        style={{ paddingRight: !borderLess && '5px' }}
+                        style={{ paddingRight: (!borderLess && '5px') || undefined }}
                       >
                         {after}
                       </Col>

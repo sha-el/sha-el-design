@@ -41,7 +41,8 @@ export const style = (theme: Theme) => {
       $nest: {
         '&:hover': {
           color: theme.primary,
-          background: hoverColor(theme.background),
+          filter: hoverColor(theme.background),
+          background: theme.background,
         },
       },
     },

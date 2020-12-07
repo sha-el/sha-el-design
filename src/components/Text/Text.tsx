@@ -70,6 +70,14 @@ export const Text: React.FunctionComponent<TextProps> = (props) => {
       );
     }
 
+    if (props.variant === 'label') {
+      return (
+        <label className={css} style={props.style}>
+          {props.children}
+        </label>
+      );
+    }
+
     return (
       <span className={css} style={props.style}>
         {props.children}
@@ -84,7 +92,7 @@ export interface TextProps {
   /**
    *  Defines variant for heading.
    */
-  variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p';
+  variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'label';
   /**
    * Sets the font style to italics.
    */
@@ -126,6 +134,11 @@ export interface TextProps {
    * Add font weight
    */
   fontWeight?: React.CSSProperties['fontWeight'];
+
+  /**
+   * Add text align
+   */
+  textAlign?: React.CSSProperties['textAlign'];
 
   className?: string;
 }

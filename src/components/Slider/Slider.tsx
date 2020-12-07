@@ -28,4 +28,4 @@ export const Range: React.FC<RangeProps> = (props) => {
   );
 };
 
-export { RangeProps, SliderProps, HandleProps, Handle, SliderTooltip };
+export { RangeProps, SliderProps, HandleProps, Handle as SliderHandle, SliderTooltip };

@@ -1,19 +1,18 @@
 import * as React from 'react';
-import { stylesheet, style as typeStyle, classes } from 'typestyle';
+import { stylesheet } from 'typestyle';
 import { getDate, getMonth, getDay, getDaysInMonth, getYear, compareDesc } from 'date-fns';
-import { nestedAccess, arrayBetween, getColor } from './../../helpers';
-import { disabledColor } from '../../helpers/color';
-import { AutoComplete } from '../AutoComplete';
+import { nestedAccess, arrayBetween } from './../../helpers';
 import { Row, Col } from './../../index';
 import { Card, CardBody } from '../Card';
 import { color } from 'csx';
-import RCTooltip from 'rc-tooltip';
-import { ThemeConsumer, Theme } from '../Theme/Theme';
+import { Button } from '../Button';
+import { Tooltip } from '../Tooltip';
+import { Text } from '../Text';
+import { Menu, MenuItem } from '../Menu';
 
 export class Calendar extends React.Component<CalendarProps, State> {
   static defaultProps = {
     date: new Date(),
-    cellRender: ([, , date]) => date,
     disabledDate: () => false,
     elevation: 0,
   };
@@ -28,6 +27,9 @@ export class Calendar extends React.Component<CalendarProps, State> {
   }
 
   initialDate = (date = this.props.date) => {
+    if (!date) {
+      return [getYear(new Date()), getMonth(new Date()), getDate(new Date())] as DateTupple;
+    }
     if (Array.isArray(date)) {
       return date;
     }
@@ -36,10 +38,10 @@ export class Calendar extends React.Component<CalendarProps, State> {
 
   dateObj = (dateTupple = this.props.date) => {
     const [year, month, date] = this.initialDate(dateTupple);
-    const dateObj = [];
+    const dateObj: Record<weeksEnum, number>[] = [];
     let monthStart = 1;
     for (let i = 0; i < 6; i++) {
-      const obj = {};
+      const obj: Record<weeksEnum, number> = {} as Record<weeksEnum, number>;
       for (let j = getDay(new Date(year, month, monthStart)); j < 7; j++) {
         if (monthStart > getDaysInMonth(new Date(year, month, date))) {
           break;
@@ -52,16 +54,14 @@ export class Calendar extends React.Component<CalendarProps, State> {
     return dateObj;
   };
 
-  todayStyle = (date: number, primaryColor: string): React.CSSProperties => {
+  today = (date: number): boolean => {
     const {
       date: [year, month],
     } = this.state;
     if (getYear(new Date()) === year && getMonth(new Date()) === month && getDate(new Date()) === date) {
-      return {
-        borderBottom: '2px solid ' + primaryColor,
-      };
+      return true;
     }
-    return {};
+    return false;
   };
 
   monthChange = (month: string) => {
@@ -80,12 +80,10 @@ export class Calendar extends React.Component<CalendarProps, State> {
     if (!day) {
       return;
     }
-
     const { callendarEvents } = this.props;
     const {
       date: [year, month, __],
     } = this.state;
-
     if (!callendarEvents) {
       return;
     }
@@ -96,7 +94,7 @@ export class Calendar extends React.Component<CalendarProps, State> {
       const [startDate, endDate] = [this.initialDate(v.startDate), this.initialDate(v.endDate)];
       if (day === startDate[2] && month === startDate[1] && year === startDate[0]) {
         return (
-          <RCTooltip placement="top" trigger={['hover']} overlay={v.eventName}>
+          <Tooltip placement="top" trigger={['hover']} overlay={v.eventName}>
             <div
               className={style.badge}
               style={{
@@ -109,7 +107,7 @@ export class Calendar extends React.Component<CalendarProps, State> {
                     .toString(),
               }}
             />
-          </RCTooltip>
+          </Tooltip>
         );
       }
 
@@ -118,7 +116,7 @@ export class Calendar extends React.Component<CalendarProps, State> {
         compareDesc(new Date(year, month, day), new Date(...endDate)) === 1
       ) {
         return (
-          <RCTooltip placement="top" trigger={['hover']} overlay={v.eventName}>
+          <Tooltip placement="top" trigger={['hover']} overlay={v.eventName}>
             <div
               className={style.badge}
               style={{
@@ -130,17 +128,17 @@ export class Calendar extends React.Component<CalendarProps, State> {
                     .toString(),
               }}
             />
-          </RCTooltip>
+          </Tooltip>
         );
       }
 
       if (day === endDate[2] && month === endDate[1] && year === endDate[0]) {
         return (
-          <RCTooltip placement="top" trigger={['hover']} overlay={v.eventName}>
+          <Tooltip placement="top" trigger={['hover']} overlay={v.eventName}>
             <div
               className={style.badge}
               style={{
-                borderRadius: '0 0 4px 4px',
+                borderRadius: '0 4px 4px 0',
                 background: v.color || '#fcc',
                 boxShadow:
                   '0 10px 14px ' +
@@ -149,26 +147,13 @@ export class Calendar extends React.Component<CalendarProps, State> {
                     .toString(),
               }}
             />
-          </RCTooltip>
+          </Tooltip>
         );
       }
     });
   };
 
-  cellDisabledStyle = (disabled: boolean, theme: Theme) =>
-    disabled &&
-    typeStyle({
-      background: disabledColor(theme),
-      cursor: 'not-allowed',
-      color: '#fff',
-      $nest: {
-        '&:hover': {
-          background: disabledColor(theme) + ' !important',
-        },
-      },
-    });
-
-  toDate = (date: Date | DateTupple) => {
+  toDate = (date: Date | DateTupple | null) => {
     if (!date) {
       return null;
     }
@@ -183,87 +168,92 @@ export class Calendar extends React.Component<CalendarProps, State> {
     const style = this.css();
     const { dateObj, date } = this.state;
     return (
-      <ThemeConsumer>
-        {(theme) => (
-          <Card elevation={this.props.elevation}>
-            <CardBody>
-              <div>
-                <Row>
-                  <Col span={12}>
-                    <AutoComplete
-                      data={() => months}
-                      label="Month"
-                      value={months[date[1]]}
-                      uniqueIdentifier={(e: string) => e}
-                      listDisplayProp={(e) => e}
-                      onChange={this.monthChange}
-                      displayValue={(e: string) => e.toString()}
-                      clearable={false}
-                    />
-                  </Col>
-                  <Col span={12}>
-                    <AutoComplete
-                      data={() => arrayBetween(1980, 2030)}
-                      label="Year"
-                      value={date[0]}
-                      uniqueIdentifier={(e: string) => e}
-                      listDisplayProp={(e) => e}
-                      onChange={this.yearChange}
-                      displayValue={(e) => e}
-                      clearable={false}
-                    />
-                  </Col>
-                </Row>
-                <Row>
-                  {weeks.map((v) => (
-                    <Col className={style.weeks} span={24 / 7} key={v}>
-                      {v.slice(0, 3)}
-                    </Col>
-                  ))}
-                </Row>
-                <Row>
-                  {dateObj.map((v) => {
-                    return weeks.map((f, i) => {
-                      const isSelectedDate =
-                        compareDesc(new Date(date[0], date[1], nestedAccess(v, f)), this.toDate(this.props.date)) === 0;
-
-                      return (
-                        <Col
-                          style={{
-                            ...this.todayStyle(nestedAccess(v, f), theme.primary),
-                            padding: '0',
-                            background: isSelectedDate && theme.primary,
-                            color: isSelectedDate && getColor(theme.primary),
-                            boxSizing: 'border-box',
-                          }}
-                          className={classes(
-                            style.cell,
-                            this.cellDisabledStyle(
-                              this.props.disabledDate([date[0], date[1], nestedAccess(v, f)]),
-                              theme,
-                            ),
-                          )}
-                          key={i}
-                          span={24 / 7}
+      <Card elevation={this.props.elevation}>
+        <CardBody>
+          <Row gutter={[0, '5px']} justifyContent="flex-end">
+            <Col flex="0 1 auto">
+              <Menu
+                height="300px"
+                trigger="onHover"
+                anchor={
+                  <Button primary displayBlock flat>
+                    {months[date[1]]}
+                  </Button>
+                }
+              >
+                {months.map((v) => (
+                  <MenuItem active={v === months[date[1]]} onClick={() => this.monthChange(v)} key={v}>
+                    {v}
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Col>
+            <Col flex="0 1 auto">
+              <Menu
+                height="300px"
+                trigger="onHover"
+                anchor={
+                  <Button primary displayBlock flat>
+                    {date[0]}
+                  </Button>
+                }
+              >
+                {arrayBetween(1980, 2030).map((v) => (
+                  <MenuItem active={v === date[0]} onClick={() => this.yearChange(v)} key={v}>
+                    {v}
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Col>
+          </Row>
+          <Row gutter={[0, 0]}>
+            {weeks.map((v) => (
+              <Col span={24 / 7} key={v}>
+                <Text fontWeight={600} textAlign="center" variant="p" color="light">
+                  {v.slice(0, 3)}
+                </Text>
+              </Col>
+            ))}
+          </Row>
+          <Row gutter={[0, 0]}>
+            {dateObj.map((v) => {
+              return weeks.map((f, i) => {
+                const selectedDate = this.toDate(this.props.date || null);
+                const isSelectedDate =
+                  selectedDate && compareDesc(new Date(date[0], date[1], nestedAccess(v, f)), selectedDate) === 0;
+                const today = this.today(v?.[f]);
+                return (
+                  <Col className={style.cell} key={i} span={24 / 7}>
+                    {nestedAccess(v, f) ? (
+                      this.props.cellRender?.([date?.[0], date?.[1], v?.[f]], f) || (
+                        <Button
+                          disabled={this.props.disabledDate?.([date[0], date[1], v?.[f]])}
+                          flat={!today && !isSelectedDate}
+                          shape="circle"
+                          outline={today}
+                          primary={today || isSelectedDate || false}
                           onClick={() =>
-                            !this.props.disabledDate([date[0], date[1], nestedAccess(v, f)]) &&
+                            !this.props.disabledDate?.([date?.[0], date?.[1], v?.[f]]) &&
                             this.props.onClick &&
-                            this.props.onClick([date[0], date[1], nestedAccess(v, f)] as DateTupple)
+                            this.props.onClick([date?.[0], date?.[1], nestedAccess(v, f)] as DateTupple)
                           }
                         >
-                          {(nestedAccess(v, f) && this.props.cellRender([date[0], date[1], nestedAccess(v, f)], f)) ||
-                            '-'}
-                          <div className={style.dateContent}>{this.calendarEvent(nestedAccess(v, f))}</div>
-                        </Col>
-                      );
-                    });
-                  })}
-                </Row>
-              </div>
-            </CardBody>
-          </Card>
-        )}
-      </ThemeConsumer>
+                          {v?.[f]}
+                        </Button>
+                      )
+                    ) : (
+                      <div />
+                    )}
+                    {this.props.callendarEvents && (
+                      <div className={style.dateContent}>{this.calendarEvent(v?.[f])}</div>
+                    )}
+                  </Col>
+                );
+              });
+            })}
+          </Row>
+        </CardBody>
+      </Card>
     );
   }
 
@@ -271,37 +261,28 @@ export class Calendar extends React.Component<CalendarProps, State> {
     return stylesheet({
       dateContent: {
         position: 'static',
+        width: '110%',
         height: '0',
         textAlign: 'left',
         paddingBottom: '25%',
         boxSizing: 'border-box',
       },
-      weeks: {
-        textAlign: 'right',
-        fontWeight: 'bold',
-        color: '#333',
-      },
       cell: {
-        borderBottom: '1px solid #eee',
-        fontWeight: 400,
+        border: '1px solid rgba(0,0,0,0.1)',
         color: '#555',
-        textAlign: 'right',
+        display: 'flex',
+        position: 'relative',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexWrap: 'wrap',
         padding: '0',
-        borderLeft: 'none #e0e0e0 1px solid',
-        borderRight: 'none #e0e0e0 1px solid',
         cursor: 'pointer',
-
-        $nest: {
-          '&:hover': {
-            background: '#eee',
-          },
-        },
       },
       badge: {
-        height: '5px',
-        width: '100%',
+        height: '10px',
+        minWidth: '100%',
         cursor: 'pointer',
-        marginBottom: '2px',
+        margin: '2px 0',
       },
     });
   };

@@ -1,1 +1,1 @@
-export { Slider, SliderTooltip, Range, Handle } from './Slider';
+export { Slider, SliderTooltip, Range, SliderHandle } from './Slider';

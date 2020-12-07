@@ -46,6 +46,7 @@ BeforeAndAfter.args = {
 
 export const Disabled = Template.bind({});
 Disabled.args = {
-  placeholder: 'Disabled',
+  defaultValue: 'Disabled',
   disabled: true,
+  label: 'Disabled',
 };

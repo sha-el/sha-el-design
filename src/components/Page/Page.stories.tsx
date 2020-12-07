@@ -1,14 +1,15 @@
 import React from 'react';
 import { Meta } from '@storybook/react';
 
-import { Page, Row, Col, Tag, TabPanel, Card, Collapse } from '../../';
+import { Page, Row, Col, Tag, TabPanel, Card, Collapse, AutoComplete } from '../../';
 
 import { Textarea, Input } from '../Input';
 
-import { MdArrowBack, MdSearch } from 'react-icons/md';
+import { MdAdd, MdArrowBack, MdSearch } from 'react-icons/md';
 import { Breadcrumb } from '../Breadcrumb';
 import { FlexTable } from '../Table';
 import MOCK_DATA from '../Table/MOCK_DATA.json';
+import { Button } from '../Button';
 
 type DataType = typeof MOCK_DATA[0];
 
@@ -39,6 +40,11 @@ export const Basic = () => (
         List
       </Tag>,
     ]}
+    bottom={
+      <Button type="primary" outline icon={<MdAdd />}>
+        Add
+      </Button>
+    }
     tabs={{
       defaultActiveKey: 'a',
       headers: [
@@ -70,7 +76,15 @@ export const Basic = () => (
           Yolo
         </TabPanel>,
         <TabPanel key="c" title="YOLO">
-          Yolo
+          <AutoComplete
+            mode="single"
+            data={() => ['Bruce', 'Clark', 'Arthur', 'Diana']}
+            uniqueIdentifier={(e) => e}
+            listDisplayProp={(e) => e}
+            label="Select Alter Ego"
+            displayValue={(e) => e as string}
+            hint="Select an alter ego"
+          />
         </TabPanel>,
         <TabPanel key="d" title="YOLO">
           Yolo
@@ -101,12 +115,51 @@ export const Basic = () => (
           <Col span={12}>HELLO</Col>
         </Row>
       </Collapse>
+      <AutoComplete
+        mode="single"
+        data={() => ['Bruce', 'Clark', 'Arthur', 'Diana']}
+        uniqueIdentifier={(e) => e}
+        listDisplayProp={(e) => e}
+        label="Select Alter Ego"
+        displayValue={(e) => e as string}
+        hint="Select an alter ego"
+      />
+      <AutoComplete
+        mode="single"
+        data={() => ['Bruce', 'Clark', 'Arthur', 'Diana']}
+        uniqueIdentifier={(e) => e}
+        listDisplayProp={(e) => e}
+        label="Select Alter Ego"
+        displayValue={(e) => e as string}
+        hint="Select an alter ego"
+      />
+      <AutoComplete
+        mode="single"
+        data={() => ['Bruce', 'Clark', 'Arthur', 'Diana']}
+        uniqueIdentifier={(e) => e}
+        listDisplayProp={(e) => e}
+        label="Select Alter Ego"
+        displayValue={(e) => e as string}
+        hint="Select an alter ego"
+      />
+      <AutoComplete
+        mode="single"
+        data={() => ['Bruce', 'Clark', 'Arthur', 'Diana']}
+        uniqueIdentifier={(e) => e}
+        listDisplayProp={(e) => e}
+        label="Select Alter Ego"
+        displayValue={(e) => e as string}
+        hint="Select an alter ego"
+      />
+      <AutoComplete
+        mode="single"
+        data={() => ['Bruce', 'Clark', 'Arthur', 'Diana']}
+        uniqueIdentifier={(e) => e}
+        listDisplayProp={(e) => e}
+        label="Select Alter Ego"
+        displayValue={(e) => e as string}
+        hint="Select an alter ego"
+      />
     </Card>
   </Page>
 );
-// stories.add(
-//   'Page',
-//   withInfo()(() => (
-//
-//   )),
-// );

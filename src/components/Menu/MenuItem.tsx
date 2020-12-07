@@ -1,34 +1,25 @@
 import * as React from 'react';
-import { SidePanelContext } from '../Layout/Container';
 import { ListItem } from '../List';
 
 export const MenuItem: React.FC<MenuItemProps> = (props) => {
+  const { icon, children, onClick, element, close, active, action } = props;
   return (
-    <SidePanelContext.Consumer>
-      {(context) => {
-        const isBarOpen = context.width > 200;
-        const { nested, icon, name, children, onClick, element, close, active } = props;
-        return (
-          <ListItem
-            key={name}
-            onClick={() => {
-              onClick && onClick();
-              close && close();
-            }}
-            avatar={icon}
-            element={element}
-            selected={active}
-          >
-            {(isBarOpen || nested) && children}
-          </ListItem>
-        );
+    <ListItem
+      onClick={() => {
+        onClick && onClick();
+        close && close();
       }}
-    </SidePanelContext.Consumer>
+      avatar={icon}
+      element={element}
+      selected={active}
+      action={action}
+    >
+      {children}
+    </ListItem>
   );
 };
 
 export interface MenuItemProps {
-  name: string;
   children: React.ReactNode;
   active?: boolean;
   icon?: React.ReactElement;
@@ -36,4 +27,5 @@ export interface MenuItemProps {
   onClick?: () => void;
   element?: React.ReactElement;
   close?: () => void;
+  action?: React.ReactNode;
 }

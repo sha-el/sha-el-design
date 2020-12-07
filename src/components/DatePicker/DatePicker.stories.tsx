@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Story, Meta } from '@storybook/react';
 
 import { DatePicker, DatePickerProps } from './DatePicker';
@@ -11,9 +11,15 @@ export default {
   },
 } as Meta;
 
-const Template: Story<DatePickerProps> = (args) => <DatePicker {...args} />;
+const Template: Story<DatePickerProps> = (args) => {
+  const [date, updateDate] = useState(null);
+  return <DatePicker {...args} date={date} onChange={(_, e) => updateDate(e)} />;
+};
 
 export const Basic = Template.bind({});
+Basic.args = {
+  label: 'Enter Date',
+};
 
 export const DisabledDates = Template.bind({});
 DisabledDates.args = {

@@ -20,7 +20,7 @@ export const CellAppend = Template.bind({});
 CellAppend.args = {
   cellRender: ([__year, __month, day], week: weeksEnum) => {
     if (week === weeksEnum.SUNDAY) {
-      return <div style={{ background: 'red', color: 'white' }}>{day}</div>;
+      return <div style={{ background: 'red', color: 'white', width: '100%' }}>{day}</div>;
     }
   },
 };

@@ -61,7 +61,6 @@ export function FlexTable<T>(props: FlexTableProps<T>) {
               className={css.header}
               style={style.header}
               gutter={[0, 0]}
-              selected
               action={nested && <MdExpandMore style={{ color: disabledColor(theme) }} />}
             >
               <Row gutter={[0, '15px']} alignItems="stretch">
@@ -69,7 +68,7 @@ export function FlexTable<T>(props: FlexTableProps<T>) {
               </Row>
             </ListItem>
             <Skeleton
-              isLoading={loading}
+              isLoading={loading || false}
               render={() => (
                 <>
                   {showEmptyState(css.empty)}
@@ -80,7 +79,7 @@ export function FlexTable<T>(props: FlexTableProps<T>) {
                         )
                       : React.cloneElement(props.children, { data: v, key: `col-${index}`, index });
 
-                    if (nested && nested.exapandable(v, index)) {
+                    if (nested && nested.exapandable?.(v, index)) {
                       return (
                         <CollapsibleList
                           header={
@@ -116,7 +115,7 @@ export function FlexTable<T>(props: FlexTableProps<T>) {
                 </>
               )}
             />
-            {pagination}
+            {pagination || <div />}
           </List>
         );
       }}
@@ -150,7 +149,7 @@ interface ColumnProps<T> extends ColProps {
   /**
    * Index will have -1 for header
    */
-  children: (data: T, index: number) => React.ReactNode;
+  children: (data?: T, index?: number) => React.ReactNode;
   header?: React.ReactNode;
   key: string;
 }

@@ -12,7 +12,7 @@ import { IoMdFunnel } from 'react-icons/io';
 import { MdClear } from 'react-icons/md';
 
 export default {
-  title: 'Display/FlexTable',
+  title: 'Display/Flex Table',
   component: FlexTable,
   subcomponents: { Column: FlexTable.Column },
   argTypes: {

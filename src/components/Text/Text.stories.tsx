@@ -31,7 +31,7 @@ export const Variants = () => (
 
 export const Styling = () => (
   <>
-    <Text underline fontWeight="bold" padding="5px" variant="p">
+    <Text underline fontWeight="bold" padding="5px" variant="p" textAlign="center">
       The quick brown fox jumps over the lazy dog
     </Text>
     <Text strikeThrough italicize padding="5px" variant="p">

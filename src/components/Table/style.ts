@@ -1,3 +1,4 @@
+import { borderColor } from 'csx';
 import { stylesheet } from 'typestyle';
 import { lightText, shadowColor } from '../../helpers/color';
 import { Theme } from '../Theme/Theme';
@@ -22,22 +23,21 @@ export const style = (theme: Theme, nested: boolean, clickableRow: boolean) => {
     header: {
       fontWeight: 600,
       fontSize: '12px',
+      color: lightText(theme),
+      borderBottom: '2px solid ' + borderColor(theme.bodyBg),
+      cursor: 'default',
       $nest: {
         '&:hover': {
-          background: `${theme.primary}`,
+          background: theme.background,
         },
       },
     },
     tableRow: {
       padding: '0',
-      cursor: !nested && !clickableRow && 'auto !important',
+      cursor: (!nested && !clickableRow && 'auto !important') || undefined,
       fontFamily: "'Fira Code', monospace !important",
-      $nest: {
-        '& .table-cell': {
-          borderBottom: `1px solid ${shadowColor(theme)[0]}`,
-          borderCollapse: 'collapse',
-        },
-      },
+      borderBottom: `1px solid ${shadowColor(theme)[0]}`,
+      borderCollapse: 'collapse',
     },
     nestedContent: {
       marginLeft: '-20px',

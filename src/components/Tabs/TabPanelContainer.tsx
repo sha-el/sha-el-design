@@ -45,7 +45,7 @@ interface TabPanelContainerProps {
   titles: TabPanelProps[];
   activeKey: string;
   children: React.ReactNode;
-  unMountOnChange: boolean;
+  unMountOnChange?: boolean;
 }
 
 const Container = posed.div({

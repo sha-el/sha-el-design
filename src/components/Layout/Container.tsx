@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { style } from 'typestyle';
 
-export const [OPEN_WIDTH, COLLAPSED_WIDTH] = [250, 50];
+export const [OPEN_WIDTH, COLLAPSED_WIDTH] = [250, 60];
 
 const ctx = React.createContext<{ width: number; updateWidth: (width: number) => void; toggle: () => void }>({
   width: OPEN_WIDTH,
@@ -19,7 +19,7 @@ export const Container: React.FC<ContainerProps> = (props) => {
   };
 
   return (
-    <SidePanelContext.Provider value={{ width, updateWidth: (e) => updateWidth(e), toggle }}>
+    <SidePanelContext.Provider value={{ width, updateWidth, toggle }}>
       <div className={css}>{props.children}</div>
     </SidePanelContext.Provider>
   );

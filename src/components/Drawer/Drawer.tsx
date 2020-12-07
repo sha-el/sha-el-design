@@ -6,16 +6,60 @@ import { Theme, ThemeConsumer } from '../Theme/Theme';
 import elevations from '../../helpers/elevations';
 
 export const Drawer: React.FunctionComponent<DrawerProps> = (props) => {
-  const { elevation = 0 } = props;
+  const { elevation = 24, onClose = () => ({}) } = props;
 
   if (!props.isVisible) {
-    document.body.style.overflow = 'auto';
-    document.body.style.position = '';
     return null;
   }
 
-  document.body.style.overflow = 'hidden';
-  document.body.style.position = 'relative';
+  const [className, updateClassName] = React.useState('');
+
+  const beforeClose = () => {
+    const slideOutRight = keyframes(
+      {
+        right: {
+          '0%': {
+            transform: 'translateX(0)',
+          },
+          '100%': {
+            transform: 'translateX(120vw)',
+          },
+        },
+        left: {
+          '0%': {
+            transform: 'translateX(0)',
+          },
+          '100%': {
+            transform: 'translateX(-1000px)',
+          },
+        },
+        top: {
+          '0%': {
+            transform: 'translateY(0)',
+          },
+          '100%': {
+            transform: 'translateY(-1000px)',
+          },
+        },
+        bottom: {
+          '0%': {
+            transform: 'translateY(0)',
+          },
+          '100%': {
+            transform: 'translateY(120vh)',
+          },
+        },
+      }[props.placement || 'right'],
+    );
+
+    setTimeout(onClose, 200);
+
+    updateClassName(
+      style({
+        animation: `${slideOutRight} .5s ease-in both !important`,
+      }),
+    );
+  };
 
   return (
     <Portal>
@@ -24,23 +68,23 @@ export const Drawer: React.FunctionComponent<DrawerProps> = (props) => {
           const css = elevationCss(theme);
           return (
             <>
-              <div className={MaskStyle()} onClick={() => props.onClose && props.onClose()} />
+              <div className={MaskStyle()} onClick={() => props.onClose && beforeClose()} />
               <div
-                style={props.style.container}
-                className={classes(DrawerStyle(props, theme), css[`elevation${elevation}`])}
+                style={props.style?.container}
+                className={classes(DrawerStyle(props, theme), css[`elevation${elevation}`], className)}
               >
                 {props.header && (
-                  <div style={props.style.header} className="header">
+                  <div style={props.style?.header} className="header">
                     {props.header}
                   </div>
                 )}
 
-                <div style={props.style.body} className="body">
+                <div style={props.style?.body} className="body">
                   {props.children}
                 </div>
 
                 {props.footer && (
-                  <div style={props.style.footer} className="footer">
+                  <div style={props.style?.footer} className="footer">
                     {props.footer}
                   </div>
                 )}
@@ -55,7 +99,7 @@ export const Drawer: React.FunctionComponent<DrawerProps> = (props) => {
 
 const MaskStyle = () =>
   style({
-    position: 'absolute',
+    position: 'fixed',
     width: '100%',
     height: '100%',
     left: '0',
@@ -144,6 +188,7 @@ const DrawerStyle = (props: DrawerProps, theme: Theme) => {
         top: '0',
         width: '100%',
         height: 'auto',
+        left: 0,
         animation: `${slideInTop} 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
       }),
     bottom: () =>
@@ -151,6 +196,7 @@ const DrawerStyle = (props: DrawerProps, theme: Theme) => {
         bottom: '0',
         width: '100%',
         height: 'auto',
+        left: 0,
         animation: `${slideInBottom} 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
       }),
     left: () =>
@@ -179,7 +225,7 @@ const DrawerStyle = (props: DrawerProps, theme: Theme) => {
           },
         },
       }),
-  }[props.placement]());
+  }[props.placement || 'right']());
 
   return style(...styles);
 };
