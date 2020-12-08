@@ -1,45 +1,76 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 
-import { MenuItemGroup, MenuItem, Menu } from '.';
+import { MenuItem, Menu } from '.';
 import { Button } from '../Button';
-import { IoMdOptions } from 'react-icons/io';
-import { MenuItemGroupProps } from './MenuItemGroup';
+import { MenuProps } from './Menu';
+import { MdAcUnit, MdChevronRight, MdExpandMore } from 'react-icons/md';
 
 export default {
   title: 'Navigation/Menu',
-  component: MenuItemGroup,
-  subcomponents: { MenuItem, MenuItemGroup },
-  argTypes: {
-    // backgroundColor: { control: 'color' },
-  },
+  component: Menu,
+  subcomponents: { MenuItem },
 } as Meta;
 
-export const Collapsible: Story<MenuItemGroupProps> = (args) => (
-  <Menu>
-    <MenuItemGroup {...args} title="Options">
-      <MenuItem element={<a />} name="1">
-        Option 1
-      </MenuItem>
-      <MenuItem name="2">Option 2</MenuItem>
-      <MenuItem name="2">Option 3</MenuItem>
-    </MenuItemGroup>
+export const InlineMenu: Story<MenuProps> = (args) => (
+  <Menu {...args} anchor={<Button flat>OPEN MENU</Button>}>
+    <MenuItem element={<a />}>Option 1</MenuItem>
+    <MenuItem>Option 2</MenuItem>
+    <MenuItem>Option 3</MenuItem>
+    <Menu
+      trigger="onHover"
+      position="right"
+      anchor={
+        <MenuItem action={<MdChevronRight />} icon={<MdAcUnit />}>
+          More
+        </MenuItem>
+      }
+    >
+      <MenuItem element={<a />}>Option 4</MenuItem>
+      <MenuItem>Option 5</MenuItem>
+      <MenuItem>Option 6</MenuItem>
+      <Menu trigger="onHover" position="right" anchor={<MenuItem icon={<MdAcUnit />}>Even More</MenuItem>}>
+        <MenuItem element={<a />}>Option 7</MenuItem>
+        <MenuItem>Option 8</MenuItem>
+        <MenuItem>Option 9</MenuItem>
+      </Menu>
+    </Menu>
   </Menu>
 );
 
-export const PopupMenu = Collapsible.bind({});
-PopupMenu.args = {
-  inline: false,
+export const HorizontalMenu: Story<MenuProps> = (args) => (
+  <Menu mode="horizontal" {...args} anchor={<Button flat>OPEN MENU</Button>}>
+    <MenuItem element={<a />}>Option 1</MenuItem>
+    <MenuItem>Option 2</MenuItem>
+    <MenuItem>Option 3</MenuItem>
+    <Menu
+      trigger="onHover"
+      position="right"
+      anchor={
+        <MenuItem action={<MdExpandMore />} icon={<MdAcUnit />}>
+          More
+        </MenuItem>
+      }
+    >
+      <MenuItem element={<a />}>Option 4</MenuItem>
+      <MenuItem>Option 5</MenuItem>
+      <MenuItem>Option 6</MenuItem>
+      <Menu trigger="onHover" position="right" anchor={<MenuItem icon={<MdAcUnit />}>Even More</MenuItem>}>
+        <MenuItem element={<a />}>Option 7</MenuItem>
+        <MenuItem>Option 8</MenuItem>
+        <MenuItem>Option 9</MenuItem>
+      </Menu>
+    </Menu>
+  </Menu>
+);
+
+HorizontalMenu.args = {
+  mode: 'horizontal',
+  elevation: 0,
 };
 
-export const AnchorAndOffset = Collapsible.bind({});
-AnchorAndOffset.args = {
-  inline: false,
-  position: 'bottom',
-  anchor: (
-    <span>
-      <Button icon={<IoMdOptions />} />
-    </span>
-  ),
-  offset: [0, -40],
+export const VerticalMenu = HorizontalMenu.bind({});
+VerticalMenu.args = {
+  mode: 'vertical',
+  elevation: 2,
 };

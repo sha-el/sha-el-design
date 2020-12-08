@@ -9,26 +9,32 @@ import { MdTimer } from 'react-icons/md';
 import { style } from 'typestyle';
 
 export const TimePicker: React.FunctionComponent<TimePickerProps> = (props) => {
-  const { onChange, time, ...inputProps } = props;
+  const { onChange, time = [0, 0, 0], ...inputProps } = props;
 
   const [amPmValue, updateAmPm] = React.useState<'AM' | 'PM'>(to12HourFormat(time[0])[1] as 'AM' | 'PM');
 
   const handleChange = (h?: number, m?: number, s?: number) => {
-    const hour = h ?? props.time[0];
-    const minute = m ?? props.time[1];
-    const sec = s ?? props.time[2];
+    const hour = h ?? time[0];
+    const minute = m ?? time[1];
+    const sec = s ?? time[2];
 
-    onChange([hour, minute, sec]);
+    onChange?.([hour, minute, sec]);
     updateAmPm(hour > 12 ? 'PM' : 'AM');
   };
 
   return (
     <>
-      <Popover content={content(props, handleChange, amPmValue)} trigger="onClick" expand hideArrow>
+      <Popover
+        style={{ child: { display: 'block' } }}
+        content={content(props, handleChange, amPmValue)}
+        trigger="onClick"
+        expand
+        hideArrow
+      >
         <div>
           <Input
             {...inputProps}
-            value={formatTime(props.time, props.use24Hour)}
+            value={formatTime(time, props.use24Hour || false)}
             readOnly
             after={
               <>
@@ -63,22 +69,22 @@ const content = (props: TimePickerProps, onChange: (h?: number, m?: number, s?: 
       </Col>
       <Col span={6}>
         {arrayBetween(0, 60).map((v) => (
-          <div onClick={() => onChange(null, v)} key={v}>
+          <div onClick={() => onChange(undefined, v)} key={v}>
             {v}
           </div>
         ))}
       </Col>
       <Col span={6}>
         {arrayBetween(0, 60).map((v) => (
-          <div onClick={() => onChange(null, null, v)} key={v}>
+          <div onClick={() => onChange(undefined, undefined, v)} key={v}>
             {v}
           </div>
         ))}
       </Col>
       {!props.use24Hour && (
         <Col span={6}>
-          <div onClick={() => handleAmPmChange('AM', props.time, onChange)}>AM</div>
-          <div onClick={() => handleAmPmChange('PM', props.time, onChange)}>PM</div>
+          <div onClick={() => handleAmPmChange('AM', props.time || [0, 0, 0], onChange)}>AM</div>
+          <div onClick={() => handleAmPmChange('PM', props.time || [0, 0, 0], onChange)}>PM</div>
         </Col>
       )}
     </Row>
@@ -126,7 +132,7 @@ export type TimeTupple = [number, number, number];
 
 export interface TimePickerProps extends InputType {
   time?: TimeTupple;
-  onChange?: (time: TimeTupple) => void;
+  onChange?: (time: TimeTupple | null) => void;
   use24Hour?: boolean;
 }
 
@@ -176,8 +182,4 @@ const to24HourFormat = (hour: number, amPm: 'AM' | 'PM') => {
   }
 
   return hour;
-};
-
-TimePicker.defaultProps = {
-  time: [0, 0, 0],
 };

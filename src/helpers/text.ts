@@ -39,5 +39,6 @@ export function format(props: TextProps, theme: Theme) {
     margin,
     textDecoration,
     padding,
+    textAlign: props.textAlign,
   });
 }

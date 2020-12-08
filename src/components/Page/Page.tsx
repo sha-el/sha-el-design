@@ -31,13 +31,13 @@ export const Page: React.FC<PageProps> = (props) => {
               </Row>
               {(props.bottom || props.tabs) && (
                 <div style={{ paddingRight: '0', paddingLeft: '0' }} className={classes(css.bottom)}>
-                  <Row gutter={[0, 0]} alignItems="flex-end">
+                  <Row gutter={[0, 0]} alignItems="center" justifyContent="space-between">
                     {props.tabs && (
-                      <Col flex="0 1 auto">
+                      <Col flex="1 0 auto">
                         <TabHeader titles={props.tabs.headers} activeKey={activeKey} onClick={setActiveKey} />
                       </Col>
                     )}
-                    <Col flex="1 0 auto">{props.bottom}</Col>
+                    <Col flex="0 1 auto">{props.bottom}</Col>
                   </Row>
                 </div>
               )}
@@ -64,9 +64,7 @@ const style = (theme: Theme) => {
   const shadowDef = shadow('DEFAULT', theme);
 
   return stylesheet({
-    container: {
-      margin: '1%',
-    },
+    container: {},
     header: {
       padding: '0px 1.5%',
       background: theme.background,

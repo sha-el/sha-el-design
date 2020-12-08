@@ -11,7 +11,7 @@ export const Tag: React.StatelessComponent<TagProps> = (props) => {
   return (
     <ThemeConsumer>
       {(theme) => (
-        <span className={css(props, theme)} onClick={() => props.onClick()} style={props.style}>
+        <span className={css(props, theme)} onClick={() => props?.onClick()} style={props.style}>
           {props.children}
           {props.chips && (
             <span className={chipIconCss()}>
@@ -72,7 +72,7 @@ const css = (props: TagProps, theme: Theme) =>
     margin: '5px',
     display: 'inline-flex',
     boxShadow: shadow('DEFAULT', theme),
-    cursor: 'pointer',
+    cursor: props.onClick && 'pointer',
     textTransform: 'uppercase',
     minWidth: '64px',
     textAlign: 'center',
@@ -94,7 +94,6 @@ export interface TagProps {
 }
 
 Tag.defaultProps = {
-  onClick: () => null,
   style: {},
   size: 'DEFAULT',
 };

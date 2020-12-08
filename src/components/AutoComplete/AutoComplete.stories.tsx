@@ -29,6 +29,7 @@ export const Single: Story<SingleAutoComplete<string>> = () => {
       value={value}
       displayValue={(e) => e as string}
       onChange={(e: string) => update(e)}
+      hint="Select an alter ego"
     />
   );
 };

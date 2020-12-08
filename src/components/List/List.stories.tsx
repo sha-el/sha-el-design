@@ -15,7 +15,7 @@ export default {
   },
 } as Meta;
 
-export const Basic: Story<ListProps<any>> = (args) => (
+export const Basic: Story<ListProps> = (args) => (
   <List {...args}>
     <ListItem avatar={<MdAcUnit />}>Basic Item List</ListItem>
     <ListItem avatar={<Md3DRotation />}>Basic Item List</ListItem>
@@ -25,7 +25,7 @@ export const Basic: Story<ListProps<any>> = (args) => (
   </List>
 );
 
-export const Subtitle: Story<ListProps<any>> = (args) => (
+export const Subtitle: Story<ListProps> = (args) => (
   <List {...args}>
     <ListItem avatar={<MdAcUnit />} subtitle="Do you Know Lorem Ipsum?">
       Basic Item List
@@ -40,8 +40,26 @@ export const Subtitle: Story<ListProps<any>> = (args) => (
   </List>
 );
 
-export const Collapsible: Story<ListProps<any>> = (args) => (
+export const Collapsible: Story<ListProps> = (args) => (
   <List {...args}>
+    <ListItem avatar={<MdAcUnit />} subtitle="Do you Know Lorem Ipsum?">
+      Basic Item List
+    </ListItem>
+    <ListItem avatar={<Md3DRotation />} subtitle="Do you Know Lorem Ipsum?">
+      Basic Item List
+    </ListItem>
+    <ListItem avatar={<MdAccessAlarm />} subtitle="Do you Know Lorem Ipsum?">
+      Basic Item List
+    </ListItem>
+    <CollapsibleList header={'Hello World'}>
+      <ListItem subtitle="Do you Know Lorem Ipsum?">Basic Item List</ListItem>
+    </CollapsibleList>
+    <ListItem subtitle="Do you Know Lorem Ipsum?">Basic Item List</ListItem>
+  </List>
+);
+
+export const Densed: Story<ListProps> = (args) => (
+  <List densed {...args}>
     <ListItem avatar={<MdAcUnit />} subtitle="Do you Know Lorem Ipsum?">
       Basic Item List
     </ListItem>

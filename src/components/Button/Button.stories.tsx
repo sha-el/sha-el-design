@@ -17,16 +17,16 @@ export default {
 const BlockTemplate: Story<AnchorButtonProps & NativeButtonProps> = (args) => (
   <>
     <Button {...args}>Default</Button>
-    <Button {...args} type="primary">
+    <Button {...args} primary>
       Primary
     </Button>
-    <Button {...args} type="secondary">
+    <Button {...args} secondary>
       Secondary
     </Button>
-    <Button {...args} type="danger">
+    <Button {...args} danger>
       Danger
     </Button>
-    <Button {...args} type="link">
+    <Button {...args} link>
       Link
     </Button>
   </>
@@ -35,16 +35,16 @@ const BlockTemplate: Story<AnchorButtonProps & NativeButtonProps> = (args) => (
 const MixedTemplate: Story<AnchorButtonProps & NativeButtonProps> = (args) => (
   <>
     <Button {...args}>Default</Button>
-    <Button {...args} type="primary">
+    <Button {...args} primary>
       Primary
     </Button>
-    <Button {...args} outline type="secondary">
+    <Button {...args} outline secondary>
       Secondary
     </Button>
-    <Button {...args} flat type="danger">
+    <Button {...args} flat danger>
       Danger
     </Button>
-    <Button {...args} type="link">
+    <Button {...args} link>
       Link
     </Button>
   </>
@@ -53,11 +53,11 @@ const MixedTemplate: Story<AnchorButtonProps & NativeButtonProps> = (args) => (
 const CircleTemplate: Story<AnchorButtonProps & NativeButtonProps> = (args) => (
   <>
     <Button {...args} shape="circle" />
-    <Button {...args} type="primary" shape="circle" />
-    <Button {...args} type="secondary" outline shape="circle" />
-    <Button {...args} type="secondary" flat shape="circle" />
-    <Button {...args} type="danger" disabled shape="circle" />
-    <Button {...args} type="link" shape="circle" />
+    <Button {...args} primary shape="circle" />
+    <Button {...args} secondary outline shape="circle" />
+    <Button {...args} secondary flat shape="circle" />
+    <Button {...args} danger disabled shape="circle" />
+    <Button {...args} link shape="circle" />
   </>
 );
 
@@ -98,11 +98,16 @@ Loading.args = {
   loading: true,
 };
 
+export const Size = MixedTemplate.bind({});
+Size.args = {
+  size: 'big',
+};
+
 export const Group = () => (
   <ButtonGroup>
     <Button>Default</Button>
-    <Button type="primary">Primary</Button>
-    <Button type="secondary">Secondary</Button>
-    <Button type="danger">Danger</Button>
+    <Button primary>Primary</Button>
+    <Button secondary>Secondary</Button>
+    <Button danger>Danger</Button>
   </ButtonGroup>
 );

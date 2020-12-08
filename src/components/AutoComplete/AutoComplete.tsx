@@ -12,6 +12,8 @@ import { lightText } from '../../helpers/color';
 import { Skeleton } from '../Loading';
 
 export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State<T>> {
+  dataActualLength = 0;
+
   constructor(props) {
     super(props);
 
@@ -20,6 +22,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
       data: [],
       open: false,
       loading: false,
+      selected: -1,
     };
   }
 
@@ -41,6 +44,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
       items = await items;
       this.setState({ loading: false });
     }
+    this.dataActualLength = items.length;
     this.setState({ data: items });
   };
 
@@ -48,26 +52,35 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
     if (this.props.disabled) {
       return;
     }
+    if (!open) {
+      return this.setState({ open, selected: -1, search: '' });
+    }
     open && this.fetchData();
     this.setState({ open });
   };
 
   displayList = () => {
-    const { data, search, loading } = this.state;
+    const { data, search, loading, selected } = this.state;
     const { listDisplayProp, uniqueIdentifier, searchValue } = this.props;
+
+    const filteredData = data?.filter((v) => searchValue(v).toLowerCase().includes(search.toLowerCase()));
+
+    this.dataActualLength = filteredData.length;
 
     return (
       <Skeleton
         isLoading={loading}
         render={() => (
-          <List style={{ maxHeight: '300px', overflowY: 'auto' }}>
-            {data
-              .filter((v) => searchValue(v).toLowerCase().includes(search))
-              .map((v) => (
-                <ListItem key={uniqueIdentifier(v)} selected={this.isItemSelected(v)} onClick={() => this.onChange(v)}>
-                  {listDisplayProp(v)}
-                </ListItem>
-              ))}
+          <List densed style={{ maxHeight: '300px', overflowY: 'auto' }}>
+            {filteredData?.map((v, i) => (
+              <ListItem
+                key={uniqueIdentifier(v)}
+                selected={this.isItemSelected(v) || selected === i}
+                onClick={() => this.onChange(v)}
+              >
+                {listDisplayProp(v)}
+              </ListItem>
+            ))}
           </List>
         )}
       />
@@ -166,7 +179,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
     this.setState({ search }, this.fetchData);
   };
 
-  onChange = (selected: AutoCompleteProps<T>['value']) => {
+  onChange = (selected: T) => {
     const { mode, value, onChange, uniqueIdentifier } = this.props;
     if (mode === 'single') {
       onChange(selected as never);
@@ -185,13 +198,37 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
     this.setState({ search: '' });
   };
 
-  onKeyUp = (e: React.KeyboardEvent) => {
-    switch (e.which) {
-      case 27: {
-        return this.onOpen(false);
+  onKeyDown = (e: React.KeyboardEvent) => {
+    const { data, selected, open } = this.state;
+    switch (e.key) {
+      case 'ArrowDown': {
+        if (!open) {
+          return this.onOpen(true);
+        }
+
+        if (selected === this.dataActualLength - 1) {
+          return this.setState({ selected: -1 });
+        }
+
+        return this.setState({ selected: selected + 1 });
       }
-      case 9: {
-        return this.onOpen(true);
+      case 'ArrowUp': {
+        if (!open) {
+          return this.onOpen(true);
+        }
+
+        if (selected === -1) {
+          return this.setState({ selected: this.dataActualLength - 1 });
+        }
+
+        return this.setState({ selected: selected - 1 });
+      }
+      case 'Enter': {
+        if (selected === -1) {
+          return;
+        }
+
+        return this.onChange(data[selected]);
       }
     }
   };
@@ -209,7 +246,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
       value: this.displayValue(),
       before: this.renderBefore(),
       onChange: (e) => this.onSearch(e.target.value),
-      onKeyUp: this.onKeyUp,
+      onKeyDown: this.onKeyDown,
       required,
       disabled: this.props.disabled,
     });
@@ -269,4 +306,5 @@ interface State<T> {
   data: T[];
   open: boolean;
   loading: boolean;
+  selected: number;
 }

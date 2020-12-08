@@ -3,7 +3,8 @@ import { Story, Meta } from '@storybook/react';
 
 import { MdHome, MdNavigateNext } from 'react-icons/md';
 import { Breadcrumb, BreadcrumbProps } from './Breadcrumb';
-import { MenuItemGroup, MenuItem } from '../Menu';
+import { MenuItem, Menu } from '../Menu';
+import { Button } from '../Button';
 
 export default {
   title: 'Navigation/Breadcrumb',
@@ -27,8 +28,8 @@ Icons.args = {
   paths: [() => <a href="#">Home</a>, () => <a href="#">Breadcrumb</a>],
 };
 
-export const Menu = Template.bind({});
-Menu.args = {
+export const WithMenu = Template.bind({});
+WithMenu.args = {
   seperator: '>',
   paths: [
     () => (
@@ -37,9 +38,9 @@ Menu.args = {
       </a>
     ),
     () => (
-      <MenuItemGroup title="hello" inline={false}>
-        <MenuItem name="1">Option 1</MenuItem>
-      </MenuItemGroup>
+      <Menu anchor={<Button flat>Options</Button>}>
+        <MenuItem>Option 1</MenuItem>
+      </Menu>
     ),
   ],
 };

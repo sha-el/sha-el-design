@@ -42,7 +42,7 @@ export class Tabs extends React.Component<TabsProps, State> {
     return (
       <div>
         <TabHeader titles={titles} activeKey={activeKey} onClick={(key) => this.setState({ activeKey: key })} />
-        <TabPanelContainer titles={titles} activeKey={activeKey} unMountOnChange={this.props.unMountOnChange}>
+        <TabPanelContainer titles={titles} activeKey={activeKey} unMountOnChange={this.props.unMountOnChange || false}>
           {this.props.children}
         </TabPanelContainer>
       </div>

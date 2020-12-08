@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { stylesheet, classes } from 'typestyle';
-import { removeObjectProperties } from '../../helpers';
 import { Theme, ThemeConsumer } from '../Theme/Theme';
 import { buttonColor } from '../../helpers/color';
 import { Loading } from '../Loading';
@@ -8,7 +7,6 @@ import { Text } from '../Text';
 
 export const Button: React.FunctionComponent<ButtonProps> = (props) => {
   const {
-    type,
     size: __size,
     shape: __shape,
     displayBlock: __displayBlock,
@@ -19,6 +17,10 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
     component,
     onClick,
     outline: __outline,
+    primary,
+    secondary,
+    danger,
+    link,
     ...rest
   } = props;
 
@@ -28,15 +30,14 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
     if (component) {
       return React.cloneElement(props.component, p);
     }
-    if (rest.href !== undefined || type === 'link') {
+    if (rest.href !== undefined || link) {
       return React.cloneElement(<a {...(p as React.AnchorHTMLAttributes<HTMLAnchorElement>)} />);
     }
 
     return React.cloneElement(<button {...(p as React.ButtonHTMLAttributes<HTMLButtonElement>)} />);
   };
 
-  const linkButtonRestProps = removeObjectProperties(rest as AnchorButtonProps, 'type');
-  if (rest.href !== undefined || type === 'link') {
+  if (rest.href !== undefined || link) {
     return (
       <ThemeConsumer>
         {(theme) => {
@@ -45,11 +46,11 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
             <BaseElement
               className={classes(css.anchor, css.default, className)}
               onClick={(e) => !loading && onClick && onClick(e)}
-              {...linkButtonRestProps}
+              {...rest}
             >
               {icon}
               <Loading
-                color={buttonColor(props, theme)[1]}
+                color={buttonColor(props, theme, primary, secondary, danger, link)[1]}
                 isLoading={loading}
                 size="small"
                 render={() => <span>{props.children}</span>}
@@ -75,7 +76,7 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
             {icon}
             <Loading
               style={{ margin: '0' }}
-              color={buttonColor(props, theme)[1]}
+              color={buttonColor(props, theme, primary, secondary, danger, link)[1]}
               isLoading={loading}
               size="small"
               render={() => <span>{props.children}</span>}
@@ -89,7 +90,6 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
 };
 
 Button.defaultProps = {
-  type: 'default',
   size: 'default',
   shape: 'default',
 };
@@ -111,6 +111,15 @@ function getSize(size: sizeTypes, shape: shapeTypes, block: boolean, flat: boole
         height: '40px',
         fontSize: '16px',
       };
+      break;
+    }
+    case 'small': {
+      buttonStyles = {
+        ...buttonStyles,
+        padding: `0 ${flat ? 5 : 20}px`,
+        height: '30px',
+        fontSize: '12px',
+      };
     }
   }
   if (shape === 'circle') {
@@ -123,9 +132,9 @@ function getSize(size: sizeTypes, shape: shapeTypes, block: boolean, flat: boole
 }
 
 export function style(props: ButtonProps, theme: Theme) {
-  const { disabled, children } = props;
+  const { disabled, children, primary, secondary, danger, link } = props;
 
-  const [bgColor, textColor, hoverBgColor, border] = buttonColor(props, theme);
+  const [bgColor, textColor, hoverBgColor, border] = buttonColor(props, theme, primary, secondary, danger, link);
 
   return stylesheet({
     default: {
@@ -143,6 +152,7 @@ export function style(props: ButtonProps, theme: Theme) {
       justifyContent: 'center',
       background: bgColor,
       whiteSpace: 'nowrap',
+      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
       $nest: {
         '&:focus': {
           outline: 'none',
@@ -172,10 +182,12 @@ export function style(props: ButtonProps, theme: Theme) {
       textAlign: 'center',
       color: textColor,
       $nest: {
-        '&:hover': !disabled && {
-          background: hoverBgColor,
-          color: textColor,
-        },
+        '&:hover':
+          (!disabled && {
+            background: hoverBgColor,
+            color: textColor,
+          }) ||
+          undefined,
       },
     },
     anchor: {
@@ -191,11 +203,15 @@ export function style(props: ButtonProps, theme: Theme) {
   });
 }
 
-declare type sizeTypes = 'default' | 'big';
+declare type sizeTypes = 'default' | 'big' | 'small';
 declare type shapeTypes = 'default' | 'circle';
 
 export interface BaseButtonProps {
-  type?: 'default' | 'primary' | 'secondary' | 'danger' | 'link';
+  primary?: boolean;
+  secondary?: boolean;
+  danger?: boolean;
+  link?: boolean;
+
   size?: sizeTypes;
   shape?: shapeTypes;
   className?: string;
@@ -226,7 +242,3 @@ export type NativeButtonProps = {
   React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export type ButtonProps = AnchorButtonProps | NativeButtonProps;
-
-interface State {
-  theme: Theme;
-}

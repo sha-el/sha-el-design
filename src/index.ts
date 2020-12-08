@@ -1,5 +1,3 @@
-import RCTooltip from 'rc-tooltip';
-
 import { initialize } from './helpers';
 
 initialize();
@@ -12,7 +10,7 @@ export { Card, CardHeader, CardBody, CardMedia } from './components/Card';
 export { Row, Col } from './components/Grid';
 export { SidePanel, Container, Content } from './components/Layout';
 export { Loading, Skeleton } from './components/Loading';
-export { MenuItem, MenuItemGroup, Menu } from './components/Menu';
+export { MenuItem, Menu } from './components/Menu';
 export { Modal } from './components/Modal';
 export { Pagination } from './components/Pagination';
 export { Popover } from './components/Popover';
@@ -36,7 +34,7 @@ export { Drawer } from './components/Drawer';
 export { DatePicker, TimePicker } from './components/DatePicker';
 export { Transfer } from './components/Transfer';
 export { List, ListItem, CollapsibleList } from './components/List';
-export { RCTooltip as Tooltip };
+export { Tooltip } from './components/Tooltip';
 export { Text } from './components/Text';
 export { Upload } from './components/Upload';
-export { Slider, Range, Handle } from './components/Slider';
+export { Slider, Range, SliderHandle } from './components/Slider';

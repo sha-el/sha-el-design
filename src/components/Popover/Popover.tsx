@@ -10,6 +10,7 @@ export class Popover extends React.Component<PopoverProps, State> {
     trigger: 'onClick',
     position: 'bottom',
     style: {},
+    elevation: 12,
   };
 
   child = React.createRef<HTMLDivElement>();
@@ -19,13 +20,18 @@ export class Popover extends React.Component<PopoverProps, State> {
 
     this.state = {
       childWidth: 0,
+      childHeight: 0,
       isBrowser: false,
       visible: false,
     };
   }
 
   componentDidMount() {
-    this.setState({ childWidth: this.child.current.getBoundingClientRect().width });
+    const childRect = this.child.current?.getBoundingClientRect();
+    this.setState({
+      childWidth: childRect?.width || 0,
+      childHeight: childRect?.height || 0,
+    });
     this.isBrowser();
   }
 
@@ -35,7 +41,7 @@ export class Popover extends React.Component<PopoverProps, State> {
         visible: props.visible,
       };
     }
-    return null;
+    return {};
   }
 
   isBrowser = () => {
@@ -49,9 +55,9 @@ export class Popover extends React.Component<PopoverProps, State> {
     const { hideArrow } = this.props;
     return (
       <div>
-        <div className="rc-tooltip-arrow" style={{ display: !hideArrow && 'block' }} />
+        <div className="rc-tooltip-arrow" style={{ display: !hideArrow ? 'block' : 'none' }} />
         <div>
-          <div style={this.props.style.content}>{this.props.content}</div>
+          <div style={this.props.style?.content}>{this.props.content}</div>
         </div>
       </div>
     );
@@ -63,7 +69,7 @@ export class Popover extends React.Component<PopoverProps, State> {
       children,
       preserveOnClose,
       position,
-      style: { container: containerStyle, child: childStyle },
+      style: { container: containerStyle = {}, child: childStyle = {} } = {},
       onVisibleChange,
       elevation = 12,
     } = this.props;
@@ -79,7 +85,7 @@ export class Popover extends React.Component<PopoverProps, State> {
     return (
       <ThemeConsumer>
         {(theme) => {
-          const css = style(this.props.expand, this.state.childWidth, theme);
+          const css = style(this.props.expand || false, this.state.childWidth, theme);
           return (
             <RCTooltip
               placement={position}
@@ -89,11 +95,12 @@ export class Popover extends React.Component<PopoverProps, State> {
               overlayClassName={classes(css.container, css[`elevation${elevation}`])}
               overlayStyle={containerStyle}
               onVisibleChange={(v) => {
-                this.setState({ visible: v, childWidth: this.child.current?.getBoundingClientRect().width });
+                this.setState({ visible: v, childWidth: this.child.current?.getBoundingClientRect().width || 0 });
                 onVisibleChange && onVisibleChange(v);
               }}
               visible={this.state.visible}
-              align={this.props.align}
+              align={this.props.cover ? { points: ['tl', 't'] } : this.props.align}
+              animation={this.props.animation}
             >
               <div ref={this.child} style={{ display: 'inline-block', ...childStyle }}>
                 {React.cloneElement(children)}
@@ -111,14 +118,14 @@ const triggers = (t: PopoverProps['trigger']) =>
     onClick: 'click',
     onHover: 'hover',
     onFocus: 'focus',
-  }[t]);
+  }[t || 'onClick']);
 
 function style(expand: boolean, childWidth: number, theme: Theme) {
   return stylesheet({
     container: {
       width: expand ? childWidth : 'auto',
       minWidth: '100px',
-      borderRadius: '2px',
+      borderRadius: '4px',
       padding: '0',
       background: theme.background,
       color: `${theme.textColor} !important`,
@@ -145,10 +152,13 @@ export interface PopoverProps {
   onVisibleChange?: (visible?: boolean) => void;
   align?: Record<string, unknown>;
   elevation: number;
+  cover?: boolean;
+  animation?: string;
 }
 
 interface State {
   childWidth: number;
   isBrowser: boolean;
   visible: boolean;
+  childHeight: number;
 }
