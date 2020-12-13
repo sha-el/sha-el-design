@@ -42,7 +42,7 @@ export const Menu: React.FC<MenuProps> = (props) => {
 
 export interface MenuProps {
   anchor: React.ReactElement;
-  children: React.ReactElement | React.ReactElement[];
+  children?: React.ReactElement | React.ReactElement[];
   mode?: 'vertical' | 'horizontal' | 'inline' | 'expand';
   trigger?: PopoverProps['trigger'];
   position?: PopoverProps['position'];
