@@ -45,8 +45,12 @@ export const SidePanel: React.FunctionComponent<SidePanelProps> = (props) => {
             return (
               <>
                 <div className={classes(css.container, css['elevation2'])}>
-                  <Row gutter={[0, '0 5px 0 5px']}>
-                    <Col flex="0 1 60px" className={css['elevation3']}>
+                  <Row
+                    gutter={[0, '0 5px 0 5px']}
+                    style={{ overflowX: 'hidden', maxWidth: width + 'px' }}
+                    wrap="nowrap"
+                  >
+                    <Col flex="0 0 60px" className={css['elevation3']}>
                       {props.logo && <div className={css.logo}>{props.logo}</div>}
                       {children.map((v, i) => (
                         <div className={css.item} key={`item-${i}`} onClick={() => onOpen(v, i, false, toggle)}>
@@ -55,7 +59,7 @@ export const SidePanel: React.FunctionComponent<SidePanelProps> = (props) => {
                       ))}
                     </Col>
                     {drawer && (
-                      <Col flex="1 0 auto" className={css.drawer}>
+                      <Col flex="0 0 190px" className={css.drawer}>
                         <TabPanelContainer
                           activeKey={String(activeDrawer)}
                           titles={children.concat(bottom).map((_, i) => ({ title: '', key: String(i) }))}
