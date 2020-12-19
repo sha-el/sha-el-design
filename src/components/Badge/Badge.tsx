@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { stylesheet } from 'typestyle';
+import { createUseStyles } from 'react-jss';
 import { getColor } from '../../helpers';
 
 export const Badge: React.FunctionComponent<BadgeProps> = (props) => {
   const count = props.maxCount && props.maxCount < props.count ? `${props.maxCount}+` : props.count;
-  const style = stylesheet({
+  const style = createUseStyles({
     container: {
       position: 'relative',
       boxSizing: 'border-box',
@@ -32,9 +32,10 @@ export const Badge: React.FunctionComponent<BadgeProps> = (props) => {
     },
   });
 
+  const css = style();
   return (
-    <div className={style.container}>
-      <sup className={style.count}>{count}</sup>
+    <div className={css.container}>
+      <sup className={css.count}>{count}</sup>
       {props.children}
     </div>
   );
