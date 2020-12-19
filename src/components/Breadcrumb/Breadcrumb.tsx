@@ -2,7 +2,7 @@ import * as React from 'react';
 import { style, classes } from 'typestyle';
 import { Theme, ThemeConsumer } from '../Theme/Theme';
 import { colorShades } from '../../helpers/color';
-import { style as buttonStyles } from '../Button/Button';
+import { style as buttonStyles } from '../Button/style';
 
 export const Breadcrumb: React.StatelessComponent<BreadcrumbProps> = (props) => {
   return (
@@ -10,7 +10,7 @@ export const Breadcrumb: React.StatelessComponent<BreadcrumbProps> = (props) => 
       {(theme) => (
         <div className={css(theme)}>
           {props.paths.map((v, index) => {
-            const buttonClasses = buttonStyles({ type: 'link' }, theme);
+            const buttonClasses = buttonStyles({ type: 'link' });
             return [
               <li className={classes(buttonClasses.default, buttonClasses.anchor)} key={`breadcrumb-item-${index}`}>
                 {v()}

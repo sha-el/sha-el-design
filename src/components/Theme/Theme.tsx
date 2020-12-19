@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { cssRaw } from 'typestyle';
 import { color } from 'csx';
+import { createTheming } from 'react-jss';
 
 export const DARK_THEME = {
   primary: '#536DFE',
@@ -30,9 +30,12 @@ const LIGHT_THEME = {
 
 const ThemeContext = React.createContext<Theme>(LIGHT_THEME);
 
+export const theming = createTheming(ThemeContext);
+export const useTheme = theming.useTheme;
+
 export const ThemeProvider: React.FunctionComponent<ThemeProps> = (props) => {
   const theme = { ...(props.theme === 'DARK' ? DARK_THEME : LIGHT_THEME), ...(props.colors || {}) };
-  return <ThemeContext.Provider value={theme}>{props.children}</ThemeContext.Provider>;
+  return <theming.ThemeProvider theme={theme}>{props.children}</theming.ThemeProvider>;
 };
 
 ThemeProvider.defaultProps = {
@@ -45,12 +48,15 @@ export const ThemeConsumer: React.FunctionComponent<{ children: (theme: Theme) =
   return (
     <ThemeContext.Consumer>
       {(theme) => {
-        cssRaw(`
-          :root {
-            --primary: ${color(theme.primary).lighten(0.5)};
-            --background: ${theme.bodyBg};
-            --color: ${theme.textColor}
-          }`);
+        const style = document.querySelector('#sha-el-design-theme-consumer') || document.createElement('style');
+        style.id = 'sha-el-design-theme-consumer';
+        style.innerHTML = `
+        :root {
+          --primary: ${color(theme.primary).lighten(0.5)};
+          --background: ${theme.bodyBg};
+          --color: ${theme.textColor}
+        }`;
+        document.getElementsByTagName('head')[0].appendChild(style);
         return props.children(theme);
       }}
     </ThemeContext.Consumer>

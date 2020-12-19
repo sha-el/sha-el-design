@@ -1,5 +1,5 @@
 import { color } from 'csx';
-import { cssRaw } from 'typestyle';
+
 import { initializeNotification } from './../components/Notification/Notification';
 
 import popverCss from './popover.css';
@@ -57,26 +57,27 @@ export function getColor(clr: string, black = '#555555', white = '#ffffff') {
 }
 
 export function initialize() {
-  cssRaw(`
-  body {
-    background: var(--background);
-    color: var(--color);
-    margin: 0;
-  }
-  a, a:hover, a:focus, a:active {
-    text-decoration: none;
-    color: var(--color);
-  }
-  svg {
-    display: flex;
-  }
-  @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,600,700&display=swap');
-  @import url('https://fonts.googleapis.com/css?family=Fira+Code:300,400,500,600,700&display=swap');
-  ${popverCss}
-  ${topography}
-`);
-
-  // normalize();
+  const style = document.createElement('style');
+  style.id = 'sha-el-design-base-style';
+  style.innerHTML = `
+    body {
+      background: var(--background);
+      color: var(--color);
+      margin: 0;
+    }
+    a, a:hover, a:focus, a:active {
+      text-decoration: none;
+      color: var(--color);
+    }
+    svg {
+      display: flex;
+    }
+    @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,600,700&display=swap');
+    @import url('https://fonts.googleapis.com/css?family=Fira+Code:300,400,500,600,700&display=swap');
+    ${popverCss}
+    ${topography}
+  `;
+  document.getElementsByTagName('head')[0].appendChild(style);
   initializeNotification();
 }
 
@@ -121,3 +122,5 @@ export const setAttribute = <T>(obj: T, value: T[keyof T], propPath: string[]) =
 
   !rest.length ? (obj[checkForNumber()] = value) : setAttribute(obj[checkForNumber()], value, rest);
 };
+
+export const classes = (...args) => args.filter((v) => !!v).join(' ');
