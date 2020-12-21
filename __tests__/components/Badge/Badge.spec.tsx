@@ -18,7 +18,7 @@ afterEach(() => {
 });
 
 describe('Badge', () => {
-  it('should render a deafult badge', () => {
+  it('should render a default badge', () => {
     act(() => {
       ReactDOM.render(
         <Badge>
