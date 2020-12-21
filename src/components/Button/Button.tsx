@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ThemeConsumer, useTheme } from '../Theme/Theme';
+import { useTheme } from '../Theme/Theme';
 import { buttonColor } from '../../helpers/color';
 import { Loading } from '../Loading';
 import { Text } from '../Text';
@@ -41,47 +41,41 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
   const theme = useTheme();
   const css = style({ props, theme });
 
-  return (
-    <ThemeConsumer>
-      {(theme) => {
-        if (rest.href !== undefined || link) {
-          return (
-            <BaseElement
-              className={classes(css.anchor, css.default, className)}
-              onClick={(e) => !loading && onClick && onClick(e)}
-              {...rest}
-            >
-              {icon}
-              <Loading
-                color={buttonColor(props, theme, primary, secondary, danger, link)[1]}
-                isLoading={loading}
-                size="small"
-                render={() => <span>{props.children}</span>}
-              />
-            </BaseElement>
-          );
-        }
+  if (rest.href !== undefined || link) {
+    return (
+      <BaseElement
+        className={classes(css.anchor, css.default, className)}
+        onClick={(e) => !loading && onClick && onClick(e)}
+        {...rest}
+      >
+        {icon}
+        <Loading
+          color={buttonColor(props, theme, primary, secondary, danger, link)[1]}
+          isLoading={loading}
+          size="small"
+          render={() => <span>{props.children}</span>}
+        />
+      </BaseElement>
+    );
+  }
 
-        const buttonProps = rest as NativeButtonProps;
-        return (
-          <BaseElement
-            className={classes(css.default, css.button, className)}
-            onClick={(e) => !loading && onClick && onClick(e)}
-            {...buttonProps}
-          >
-            {icon}
-            <Loading
-              style={{ margin: '0' }}
-              color={buttonColor(props, theme, primary, secondary, danger, link)[1]}
-              isLoading={loading}
-              size="small"
-              render={() => <span>{props.children}</span>}
-            />
-            {loading && <Text margin="0 10px">Loading</Text>}
-          </BaseElement>
-        );
-      }}
-    </ThemeConsumer>
+  const buttonProps = rest as NativeButtonProps;
+  return (
+    <BaseElement
+      className={classes(css.default, css.button, className)}
+      onClick={(e) => !loading && onClick && onClick(e)}
+      {...buttonProps}
+    >
+      {icon}
+      <Loading
+        style={{ margin: '0' }}
+        color={buttonColor(props, theme, primary, secondary, danger, link)[1]}
+        isLoading={loading}
+        size="small"
+        render={() => <span>{props.children}</span>}
+      />
+      {loading && <Text margin="0 10px">Loading</Text>}
+    </BaseElement>
   );
 };
 
