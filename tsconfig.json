@@ -24,8 +24,8 @@
     ]
   },
   "include": [
-    "./src"
-, "__tests__/components/Button/helpers/helper.specs.tsx"  ],
+    "./src",
+  ],
   "exclude": [
     "node_modules",
     "**/*.spec.ts",
