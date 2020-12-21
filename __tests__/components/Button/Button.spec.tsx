@@ -227,7 +227,7 @@ describe('Button', () => {
     `);
   });
 
-  it('should not onClick when loading', () => {
+  it('should not allow click while loading', () => {
     const fn = jest.fn();
 
     act(() => {
@@ -254,7 +254,7 @@ describe('Button', () => {
     expect(button).not.toBeNull();
   });
 
-  it('should not onClick when disabled', () => {
+  it('should not allow click if disabled', () => {
     const fn = jest.fn();
 
     act(() => {
