@@ -1,5 +1,6 @@
 module.exports = {
   preset: 'ts-jest',
-  testEnvironment: 'node',
-  coverageDirectory: './tests/__coverage__',
+  testEnvironment: 'jsdom',
+  coverageDirectory: './__tests__/__coverage__',
+  modulePathIgnorePatterns: ['lcov-report'],
 };
