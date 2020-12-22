@@ -27,6 +27,7 @@ export const CheckBox: React.FunctionComponent<CheckBoxProps> = (props) => {
         ref={input}
         type="checkbox"
         checked={checked}
+        disabled={disabled}
         onChange={(e) => {
           onChange?.(e);
           updateChecked(e.target.checked);
