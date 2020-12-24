@@ -2,7 +2,7 @@ import * as React from 'react';
 import { classes } from 'typestyle';
 import { Omit, nestedAccess } from '../../helpers';
 import { Row, Col } from '../../';
-import { ThemeConsumer } from '../Theme/Theme';
+import { useTheme } from '../Theme/Theme';
 import { style } from './style';
 
 export const BaseInputComponent: React.FunctionComponent<BaseInputProps | BaseTextAreaProps> = (props) => {
@@ -36,86 +36,82 @@ export const BaseInputComponent: React.FunctionComponent<BaseInputProps | BaseTe
     );
   };
 
+  const theme = useTheme();
+  const css = style({
+    theme,
+    error: !!error,
+    label: !!label,
+    active: isInputActive(),
+    borderLess: borderLess || false,
+    disabled: props.disabled || false,
+    before: !!before,
+  });
+
   return (
-    <ThemeConsumer>
-      {(theme) => {
-        const css = style(
-          theme,
-          !!error,
-          !!label,
-          isInputActive(),
-          borderLess || false,
-          props.disabled || false,
-          !!before,
-        );
-        return (
-          <>
-            <Row
-              wrap="wrap"
-              gutter={[0, 0]}
-              className={classes(css.container, containerClassName, 'sha-el-input')}
-              style={containerStyle}
-            >
-              {before && (
+    <>
+      <Row
+        wrap="wrap"
+        gutter={[0, 0]}
+        className={classes(css.container, containerClassName, 'sha-el-input')}
+        style={containerStyle}
+      >
+        {before && (
+          <Col
+            className={classes(css.seudo, 'seudo')}
+            flex="0 1 auto"
+            style={{ paddingLeft: (!borderLess && '5px') || undefined }}
+          >
+            {before}
+          </Col>
+        )}
+        {label && (
+          <span key="label" className={classes(css.label, 'label')}>
+            {label} {required && <span style={{ color: 'red' }}>*</span>}
+          </span>
+        )}
+        <Col flex="1 0 auto">
+          <section key="textarea" className={css.section}>
+            <Row gutter={['0', '0']}>
+              <Col key="input" flex="1 0 auto">
+                {React.cloneElement(children, {
+                  className: css.input,
+                  required,
+                  ref: (e) => {
+                    getElement && getElement(e);
+                    input.current = e;
+                    return e;
+                  },
+                  onFocus: (e) => {
+                    props.onFocus && props.onFocus(e);
+                    updateFocused(true);
+                  },
+                  onBlur: (e) => {
+                    props.onBlur && props.onBlur(e);
+                    updateFocused(false);
+                  },
+                  ...rest,
+                })}
+              </Col>
+              {after && (
                 <Col
                   className={classes(css.seudo, 'seudo')}
                   flex="0 1 auto"
-                  style={{ paddingLeft: (!borderLess && '5px') || undefined }}
+                  style={{ paddingRight: (!borderLess && '5px') || undefined }}
                 >
-                  {before}
+                  {after}
                 </Col>
               )}
-              {label && (
-                <span key="label" className={classes(css.label, 'label')}>
-                  {label} {required && <span style={{ color: 'red' }}>*</span>}
-                </span>
-              )}
-              <Col flex="1 0 auto">
-                <section key="textarea" className={css.section}>
-                  <Row gutter={['0', '0']}>
-                    <Col key="input" flex="1 0 auto">
-                      {React.cloneElement(children, {
-                        className: css.input,
-                        required,
-                        ref: (e) => {
-                          getElement && getElement(e);
-                          input.current = e;
-                          return e;
-                        },
-                        onFocus: (e) => {
-                          props.onFocus && props.onFocus(e);
-                          updateFocused(true);
-                        },
-                        onBlur: (e) => {
-                          props.onBlur && props.onBlur(e);
-                          updateFocused(false);
-                        },
-                        ...rest,
-                      })}
-                    </Col>
-                    {after && (
-                      <Col
-                        className={classes(css.seudo, 'seudo')}
-                        flex="0 1 auto"
-                        style={{ paddingRight: (!borderLess && '5px') || undefined }}
-                      >
-                        {after}
-                      </Col>
-                    )}
-                  </Row>
-                </section>
-              </Col>
             </Row>
-            {(error || hint) && (
-              <div className={`${css.help}`}>
-                {error && <label className={`${css.error}`}>{error}</label>}
-                {hint && <label className={`${css.hint}`}>{hint}</label>}
-              </div>
-            )}
-          </>
-        );
-      }}
-    </ThemeConsumer>
+          </section>
+        </Col>
+      </Row>
+      {(error || hint) && (
+        <div className={`${css.help}`}>
+          {error && <label className={`${css.error}`}>{error}</label>}
+          {hint && <label className={`${css.hint}`}>{hint}</label>}
+        </div>
+      )}
+    </>
   );
 };
 
