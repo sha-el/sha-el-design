@@ -106,7 +106,7 @@ export const BaseInputComponent: React.FunctionComponent<BaseInputProps | BaseTe
         </Col>
       </Row>
       {(error || hint) && (
-        <div className={`${css.help}`}>
+        <div className={classes(css.help, 'help')}>
           {error && <label className={`${css.error}`}>{error}</label>}
           {hint && <label className={`${css.hint}`}>{hint}</label>}
         </div>

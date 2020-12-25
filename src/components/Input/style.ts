@@ -19,7 +19,6 @@ export const style = createUseStyles(
             borderRadius: '4px',
           };
 
-      console.log(active, label);
       return {
         ...borderStyle,
         position: 'relative',
@@ -39,11 +38,6 @@ export const style = createUseStyles(
               borderColor: borderLess ? 'transparent' : theme.primary,
             },
           },
-          // '.label': {
-          //   '&::after, &::before': {
-          //     borderColor: borderLess ? 'transparent' : theme.primary,
-          //   },
-          // },
         },
         '&:hover': {
           borderColor: (!disabled && 'rgb(9, 30, 66)') || undefined,
