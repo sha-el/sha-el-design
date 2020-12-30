@@ -40,6 +40,8 @@ export const Menu: React.FC<MenuProps> = (props) => {
   );
 };
 
+Menu.displayName = 'Menu';
+
 export interface MenuProps {
   anchor: React.ReactElement;
   children?: React.ReactElement | React.ReactElement[];
