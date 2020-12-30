@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { ThemeConsumer, Theme } from '../Theme/Theme';
-import { format } from '../../helpers/text';
-import { classes } from 'typestyle';
+import { Theme, useTheme } from '../Theme/Theme';
+import { style } from './style';
+import { classes } from '../../helpers';
 /**
  * Text component to style your `Text` effortlessly.
  *
@@ -11,80 +11,78 @@ import { classes } from 'typestyle';
  * ```
  */
 export const Text: React.FunctionComponent<TextProps> = (props) => {
-  const display = (theme: Theme) => {
-    const css = classes(format(props, theme), props.className);
+  const theme = useTheme();
+  const css = classes(style({ props, theme }).text, props.className);
 
-    if (props.variant === 'h1') {
-      return (
-        <h1 className={css} style={props.style}>
-          {props.children}
-        </h1>
-      );
-    }
-
-    if (props.variant === 'h2') {
-      return (
-        <h2 className={css} style={props.style}>
-          {props.children}
-        </h2>
-      );
-    }
-
-    if (props.variant === 'h3') {
-      return (
-        <h3 className={css} style={props.style}>
-          {props.children}
-        </h3>
-      );
-    }
-
-    if (props.variant === 'h4') {
-      return (
-        <h4 className={css} style={props.style}>
-          {props.children}
-        </h4>
-      );
-    }
-
-    if (props.variant === 'h5') {
-      return (
-        <h5 className={css} style={props.style}>
-          {props.children}
-        </h5>
-      );
-    }
-
-    if (props.variant === 'h6') {
-      return (
-        <h6 className={css} style={props.style}>
-          {props.children}
-        </h6>
-      );
-    }
-
-    if (props.variant === 'p') {
-      return (
-        <p className={css} style={props.style}>
-          {props.children}
-        </p>
-      );
-    }
-
-    if (props.variant === 'label') {
-      return (
-        <label className={css} style={props.style}>
-          {props.children}
-        </label>
-      );
-    }
-
+  if (props.variant === 'h1') {
     return (
-      <span className={css} style={props.style}>
+      <h1 className={css} style={props.style}>
         {props.children}
-      </span>
+      </h1>
     );
-  };
-  return <ThemeConsumer>{(theme) => display(theme)}</ThemeConsumer>;
+  }
+
+  if (props.variant === 'h2') {
+    return (
+      <h2 className={css} style={props.style}>
+        {props.children}
+      </h2>
+    );
+  }
+
+  if (props.variant === 'h3') {
+    return (
+      <h3 className={css} style={props.style}>
+        {props.children}
+      </h3>
+    );
+  }
+
+  if (props.variant === 'h4') {
+    return (
+      <h4 className={css} style={props.style}>
+        {props.children}
+      </h4>
+    );
+  }
+
+  if (props.variant === 'h5') {
+    return (
+      <h5 className={css} style={props.style}>
+        {props.children}
+      </h5>
+    );
+  }
+
+  if (props.variant === 'h6') {
+    return (
+      <h6 className={css} style={props.style}>
+        {props.children}
+      </h6>
+    );
+  }
+
+  if (props.variant === 'p') {
+    return (
+      <p className={css} style={props.style}>
+        {props.children}
+      </p>
+    );
+  }
+
+  if (props.variant === 'label') {
+    return (
+      <label className={css} style={props.style}>
+        {props.children}
+      </label>
+    );
+  }
+
+  return (
+    <span className={css} style={props.style}>
+      {props.children}
+    </span>
+  );
 };
 
 export interface TextProps {
