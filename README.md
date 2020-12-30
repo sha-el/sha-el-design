@@ -6,6 +6,7 @@
 
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md)
 ![CI](https://github.com/sha-el/sha-el-design/workflows/CI/badge.svg)
+[![codecov](https://codecov.io/gh/sha-el/sha-el-design/branch/master/graph/badge.svg?token=W010DZJ1U3)](https://codecov.io/gh/sha-el/sha-el-design)
 
 <div align="center">
 
