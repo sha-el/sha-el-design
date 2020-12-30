@@ -12,14 +12,14 @@ export const style = createUseStyles(
       const color = props.color === 'light' ? lightText(theme) : theme[props.color] || props.color;
       const padding: string = props.padding;
       const margin: string = props.margin;
-      let textDecoration = '';
+      const textDecoration = [];
 
       if (props.underline) {
-        textDecoration += 'underline';
+        textDecoration.push('underline');
       }
 
       if (props.strikeThrough) {
-        textDecoration += ' line-through';
+        textDecoration.push('line-through');
       }
 
       if (props.fontWeight) {
@@ -37,7 +37,7 @@ export const style = createUseStyles(
         fontStyle,
         color,
         margin,
-        textDecoration,
+        textDecoration: textDecoration.join(' '),
         padding,
         textAlign: props.textAlign,
       };
