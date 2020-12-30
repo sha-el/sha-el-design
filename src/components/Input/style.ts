@@ -1,65 +1,60 @@
-import { stylesheet } from 'typestyle';
 import { lightText, borderColor as borderColorHelper, disabledText } from '../../helpers/color';
-import { Theme } from '../Theme/Theme';
 import { getColor } from '../../helpers';
+import { createUseStyles } from 'react-jss';
+import { theming } from '../Theme/Theme';
 
-export function style(
-  theme: Theme,
-  isError: boolean,
-  label: boolean,
-  active: boolean,
-  borderLess: boolean,
-  disabled: boolean,
-  before: boolean,
-) {
-  const borderColor = isError ? theme.error : borderColorHelper(theme.background);
+export const style = createUseStyles(
+  {
+    container: ({ theme, isError, label, active, borderLess, disabled }) => {
+      const borderColor = isError ? theme.error : borderColorHelper(theme.background);
 
-  const borderStyle = borderLess
-    ? {
-        borderBottom: `1px ${disabled ? 'dotted' : 'solid'} ${borderColor}`,
-        borderRadius: '0',
-      }
-    : {
-        border: `1px ${disabled ? 'dotted' : 'solid'} ${borderColor}`,
-        borderRadius: '4px',
-      };
+      const borderStyle = borderLess
+        ? {
+            borderBottom: `1px ${disabled ? 'dotted' : 'solid'} ${borderColor}`,
+            borderRadius: '0',
+          }
+        : {
+            border: `1px ${disabled ? 'dotted' : 'solid'} ${borderColor}`,
+            borderTop: active && label ? 'none' : `1px ${disabled ? 'dotted' : 'solid'} ${borderColor}`,
+            borderRadius: '4px',
+          };
 
-  return stylesheet({
-    container: {
-      ...borderStyle,
-      position: 'relative',
-      color: disabled ? disabledText(theme) : lightText(theme),
-      fontSize: '14px',
-      lineHeight: 1.12857,
-      cursor: 'text',
-      borderTop: (active && label && 'none') || undefined,
-      transition: 'background-color 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s',
-      $nest: {
+      return {
+        ...borderStyle,
+        position: 'relative',
+        color: disabled ? disabledText(theme) : lightText(theme),
+        fontSize: '14px',
+        lineHeight: 1.12857,
+        cursor: 'text',
+        transition: 'background-color 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s',
         '&:focus-within': {
           borderColor: theme.primary,
-
-          $nest: {
-            '.seudo': {
-              color: theme.primary,
-            },
-            '.label': {
-              color: theme.primary,
-            },
-            '*': {
-              $nest: {
-                '&::after, &::before': {
-                  borderColor: borderLess ? 'transparent' : theme.primary,
-                },
-              },
+          '& .seudo': {
+            color: theme.primary,
+          },
+          '& .label': {
+            color: theme.primary,
+            '&:after, &:before': {
+              borderColor: borderLess ? 'transparent' : theme.primary,
             },
           },
         },
         '&:hover': {
-          borderColor: (!active && !disabled && 'rgb(9, 30, 66)') || undefined,
+          borderColor: (!disabled && 'rgb(9, 30, 66)') || undefined,
+          '& .label': {
+            color: !disabled ? lightText(theme) : undefined,
+            '&:after, &:before': {
+              borderColor: !disabled ? (borderLess ? 'transparent' : 'rgb(9, 30, 66)') : undefined,
+            },
+          },
+          '& .seudo': {
+            color: 'rgb(9, 30, 66)',
+          },
         },
-      },
+      };
     },
-    section: {
+
+    section: ({ theme, disabled }) => ({
       position: 'relative',
       boxSizing: 'border-box',
       color: disabled ? disabledText(theme) : lightText(theme),
@@ -68,8 +63,9 @@ export function style(
       maxWidth: '100%',
       transition: 'background-color 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s',
       borderWidth: '1px',
-    },
-    input: {
+    }),
+
+    input: ({ theme, disabled, borderLess, before }) => ({
       fontSize: '14px',
       minWidth: '100%',
       display: 'inline',
@@ -86,16 +82,15 @@ export function style(
       boxSizing: 'border-box',
       height: '36px',
       fontFamily: '"Roboto", sans-serif',
-      $nest: {
-        '&::placeholder': {
-          color: '#aaaaaa',
-        },
-        '&:disabled': {
-          cursor: 'not-allowed',
-        },
+      '&::placeholder': {
+        color: '#aaaaaa',
       },
-    },
-    textarea: {
+      '&:disabled': {
+        cursor: 'not-allowed',
+      },
+    }),
+
+    textarea: ({ theme, disabled }) => ({
       fontSize: '14px',
       minWidth: '0px',
       width: '100%',
@@ -111,25 +106,26 @@ export function style(
       maxWidth: '100%',
       color: disabled ? disabledText(theme) : lightText(theme),
       fontFamily: '"Roboto", sans-serif',
-      $nest: {
-        '&::placeholder': {
-          color: '#aaaaaa',
-        },
+      '&::placeholder': {
+        color: '#aaaaaa',
       },
-    },
-    label: {
-      position: 'absolute',
-      display: 'flex',
-      alignSelf: 'center',
-      color: disabled ? disabledText(theme) : lightText(theme),
-      boxSizing: 'border-box',
-      left: 0,
-      top: -7,
-      height: '100%',
-      pointerEvents: 'none',
-      transition: 'line-height 0.2s',
-      $nest: {
-        '&::after, &::before': {
+    }),
+
+    label: ({ theme, disabled, active, borderLess, isError }) => {
+      const borderColor = isError ? theme.error : borderColorHelper(theme.background);
+
+      return {
+        position: 'absolute',
+        display: 'flex',
+        alignSelf: 'center',
+        color: disabled ? disabledText(theme) : lightText(theme),
+        boxSizing: 'border-box',
+        left: 0,
+        top: -7,
+        height: '100%',
+        pointerEvents: 'none',
+        transition: 'line-height 0.2s',
+        '&:after, &:before': {
           content: `''`,
           display: 'block',
           boxSizing: 'border-box',
@@ -142,30 +138,32 @@ export function style(
           boxShadow: 'inset 0 1px transparent',
           transition: 'border-color 0.2s, box-shadow 0.2s',
         },
-        '&::before': {
+        '&:before': {
           marginRight: borderLess ? '0px' : '4px',
           borderTopLeftRadius: '4px',
         },
-        '&::after': {
+        '&:after': {
           flexGrow: 1,
           marginLeft: '4px',
           borderTopRightRadius: '4px',
         },
-      },
-      ...(active
-        ? {
-            fontSize: '10px',
-            fontWeight: 400,
-            lineHeight: '13px',
-            width: '100%',
-          }
-        : {
-            fontSize: '13px',
-            fontWeight: 300,
-            lineHeight: '51px',
-            width: '100%',
-          }),
+
+        ...(active
+          ? {
+              fontSize: '10px',
+              fontWeight: 400,
+              lineHeight: '13px',
+              width: '100%',
+            }
+          : {
+              fontSize: '13px',
+              fontWeight: 300,
+              lineHeight: '51px',
+              width: '100%',
+            }),
+      };
     },
+
     help: {
       width: '100%',
       marginBottom: '20px',
@@ -173,17 +171,21 @@ export function style(
       placeContent: 'space-between',
       fontSize: '12px',
     },
+
     hint: {
       color: '#aaaaaa',
       padding: '0 5px',
     },
-    error: {
+
+    error: ({ theme }) => ({
       color: theme.error,
       padding: '0 5px',
-    },
+    }),
+
     seudo: {
       display: 'flex',
       alignItems: 'center',
     },
-  });
-}
+  },
+  { theming, name: 'sha-el-input' },
+);
