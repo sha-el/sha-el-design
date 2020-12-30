@@ -232,11 +232,14 @@ export class Calendar extends React.Component<CalendarProps, State> {
                           shape="circle"
                           outline={today}
                           primary={today || isSelectedDate || false}
-                          onClick={() =>
-                            !this.props.disabledDate?.([date?.[0], date?.[1], v?.[f]]) &&
-                            this.props.onClick &&
-                            this.props.onClick([date?.[0], date?.[1], nestedAccess(v, f)] as DateTupple)
-                          }
+                          onClick={() => {
+                            console.log(nestedAccess(v, f));
+                            return (
+                              !this.props.disabledDate?.([date?.[0], date?.[1], v?.[f]]) &&
+                              this.props.onClick &&
+                              this.props.onClick([date?.[0], date?.[1], nestedAccess(v, f)] as DateTupple)
+                            );
+                          }}
                         >
                           {v?.[f]}
                         </Button>
