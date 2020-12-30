@@ -5,8 +5,8 @@ import { theming } from '../Theme/Theme';
 
 export const style = createUseStyles(
   {
-    container: ({ theme, isError, label, active, borderLess, disabled }) => {
-      const borderColor = isError ? theme.error : borderColorHelper(theme.background);
+    container: ({ theme, error, label, active, borderLess, disabled }) => {
+      const borderColor = error ? theme.error : borderColorHelper(theme.background);
 
       const borderStyle = borderLess
         ? {

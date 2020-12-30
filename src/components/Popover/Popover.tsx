@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { stylesheet, classes } from 'typestyle';
 import RCTooltip from 'rc-tooltip';
-import { isBrowser } from '../../helpers';
-import { ThemeConsumer, Theme } from '../Theme/Theme';
-import elevations from '../../helpers/elevations';
+import { classes, isBrowser } from '../../helpers';
+import { useTheme } from '../Theme/Theme';
+import { style } from './style';
 
 export class Popover extends React.Component<PopoverProps, State> {
   public static defaultProps: Partial<PopoverProps> = {
@@ -64,54 +63,69 @@ export class Popover extends React.Component<PopoverProps, State> {
   };
 
   render() {
-    const {
-      trigger,
-      children,
-      preserveOnClose,
-      position,
-      style: { container: containerStyle = {}, child: childStyle = {} } = {},
-      onVisibleChange,
-      elevation = 12,
-    } = this.props;
-
-    if (!this.state.isBrowser) {
-      return (
-        <div ref={this.child} style={childStyle}>
-          {React.cloneElement(children)}
-        </div>
-      );
-    }
-
     return (
-      <ThemeConsumer>
-        {(theme) => {
-          const css = style(this.props.expand || false, this.state.childWidth, theme);
-          return (
-            <RCTooltip
-              placement={position}
-              trigger={[triggers(trigger)]}
-              overlay={this.renderContent()}
-              destroyTooltipOnHide={!preserveOnClose}
-              overlayClassName={classes(css.container, css[`elevation${elevation}`])}
-              overlayStyle={containerStyle}
-              onVisibleChange={(v) => {
-                this.setState({ visible: v, childWidth: this.child.current?.getBoundingClientRect().width || 0 });
-                onVisibleChange && onVisibleChange(v);
-              }}
-              visible={this.state.visible}
-              align={this.props.cover ? { points: ['tl', 't'] } : this.props.align}
-              animation={this.props.animation}
-            >
-              <div ref={this.child} style={{ display: 'inline-block', ...childStyle }}>
-                {React.cloneElement(children)}
-              </div>
-            </RCTooltip>
-          );
-        }}
-      </ThemeConsumer>
+      <Container
+        {...this.props}
+        childWidth={this.state.childHeight}
+        isBrowser={this.state.isBrowser}
+        child={this.child}
+        renderContent={this.renderContent}
+        visible={this.state.visible}
+      />
     );
   }
 }
+
+const Container: React.FC<ContainerProps> = (props) => {
+  const theme = useTheme();
+  const css = style({ expand: props.expand || false, childWidth: props.childWidth, theme });
+
+  const {
+    trigger,
+    children,
+    preserveOnClose,
+    position,
+    cover,
+    align,
+    animation,
+    style: { container: containerStyle = {}, child: childStyle = {} } = {},
+    onVisibleChange,
+    elevation = 12,
+    isBrowser,
+    child,
+    renderContent,
+    visible,
+  } = props;
+
+  if (!isBrowser) {
+    return (
+      <div ref={child} style={childStyle}>
+        {React.cloneElement(children)}
+      </div>
+    );
+  }
+  return (
+    <RCTooltip
+      placement={position}
+      trigger={[triggers(trigger)]}
+      overlay={renderContent()}
+      destroyTooltipOnHide={!preserveOnClose}
+      overlayClassName={classes(css.container, css[`elevation${elevation}`])}
+      overlayStyle={containerStyle}
+      onVisibleChange={(v) => {
+        setState({ visible: v, childWidth: child.current?.getBoundingClientRect().width || 0 });
+        onVisibleChange && onVisibleChange(v);
+      }}
+      visible={visible}
+      align={cover ? { points: ['tl', 't'] } : align}
+      animation={animation}
+    >
+      <div ref={child} style={{ display: 'inline-block', ...childStyle }}>
+        {React.cloneElement(children)}
+      </div>
+    </RCTooltip>
+  );
+};
 
 const triggers = (t: PopoverProps['trigger']) =>
   ({
@@ -119,20 +133,6 @@ const triggers = (t: PopoverProps['trigger']) =>
     onHover: 'hover',
     onFocus: 'focus',
   }[t || 'onClick']);
-
-function style(expand: boolean, childWidth: number, theme: Theme) {
-  return stylesheet({
-    container: {
-      width: expand ? childWidth : 'auto',
-      minWidth: '100px',
-      borderRadius: '4px',
-      padding: '0',
-      background: theme.background,
-      color: `${theme.textColor} !important`,
-    },
-    ...elevations(theme),
-  });
-}
 
 export interface PopoverProps {
   children: React.ReactElement;
@@ -162,3 +162,8 @@ interface State {
   visible: boolean;
   childHeight: number;
 }
+
+type ContainerProps = PopoverProps &
+  State & {
+    renderContent: () => JSX.Element;
+  };

@@ -1,12 +1,13 @@
 import * as React from 'react';
-import { style, classes } from 'typestyle';
+import { createUseStyles } from 'react-jss';
+import { classes } from '../../helpers';
 
-export const Row: React.StatelessComponent<RowProps> = (props) => {
+export const Row: React.FC<RowProps> = (props) => {
   const { className } = props;
   return (
     <div
       onClick={props.onClick}
-      className={classes(rowStyle, flexPosition(props), className, 'sha-el-row')}
+      className={classes(rowStyle().container, flexPosition(props).conatiner, className, 'sha-el-row')}
       style={props.style}
     >
       {props.children}
@@ -20,24 +21,25 @@ Row.defaultProps = {
   wrap: 'wrap',
 };
 
-const rowStyle = style({
-  boxSizing: 'border-box',
-  display: 'flex',
-  flexDirection: 'row',
+const rowStyle = createUseStyles({
+  container: {
+    boxSizing: 'border-box',
+    display: 'flex',
+    flexDirection: 'row',
+  },
 });
 
-const flexPosition = (props: RowProps) =>
-  style({
+const flexPosition = createUseStyles({
+  conatiner: (props) => ({
     justifyContent: props.justifyContent,
     alignItems: props.alignItems,
     padding: props.gutter[0],
     flexWrap: props.wrap,
-    $nest: {
-      '& > .sha-el-col': {
-        padding: props.gutter[1],
-      },
+    '& > .sha-el-col': {
+      padding: props.gutter[1],
     },
-  });
+  }),
+});
 
 export interface RowProps {
   children: React.ReactNode;

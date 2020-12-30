@@ -4,7 +4,7 @@ import { style as buttonStyles } from '../Button/style';
 import { classes } from '../../helpers';
 import { style } from './style';
 
-export const Breadcrumb: React.StatelessComponent<BreadcrumbProps> = (props) => {
+export const Breadcrumb: React.FC<BreadcrumbProps> = (props) => {
   const theme = useTheme();
   const css = style(theme);
   const buttonClasses = buttonStyles({ props: { type: 'link' }, theme });

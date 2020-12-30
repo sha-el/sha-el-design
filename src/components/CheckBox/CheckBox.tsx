@@ -6,7 +6,7 @@ import { disabledColor } from '../../helpers/color';
 import { Theme, useTheme } from '../Theme/Theme';
 import { style } from './style';
 
-export const CheckBox: React.FunctionComponent<CheckBoxProps> = (props) => {
+export const CheckBox: React.FC<CheckBoxProps> = (props) => {
   const { label, intermediate, onChange, color, disabled, ...rest } = props;
 
   const [checked, updateChecked] = React.useState(props.checked || intermediate || false);

@@ -8,11 +8,11 @@ import { TimePickerProps, TimePicker, TimeTupple } from './TimePicker';
 import { Popover } from '../Popover';
 import { IoMdCalendar } from 'react-icons/io';
 
-export const DatePicker: React.FunctionComponent<DatePickerProps> = (props) => {
+export const DatePicker: React.FC<DatePickerProps> = (props) => {
   const {
     after,
     cellRender,
-    callendarEvents,
+    calendarEvents,
     disabledDate,
     onChange,
     timePickerProps,
@@ -37,7 +37,7 @@ export const DatePicker: React.FunctionComponent<DatePickerProps> = (props) => {
               <Calendar
                 date={date || undefined}
                 cellRender={cellRender}
-                callendarEvents={callendarEvents}
+                calendarEvents={calendarEvents}
                 disabledDate={disabledDate}
                 onClick={(d) => {
                   handleDateChange(toDate(d), time, onChange);

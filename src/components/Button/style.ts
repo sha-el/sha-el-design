@@ -72,10 +72,10 @@ export const style = createUseStyles(
           cursor: 'not-allowed',
           color: textColor,
         },
-        svg: {
+        '& svg': {
           display: 'inline-block',
           verticalAlign: 'middle',
-          fontSize: '20px',
+          fontSize: props.size === 'big' ? '20px' : props.size === 'small' ? '14px' : '16px',
           marginLeft: children && '-4px',
           marginRight: children && '8px',
         },

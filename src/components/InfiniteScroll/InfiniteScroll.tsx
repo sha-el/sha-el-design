@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { stylesheet } from 'typestyle';
 import { Loading } from '../Loading';
 import { debounce } from 'debounce';
+import { style } from './style';
 
 export class InfiniteScroll<T> extends React.Component<InfiniteScrollProps<T>, State<T>, unknown> {
   constructor(props: InfiniteScrollProps<T>) {
@@ -70,41 +70,32 @@ export class InfiniteScroll<T> extends React.Component<InfiniteScrollProps<T>, S
     );
   }
 
-  css = () => {
-    const { height } = this.props;
-    return stylesheet({
-      container: {
-        height: height || 'auto',
-        overflow: height ? 'auto' : 'hidden',
-        position: 'relative',
-      },
-      loadingIndicator: {
-        marginBottom: '20px',
-        position: 'relative',
-        margin: 'auto',
-        left: 0,
-        right: 0,
-      },
-      loadingContainer: {
-        position: 'relative',
-      },
-    });
-  };
-
   render() {
-    const { data, isLoading } = this.state;
-    const { render, loading } = this.props;
-    const css = this.css();
+    const { data, isLoading, pageNumber } = this.state;
     return (
-      <>
-        <div className={css.container} ref={(el) => (this.el = el)}>
-          {render(data)}
-        </div>
-        <div className={css.loadingContainer}>{isLoading && <div className={css.loadingIndicator}>{loading}</div>}</div>
-      </>
+      <Container
+        {...this.props}
+        data={data}
+        pageNumber={pageNumber}
+        isLoading={isLoading}
+        element={(el) => (this.el = el)}
+      />
     );
   }
 }
+
+const Container: React.FC<ContainerProps> = (props) => {
+  const { data, render, loading, isLoading, element, height } = props;
+  const css = style({ height });
+  return (
+    <>
+      <div className={css.container} ref={(el) => element(el)}>
+        {render(data)}
+      </div>
+      <div className={css.loadingContainer}>{isLoading && <div className={css.loadingIndicator}>{loading}</div>}</div>
+    </>
+  );
+};
 
 export interface InfiniteScrollProps<T> {
   /**
@@ -140,3 +131,6 @@ interface State<T> {
   isLoading: boolean;
   pageNumber: number;
 }
+
+type ContainerProps = Omit<InfiniteScrollProps<unknown>, 'data'> &
+  State<unknown> & { element: (el: HTMLDivElement) => void };

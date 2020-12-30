@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { style } from 'typestyle';
+import { container as style } from './style';
 
 export const [OPEN_WIDTH, COLLAPSED_WIDTH] = [250, 60];
 
@@ -11,7 +11,7 @@ const ctx = React.createContext<{ width: number; updateWidth: (width: number) =>
 
 export const SidePanelContext = ctx;
 
-export const Container: React.FC<ContainerProps> = (props) => {
+const Container: React.FC<ContainerProps> = (props) => {
   const [width, updateWidth] = React.useState(COLLAPSED_WIDTH);
 
   const toggle = () => {
@@ -20,15 +20,10 @@ export const Container: React.FC<ContainerProps> = (props) => {
 
   return (
     <SidePanelContext.Provider value={{ width, updateWidth, toggle }}>
-      <div className={css}>{props.children}</div>
+      <div className={style().container}>{props.children}</div>
     </SidePanelContext.Provider>
   );
 };
-
-const css = style({
-  display: 'flex',
-  position: 'relative',
-});
 
 Container.defaultProps = {
   sidePanelWidth: COLLAPSED_WIDTH,

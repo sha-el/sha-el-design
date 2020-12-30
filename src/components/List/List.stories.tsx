@@ -52,7 +52,9 @@ export const Collapsible: Story<ListProps> = (args) => (
       Basic Item List
     </ListItem>
     <CollapsibleList header={'Hello World'}>
-      <ListItem subtitle="Do you Know Lorem Ipsum?">Basic Item List</ListItem>
+      <List elevation={0}>
+        <ListItem subtitle="Do you Know Lorem Ipsum?">Basic Item List</ListItem>
+      </List>
     </CollapsibleList>
     <ListItem subtitle="Do you Know Lorem Ipsum?">Basic Item List</ListItem>
   </List>
@@ -70,7 +72,9 @@ export const Densed: Story<ListProps> = (args) => (
       Basic Item List
     </ListItem>
     <CollapsibleList header={'Hello World'}>
-      <ListItem subtitle="Do you Know Lorem Ipsum?">Basic Item List</ListItem>
+      <List densed elevation={0}>
+        <ListItem subtitle="Do you Know Lorem Ipsum?">Basic Item List</ListItem>
+      </List>
     </CollapsibleList>
     <ListItem subtitle="Do you Know Lorem Ipsum?">Basic Item List</ListItem>
   </List>

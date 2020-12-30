@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { Row, Col } from '../Grid';
-import { ThemeConsumer } from '../Theme/Theme';
-import { style as listStyle } from './style';
+import { useTheme } from '../Theme/Theme';
+import { listItem as listStyle } from './style';
 import { lightText } from '../../helpers/color';
 import { Text } from '../Text';
-import { classes } from 'typestyle';
 import { RowProps } from '../Grid/Row';
-import { getColor } from '../../helpers';
+import { classes, getColor } from '../../helpers';
 
 export interface ListItemProps {
   subtitle?: React.ReactNode;
@@ -31,39 +30,36 @@ export const ListItem: React.FC<ListItemProps> = (props) => {
     selected,
     gutter = [0, '12px 16px 12px 18px'],
   } = props;
-  return (
-    <ThemeConsumer>
-      {(theme) => {
-        const css = listStyle(theme);
-        const Element: React.FC<unknown> = (p) =>
-          React.cloneElement(props.element || <li />, {
-            className: classes(css.listItem, props.className, 'list-item'),
-            onClick: onClick,
-            style: {
-              background: selected && theme.primary,
-              color: selected && getColor(theme.primary),
-              ...style,
-            },
-            ...p,
-          });
 
-        return (
-          <Element>
-            <Row wrap="nowrap" gutter={gutter} alignItems="center">
-              {avatar && <Col flex="0 1 auto">{avatar}</Col>}
-              {children && (
-                <Col flex="1 0 auto">
-                  <div>{children}</div>
-                  <Text fontSize="12px" color={lightText(theme)}>
-                    {subtitle}
-                  </Text>
-                </Col>
-              )}
-              {action && <Col flex="0 1 auto">{action}</Col>}
-            </Row>
-          </Element>
-        );
-      }}
-    </ThemeConsumer>
+  const theme = useTheme();
+  const css = listStyle({ background: theme.background });
+
+  const Element: React.FC<unknown> = (p) =>
+    React.cloneElement(props.element || <li />, {
+      className: classes(css.listItem, props.className, 'list-item'),
+      onClick: onClick,
+      style: {
+        background: selected && theme.primary,
+        color: selected && getColor(theme.primary),
+        ...style,
+      },
+      ...p,
+    });
+
+  return (
+    <Element>
+      <Row wrap="nowrap" gutter={gutter} alignItems="center">
+        {avatar && <Col flex="0 1 auto">{avatar}</Col>}
+        {children && (
+          <Col flex="1 0 auto">
+            <div>{children}</div>
+            <Text fontSize="12px" color={lightText(theme)}>
+              {subtitle}
+            </Text>
+          </Col>
+        )}
+        {action && <Col flex="0 1 auto">{action}</Col>}
+      </Row>
+    </Element>
   );
 };

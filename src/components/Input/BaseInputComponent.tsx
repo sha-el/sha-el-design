@@ -5,7 +5,7 @@ import { Row, Col } from '../../';
 import { useTheme } from '../Theme/Theme';
 import { style } from './style';
 
-export const BaseInputComponent: React.FunctionComponent<BaseInputProps | BaseTextAreaProps> = (props) => {
+export const BaseInputComponent: React.FC<BaseInputProps | BaseTextAreaProps> = (props) => {
   const [focused, updateFocused] = React.useState(false);
   const {
     error,

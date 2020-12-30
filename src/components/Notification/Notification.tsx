@@ -2,7 +2,6 @@ import * as React from 'react';
 import { render } from 'react-dom';
 
 import { MdInfoOutline, MdErrorOutline, MdWarning, MdDoneAll } from 'react-icons/md';
-import { stylesheet } from 'typestyle';
 import { Portal } from '../Popover/Portal';
 import { NotificationProps, notificationSubject$ } from './NotificationService';
 import posed, { PoseGroup } from 'react-pose';
@@ -11,6 +10,7 @@ import { DARK_THEME, Theme } from '../Theme/Theme';
 import { ListItem } from '../List';
 import { Text } from '../Text';
 import { shadow } from '../../helpers/style';
+import { style } from './style';
 
 const NOTIFICATION_DIV_ID = 'notification-div-id';
 
@@ -58,47 +58,41 @@ export class NotificationContainer extends React.Component<unknown, State> {
     }[this.state.notification[index].type]);
 
   render() {
-    const css = this.style();
-
-    const theme = DARK_THEME;
-    return (
-      <Portal>
-        <div className={css.body}>
-          <PoseGroup>
-            {this.state.notification.map((notification, index) => (
-              <NotificationTile style={notification.style || {}} key={`noti-${index}`}>
-                <ListItem
-                  avatar={this.getIcon(index, theme)}
-                  subtitle={<Text color={getColor(this.color(index, theme))}>{notification.message}</Text>}
-                  style={{
-                    background: this.color(index, theme),
-                    boxShadow: shadow('2X', theme),
-                    borderRadius: '4px',
-                    minWidth: '400px',
-                    color: getColor(this.color(index, theme)),
-                  }}
-                >
-                  {notification.title}
-                </ListItem>
-              </NotificationTile>
-            ))}
-          </PoseGroup>
-        </div>
-      </Portal>
-    );
+    return <Container notification={this.state.notification} getIcon={this.getIcon} color={this.color} />;
   }
-
-  style = () => {
-    return stylesheet({
-      body: {
-        position: 'fixed',
-        right: '20px',
-        top: '20px',
-        zIndex: 10000,
-      },
-    });
-  };
 }
+
+const Container: React.FC<ContainerProps> = (props) => {
+  const css = style();
+  const theme = DARK_THEME;
+  const { notification, getIcon, color } = props;
+
+  return (
+    <Portal>
+      <div className={css.body}>
+        <PoseGroup>
+          {notification.map((notification, index) => (
+            <NotificationTile style={notification.style || {}} key={`noti-${index}`}>
+              <ListItem
+                avatar={getIcon(index, theme)}
+                subtitle={<Text color={getColor(color(index, theme))}>{notification.message}</Text>}
+                style={{
+                  background: color(index, theme),
+                  boxShadow: shadow('2X', theme),
+                  borderRadius: '4px',
+                  minWidth: '400px',
+                  color: getColor(color(index, theme)),
+                }}
+              >
+                {notification.title}
+              </ListItem>
+            </NotificationTile>
+          ))}
+        </PoseGroup>
+      </div>
+    </Portal>
+  );
+};
 
 const NotificationTile = posed.div({
   enter: {
@@ -121,6 +115,11 @@ const NotificationTile = posed.div({
 
 interface State {
   notification: NotificationProps[];
+}
+
+interface ContainerProps extends State {
+  getIcon: (index: number, theme: Theme) => JSX.Element;
+  color: (index: number, { primary, error, warning }: Theme) => string;
 }
 
 export const initializeNotification = () => {

@@ -273,7 +273,7 @@ export interface BaseAutoComplete<T> {
   uniqueIdentifier: (arg: T) => string;
   required?: InputProps['required'];
   data?: (search: string) => Promise<T[]> | T[];
-  displayValue?: (value: T) => string;
+  displayValue: (value: T) => string;
   searchValue?: (value: T) => string;
 
   clearable?: boolean;

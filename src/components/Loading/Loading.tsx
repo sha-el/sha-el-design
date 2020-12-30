@@ -3,7 +3,7 @@ import { stylesheet, keyframes } from 'typestyle';
 
 import { ThemeConsumer, Theme } from '../Theme/Theme';
 
-export const Loading: React.FunctionComponent<LoadingProps> = (props) => {
+export const Loading: React.FC<LoadingProps> = (props) => {
   const { render, isLoading, ...rest } = props;
 
   if (!isLoading) {

@@ -6,7 +6,7 @@ import { Text } from '../Text';
 import { classes } from '../../helpers';
 import { shapeTypes, sizeTypes, style } from './style';
 
-export const Button: React.FunctionComponent<ButtonProps> = (props) => {
+export const Button: React.FC<ButtonProps> = (props) => {
   const {
     size: __size,
     shape: __shape,

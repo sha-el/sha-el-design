@@ -6,9 +6,9 @@ import { Row, Col } from '../Grid';
 import { arrayBetween } from '../../helpers';
 import { Button } from '../Button';
 import { MdTimer } from 'react-icons/md';
-import { style } from 'typestyle';
+import { style } from './style';
 
-export const TimePicker: React.FunctionComponent<TimePickerProps> = (props) => {
+export const TimePicker: React.FC<TimePickerProps> = (props) => {
   const { onChange, time = [0, 0, 0], ...inputProps } = props;
 
   const [amPmValue, updateAmPm] = React.useState<'AM' | 'PM'>(to12HourFormat(time[0])[1] as 'AM' | 'PM');
@@ -22,11 +22,13 @@ export const TimePicker: React.FunctionComponent<TimePickerProps> = (props) => {
     updateAmPm(hour > 12 ? 'PM' : 'AM');
   };
 
+  const css = style();
+
   return (
     <>
       <Popover
         style={{ child: { display: 'block' } }}
-        content={content(props, handleChange, amPmValue)}
+        content={content(css, props, handleChange, amPmValue)}
         trigger="onClick"
         expand
         hideArrow
@@ -49,8 +51,13 @@ export const TimePicker: React.FunctionComponent<TimePickerProps> = (props) => {
   );
 };
 
-const content = (props: TimePickerProps, onChange: (h?: number, m?: number, s?: number) => void, amPm: 'AM' | 'PM') => (
-  <div className={css}>
+const content = (
+  css: Record<'timePicker', string>,
+  props: TimePickerProps,
+  onChange: (h?: number, m?: number, s?: number) => void,
+  amPm: 'AM' | 'PM',
+) => (
+  <div className={css.timePicker}>
     <Row>
       <Col span={6}>
         {arrayBetween(0, props.use24Hour ? 24 : 12).map((v) => (
@@ -101,30 +108,6 @@ const content = (props: TimePickerProps, onChange: (h?: number, m?: number, s?: 
     </Button>
   </div>
 );
-
-const css = style({
-  $nest: {
-    '.sha-el-col': {
-      maxHeight: '300px',
-      overflowY: 'hidden',
-      cursor: 'pointer',
-      minWidth: '50px',
-      $nest: {
-        '&:hover': {
-          overflowY: 'auto',
-        },
-        div: {
-          padding: '2px',
-          $nest: {
-            '&:hover': {
-              background: '#ccc',
-            },
-          },
-        },
-      },
-    },
-  },
-});
 
 type InputType = Omit<InputProps, 'onClick' | 'value' | 'onChange'>;
 

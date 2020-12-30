@@ -3,7 +3,7 @@ import { MdClear } from 'react-icons/md';
 import { useTheme } from '../Theme/Theme';
 import { chipIconCss, style } from './style';
 
-export const Tag: React.StatelessComponent<TagProps> = (props) => {
+export const Tag: React.FC<TagProps> = (props) => {
   const theme = useTheme();
   const css = style({ props, theme });
 

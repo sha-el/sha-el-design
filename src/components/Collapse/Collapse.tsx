@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { stylesheet } from 'typestyle';
 import { lightText } from '../../helpers/color';
 
 import { List, CollapsibleList } from '../List';
 import { Text } from '../Text';
 import { ThemeConsumer } from '../Theme/Theme';
+import { style } from './style';
 
-export const Collapse: React.FunctionComponent<CollapseProps> = (props) => {
+export const Collapse: React.FC<CollapseProps> = (props) => {
   const { header, children, isOpen, onChange } = props;
 
   return (
@@ -21,15 +21,6 @@ export const Collapse: React.FunctionComponent<CollapseProps> = (props) => {
     </List>
   );
 };
-
-const style = () =>
-  stylesheet({
-    content: {
-      overflow: 'hidden',
-      boxSizing: 'border-box',
-      padding: '20px 0 30px',
-    },
-  });
 
 interface CollapseProps {
   isOpen?: boolean;

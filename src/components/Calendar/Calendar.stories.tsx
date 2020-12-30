@@ -27,7 +27,7 @@ CellAppend.args = {
 
 export const Events = Template.bind({});
 Events.args = {
-  callendarEvents: [
+  calendarEvents: [
     {
       startDate: new Date(),
       endDate: new Date(new Date().getTime() + 5 * 24 * 60 * 60 * 1000),
