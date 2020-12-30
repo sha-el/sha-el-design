@@ -2,9 +2,10 @@
 dist/
 node_modules/
 .vscode/
-tests/__coverage__/
+__tests__/__coverage__/
 tests/**/*.jsx
 .DS_Store
 yarn-error.log
 /lib
 storybook-static
+test_results.json

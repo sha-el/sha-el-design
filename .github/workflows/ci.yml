@@ -34,3 +34,12 @@ jobs:
     
     - name: Run Lint
       run: yarn lint
+
+    - name: Run tests
+      run: yarn test:ci
+
+    - name: Upload to codecov.io
+      uses: codecov/codecov-action@v1.0.2
+      with:
+        token: ${{secrets.CODECOV_TOKEN}}
+
