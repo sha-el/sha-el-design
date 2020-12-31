@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { classes } from 'typestyle';
+import { classes } from '../../helpers';
 import { useTheme } from '../Theme/Theme';
 import { list as style } from './style';
 

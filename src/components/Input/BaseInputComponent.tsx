@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { classes } from 'typestyle';
-import { Omit, nestedAccess } from '../../helpers';
+import { Omit, nestedAccess, classes } from '../../helpers';
 import { Row, Col } from '../../';
 import { useTheme } from '../Theme/Theme';
 import { style } from './style';
