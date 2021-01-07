@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { style } from './style';
-import { classes } from 'typestyle';
 import { TabPanelProps } from './TabPanel';
-import { ThemeConsumer } from '../Theme/Theme';
+import { useTheme } from '../Theme/Theme';
+import { classes } from '../../helpers';
 
-export const TabHeader: React.FunctionComponent<TabHeaderProps> = (props) => {
+export const TabHeader: React.FC<TabHeaderProps> = (props) => {
   const [inkStyle, setInkStyle] = React.useState({ left: 0, width: 0 });
 
   const className = 'hello' + Math.random().toString().slice(4, 7);
@@ -32,29 +32,24 @@ export const TabHeader: React.FunctionComponent<TabHeaderProps> = (props) => {
     };
   });
 
+  const theme = useTheme();
+  const css = style(theme);
   return (
-    <ThemeConsumer>
-      {(theme) => {
-        const css = style(theme);
-        return (
-          <div className={css.tabHeaderContainer} onClick={(e) => onContainerClick(e.target as HTMLDivElement)}>
-            <div className={css.inkBar} style={{ ...inkStyle, bottom: '0' }} />
-            {props.titles.map((v, i) => (
-              <div
-                key={v.key}
-                className={classes(`${className}${i}`, css.tabHeader)}
-                style={{
-                  color: v.key === props.activeKey && theme.primary,
-                }}
-                onClick={() => props.onClick(v.key)}
-              >
-                {v.title}
-              </div>
-            ))}
-          </div>
-        );
-      }}
-    </ThemeConsumer>
+    <div className={css.tabHeaderContainer} onClick={(e) => onContainerClick(e.target as HTMLDivElement)}>
+      <div className={css.inkBar} style={{ ...inkStyle, bottom: '0' }} />
+      {props.titles.map((v, i) => (
+        <div
+          key={v.key}
+          className={classes(`${className}${i}`, css.tabHeader)}
+          style={{
+            color: v.key === props.activeKey && theme.primary,
+          }}
+          onClick={() => props.onClick(v.key)}
+        >
+          {v.title}
+        </div>
+      ))}
+    </div>
   );
 };
 

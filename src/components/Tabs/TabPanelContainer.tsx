@@ -1,10 +1,10 @@
 import * as React from 'react';
 import posed from 'react-pose';
-import { ThemeConsumer } from '../Theme/Theme';
+import { useTheme } from '../Theme/Theme';
 import { style } from './style';
 import { TabPanelProps } from './TabPanel';
 
-export const TabPanelContainer: React.FunctionComponent<TabPanelContainerProps> = (props) => {
+export const TabPanelContainer: React.FC<TabPanelContainerProps> = (props) => {
   const { titles, activeKey, children, unMountOnChange } = props;
   const activeKeyIndex = titles.findIndex((v) => v.key === activeKey);
 
@@ -31,14 +31,9 @@ export const TabPanelContainer: React.FunctionComponent<TabPanelContainerProps> 
     );
   };
 
-  return (
-    <ThemeConsumer>
-      {(theme) => {
-        const css = style(theme);
-        return <div className={css.tabPanelContainer}>{displayList()}</div>;
-      }}
-    </ThemeConsumer>
-  );
+  const theme = useTheme();
+  const css = style(theme);
+  return <div className={css.tabPanelContainer}>{displayList()}</div>;
 };
 
 interface TabPanelContainerProps {
