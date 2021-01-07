@@ -66,11 +66,18 @@ export class Popover extends React.Component<PopoverProps, State> {
     return (
       <Container
         {...this.props}
-        childWidth={this.state.childHeight}
+        childHeight={this.state.childHeight}
+        childWidth={this.state.childWidth}
         isBrowser={this.state.isBrowser}
         child={this.child}
         renderContent={this.renderContent}
         visible={this.state.visible}
+        updateVisible={(visible) => {
+          this.setState({ visible });
+        }}
+        updateChildWidth={(child) => {
+          this.setState({ childWidth: child.current?.getBoundingClientRect().width || 0 });
+        }}
       />
     );
   }
@@ -78,7 +85,7 @@ export class Popover extends React.Component<PopoverProps, State> {
 
 const Container: React.FC<ContainerProps> = (props) => {
   const theme = useTheme();
-  const css = style({ expand: props.expand || false, childWidth: props.childWidth, theme });
+  const css = style({ theme, expand: props.expand || false, childWidth: props.childWidth });
 
   const {
     trigger,
@@ -95,6 +102,8 @@ const Container: React.FC<ContainerProps> = (props) => {
     child,
     renderContent,
     visible,
+    updateVisible,
+    updateChildWidth,
   } = props;
 
   if (!isBrowser) {
@@ -113,7 +122,9 @@ const Container: React.FC<ContainerProps> = (props) => {
       overlayClassName={classes(css.container, css[`elevation${elevation}`])}
       overlayStyle={containerStyle}
       onVisibleChange={(v) => {
-        setState({ visible: v, childWidth: child.current?.getBoundingClientRect().width || 0 });
+        updateVisible(v);
+        updateChildWidth(child);
+        // setState({ visible: v, childWidth: child.current?.getBoundingClientRect().width || 0 });
         onVisibleChange && onVisibleChange(v);
       }}
       visible={visible}
@@ -166,4 +177,7 @@ interface State {
 type ContainerProps = PopoverProps &
   State & {
     renderContent: () => JSX.Element;
+    child: React.RefObject<HTMLDivElement>;
+    updateVisible: (visible: boolean) => void;
+    updateChildWidth: (child: React.RefObject<HTMLDivElement>) => void;
   };
