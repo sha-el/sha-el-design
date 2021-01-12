@@ -1,29 +1,23 @@
 import * as React from 'react';
-import { stylesheet, classes } from 'typestyle';
 import { GiEmptyMetalBucket } from 'react-icons/gi';
-import { Theme, ThemeConsumer } from '../Theme/Theme';
+import { Theme, theming, useTheme } from '../Theme/Theme';
 import { lightText, borderColor } from '../../helpers/color';
 import { Text } from '../Text';
 import elevations from '../../helpers/elevations';
+import { createUseStyles } from 'react-jss';
+import { classes } from '../../helpers';
 
 /**
  * @deprecated Will be removed in 1.0.0
  */
-export class Table<T> extends React.Component<TableProps<T>, never> {
-  static defaultProps = {
-    shadow: true,
-    elevation: 0,
-  };
 
-  constructor(props) {
-    super(props);
-    console.warn('This table component has been deprecated in favor of FlexTable. Please make the change.');
-  }
+export function Table<T>(props: TableProps<T>) {
+  console.warn('This table component has been deprecated in favor of FlexTable. Please make the change.');
 
-  renderRow = () => {
-    return this.props.data.map((v, index) => (
+  const renderRow = () => {
+    return props.data.map((v, index) => (
       <tr key={`table-row-${index}`}>
-        {this.props.columns.map((f) => {
+        {props.columns.map((f) => {
           return (
             <td key={`table-column-${f.key}-${index}`}>
               {f.render ? f.render(v[f.dataIndex], v, index) : v[f.dataIndex]}
@@ -35,8 +29,8 @@ export class Table<T> extends React.Component<TableProps<T>, never> {
     ));
   };
 
-  showEmptyState = (css: Record<'empty' | 'icon', string>) => {
-    if (!this.props.data.length) {
+  const showEmptyState = (css: Record<'empty' | 'icon', string>) => {
+    if (!props.data.length) {
       return (
         <div className={css.empty}>
           <div className={css.icon}>
@@ -48,83 +42,75 @@ export class Table<T> extends React.Component<TableProps<T>, never> {
     }
   };
 
-  render() {
-    const { header, columns, footer } = this.props;
-    return (
-      <ThemeConsumer>
-        {(theme) => {
-          const css = style(theme);
-          return (
-            <div className={classes(css.container, css[`elevation${this.props.elevation}`])}>
-              {header && (
-                <Text variant="h6" className={css.header}>
-                  {header}
-                </Text>
-              )}
-              <table className={css.table}>
-                <thead>
-                  <tr>
-                    {columns.map((v) => (
-                      <th key={`table-header-${v.key}`}>{v.header}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>{this.renderRow()}</tbody>
-              </table>
-              {this.showEmptyState(css)}
-              {footer && <div className={css.footer}>{footer}</div>}
-            </div>
-          );
-        }}
-      </ThemeConsumer>
-    );
-  }
+  const { header, columns, footer } = props;
+  const theme = useTheme();
+  const css = style(theme);
+  return (
+    <div className={classes(css.container, css[`elevation${props.elevation}`])}>
+      {header && (
+        <Text variant="h6" className={css.header}>
+          {header}
+        </Text>
+      )}
+      <table className={css.table}>
+        <thead>
+          <tr>
+            {columns.map((v) => (
+              <th key={`table-header-${v.key}`}>{v.header}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>{renderRow()}</tbody>
+      </table>
+      {showEmptyState(css)}
+      {footer && <div className={css.footer}>{footer}</div>}
+    </div>
+  );
 }
 
-const style = (theme: Theme) => {
-  return stylesheet({
+Table.defaultProps = {
+  shadow: true,
+  elevation: 0,
+};
+
+const style = createUseStyles(
+  (theme: Theme) => ({
     table: {
       width: '100%',
       borderCollapse: 'collapse',
       background: theme.background,
       fontSize: '14px',
-      $nest: {
-        thead: {
-          fontSize: '12px',
-          fontWeight: 'bolder',
-          color: theme.textColor,
+      '& thead': {
+        fontSize: '12px',
+        fontWeight: 'bolder',
+        color: theme.textColor,
+      },
+      '& tr': {
+        borderBottom: `1px solid ${borderColor(theme.background)}`,
+      },
+      '& th': {
+        padding: '15px 5px',
+        textAlign: 'left',
+        fontFamily: 'Roboto,"Helvetica Neue",sans-serif !important',
+        textTransform: 'capitalize',
+        '&:first-of-type': {
+          paddingLeft: '24px',
         },
-        tr: {
-          borderBottom: `1px solid ${borderColor(theme.background)}`,
+        '&:last-of-type': {
+          paddingRight: '24px',
         },
-        th: {
-          padding: '15px 5px',
-          textAlign: 'left',
-          fontFamily: 'Roboto,"Helvetica Neue",sans-serif !important',
-          textTransform: 'capitalize',
-          $nest: {
-            '&:first-of-type': {
-              paddingLeft: '24px',
-            },
-            '&:last-of-type': {
-              paddingRight: '24px',
-            },
-          },
+      },
+      '& td': {
+        textAlign: 'left',
+        fontFamily: "'Fira Code', monospace !important",
+        height: '50px',
+        padding: '5px 0',
+        fontWeight: 400,
+        '&:first-of-type': {
+          paddingLeft: '24px',
         },
-        td: {
-          textAlign: 'left',
-          fontFamily: "'Fira Code', monospace !important",
-          height: '50px',
-          padding: '5px 0',
-          fontWeight: 400,
-          $nest: {
-            '&:first-of-type': {
-              paddingLeft: '24px',
-            },
-            '&:last-of-type': {
-              paddingRight: '24px',
-            },
-          },
+        '&:last-of-type': {
+          paddingRight: '24px',
         },
       },
     },
@@ -150,8 +136,9 @@ const style = (theme: Theme) => {
       padding: '12px 24px 8px',
     },
     ...elevations(theme),
-  });
-};
+  }),
+  { theming, name: 'sha-el-table' },
+);
 
 export interface TableProps<T> {
   data: T[];
