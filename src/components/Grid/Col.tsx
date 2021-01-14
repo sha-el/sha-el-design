@@ -2,7 +2,7 @@ import * as React from 'react';
 import { createUseStyles } from 'react-jss';
 import { classes } from '../../helpers';
 
-export const Col: React.FC<ColProps> = (props) => {
+export const Col: React.FC<ColProps> = React.forwardRef((props, ref) => {
   const {
     className,
     children,
@@ -15,104 +15,64 @@ export const Col: React.FC<ColProps> = (props) => {
     ...rest
   } = props;
   return (
-    <div className={classes(className, colStyle(props).container, 'sha-el-col')} {...rest}>
+    <div ref={ref} className={classes(className, colStyle(props).col, 'sha-el-col')} {...rest}>
       {children}
     </div>
   );
-};
-
-const colStyle = createUseStyles({
-  container: (props) => ({
-    maxWidth: !props.flex && 100 / (24 / props.span) + '%',
-    flexBasis: !props.flex && 100 / (24 / props.span) + '%',
-    boxSizing: 'border-box',
-    flex: props.flex || '0 0 auto',
-    marginLeft: props.offset && typeof props.offset === 'number' && 100 / (24 / props.offset) + '%',
-    alignSelf: props.alignSelf,
-
-    '@media (max-width: 576)': {
-      maxWidth: !props.flex && 100 / (24 / props.spanXs) + '%',
-      flexBasis: !props.flex && 100 / (24 / props.spanXs) + '%',
-      marginLeft: props.offset && typeof props.offset === 'object' && 100 / (24 / props.offset.xs) + '%',
-    },
-
-    '@media (min-width: 576)': {
-      maxWidth: !props.flex && 100 / (24 / props.spanSm) + '%',
-      flexBasis: !props.flex && 100 / (24 / props.spanSm) + '%',
-      marginLeft: props.offset && typeof props.offset === 'object' && 100 / (24 / props.offset.sm) + '%',
-    },
-
-    '@media (min-width: 768)': {
-      maxWidth: !props.flex && 100 / (24 / props.spanMd) + '%',
-      flexBasis: !props.flex && 100 / (24 / props.spanMd) + '%',
-      marginLeft: props.offset && typeof props.offset === 'object' && 100 / (24 / props.offset.md) + '%',
-    },
-
-    '@media (min-width: 992)': {
-      maxWidth: !props.flex && 100 / (24 / props.spanLg) + '%',
-      flexBasis: !props.flex && 100 / (24 / props.spanLg) + '%',
-      marginLeft: props.offset && typeof props.offset === 'object' && 100 / (24 / props.offset.lg) + '%',
-    },
-
-    '@media (min-width: 1200)': {
-      maxWidth: !props.flex && 100 / (24 / props.spanXl) + '%',
-      flexBasis: !props.flex && 100 / (24 / props.spanXl) + '%',
-      marginLeft: props.offset && typeof props.offset === 'object' && 100 / (24 / props.offset.xl) + '%',
-    },
-  }),
 });
 
-// const colStyle = (props: ColProps) =>
-//   style(
-//     {
+const colStyle = createUseStyles(
+  {
+    col: (props) => ({
+      maxWidth: !props.flex && 100 / (24 / props.span) + '%',
+      flexBasis: !props.flex && 100 / (24 / props.span) + '%',
+      boxSizing: 'border-box',
+      flex: props.flex || '0 0 auto',
+      marginLeft: props.offset && typeof props.offset === 'number' && 100 / (24 / props.offset) + '%',
+      alignSelf: props.alignSelf,
+    }),
+    '@media (max-width: 576px)': {
+      col: (props) => ({
+        maxWidth: !props.flex && 100 / (24 / props.spanXs) + '%',
+        flexBasis: !props.flex && 100 / (24 / props.spanXs) + '%',
+        marginLeft: props.offset && typeof props.offset === 'object' && 100 / (24 / props.offset.xs) + '%',
+      }),
+    },
 
-//     },
-//     props.spanXs &&
-//       media(
-//         {
-//           maxWidth: 576,
-//         },
-//         {
+    '@media (min-width: 576px)': {
+      col: (props) => ({
+        maxWidth: !props.flex && 100 / (24 / props.spanSm) + '%',
+        flexBasis: !props.flex && 100 / (24 / props.spanSm) + '%',
+        marginLeft: props.offset && typeof props.offset === 'object' && 100 / (24 / props.offset.sm) + '%',
+      }),
+    },
 
-//         },
-//       ),
-//     props.spanSm &&
-//       media(
-//         {
-//           minWidth: 576,
-//         },
-//         {
+    '@media (min-width: 768px)': {
+      col: (props) => ({
+        maxWidth: !props.flex && 100 / (24 / props.spanMd) + '%',
+        flexBasis: !props.flex && 100 / (24 / props.spanMd) + '%',
+        marginLeft: props.offset && typeof props.offset === 'object' && 100 / (24 / props.offset.md) + '%',
+      }),
+    },
 
-//         },
-//       ),
-//     props.spanMd &&
-//       media(
-//         {
-//           minWidth: 768,
-//         },
-//         {
+    '@media (min-width: 992px)': {
+      col: (props) => ({
+        maxWidth: !props.flex && 100 / (24 / props.spanLg) + '%',
+        flexBasis: !props.flex && 100 / (24 / props.spanLg) + '%',
+        marginLeft: props.offset && typeof props.offset === 'object' && 100 / (24 / props.offset.lg) + '%',
+      }),
+    },
 
-//         },
-//       ),
-//     props.spanLg &&
-//       media(
-//         {
-//           minWidth: 992,
-//         },
-//         {
-
-//         },
-//       ),
-//     props.spanXl &&
-//       media(
-//         {
-//           minWidth: 1200,
-//         },
-//         {
-
-//         },
-//       ),
-//   );
+    '@media (min-width: 1200px)': {
+      col: (props) => ({
+        maxWidth: !props.flex && 100 / (24 / props.spanXl) + '%',
+        flexBasis: !props.flex && 100 / (24 / props.spanXl) + '%',
+        marginLeft: props.offset && typeof props.offset === 'object' && 100 / (24 / props.offset.xl) + '%',
+      }),
+    },
+  },
+  { name: 'sha-el-col' },
+);
 
 export interface ColProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   style?: React.CSSProperties;

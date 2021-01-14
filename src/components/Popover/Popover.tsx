@@ -4,88 +4,28 @@ import { classes, isBrowser } from '../../helpers';
 import { useTheme } from '../Theme/Theme';
 import { style } from './style';
 
-export class Popover extends React.Component<PopoverProps, State> {
-  public static defaultProps: Partial<PopoverProps> = {
-    trigger: 'onClick',
-    position: 'bottom',
-    style: {},
-    elevation: 12,
-  };
+export const Popover: React.FC<PopoverProps> = (props) => {
+  const theme = useTheme();
+  const [childWidth, updateChildWidth] = React.useState<number>();
+  const [visible, updateVisible] = React.useState<boolean>(props.visible);
+  const child = React.useRef<HTMLDivElement>();
+  const css = style({ theme, expand: props.expand || false, childWidth: childWidth });
 
-  child = React.createRef<HTMLDivElement>();
+  React.useEffect(() => {
+    updateVisible(props.visible);
+  }, [props.visible]);
 
-  constructor(props: PopoverProps) {
-    super(props);
-
-    this.state = {
-      childWidth: 0,
-      childHeight: 0,
-      isBrowser: false,
-      visible: false,
-    };
-  }
-
-  componentDidMount() {
-    const childRect = this.child.current?.getBoundingClientRect();
-    this.setState({
-      childWidth: childRect?.width || 0,
-      childHeight: childRect?.height || 0,
-    });
-    this.isBrowser();
-  }
-
-  static getDerivedStateFromProps(props: PopoverProps, state: State): Partial<State> {
-    if (props.visible !== state.visible && props.visible !== undefined) {
-      return {
-        visible: props.visible,
-      };
-    }
-    return {};
-  }
-
-  isBrowser = () => {
-    if (isBrowser()) {
-      return this.setState({ isBrowser: true });
-    }
-    setTimeout(this.isBrowser, 500);
-  };
-
-  renderContent = () => {
-    const { hideArrow } = this.props;
+  const renderContent = () => {
+    const { hideArrow } = props;
     return (
       <div>
         <div className="rc-tooltip-arrow" style={{ display: !hideArrow ? 'block' : 'none' }} />
         <div>
-          <div style={this.props.style?.content}>{this.props.content}</div>
+          <div style={props.style?.content}>{props.content}</div>
         </div>
       </div>
     );
   };
-
-  render() {
-    return (
-      <Container
-        {...this.props}
-        childHeight={this.state.childHeight}
-        childWidth={this.state.childWidth}
-        isBrowser={this.state.isBrowser}
-        child={this.child}
-        renderContent={this.renderContent}
-        visible={this.state.visible}
-        updateVisible={(visible) => {
-          this.setState({ visible });
-        }}
-        updateChildWidth={(child) => {
-          this.setState({ childWidth: child.current?.getBoundingClientRect().width || 0 });
-        }}
-      />
-    );
-  }
-}
-
-const Container: React.FC<ContainerProps> = (props) => {
-  const theme = useTheme();
-  const css = style({ theme, expand: props.expand || false, childWidth: props.childWidth });
 
   const {
     trigger,
@@ -98,12 +38,6 @@ const Container: React.FC<ContainerProps> = (props) => {
     style: { container: containerStyle = {}, child: childStyle = {} } = {},
     onVisibleChange,
     elevation = 12,
-    isBrowser,
-    child,
-    renderContent,
-    visible,
-    updateVisible,
-    updateChildWidth,
   } = props;
 
   if (!isBrowser) {
@@ -116,15 +50,16 @@ const Container: React.FC<ContainerProps> = (props) => {
   return (
     <RCTooltip
       placement={position}
-      trigger={[triggers(trigger)]}
+      trigger={triggers(trigger)}
       overlay={renderContent()}
       destroyTooltipOnHide={!preserveOnClose}
       overlayClassName={classes(css.container, css[`elevation${elevation}`])}
       overlayStyle={containerStyle}
       onVisibleChange={(v) => {
-        updateVisible(v);
-        updateChildWidth(child);
-        // setState({ visible: v, childWidth: child.current?.getBoundingClientRect().width || 0 });
+        if (props.visible === undefined) {
+          updateVisible(v);
+        }
+        updateChildWidth(child?.current?.getBoundingClientRect().width || 0);
         onVisibleChange && onVisibleChange(v);
       }}
       visible={visible}
@@ -138,16 +73,25 @@ const Container: React.FC<ContainerProps> = (props) => {
   );
 };
 
-const triggers = (t: PopoverProps['trigger']) =>
-  ({
+const triggers = (t: PopoverProps['trigger']) => {
+  const obj = {
     onClick: 'click',
     onHover: 'hover',
     onFocus: 'focus',
-  }[t || 'onClick']);
+  };
+
+  if (Array.isArray(t)) {
+    return t.map((v) => obj[v]);
+  }
+
+  return [obj[t || 'onClick']];
+};
+
+type triggers = 'onClick' | 'onHover' | 'onFocus';
 
 export interface PopoverProps {
   children: React.ReactElement;
-  trigger?: 'onClick' | 'onHover' | 'onFocus';
+  trigger?: triggers | triggers[];
   position?: 'left' | 'right' | 'top' | 'bottom' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight';
   content?: React.ReactNode;
   hideArrow?: boolean;
@@ -162,22 +106,14 @@ export interface PopoverProps {
   visible?: boolean;
   onVisibleChange?: (visible?: boolean) => void;
   align?: Record<string, unknown>;
-  elevation: number;
+  elevation?: number;
   cover?: boolean;
   animation?: string;
 }
 
-interface State {
-  childWidth: number;
-  isBrowser: boolean;
-  visible: boolean;
-  childHeight: number;
-}
-
-type ContainerProps = PopoverProps &
-  State & {
-    renderContent: () => JSX.Element;
-    child: React.RefObject<HTMLDivElement>;
-    updateVisible: (visible: boolean) => void;
-    updateChildWidth: (child: React.RefObject<HTMLDivElement>) => void;
-  };
+Popover.defaultProps = {
+  trigger: 'onClick',
+  position: 'bottom',
+  style: {},
+  elevation: 12,
+};

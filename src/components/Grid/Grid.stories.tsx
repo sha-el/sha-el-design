@@ -17,8 +17,12 @@ export default {
 
 const RowTemplate: Story<RowProps> = (args) => <Row {...args} />;
 
+RowTemplate.args = {
+  style: { textAlign: 'center', background: 'darkgray' },
+};
+
 export const Span: Story<ColProps> = (args) => (
-  <Row {...RowTemplate.args} style={{ textAlign: 'center' }}>
+  <Row {...RowTemplate.args}>
     <Col span={24} {...args}>
       <Card>Span 24</Card>
     </Col>
@@ -66,7 +70,7 @@ export const JustifyContent: Story<ColProps> = (args) => (
 );
 
 export const Responsive: Story<ColProps> = () => (
-  <Row>
+  <Row {...RowTemplate.args}>
     <Col spanXs={24} spanSm={20} spanMd={16} spanLg={12} spanXl={8}>
       <Card>1</Card>
     </Col>
@@ -93,7 +97,7 @@ export const Responsive: Story<ColProps> = () => (
 
 export const Gutter: Story<ColProps> = (args) => {
   return (
-    <Row {...RowTemplate.args} style={{ textAlign: 'center' }} gutter={['10px', '20px']}>
+    <Row {...RowTemplate.args} gutter={['10px', '20px']}>
       <Col span={24} {...args}>
         <Card>Span 24</Card>
       </Col>

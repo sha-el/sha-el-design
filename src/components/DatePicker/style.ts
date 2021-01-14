@@ -8,14 +8,17 @@ export const style = createUseStyles(
         overflowY: 'hidden',
         cursor: 'pointer',
         minWidth: '50px',
+        scrollBehavior: 'smooth',
         '&:hover': {
           overflowY: 'auto',
         },
-        '& div': {
-          padding: '2px',
+        '& p': {
           '&:hover': {
             background: '#ccc',
           },
+        },
+        '&.hour-column, &.min-column, &.sec-column': {
+          borderRight: '1px solid #eee',
         },
       },
     },

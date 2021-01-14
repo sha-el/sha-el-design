@@ -4,6 +4,7 @@ import { style, keyframes, stylesheet, classes } from 'typestyle';
 import { NestedCSSProperties } from 'typestyle/lib/types';
 import { Theme, ThemeConsumer } from '../Theme/Theme';
 import elevations from '../../helpers/elevations';
+import { createUseStyles } from 'react-jss';
 
 export const Drawer: React.FunctionComponent<DrawerProps> = (props) => {
   const { elevation = 24, onClose = () => ({}) } = props;
@@ -15,48 +16,66 @@ export const Drawer: React.FunctionComponent<DrawerProps> = (props) => {
   const [className, updateClassName] = React.useState('');
 
   const beforeClose = () => {
-    const slideOutRight = keyframes(
-      {
-        right: {
-          '0%': {
-            transform: 'translateX(0)',
-          },
-          '100%': {
-            transform: 'translateX(120vw)',
-          },
-        },
-        left: {
-          '0%': {
-            transform: 'translateX(0)',
-          },
-          '100%': {
-            transform: 'translateX(-1000px)',
-          },
-        },
-        top: {
-          '0%': {
-            transform: 'translateY(0)',
-          },
-          '100%': {
-            transform: 'translateY(-1000px)',
-          },
-        },
-        bottom: {
-          '0%': {
-            transform: 'translateY(0)',
-          },
-          '100%': {
-            transform: 'translateY(120vh)',
-          },
-        },
-      }[props.placement || 'right'],
-    );
+    // const slideOutRight = keyframes(
+    //   {
+    //     right: {
+    // '0%': {
+    //   transform: 'translateX(0)',
+    // },
+    // '100%': {
+    //   transform: 'translateX(120vw)',
+    // },
+    //     },
+    //     left: {
+    //       '0%': {
+    //         transform: 'translateX(0)',
+    //       },
+    //       '100%': {
+    //         transform: 'translateX(-1000px)',
+    //       },
+    //     },
+    //     top: {
+    //       '0%': {
+    //         transform: 'translateY(0)',
+    //       },
+    //       '100%': {
+    //         transform: 'translateY(-1000px)',
+    //       },
+    //     },
+    //     bottom: {
+    //       '0%': {
+    //         transform: 'translateY(0)',
+    //       },
+    //       '100%': {
+    //         transform: 'translateY(120vh)',
+    //       },
+    //     },
+    //   }[props.placement || 'right'],
+    // );
 
     setTimeout(onClose, 200);
 
+    createUseStyles({
+      '@keyframes slideOutRight': {
+        '0%': {
+          transform: 'translateX(0)',
+        },
+        '100%': {
+          transform: 'translateX(120vw)',
+        },
+      },
+      '@keyframes slideOutLeft': {},
+      slideOutRight: {
+        animation: '$slideOutRight .5s ease-in both !important',
+      },
+      slideOutLeft: {
+        animation: '$slideOutLeft .5s ease-in both !important',
+      },
+    });
+
     updateClassName(
       style({
-        animation: `${slideOutRight} .5s ease-in both !important`,
+        animation: `$slideOutRight .5s ease-in both !important`,
       }),
     );
   };

@@ -1,4 +1,5 @@
 import { createUseStyles } from 'react-jss';
+import { colorShades } from '../../helpers/color';
 import elevations from '../../helpers/elevations';
 import { Theme, theming } from '../Theme/Theme';
 
@@ -11,6 +12,9 @@ export const style = createUseStyles(
       padding: '0',
       background: theme.background,
       color: `${theme.textColor} !important`,
+      '& .rc-tooltip-arrow': {
+        borderTopColor: colorShades(theme.background)[3],
+      },
     }),
     ...elevations(theme),
   }),

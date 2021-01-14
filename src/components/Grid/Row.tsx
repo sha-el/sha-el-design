@@ -7,7 +7,7 @@ export const Row: React.FC<RowProps> = (props) => {
   return (
     <div
       onClick={props.onClick}
-      className={classes(rowStyle().container, flexPosition(props).conatiner, className, 'sha-el-row')}
+      className={classes(rowStyle().container, flexPosition(props).container, className, 'sha-el-row')}
       style={props.style}
     >
       {props.children}
@@ -30,7 +30,7 @@ const rowStyle = createUseStyles({
 });
 
 const flexPosition = createUseStyles({
-  conatiner: (props) => ({
+  container: (props) => ({
     justifyContent: props.justifyContent,
     alignItems: props.alignItems,
     padding: props.gutter[0],

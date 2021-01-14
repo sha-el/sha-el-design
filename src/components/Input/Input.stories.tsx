@@ -18,7 +18,7 @@ const Template: Story<InputProps> = (args) => (
   <>
     <Input {...args} />
     <Divider />
-    <Input {...args} borderLess />
+    <Input {...args} borderless />
   </>
 );
 

@@ -1,5 +1,5 @@
 import { createUseStyles } from 'react-jss';
-import { colorShades } from '../../helpers/color';
+import { colorShades, lightText } from '../../helpers/color';
 
 export const style = createUseStyles({
   breadcrumbs: (theme) => {
@@ -7,20 +7,25 @@ export const style = createUseStyles({
     return {
       color: theme.textColor,
       '& li': {
-        display: 'inline-flex',
-        fontSize: '1rem',
-        lineHeight: 1.5,
+        fontSize: '16px',
         letterSpacing: '0.00938em',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '1px',
+        listStyleType: 'none',
+        lineHeight: '1.5',
+        fontWeight: 400,
+        color: lightText(theme),
+        cursor: 'pointer',
         '& *': {
-          color: theme.textColor,
+          color: lightText(theme),
         },
         '&:last-child': {
           '& *': {
             color: primary3,
           },
+        },
+        '&.breadcrumb-seperator': {
+          margin: '0 10px',
+          display: 'flex',
+          alignItems: 'center',
         },
       },
     };

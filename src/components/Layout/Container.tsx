@@ -11,7 +11,7 @@ const ctx = React.createContext<{ width: number; updateWidth: (width: number) =>
 
 export const SidePanelContext = ctx;
 
-const Container: React.FC<ContainerProps> = (props) => {
+export const Container: React.FC<ContainerProps> = (props) => {
   const [width, updateWidth] = React.useState(COLLAPSED_WIDTH);
 
   const toggle = () => {

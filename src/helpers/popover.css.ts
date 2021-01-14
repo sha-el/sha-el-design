@@ -84,7 +84,6 @@ export default `
   bottom: -5px;
   margin-left: -6px;
   border-width: 6px 6px 0;
-  border-top-color: #b1b1b1;
 }
 .rc-tooltip-placement-top .rc-tooltip-arrow-inner,
 .rc-tooltip-placement-topLeft .rc-tooltip-arrow-inner,

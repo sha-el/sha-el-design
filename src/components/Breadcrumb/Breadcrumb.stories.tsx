@@ -18,29 +18,32 @@ const Template: Story<BreadcrumbProps> = (args) => <Breadcrumb {...args} />;
 
 export const Basic = Template.bind({});
 Basic.args = {
-  seperator: '>',
-  paths: [() => <a href="#">Home</a>, () => <a href="#">Breadcrumb</a>],
+  seperator: '/',
+  children: [
+    <a key="1" href="#">
+      Home
+    </a>,
+    <a key="2" href="#">
+      Breadcrumb
+    </a>,
+  ],
 };
 
-export const Icons = Template.bind({});
-Icons.args = {
+export const CustomSeperator = Template.bind({});
+CustomSeperator.args = {
+  ...Basic.args,
   seperator: <MdNavigateNext />,
-  paths: [() => <a href="#">Home</a>, () => <a href="#">Breadcrumb</a>],
 };
 
 export const WithMenu = Template.bind({});
 WithMenu.args = {
-  seperator: '>',
-  paths: [
-    () => (
-      <a href="#">
-        <MdHome />
-      </a>
-    ),
-    () => (
-      <Menu anchor={<Button flat>Options</Button>}>
-        <MenuItem>Option 1</MenuItem>
-      </Menu>
-    ),
+  seperator: <MdNavigateNext />,
+  children: [
+    <a key="1" href="#">
+      <MdHome />
+    </a>,
+    <Menu trigger="onHover" densed position="bottom" key="2" anchor={<Button flat>Options</Button>}>
+      <MenuItem>Option 1</MenuItem>
+    </Menu>,
   ],
 };

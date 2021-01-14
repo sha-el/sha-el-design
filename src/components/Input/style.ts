@@ -5,10 +5,10 @@ import { theming } from '../Theme/Theme';
 
 export const style = createUseStyles(
   {
-    container: ({ theme, error, label, active, borderLess, disabled }) => {
+    container: ({ theme, error, label, active, borderless, disabled }) => {
       const borderColor = error ? theme.error : borderColorHelper(theme.background);
 
-      const borderStyle = borderLess
+      const borderStyle = borderless
         ? {
             borderBottom: `1px ${disabled ? 'dotted' : 'solid'} ${borderColor}`,
             borderRadius: '0',
@@ -35,7 +35,7 @@ export const style = createUseStyles(
           '& .label': {
             color: theme.primary,
             '&:after, &:before': {
-              borderColor: borderLess ? 'transparent' : theme.primary,
+              borderColor: borderless ? 'transparent' : theme.primary,
             },
           },
         },
@@ -44,7 +44,7 @@ export const style = createUseStyles(
           '& .label': {
             color: !disabled ? lightText(theme) : undefined,
             '&:after, &:before': {
-              borderColor: !disabled ? (borderLess ? 'transparent' : 'rgb(9, 30, 66)') : undefined,
+              borderColor: !disabled ? (borderless ? 'transparent' : 'rgb(9, 30, 66)') : undefined,
             },
           },
           '& .seudo': {
@@ -65,7 +65,7 @@ export const style = createUseStyles(
       borderWidth: '1px',
     }),
 
-    input: ({ theme, disabled, borderLess, before }) => ({
+    input: ({ theme, disabled, borderless, before }) => ({
       fontSize: '14px',
       minWidth: '100%',
       display: 'inline',
@@ -77,7 +77,7 @@ export const style = createUseStyles(
       borderImage: 'initial',
       outline: 'none',
       lineHeight: '12px',
-      padding: `9px ${borderLess ? '0' : before ? '5px' : '10px'}`,
+      padding: `9px ${borderless ? '0' : before ? '5px' : '10px'}`,
       color: disabled ? disabledText(theme) : getColor(theme.background),
       boxSizing: 'border-box',
       height: '36px',
@@ -111,7 +111,7 @@ export const style = createUseStyles(
       },
     }),
 
-    label: ({ theme, disabled, active, borderLess, isError }) => {
+    label: ({ theme, disabled, active, borderless, isError }) => {
       const borderColor = isError ? theme.error : borderColorHelper(theme.background);
 
       return {
@@ -131,15 +131,15 @@ export const style = createUseStyles(
           boxSizing: 'border-box',
           marginTop: '6px',
           borderTop: `${disabled ? 'dotted' : 'solid'} 1px`,
-          borderTopColor: active && !borderLess ? borderColor : 'transparent',
-          minWidth: borderLess ? '0px' : '10px',
+          borderTopColor: active && !borderless ? borderColor : 'transparent',
+          minWidth: borderless ? '0px' : '10px',
           height: '8px',
           pointerEvents: 'none',
           boxShadow: 'inset 0 1px transparent',
           transition: 'border-color 0.2s, box-shadow 0.2s',
         },
         '&:before': {
-          marginRight: borderLess ? '0px' : '4px',
+          marginRight: borderless ? '0px' : '4px',
           borderTopLeftRadius: '4px',
         },
         '&:after': {
