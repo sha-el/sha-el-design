@@ -1,20 +1,26 @@
 import { createUseStyles, jss } from 'react-jss';
 import { getColor } from '../../helpers';
 
-export const timeline = createUseStyles({
-  container: {
-    width: '70%',
-    position: 'relative',
-    margin: 'auto',
+export const timeline = createUseStyles(
+  {
+    container: {
+      width: '70%',
+      position: 'relative',
+      margin: 'auto',
+    },
   },
-});
+  { name: 'sha-el-timeline' },
+);
 
-export const timelineItem = createUseStyles({
-  icon: (props) => ({
-    background: props.iconBgColor,
-    color: getColor(props.iconBgColor),
-  }),
-});
+export const timelineItem = createUseStyles(
+  {
+    icon: (props) => ({
+      background: props.iconBgColor,
+      color: getColor(props.iconBgColor),
+    }),
+  },
+  { name: 'sha-el-timeline-list' },
+);
 
 export const timelineStyle = () => {
   const style = {

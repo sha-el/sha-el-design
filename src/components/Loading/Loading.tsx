@@ -1,61 +1,17 @@
 import * as React from 'react';
-import { stylesheet, keyframes } from 'typestyle';
-
-import { ThemeConsumer, Theme } from '../Theme/Theme';
+import { useTheme } from '../Theme/Theme';
+import { loadingStyle as style } from './style';
 
 export const Loading: React.FC<LoadingProps> = (props) => {
-  const { render, isLoading, ...rest } = props;
+  const { render = () => <div />, isLoading, ...rest } = props;
+
+  const theme = useTheme();
 
   if (!isLoading) {
     return render();
   }
 
-  return <ThemeConsumer>{(theme) => <div {...rest} className={style(theme, props).loader} />}</ThemeConsumer>;
-};
-
-const style = (theme: Theme, props: LoadingProps) => {
-  const animation = keyframes({
-    '0%': {
-      transform: 'rotate(0)',
-    },
-    '100%': {
-      transform: 'rotate(360deg)',
-    },
-  });
-
-  const animation2 = keyframes({
-    '0%': {
-      borderTopColor: props.color || theme.error,
-    },
-    '25%': {
-      borderTopColor: props.color || theme.warning,
-    },
-    '50%': {
-      borderTopColor: props.color || theme.info,
-    },
-    '100%': {
-      borderTopColor: props.color || theme.secondary,
-    },
-  });
-
-  const diameter =
-    {
-      small: '20px',
-      big: '100px',
-    }[props.size] || '50px';
-
-  return stylesheet({
-    loader: {
-      margin: '0px auto',
-      borderRadius: '50%',
-      border: `4px solid transparent`,
-      borderTop: '4px solid red',
-      width: diameter,
-      height: diameter,
-      background: 'transparent',
-      animation: `1.5s ${animation} infinite linear, 6s ${animation2} infinite linear`,
-    },
-  });
+  return <div {...rest} className={style({ theme, props }).loader} />;
 };
 
 export interface LoadingProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
