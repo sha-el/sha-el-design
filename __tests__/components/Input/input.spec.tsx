@@ -57,7 +57,7 @@ describe('input', () => {
 
   it('should render a boderless input', () => {
     act(() => {
-      ReactDOM.render(<Input borderLess />, container);
+      ReactDOM.render(<Input borderless />, container);
     });
 
     const inputDiv = document.querySelector('.sha-el-input');

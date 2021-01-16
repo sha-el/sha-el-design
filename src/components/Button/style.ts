@@ -72,10 +72,10 @@ export const style = createUseStyles(
           cursor: 'not-allowed',
           color: textColor,
         },
-        svg: {
+        '& svg': {
           display: 'inline-block',
           verticalAlign: 'middle',
-          fontSize: '20px',
+          fontSize: props.size === 'big' ? '20px' : props.size === 'small' ? '14px' : '16px',
           marginLeft: children && '-4px',
           marginRight: children && '8px',
         },
@@ -113,6 +113,43 @@ export const style = createUseStyles(
     },
   },
   { theming, name: 'sha-el-button' },
+);
+
+export const buttonGroupStyle = createUseStyles(
+  {
+    buttonGroup: {
+      '& button': {
+        borderRadius: '0',
+        '&:first-child': {
+          borderRadius: '5px 0 0 5px',
+        },
+        '&:last-child': {
+          borderRadius: '0 5px 5px 0',
+        },
+      },
+      '& a': {
+        boxSizing: 'border-box',
+        borderRadius: '0',
+        '&:first-child': {
+          borderRadius: '5px 0 0 5px',
+        },
+        '&:last-child': {
+          borderRadius: '0 5px 5px 0',
+        },
+      },
+      '& *:first-child': {
+        '& button': {
+          borderRadius: '5px 0 0 5px !important',
+        },
+      },
+      '& *:last-child': {
+        '& button': {
+          borderRadius: '0 5px 5px 0 !important',
+        },
+      },
+    },
+  },
+  { theming, name: 'sha-el-button-group' },
 );
 
 export type sizeTypes = 'default' | 'big' | 'small';

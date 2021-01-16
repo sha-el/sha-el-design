@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { style, media, classes } from 'typestyle';
+import { classes } from '../../helpers';
+import { colStyle } from './style';
 
-export const Col: React.FC<ColProps> = (props) => {
+export const Col: React.FC<ColProps> = React.forwardRef((props, ref) => {
   const {
     className,
     children,
@@ -14,78 +15,11 @@ export const Col: React.FC<ColProps> = (props) => {
     ...rest
   } = props;
   return (
-    <div className={classes(className, colStyle(props), 'sha-el-col')} {...rest}>
+    <div ref={ref} className={classes(className, colStyle(props).col, 'sha-el-col')} {...rest}>
       {children}
     </div>
   );
-};
-
-const colStyle = (props: ColProps) =>
-  style(
-    {
-      maxWidth: !props.flex && 100 / (24 / props.span) + '%',
-      flexBasis: !props.flex && 100 / (24 / props.span) + '%',
-      boxSizing: 'border-box',
-      flex: props.flex || '0 0 auto',
-      marginLeft: props.offset && typeof props.offset === 'number' && 100 / (24 / props.offset) + '%',
-      alignSelf: props.alignSelf,
-    },
-    props.spanXs &&
-      media(
-        {
-          maxWidth: 576,
-        },
-        {
-          maxWidth: !props.flex && 100 / (24 / props.spanXs) + '%',
-          flexBasis: !props.flex && 100 / (24 / props.spanXs) + '%',
-          marginLeft: props.offset && typeof props.offset === 'object' && 100 / (24 / props.offset.xs) + '%',
-        },
-      ),
-    props.spanSm &&
-      media(
-        {
-          minWidth: 576,
-        },
-        {
-          maxWidth: !props.flex && 100 / (24 / props.spanSm) + '%',
-          flexBasis: !props.flex && 100 / (24 / props.spanSm) + '%',
-          marginLeft: props.offset && typeof props.offset === 'object' && 100 / (24 / props.offset.sm) + '%',
-        },
-      ),
-    props.spanMd &&
-      media(
-        {
-          minWidth: 768,
-        },
-        {
-          maxWidth: !props.flex && 100 / (24 / props.spanMd) + '%',
-          flexBasis: !props.flex && 100 / (24 / props.spanMd) + '%',
-          marginLeft: props.offset && typeof props.offset === 'object' && 100 / (24 / props.offset.md) + '%',
-        },
-      ),
-    props.spanLg &&
-      media(
-        {
-          minWidth: 992,
-        },
-        {
-          maxWidth: !props.flex && 100 / (24 / props.spanLg) + '%',
-          flexBasis: !props.flex && 100 / (24 / props.spanLg) + '%',
-          marginLeft: props.offset && typeof props.offset === 'object' && 100 / (24 / props.offset.lg) + '%',
-        },
-      ),
-    props.spanXl &&
-      media(
-        {
-          minWidth: 1200,
-        },
-        {
-          maxWidth: !props.flex && 100 / (24 / props.spanXl) + '%',
-          flexBasis: !props.flex && 100 / (24 / props.spanXl) + '%',
-          marginLeft: props.offset && typeof props.offset === 'object' && 100 / (24 / props.offset.xl) + '%',
-        },
-      ),
-  );
+});
 
 export interface ColProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   style?: React.CSSProperties;

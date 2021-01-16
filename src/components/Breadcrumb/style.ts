@@ -1,28 +1,36 @@
 import { createUseStyles } from 'react-jss';
-import { colorShades } from '../../helpers/color';
+import { colorShades, lightText } from '../../helpers/color';
 
-export const style = createUseStyles({
-  breadcrumbs: (theme) => {
-    const [, , primary3] = colorShades(theme.primary);
-    return {
-      color: theme.textColor,
-      '& li': {
-        display: 'inline-flex',
-        fontSize: '1rem',
-        lineHeight: 1.5,
-        letterSpacing: '0.00938em',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '1px',
-        '& *': {
-          color: theme.textColor,
-        },
-        '&:last-child': {
+export const style = createUseStyles(
+  {
+    breadcrumbs: (theme) => {
+      const [, , primary3] = colorShades(theme.primary);
+      return {
+        color: theme.textColor,
+        '& li': {
+          fontSize: '16px',
+          letterSpacing: '0.00938em',
+          listStyleType: 'none',
+          lineHeight: '1.5',
+          fontWeight: 400,
+          color: lightText(theme),
+          cursor: 'pointer',
           '& *': {
-            color: primary3,
+            color: lightText(theme),
+          },
+          '&:last-child': {
+            '& *': {
+              color: primary3,
+            },
+          },
+          '&.breadcrumb-seperator': {
+            margin: '0 10px',
+            display: 'flex',
+            alignItems: 'center',
           },
         },
-      },
-    };
+      };
+    },
   },
-});
+  { name: 'sha-el-breadcrumb' },
+);

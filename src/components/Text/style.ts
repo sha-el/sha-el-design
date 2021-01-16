@@ -40,6 +40,7 @@ export const style = createUseStyles(
         textDecoration: textDecoration.join(' '),
         padding,
         textAlign: props.textAlign,
+        background: theme[props.background] || props.background,
       };
     },
   },

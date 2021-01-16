@@ -1,9 +1,8 @@
 import * as React from 'react';
+import { classes } from '../../helpers';
 import { Portal } from '../Popover/Portal';
-import { style, keyframes, stylesheet, classes } from 'typestyle';
-import { NestedCSSProperties } from 'typestyle/lib/types';
-import { Theme, ThemeConsumer } from '../Theme/Theme';
-import elevations from '../../helpers/elevations';
+import { useTheme } from '../Theme/Theme';
+import { style } from './style';
 
 export const Drawer: React.FunctionComponent<DrawerProps> = (props) => {
   const { elevation = 24, onClose = () => ({}) } = props;
@@ -14,220 +13,48 @@ export const Drawer: React.FunctionComponent<DrawerProps> = (props) => {
 
   const [className, updateClassName] = React.useState('');
 
+  const theme = useTheme();
+  const css = style(theme);
+
   const beforeClose = () => {
-    const slideOutRight = keyframes(
-      {
-        right: {
-          '0%': {
-            transform: 'translateX(0)',
-          },
-          '100%': {
-            transform: 'translateX(120vw)',
-          },
-        },
-        left: {
-          '0%': {
-            transform: 'translateX(0)',
-          },
-          '100%': {
-            transform: 'translateX(-1000px)',
-          },
-        },
-        top: {
-          '0%': {
-            transform: 'translateY(0)',
-          },
-          '100%': {
-            transform: 'translateY(-1000px)',
-          },
-        },
-        bottom: {
-          '0%': {
-            transform: 'translateY(0)',
-          },
-          '100%': {
-            transform: 'translateY(120vh)',
-          },
-        },
-      }[props.placement || 'right'],
-    );
-
     setTimeout(onClose, 200);
-
     updateClassName(
-      style({
-        animation: `${slideOutRight} .5s ease-in both !important`,
-      }),
+      css[`slideOut${props.placement.charAt(0).toUpperCase() + props.placement.slice(1)}` || 'slideOutRight'],
     );
   };
 
   return (
     <Portal>
-      <ThemeConsumer>
-        {(theme) => {
-          const css = elevationCss(theme);
-          return (
-            <>
-              <div className={MaskStyle()} onClick={() => props.onClose && beforeClose()} />
-              <div
-                style={props.style?.container}
-                className={classes(DrawerStyle(props, theme), css[`elevation${elevation}`], className)}
-              >
-                {props.header && (
-                  <div style={props.style?.header} className="header">
-                    {props.header}
-                  </div>
-                )}
+      <>
+        <div className={css.maskStyle} onClick={() => props.onClose && beforeClose()} />
+        <div
+          style={props.style?.container}
+          className={classes(
+            css.drawerStyle,
+            css[`slideIn${props.placement.charAt(0).toUpperCase() + props.placement.slice(1)}` || 'slideInRight'],
+            css[`elevation${elevation}`],
+            className,
+          )}
+        >
+          {props.header && (
+            <div style={props.style?.header} className="header">
+              {props.header}
+            </div>
+          )}
 
-                <div style={props.style?.body} className="body">
-                  {props.children}
-                </div>
+          <div style={props.style?.body} className="body">
+            {props.children}
+          </div>
 
-                {props.footer && (
-                  <div style={props.style?.footer} className="footer">
-                    {props.footer}
-                  </div>
-                )}
-              </div>
-            </>
-          );
-        }}
-      </ThemeConsumer>
+          {props.footer && (
+            <div style={props.style?.footer} className="footer">
+              {props.footer}
+            </div>
+          )}
+        </div>
+      </>
     </Portal>
   );
-};
-
-const MaskStyle = () =>
-  style({
-    position: 'fixed',
-    width: '100%',
-    height: '100%',
-    left: '0',
-    right: '0',
-    top: '0',
-    bottom: '0',
-    background: 'rgba(0, 0, 0, 0.5)',
-  });
-
-const elevationCss = (theme) => stylesheet({ ...elevations(theme) });
-
-const DrawerStyle = (props: DrawerProps, theme: Theme) => {
-  const styles: NestedCSSProperties[] = [
-    {
-      position: 'fixed',
-      boxSizing: 'border-box',
-      background: theme.background,
-      zIndex: 1000,
-      height: '100%',
-      $nest: {
-        '& .header': {
-          padding: '16px 24px',
-          borderBottom: '1px solid #ccc',
-        },
-        '& .body': {
-          padding: '16px 24px',
-          overflowY: 'auto',
-          overflowX: 'auto',
-        },
-        '& .footer': {
-          padding: '16px 24px',
-          borderTop: '1px solid #ccc',
-        },
-      },
-      ...elevations(theme),
-    },
-  ];
-
-  const slideInLeft = keyframes({
-    '0%': {
-      transform: 'translateX(-1000px)',
-      opacity: 0,
-    },
-    '100%': {
-      transform: 'translateX(0)',
-      opacity: 1,
-    },
-  });
-
-  const slideInRight = keyframes({
-    '0%': {
-      transform: 'translateX(120vw)',
-      opacity: 0,
-    },
-    '100%': {
-      transform: 'translateX(0)',
-      opacity: 1,
-    },
-  });
-
-  const slideInTop = keyframes({
-    '0%': {
-      transform: 'translateY(-1000px)',
-      opacity: 0,
-    },
-    '100%': {
-      transform: 'translateY(0)',
-      opacity: 1,
-    },
-  });
-
-  const slideInBottom = keyframes({
-    '0%': {
-      transform: 'translateY(120vh)',
-      opacity: 0,
-    },
-    '100%': {
-      transform: 'translateY(0)',
-      opacity: 1,
-    },
-  });
-
-  ({
-    top: () =>
-      styles.push({
-        top: '0',
-        width: '100%',
-        height: 'auto',
-        left: 0,
-        animation: `${slideInTop} 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
-      }),
-    bottom: () =>
-      styles.push({
-        bottom: '0',
-        width: '100%',
-        height: 'auto',
-        left: 0,
-        animation: `${slideInBottom} 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
-      }),
-    left: () =>
-      styles.push({
-        left: '0',
-        width: 'auto',
-        height: '100%',
-        top: '0',
-        animation: `${slideInLeft} 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
-        $nest: {
-          '& .body': {
-            height: '100%',
-          },
-        },
-      }),
-    right: () =>
-      styles.push({
-        right: '0',
-        top: '0',
-        width: 'auto',
-        height: '100%',
-        animation: `${slideInRight} 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
-        $nest: {
-          '& .body': {
-            height: '100%',
-          },
-        },
-      }),
-  }[props.placement || 'right']());
-
-  return style(...styles);
 };
 
 Drawer.defaultProps = {

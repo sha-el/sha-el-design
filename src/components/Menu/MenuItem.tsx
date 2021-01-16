@@ -1,8 +1,9 @@
 import * as React from 'react';
+import { RowProps } from '../Grid/Row';
 import { ListItem } from '../List';
 
 export const MenuItem: React.FC<MenuItemProps> = (props) => {
-  const { icon, children, onClick, element, close, active, action } = props;
+  const { icon, children, onClick, element, close, active, action, gutter } = props;
   return (
     <ListItem
       onClick={() => {
@@ -13,6 +14,7 @@ export const MenuItem: React.FC<MenuItemProps> = (props) => {
       element={element}
       selected={active}
       action={action}
+      gutter={gutter}
     >
       {children}
     </ListItem>
@@ -28,4 +30,5 @@ export interface MenuItemProps {
   element?: React.ReactElement;
   close?: () => void;
   action?: React.ReactNode;
+  gutter?: RowProps['gutter'];
 }

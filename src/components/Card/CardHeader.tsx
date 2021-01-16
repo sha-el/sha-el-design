@@ -1,34 +1,29 @@
 import * as React from 'react';
-import { classes, style } from 'typestyle';
 import { Row, Col } from '../../';
 import { lightText } from '../../helpers/color';
-import { ThemeConsumer } from '../Theme/Theme';
+import { useTheme } from '../Theme/Theme';
 import { Text } from '../Text';
+import { classes } from '../../helpers';
+import { cardHeaderStyle } from './style';
 
-export const CardHeader: React.FunctionComponent<CardHeaderProps> = (props) => {
+export const CardHeader: React.FC<CardHeaderProps> = (props) => {
   const { children, subtitle, className, action, ...restProps } = props;
 
+  const theme = useTheme();
+  const css = cardHeaderStyle();
+
   return (
-    <ThemeConsumer>
-      {(theme) => {
-        const css = style({
-          marginBottom: '10px',
-        });
-        return (
-          <div className={classes(css, className)} {...restProps}>
-            <Row gutter={[0, 0]} alignItems="center">
-              <Col flex="1 0 auto">
-                <Text variant="h5" margin="0">
-                  {children}
-                </Text>
-                <Text color={lightText(theme)}>{subtitle}</Text>
-              </Col>
-              <Col flex="0 1 auto">{action}</Col>
-            </Row>
-          </div>
-        );
-      }}
-    </ThemeConsumer>
+    <div className={classes(css.header, className)} {...restProps}>
+      <Row gutter={[0, 0]} alignItems="center">
+        <Col flex="1 0 auto">
+          <Text variant="h5" margin="0">
+            {children}
+          </Text>
+          <Text color={lightText(theme)}>{subtitle}</Text>
+        </Col>
+        <Col flex="0 1 auto">{action}</Col>
+      </Row>
+    </div>
   );
 };
 

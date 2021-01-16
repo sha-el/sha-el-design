@@ -20,7 +20,7 @@ export const Pagination: React.FC<PaginationProps> = (props) => {
                 label="Items/Page"
                 value={batchSize}
                 readOnly
-                borderLess
+                borderless
               />
             }
             position="bottom"

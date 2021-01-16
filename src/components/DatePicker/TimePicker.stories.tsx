@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Story, Meta } from '@storybook/react';
 
 import { TimePicker, TimePickerProps } from './TimePicker';
@@ -11,6 +11,36 @@ export default {
   },
 } as Meta;
 
-const Template: Story<TimePickerProps> = (args) => <TimePicker {...args} />;
+const Template: Story<TimePickerProps> = (args) => {
+  const [time, updateTime] = useState<Date>();
+  return (
+    <>
+      <TimePicker
+        label="Time"
+        {...args}
+        time={time}
+        onChange={(e) => {
+          console.log(e);
+          return updateTime(e);
+        }}
+      />
+      <div style={{ paddingBottom: '500px' }} />
+    </>
+  );
+};
 
 export const Basic = Template.bind({});
+export const Use12HourFormat = Template.bind({});
+Use12HourFormat.args = {
+  use12Hour: true,
+};
+
+export const Disabled = Template.bind({});
+Disabled.args = {
+  disabled: true,
+};
+
+export const Borderless = Template.bind({});
+Borderless.args = {
+  borderless: true,
+};

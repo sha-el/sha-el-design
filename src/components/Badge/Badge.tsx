@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { style } from './style';
 
-export const Badge: React.FunctionComponent<BadgeProps> = (props) => {
+export const Badge: React.FC<BadgeProps> = (props) => {
   const count = props.maxCount && props.maxCount < props.count ? `${props.maxCount}+` : props.count;
   const css = style(props);
 

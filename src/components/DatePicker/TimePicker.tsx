@@ -6,36 +6,78 @@ import { Row, Col } from '../Grid';
 import { arrayBetween } from '../../helpers';
 import { Button } from '../Button';
 import { MdTimer } from 'react-icons/md';
-import { style } from 'typestyle';
+import { style } from './style';
+import { Text } from '../Text';
 
-export const TimePicker: React.FunctionComponent<TimePickerProps> = (props) => {
-  const { onChange, time = [0, 0, 0], ...inputProps } = props;
+export const TimePicker: React.FC<TimePickerProps> = (props) => {
+  const { onChange, time = new Date(0, 0, 0, 0, 0, 0), use12Hour, ...inputProps } = props;
+  const [inputValue, updateInputValue] = React.useState<string>(formatTime(time, use12Hour));
+  const [visible, updateVisible] = React.useState(false);
 
-  const [amPmValue, updateAmPm] = React.useState<'AM' | 'PM'>(to12HourFormat(time[0])[1] as 'AM' | 'PM');
+  const hourEl = React.useRef<HTMLDivElement>();
+  const minEl = React.useRef<HTMLDivElement>();
+  const secEl = React.useRef<HTMLDivElement>();
 
   const handleChange = (h?: number, m?: number, s?: number) => {
-    const hour = h ?? time[0];
-    const minute = m ?? time[1];
-    const sec = s ?? time[2];
+    const hour = h ?? time.getHours();
+    const minute = m ?? time.getMinutes();
+    const sec = s ?? time.getSeconds();
 
-    onChange?.([hour, minute, sec]);
-    updateAmPm(hour > 12 ? 'PM' : 'AM');
+    const date = new Date(time.getFullYear(), time.getMonth(), time.getDate());
+    date.setHours(hour);
+    date.setMinutes(minute);
+    date.setSeconds(sec);
+
+    if (isNaN(date.getTime())) {
+      updateInputValue(formatTime(time, use12Hour));
+      return;
+    }
+
+    onChange?.(date);
+    updateInputValue(formatTime(date, use12Hour));
+    scrollToEl({ hourEl, minEl, secEl }, hour, minute, sec);
   };
+
+  const handleInputValueUpdate = (value: string) => {
+    let [hour, min, sec, ampm] = value.split(':');
+    if (use12Hour) {
+      [sec, ampm] = sec.split(' ');
+      hour = String(to24HourFormat(Number(hour), ampm as 'AM'));
+    }
+    min = min;
+    if (Number(hour) !== time.getHours() || Number(min) !== time.getMinutes() || Number(sec) !== time.getSeconds()) {
+      handleChange(Number(hour), Number(min), Number(sec));
+    }
+  };
+
+  const css = style();
 
   return (
     <>
       <Popover
         style={{ child: { display: 'block' } }}
-        content={content(props, handleChange, amPmValue)}
-        trigger="onClick"
-        expand
+        content={content(css, props, handleChange, time, updateVisible, { hourEl, minEl, secEl })}
+        trigger={['onClick']}
+        position="bottomLeft"
+        visible={!props.disabled && visible}
+        preserveOnClose
+        onVisibleChange={(e) => !props.disabled && updateVisible(e)}
         hideArrow
       >
         <div>
           <Input
             {...inputProps}
-            value={formatTime(time, props.use24Hour || false)}
-            readOnly
+            value={inputValue}
+            onChange={({ target: { value } }) => updateInputValue(value)}
+            onBlur={({ target: { value } }) => handleInputValueUpdate(value)}
+            onKeyDown={({ key, target }) => {
+              if (key === 'Enter') {
+                handleInputValueUpdate((target as HTMLInputElement).value);
+              }
+              if (key === 'ArrowDown') {
+                updateVisible(true);
+              }
+            }}
             after={
               <>
                 <Button flat shape="circle" icon={<MdTimer />} />
@@ -49,52 +91,98 @@ export const TimePicker: React.FunctionComponent<TimePickerProps> = (props) => {
   );
 };
 
-const content = (props: TimePickerProps, onChange: (h?: number, m?: number, s?: number) => void, amPm: 'AM' | 'PM') => (
-  <div className={css}>
-    <Row>
-      <Col span={6}>
-        {arrayBetween(0, props.use24Hour ? 24 : 12).map((v) => (
-          <div
+const content = (
+  css: Record<'timePicker', string>,
+  props: TimePickerProps,
+  onChange: (h?: number, m?: number, s?: number) => void,
+  time: Date,
+  updateVisible: (v: boolean) => void,
+  refs: Record<'hourEl' | 'minEl' | 'secEl', React.MutableRefObject<HTMLDivElement>>,
+) => (
+  <div className={css.timePicker}>
+    <Row gutter={[0, 0]}>
+      <Col span={6} className="hour-column" ref={refs.hourEl}>
+        {arrayBetween(0, !props.use12Hour ? 24 : 12).map((v) => (
+          <Text
+            margin="0"
+            padding="5px 15px"
+            variant="p"
+            fontSize="16px"
+            background={(!props.use12Hour ? time.getHours() : time.getHours() % 12) === v && 'primary'}
             onClick={() => {
-              if (props.use24Hour) {
+              if (!props.use12Hour) {
                 return onChange(v);
               }
-              onChange(to24HourFormat(v, amPm));
+              onChange(to24HourFormat(v, time.getHours() % 12 < 12 ? 'AM' : 'PM'));
             }}
             key={v}
           >
             {v}
-          </div>
+          </Text>
         ))}
       </Col>
-      <Col span={6}>
+      <Col span={6} className="min-column" ref={refs.minEl}>
         {arrayBetween(0, 60).map((v) => (
-          <div onClick={() => onChange(undefined, v)} key={v}>
+          <Text
+            margin="0"
+            padding="5px 15px"
+            variant="p"
+            fontSize="16px"
+            background={time.getMinutes() === v && 'primary'}
+            onClick={() => onChange(undefined, v)}
+            key={v}
+          >
             {v}
-          </div>
+          </Text>
         ))}
       </Col>
-      <Col span={6}>
+      <Col span={6} className="sec-column" ref={refs.secEl}>
         {arrayBetween(0, 60).map((v) => (
-          <div onClick={() => onChange(undefined, undefined, v)} key={v}>
+          <Text
+            margin="0"
+            padding="5px 15px"
+            variant="p"
+            fontSize="16px"
+            background={time.getSeconds() === v && 'primary'}
+            onClick={() => onChange(undefined, undefined, v)}
+            key={v}
+          >
             {v}
-          </div>
+          </Text>
         ))}
       </Col>
-      {!props.use24Hour && (
-        <Col span={6}>
-          <div onClick={() => handleAmPmChange('AM', props.time || [0, 0, 0], onChange)}>AM</div>
-          <div onClick={() => handleAmPmChange('PM', props.time || [0, 0, 0], onChange)}>PM</div>
+      {props.use12Hour && (
+        <Col span={6} className="am-column">
+          <Text
+            margin="0"
+            padding="5px 15px"
+            variant="p"
+            fontSize="16px"
+            background={time.getHours() < 12 && 'primary'}
+            onClick={() => handleAmPmChange('AM', time, onChange)}
+          >
+            AM
+          </Text>
+          <Text
+            margin="0"
+            padding="5px 15px"
+            variant="p"
+            fontSize="16px"
+            background={time.getHours() >= 12 && 'primary'}
+            onClick={() => handleAmPmChange('PM', time, onChange)}
+          >
+            PM
+          </Text>
         </Col>
       )}
     </Row>
     <Button
       flat
-      type="secondary"
+      primary
       onClick={() => {
         const date = new Date();
-
         onChange(date.getHours(), date.getMinutes(), date.getSeconds());
+        updateVisible(false);
       }}
     >
       Now
@@ -102,78 +190,63 @@ const content = (props: TimePickerProps, onChange: (h?: number, m?: number, s?: 
   </div>
 );
 
-const css = style({
-  $nest: {
-    '.sha-el-col': {
-      maxHeight: '300px',
-      overflowY: 'hidden',
-      cursor: 'pointer',
-      minWidth: '50px',
-      $nest: {
-        '&:hover': {
-          overflowY: 'auto',
-        },
-        div: {
-          padding: '2px',
-          $nest: {
-            '&:hover': {
-              background: '#ccc',
-            },
-          },
-        },
-      },
-    },
-  },
-});
+const scrollToEl = (
+  elem: Record<'hourEl' | 'minEl' | 'secEl', React.MutableRefObject<HTMLDivElement>>,
+  h: number,
+  m: number,
+  s: number,
+) => {
+  elem.hourEl.current
+    ? (elem.hourEl.current.scrollTop = (elem.hourEl.current?.children[h] as HTMLDivElement)?.offsetTop)
+    : 0;
+  elem.minEl.current
+    ? (elem.minEl.current.scrollTop = (elem.minEl.current?.children[m] as HTMLDivElement)?.offsetTop)
+    : 0;
+  elem.secEl.current
+    ? (elem.secEl.current.scrollTop = (elem.secEl.current?.children[s] as HTMLDivElement)?.offsetTop)
+    : 0;
+};
 
 type InputType = Omit<InputProps, 'onClick' | 'value' | 'onChange'>;
 
-export type TimeTupple = [number, number, number];
-
 export interface TimePickerProps extends InputType {
-  time?: TimeTupple;
-  onChange?: (time: TimeTupple | null) => void;
-  use24Hour?: boolean;
+  time?: Date;
+  onChange?: (time: Date | null) => void;
+  use12Hour?: boolean;
 }
 
-const handleAmPmChange = (
-  amPm: 'AM' | 'PM',
-  time: TimeTupple,
-  onChange: (h?: number, m?: number, s?: number) => void,
-) => {
+const handleAmPmChange = (amPm: 'AM' | 'PM', time: Date, onChange: (h?: number, m?: number, s?: number) => void) => {
   if (amPm === 'AM') {
-    return onChange(time[0] % 12);
+    return onChange(time.getHours() % 12);
   }
 
-  return onChange(time[0] + 12);
+  return onChange(time.getHours() + 12);
 };
 
-const formatNum = (n: number) => {
-  return n < 10 ? '0' + n : n;
-};
-
-const formatTime = (time: TimeTupple, use24Hour: boolean) => {
-  // tslint:disable-next-line: prefer-const
-  let [hour, amPm] = to12HourFormat(time[0]);
-  amPm = amPm;
-
-  if (use24Hour) {
-    hour = time[0];
-    (amPm as '') = '';
+const formatTime = (time: Date, use12Hour: boolean) => {
+  let hour = time.getHours();
+  if (use12Hour) {
+    hour = time.getHours() % 12;
   }
 
-  const min = formatNum(time[1]);
-  const sec = formatNum(time[2]);
+  const formatNum = (n: number) => {
+    return n < 10 ? '0' + n : n;
+  };
 
-  return `${formatNum(hour)}:${min}:${sec} ${amPm}`;
-};
+  const amPm = () => {
+    if (!use12Hour) {
+      return '';
+    }
+    if (time.getHours() >= 12) {
+      return ' PM';
+    }
+    return ' AM';
+  };
 
-const to12HourFormat = (hour: number): [number, 'AM' | 'PM'] => {
-  if (hour > 12) {
-    return [hour % 12, 'PM'];
-  }
+  const min = formatNum(time.getMinutes());
+  const sec = formatNum(time.getSeconds());
 
-  return [hour, 'AM'];
+  return `${formatNum(hour)}:${min}:${sec}${amPm()}`;
 };
 
 const to24HourFormat = (hour: number, amPm: 'AM' | 'PM') => {

@@ -1,6 +1,4 @@
 import * as React from 'react';
-import { stylesheet } from 'typestyle';
-import { getDate, getMonth, getDay, getDaysInMonth, getYear, compareDesc } from 'date-fns';
 import { nestedAccess, arrayBetween } from './../../helpers';
 import { Row, Col } from './../../index';
 import { Card, CardBody } from '../Card';
@@ -9,41 +7,21 @@ import { Button } from '../Button';
 import { Tooltip } from '../Tooltip';
 import { Text } from '../Text';
 import { Menu, MenuItem } from '../Menu';
+import { style } from './style';
+import { daysInMonth, compareDesc } from '../../helpers/date';
 
-export class Calendar extends React.Component<CalendarProps, State> {
-  static defaultProps = {
-    date: new Date(),
-    disabledDate: () => false,
-    elevation: 0,
+export const Calendar: React.FC<CalendarProps> = (props) => {
+  const initialDate = (date = props.date) => {
+    return date ?? new Date();
   };
 
-  constructor(props: CalendarProps) {
-    super(props);
-
-    this.state = {
-      date: this.initialDate(),
-      dateObj: this.dateObj(),
-    };
-  }
-
-  initialDate = (date = this.props.date) => {
-    if (!date) {
-      return [getYear(new Date()), getMonth(new Date()), getDate(new Date())] as DateTupple;
-    }
-    if (Array.isArray(date)) {
-      return date;
-    }
-    return [getYear(date), getMonth(date), getDate(date)] as DateTupple;
-  };
-
-  dateObj = (dateTupple = this.props.date) => {
-    const [year, month, date] = this.initialDate(dateTupple);
+  const toWeeksDateArray = (date = initialDate()) => {
     const dateObj: Record<weeksEnum, number>[] = [];
     let monthStart = 1;
     for (let i = 0; i < 6; i++) {
       const obj: Record<weeksEnum, number> = {} as Record<weeksEnum, number>;
-      for (let j = getDay(new Date(year, month, monthStart)); j < 7; j++) {
-        if (monthStart > getDaysInMonth(new Date(year, month, date))) {
+      for (let j = new Date(date.getFullYear(), date.getMonth(), monthStart).getDay(); j < 7; j++) {
+        if (monthStart > daysInMonth(date.getFullYear(), date.getMonth())) {
           break;
         }
         obj[weeks[j]] = monthStart;
@@ -54,44 +32,41 @@ export class Calendar extends React.Component<CalendarProps, State> {
     return dateObj;
   };
 
-  today = (date: number): boolean => {
-    const {
-      date: [year, month],
-    } = this.state;
-    if (getYear(new Date()) === year && getMonth(new Date()) === month && getDate(new Date()) === date) {
-      return true;
-    }
-    return false;
+  const [date, updateDate] = React.useState<State['date']>(initialDate());
+  const [weeksDateArray, updatetoWeeksDateArray] = React.useState<State['dateObj']>(toWeeksDateArray());
+
+  const isToday = (day: number): boolean => {
+    const [year, month] = [date.getFullYear(), date.getMonth()];
+    const today = new Date();
+    return today.getFullYear() === year && today.getMonth() === month && today.getDate() === day;
   };
 
-  monthChange = (month: string) => {
-    this.setState({ date: [this.state.date[0], months.indexOf(month), this.state.date[2]] }, () =>
-      this.setState({ dateObj: this.dateObj(this.state.date) }),
-    );
+  const monthChange = (month: string) => {
+    const newDate = date;
+    newDate.setMonth(months.indexOf(month));
+    updateDate(newDate);
+    updatetoWeeksDateArray(toWeeksDateArray(newDate));
   };
 
-  yearChange = (year: number) => {
-    this.setState({ date: [year, this.state.date[1], this.state.date[1]] }, () =>
-      this.setState({ dateObj: this.dateObj(this.state.date) }),
-    );
+  const yearChange = (year: number) => {
+    const newDate = date;
+    newDate.setFullYear(year);
+    updateDate(newDate);
+    updatetoWeeksDateArray(toWeeksDateArray(newDate));
   };
 
-  calendarEvent = (day: number) => {
+  const calendarEvent = (day: number, style: Record<'badge', string>) => {
     if (!day) {
       return;
     }
-    const { callendarEvents } = this.props;
-    const {
-      date: [year, month, __],
-    } = this.state;
-    if (!callendarEvents) {
+    const { calendarEvents } = props;
+    const [year, month] = [date.getFullYear(), date.getMonth()];
+    if (!calendarEvents) {
       return;
     }
 
-    const style = this.css();
-
-    return callendarEvents.map((v) => {
-      const [startDate, endDate] = [this.initialDate(v.startDate), this.initialDate(v.endDate)];
+    return calendarEvents.map((v) => {
+      const [startDate, endDate] = [initialDate(v.startDate), initialDate(v.endDate)];
       if (day === startDate[2] && month === startDate[1] && year === startDate[0]) {
         return (
           <Tooltip placement="top" trigger={['hover']} overlay={v.eventName}>
@@ -112,8 +87,8 @@ export class Calendar extends React.Component<CalendarProps, State> {
       }
 
       if (
-        compareDesc(new Date(...startDate), new Date(year, month, day)) === 1 &&
-        compareDesc(new Date(year, month, day), new Date(...endDate)) === 1
+        compareDesc(startDate, new Date(year, month, day)) === 1 &&
+        compareDesc(new Date(year, month, day), endDate) === 1
       ) {
         return (
           <Tooltip placement="top" trigger={['hover']} overlay={v.eventName}>
@@ -153,143 +128,114 @@ export class Calendar extends React.Component<CalendarProps, State> {
     });
   };
 
-  toDate = (date: Date | DateTupple | null) => {
-    if (!date) {
-      return null;
-    }
-    if (Array.isArray(date)) {
-      return new Date(...date);
-    }
+  const css = style();
 
-    return date;
-  };
-
-  render() {
-    const style = this.css();
-    const { dateObj, date } = this.state;
-    return (
-      <Card elevation={this.props.elevation}>
-        <CardBody>
-          <Row gutter={[0, '5px']} justifyContent="flex-end">
-            <Col flex="0 1 auto">
-              <Menu
-                height="300px"
-                trigger="onHover"
-                anchor={
-                  <Button primary displayBlock flat>
-                    {months[date[1]]}
-                  </Button>
-                }
-              >
-                {months.map((v) => (
-                  <MenuItem active={v === months[date[1]]} onClick={() => this.monthChange(v)} key={v}>
-                    {v}
-                  </MenuItem>
-                ))}
-              </Menu>
+  return (
+    <Card elevation={props.elevation}>
+      <CardBody>
+        <Row gutter={[0, '5px']} justifyContent="flex-end">
+          <Col flex="0 1 auto">
+            <Menu
+              height="300px"
+              trigger="onHover"
+              anchor={
+                <Button primary displayBlock flat>
+                  {months[date.getMonth()]}
+                </Button>
+              }
+            >
+              {months.map((v) => (
+                <MenuItem active={v === months[date.getMonth()]} onClick={() => monthChange(v)} key={v}>
+                  {v}
+                </MenuItem>
+              ))}
+            </Menu>
+          </Col>
+          <Col flex="0 1 auto">
+            <Menu
+              height="300px"
+              trigger="onHover"
+              anchor={
+                <Button primary displayBlock flat>
+                  {date.getFullYear()}
+                </Button>
+              }
+            >
+              {arrayBetween(1980, 2030).map((v) => (
+                <MenuItem active={v === date.getFullYear()} onClick={() => yearChange(v)} key={v}>
+                  {v}
+                </MenuItem>
+              ))}
+            </Menu>
+          </Col>
+        </Row>
+        <Row gutter={[0, 0]}>
+          {weeks.map((v) => (
+            <Col span={24 / 7} key={v}>
+              <Text fontWeight={600} textAlign="center" variant="p" color="light">
+                {v.slice(0, 3)}
+              </Text>
             </Col>
-            <Col flex="0 1 auto">
-              <Menu
-                height="300px"
-                trigger="onHover"
-                anchor={
-                  <Button primary displayBlock flat>
-                    {date[0]}
-                  </Button>
-                }
-              >
-                {arrayBetween(1980, 2030).map((v) => (
-                  <MenuItem active={v === date[0]} onClick={() => this.yearChange(v)} key={v}>
-                    {v}
-                  </MenuItem>
-                ))}
-              </Menu>
-            </Col>
-          </Row>
-          <Row gutter={[0, 0]}>
-            {weeks.map((v) => (
-              <Col span={24 / 7} key={v}>
-                <Text fontWeight={600} textAlign="center" variant="p" color="light">
-                  {v.slice(0, 3)}
-                </Text>
-              </Col>
-            ))}
-          </Row>
-          <Row gutter={[0, 0]}>
-            {dateObj.map((v) => {
-              return weeks.map((f, i) => {
-                const selectedDate = this.toDate(this.props.date || null);
-                const isSelectedDate =
-                  selectedDate && compareDesc(new Date(date[0], date[1], nestedAccess(v, f)), selectedDate) === 0;
-                const today = this.today(v?.[f]);
-                return (
-                  <Col className={style.cell} key={i} span={24 / 7}>
-                    {nestedAccess(v, f) ? (
-                      this.props.cellRender?.([date?.[0], date?.[1], v?.[f]], f) || (
-                        <Button
-                          disabled={this.props.disabledDate?.([date[0], date[1], v?.[f]])}
-                          flat={!today && !isSelectedDate}
-                          shape="circle"
-                          outline={today}
-                          primary={today || isSelectedDate || false}
-                          onClick={() => {
-                            console.log(nestedAccess(v, f));
-                            return (
-                              !this.props.disabledDate?.([date?.[0], date?.[1], v?.[f]]) &&
-                              this.props.onClick &&
-                              this.props.onClick([date?.[0], date?.[1], nestedAccess(v, f)] as DateTupple)
-                            );
-                          }}
-                        >
-                          {v?.[f]}
-                        </Button>
-                      )
-                    ) : (
-                      <div />
-                    )}
-                    {this.props.callendarEvents && (
-                      <div className={style.dateContent}>{this.calendarEvent(v?.[f])}</div>
-                    )}
-                  </Col>
-                );
-              });
-            })}
-          </Row>
-        </CardBody>
-      </Card>
-    );
-  }
-
-  css = () => {
-    return stylesheet({
-      dateContent: {
-        position: 'static',
-        width: '110%',
-        height: '0',
-        textAlign: 'left',
-        paddingBottom: '25%',
-        boxSizing: 'border-box',
-      },
-      cell: {
-        border: '1px solid rgba(0,0,0,0.1)',
-        color: '#555',
-        display: 'flex',
-        position: 'relative',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexWrap: 'wrap',
-        padding: '0',
-        cursor: 'pointer',
-      },
-      badge: {
-        height: '10px',
-        minWidth: '100%',
-        cursor: 'pointer',
-        margin: '2px 0',
-      },
-    });
-  };
-}
+          ))}
+        </Row>
+        <Row gutter={[0, 0]}>
+          {weeksDateArray.map((v) => {
+            return weeks.map((f, i) => {
+              const selectedDate = props.date;
+              const isSelectedDate =
+                selectedDate &&
+                compareDesc(
+                  new Date(
+                    date.getFullYear(),
+                    date.getMonth(),
+                    nestedAccess(v, f),
+                    selectedDate.getHours(),
+                    selectedDate.getMinutes(),
+                    selectedDate.getSeconds(),
+                    selectedDate.getMilliseconds(),
+                  ),
+                  selectedDate,
+                ) === 0;
+              const today = isToday(v?.[f]);
+              const newDate = new Date(
+                date.getFullYear(),
+                date.getMonth(),
+                nestedAccess(v, f),
+                selectedDate?.getHours() || 0,
+                selectedDate?.getMinutes() || 0,
+                selectedDate?.getSeconds() || 0,
+                selectedDate?.getMilliseconds() || 0,
+              );
+              return (
+                <Col className={css.cell} key={i} span={24 / 7}>
+                  {nestedAccess(v, f) ? (
+                    props.cellRender?.(newDate, f) || (
+                      <Button
+                        disabled={props.disabledDate?.(newDate)}
+                        flat={!today && !isSelectedDate}
+                        shape="circle"
+                        outline={today}
+                        primary={today || isSelectedDate || false}
+                        onClick={() => {
+                          return !props.disabledDate?.(newDate) && props.onClick && props.onClick(newDate);
+                        }}
+                      >
+                        {v?.[f]}
+                      </Button>
+                    )
+                  ) : (
+                    <div />
+                  )}
+                  {props.calendarEvents && <div className={css.dateContent}>{calendarEvent(v?.[f], css)}</div>}
+                </Col>
+              );
+            });
+          })}
+        </Row>
+      </CardBody>
+    </Card>
+  );
+};
 
 export enum weeksEnum {
   'MONDAY' = 'MONDAY',
@@ -327,50 +273,32 @@ export const months = [
 ];
 
 interface State {
-  date: DateTupple;
-  dateObj: {
-    [key in weeksEnum]: number;
-  }[];
+  date: Date;
+  dateObj: Record<weeksEnum, number>[];
 }
 
 export interface CalendarProps {
   /**
    * Set Calendar Initial Date
-   * DateTupple: [year, month, day]
    */
-  date?: Date | DateTupple;
+  date?: Date | Date;
 
   /**
    * Updae Rendering of date cell
    */
-  cellRender?: (date: DateTupple, week: weeksEnum) => React.ReactNode;
+  cellRender?: (date: Date, week: weeksEnum) => React.ReactNode;
 
   /**
    * Events to show on calendar
    */
-  callendarEvents?: {
-    startDate: DateTupple;
-    endDate: DateTupple;
+  calendarEvents?: {
+    startDate: Date;
+    endDate: Date;
     eventName: string;
     color?: string;
   }[];
 
   elevation?: number;
-  onClick?: (date: DateTupple) => void;
-  disabledDate?: (date: DateTupple) => boolean;
+  onClick?: (date: Date) => void;
+  disabledDate?: (date: Date) => boolean;
 }
-
-export type DateTupple = [
-  /**
-   * Year
-   */
-  number,
-  /**
-   * Month
-   */
-  number,
-  /**
-   * Day
-   */
-  number,
-];

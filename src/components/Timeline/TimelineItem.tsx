@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { stylesheet } from 'typestyle';
 import { MdCheckCircle } from 'react-icons/md';
-import { getColor } from '../../helpers';
+import { timelineItem as style } from './style';
 
 export const TimelineItem: React.FunctionComponent<TimelineItemProps> = (props) => {
   const css = style(props);
@@ -37,12 +36,3 @@ export interface TimelineItemProps {
    */
   extra?: React.ReactNode;
 }
-
-const style = (props: TimelineItemProps) => {
-  return stylesheet({
-    icon: {
-      background: props.iconBgColor,
-      color: getColor(props.iconBgColor),
-    },
-  });
-};

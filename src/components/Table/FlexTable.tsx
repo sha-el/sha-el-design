@@ -1,15 +1,15 @@
 import React from 'react';
 import { GiEmptyMetalBucket } from 'react-icons/gi';
 import { MdExpandMore } from 'react-icons/md';
-import { classes } from 'typestyle';
 import { Col, Row } from '../..';
+import { classes } from '../../helpers';
 import { disabledColor } from '../../helpers/color';
 import { ColProps } from '../Grid/Col';
 import { CollapsibleList, List, ListItem } from '../List';
 import { ListProps } from '../List/List';
 import { Skeleton } from '../Loading';
 import { PaginationProps } from '../Pagination/Pagination';
-import { ThemeConsumer } from '../Theme/Theme';
+import { useTheme } from '../Theme/Theme';
 import { style as tableStyle } from './style';
 
 export function Column<T>(props: ColumnProps<T>) {
@@ -44,82 +44,77 @@ export function FlexTable<T>(props: FlexTableProps<T>) {
     }
   };
 
+  const theme = useTheme();
+  const css = tableStyle({ theme, nested: !!nested, clickableRow: !!onRowClick });
   return (
-    <ThemeConsumer>
-      {(theme) => {
-        const css = tableStyle(theme, !!nested, !!onRowClick);
-        return (
-          <List
-            {...rest}
-            className={css.tableContainer}
-            style={{
-              minWidth: responsive && Array.isArray(props.children) ? `${props.children.length * 100}px` : '100px',
-              ...(style.container || {}),
-            }}
-          >
-            <ListItem
-              className={css.header}
-              style={style.header}
-              gutter={[0, 0]}
-              action={nested && <MdExpandMore style={{ color: disabledColor(theme) }} />}
-            >
-              <Row gutter={[0, '15px']} alignItems="stretch">
-                {headers}
-              </Row>
-            </ListItem>
-            <Skeleton
-              isLoading={loading || false}
-              render={() => (
-                <>
-                  {showEmptyState(css.empty)}
-                  {data.map((v, index) => {
-                    const children = Array.isArray(props.children)
-                      ? props.children.map((el, elIndex) =>
-                          React.cloneElement(el, { data: v as never, key: `col-${index}-${elIndex}`, index }),
-                        )
-                      : React.cloneElement(props.children, { data: v, key: `col-${index}`, index });
-
-                    if (nested && nested.exapandable?.(v, index)) {
-                      return (
-                        <CollapsibleList
-                          header={
-                            <Row gutter={[0, '15px']} alignItems="stretch">
-                              {children}
-                            </Row>
-                          }
-                          key={`row-${index}`}
-                          className={css.tableRow}
-                          gutter={[0, 0]}
-                          style={rowStyle && rowStyle(v, index)}
-                        >
-                          <div className={css.nestedContent}>{nested.render(v, index)}</div>
-                        </CollapsibleList>
-                      );
-                    }
-
-                    return (
-                      <ListItem
-                        action={props.nested && <MdExpandMore style={{ color: disabledColor(theme) }} />}
-                        key={`row-${index}`}
-                        className={css.tableRow}
-                        gutter={[0, 0]}
-                        onClick={() => onRowClick && onRowClick(v, index)}
-                        style={rowStyle && rowStyle(v, index)}
-                      >
-                        <Row gutter={[0, '15px']} alignItems="stretch">
-                          {children}
-                        </Row>
-                      </ListItem>
-                    );
-                  })}
-                </>
-              )}
-            />
-            {pagination || <div />}
-          </List>
-        );
+    <List
+      {...rest}
+      className={css.tableContainer}
+      style={{
+        minWidth: responsive && Array.isArray(props.children) ? `${props.children.length * 100}px` : '100px',
+        ...(style.container || {}),
       }}
-    </ThemeConsumer>
+    >
+      <ListItem
+        className={css.header}
+        style={style.header}
+        gutter={[0, 0]}
+        action={nested && <MdExpandMore style={{ color: disabledColor(theme) }} />}
+      >
+        <Row gutter={[0, '15px']} alignItems="stretch">
+          {headers}
+        </Row>
+      </ListItem>
+      <Skeleton
+        isLoading={loading || false}
+        render={() => (
+          <>
+            {showEmptyState(css.empty)}
+            {data.map((v, index) => {
+              const children = Array.isArray(props.children)
+                ? props.children.map((el, elIndex) =>
+                    React.cloneElement(el, { data: v as never, key: `col-${index}-${elIndex}`, index }),
+                  )
+                : React.cloneElement(props.children, { data: v, key: `col-${index}`, index });
+
+              if (nested && nested.exapandable?.(v, index)) {
+                return (
+                  <CollapsibleList
+                    header={
+                      <Row gutter={[0, '15px']} alignItems="stretch">
+                        {children}
+                      </Row>
+                    }
+                    key={`row-${index}`}
+                    className={css.tableRow}
+                    gutter={[0, 0]}
+                    style={rowStyle && rowStyle(v, index)}
+                  >
+                    <div className={css.nestedContent}>{nested.render(v, index)}</div>
+                  </CollapsibleList>
+                );
+              }
+
+              return (
+                <ListItem
+                  action={props.nested && <MdExpandMore style={{ color: disabledColor(theme) }} />}
+                  key={`row-${index}`}
+                  className={css.tableRow}
+                  gutter={[0, 0]}
+                  onClick={() => onRowClick && onRowClick(v, index)}
+                  style={rowStyle && rowStyle(v, index)}
+                >
+                  <Row gutter={[0, '15px']} alignItems="stretch">
+                    {children}
+                  </Row>
+                </ListItem>
+              );
+            })}
+          </>
+        )}
+      />
+      {pagination || <div />}
+    </List>
   );
 }
 

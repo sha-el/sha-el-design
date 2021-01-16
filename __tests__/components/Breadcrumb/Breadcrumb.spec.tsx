@@ -21,7 +21,10 @@ describe('Breadcrumb', () => {
   it('should render a default breadcrumb', () => {
     act(() => {
       ReactDOM.render(
-        <Breadcrumb seperator=">" paths={[() => <a href="#">Home</a>, () => <a href="#">Breadcrumb</a>]} />,
+        <Breadcrumb seperator="/">
+          <a href="#">Home</a>
+          <a href="#">Breadcrumb</a>
+        </Breadcrumb>,
         container,
       );
     });
@@ -30,19 +33,17 @@ describe('Breadcrumb', () => {
 
     expect(breadcrumb[0].innerHTML).toBe('<a href="#">Home</a>');
     expect(breadcrumb[0].children[0]).toHaveStyle(`
-      color: rgba(0, 0, 0, 0.87);
+      color: rgba(0, 0, 0, 0.54);
     `);
     expect(breadcrumb[0]).toHaveStyle(`
-      display: inline-flex;
-      font-size: 14px;
-      align-items: center;
-      font-weight: 500;
-      line-height: 36px;
-      letter-spacing: .0892857143em;
-      justify-content: center;
+      display: list-item;
+      font-size: 16px;
+      font-weight: 400;
+      letter-spacing: 0.00938em;
+      line-height: 1.5;
     `);
 
-    expect(breadcrumb[1].innerHTML).toBe('&gt;');
+    expect(breadcrumb[1].innerHTML).toBe('/');
 
     expect(breadcrumb[2].innerHTML).toBe('<a href="#">Breadcrumb</a>');
     expect(breadcrumb[2].children[0]).toHaveStyle(`
@@ -53,7 +54,10 @@ describe('Breadcrumb', () => {
   it('should render a breadcrumb with different seprator', () => {
     act(() => {
       ReactDOM.render(
-        <Breadcrumb seperator="=>" paths={[() => <a href="#">Home</a>, () => <a href="#">Breadcrumb</a>]} />,
+        <Breadcrumb seperator="=>">
+          <a href="#">Home</a>
+          <a href="#">Breadcrumb</a>
+        </Breadcrumb>,
         container,
       );
     });

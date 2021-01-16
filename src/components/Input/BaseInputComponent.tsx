@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { classes } from 'typestyle';
-import { Omit, nestedAccess } from '../../helpers';
+import { Omit, nestedAccess, classes } from '../../helpers';
 import { Row, Col } from '../../';
 import { useTheme } from '../Theme/Theme';
 import { style } from './style';
 
-export const BaseInputComponent: React.FunctionComponent<BaseInputProps | BaseTextAreaProps> = (props) => {
+export const BaseInputComponent: React.FC<BaseInputProps | BaseTextAreaProps> = (props) => {
   const [focused, updateFocused] = React.useState(false);
   const {
     error,
@@ -18,7 +17,7 @@ export const BaseInputComponent: React.FunctionComponent<BaseInputProps | BaseTe
     containerStyle,
     containerClassName,
     children,
-    borderLess,
+    borderless,
     ...rest
   } = props;
 
@@ -42,7 +41,7 @@ export const BaseInputComponent: React.FunctionComponent<BaseInputProps | BaseTe
     error: !!error,
     label: !!label,
     active: isInputActive(),
-    borderLess: borderLess || false,
+    borderless: borderless || false,
     disabled: props.disabled || false,
     before: !!before,
   });
@@ -59,7 +58,7 @@ export const BaseInputComponent: React.FunctionComponent<BaseInputProps | BaseTe
           <Col
             className={classes(css.seudo, 'seudo')}
             flex="0 1 auto"
-            style={{ paddingLeft: (!borderLess && '5px') || undefined }}
+            style={{ paddingLeft: (!borderless && '5px') || undefined }}
           >
             {before}
           </Col>
@@ -96,7 +95,7 @@ export const BaseInputComponent: React.FunctionComponent<BaseInputProps | BaseTe
                 <Col
                   className={classes(css.seudo, 'seudo')}
                   flex="0 1 auto"
-                  style={{ paddingRight: (!borderLess && '5px') || undefined }}
+                  style={{ paddingRight: (!borderless && '5px') || undefined }}
                 >
                   {after}
                 </Col>
@@ -121,7 +120,7 @@ export interface Props {
   before?: React.ReactNode;
   error?: React.ReactNode;
   hint?: React.ReactNode;
-  borderLess?: boolean;
+  borderless?: boolean;
 
   getElement?: (input: HTMLInputElement) => void;
   containerStyle?: React.CSSProperties;

@@ -13,7 +13,7 @@ export default {
 
 const Template: Story<DatePickerProps> = (args) => {
   const [date, updateDate] = useState(null);
-  return <DatePicker {...args} date={date} onChange={(_, e) => updateDate(e)} />;
+  return <DatePicker {...args} date={date} onChange={(e) => updateDate(e)} />;
 };
 
 export const Basic = Template.bind({});
@@ -23,7 +23,7 @@ Basic.args = {
 
 export const DisabledDates = Template.bind({});
 DisabledDates.args = {
-  disabledDate: ([__year, __month, day]) => day > 5 && day < 25,
+  disabledDate: (date: Date) => date.getDate() > 5 && date.getDate() < 25,
 };
 
 export const WithTimePicker = Template.bind({});

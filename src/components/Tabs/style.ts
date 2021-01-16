@@ -1,22 +1,23 @@
-import { stylesheet } from 'typestyle';
-import { Theme } from '../Theme/Theme';
+import { Theme, theming } from '../Theme/Theme';
 import { hoverColor } from '../../helpers/color';
 import { shadow } from '../../helpers/style';
+import { createUseStyles } from 'react-jss';
 
-export const style = (theme: Theme) => {
-  const shadowBot = shadow('BOT', theme);
-
-  return stylesheet({
-    tabHeaderContainer: {
-      display: 'flex',
-      flex: '1 0 auto',
-      boxShadow: shadowBot,
-      background: theme.background,
-      color: theme.textColor,
-      position: 'relative',
-      alignContent: 'center',
-      alignItems: 'center',
-      overflow: 'auto',
+export const style = createUseStyles(
+  (theme: Theme) => ({
+    tabHeaderContainer: () => {
+      const shadowBot = shadow('BOT', theme);
+      return {
+        display: 'flex',
+        flex: '1 0 auto',
+        boxShadow: shadowBot,
+        background: theme.background,
+        color: theme.textColor,
+        position: 'relative',
+        alignContent: 'center',
+        alignItems: 'center',
+        overflow: 'auto',
+      };
     },
     tabHeader: {
       padding: '0 16px',
@@ -38,12 +39,10 @@ export const style = (theme: Theme) => {
       boxSizing: 'border-box',
       textDecoration: 'none',
       userSelect: 'none',
-      $nest: {
-        '&:hover': {
-          color: theme.primary,
-          filter: hoverColor(theme.background),
-          background: theme.background,
-        },
+      '&:hover': {
+        color: theme.primary,
+        filter: hoverColor(theme.background),
+        background: theme.background,
       },
     },
     inkBar: {
@@ -58,5 +57,6 @@ export const style = (theme: Theme) => {
       width: '100%',
       padding: '10px 0',
     },
-  });
-};
+  }),
+  { theming, name: 'sha-el-tab' },
+);

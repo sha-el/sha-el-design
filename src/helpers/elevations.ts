@@ -1,10 +1,10 @@
 import { color as csxColor } from 'csx';
 import { Theme } from '../components/Theme/Theme';
 
-function createShadow(lightTheme = true, ...px) {
-  let shadowKeyUmbraOpacity = 0.2;
-  let shadowKeyPenumbraOpacity = 0.14;
-  let shadowAmbientShadowOpacity = 0.12;
+function createShadow(lightTheme = true, ...px: number[]) {
+  let shadowKeyUmbraOpacity = 0.12;
+  let shadowKeyPenumbraOpacity = 0.08;
+  let shadowAmbientShadowOpacity = 0.05;
 
   if (lightTheme) {
     shadowKeyUmbraOpacity = 1 - shadowKeyUmbraOpacity;

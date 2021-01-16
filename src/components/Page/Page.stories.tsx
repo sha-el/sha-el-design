@@ -5,7 +5,7 @@ import { Page, Row, Col, Tag, TabPanel, Card, Collapse, AutoComplete } from '../
 
 import { Textarea, Input } from '../Input';
 
-import { MdAdd, MdArrowBack, MdSearch } from 'react-icons/md';
+import { MdAdd, MdArrowBack, MdHome, MdSearch } from 'react-icons/md';
 import { Breadcrumb } from '../Breadcrumb';
 import { FlexTable } from '../Table';
 import MOCK_DATA from '../Table/MOCK_DATA.json';
@@ -23,7 +23,14 @@ export default {
 
 export const Basic = () => (
   <Page
-    title={<Breadcrumb paths={[() => <a key="hello">Hello world</a>, () => <a key="user-list">User List</a>]} />}
+    title={
+      <Breadcrumb>
+        <a key="hello">
+          <MdHome />
+        </a>
+        <a key="user-list">User List</a>
+      </Breadcrumb>
+    }
     backIcon={<MdArrowBack />}
     extra={
       <Row gutter={[0, 0]}>

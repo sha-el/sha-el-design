@@ -31,7 +31,19 @@ const LIGHT_THEME = {
 const ThemeContext = React.createContext<Theme>(LIGHT_THEME);
 
 export const theming = createTheming(ThemeContext);
-export const useTheme = theming.useTheme;
+export const useTheme = () => {
+  const theme = theming.useTheme();
+  const style = document.querySelector('#sha-el-design-theme-consumer') || document.createElement('style');
+  style.id = 'sha-el-design-theme-consumer';
+  style.innerHTML = `
+        :root {
+          --primary: ${color(theme.primary).lighten(0.5)};
+          --background: ${theme.bodyBg};
+          --color: ${theme.textColor}
+        }`;
+  document.getElementsByTagName('head')[0].appendChild(style);
+  return theme;
+};
 
 export const ThemeProvider: React.FunctionComponent<ThemeProps> = (props) => {
   const theme = { ...(props.theme === 'DARK' ? DARK_THEME : LIGHT_THEME), ...(props.colors || {}) };

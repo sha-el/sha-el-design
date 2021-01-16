@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export const TabPanel: React.StatelessComponent<TabPanelProps> = (props) => {
+export const TabPanel: React.FC<TabPanelProps> = (props) => {
   return <div>{props.children}</div>;
 };
 

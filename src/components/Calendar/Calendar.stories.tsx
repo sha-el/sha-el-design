@@ -18,16 +18,22 @@ export const Basic = Template.bind({});
 
 export const CellAppend = Template.bind({});
 CellAppend.args = {
-  cellRender: ([__year, __month, day], week: weeksEnum) => {
+  cellRender: (date: Date, week: weeksEnum) => {
+    console.log(date);
     if (week === weeksEnum.SUNDAY) {
-      return <div style={{ background: 'red', color: 'white', width: '100%' }}>{day}</div>;
+      return <div style={{ background: 'red', color: 'white', width: '100%' }}>{date.getDate()}</div>;
     }
   },
 };
 
+export const DisabledDate = Template.bind({});
+DisabledDate.args = {
+  disabledDate: (date: Date) => date.getDay() === 6 || date.getDay() === 0,
+};
+
 export const Events = Template.bind({});
 Events.args = {
-  callendarEvents: [
+  calendarEvents: [
     {
       startDate: new Date(),
       endDate: new Date(new Date().getTime() + 5 * 24 * 60 * 60 * 1000),
@@ -40,5 +46,5 @@ Events.args = {
       eventName: 'Event 2',
     },
   ],
-  disabledDate: ([__year, __month, day]) => day === 5,
+  disabledDate: (date: Date) => date.getDate() === 5,
 };

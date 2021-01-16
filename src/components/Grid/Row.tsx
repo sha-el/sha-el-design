@@ -1,12 +1,13 @@
 import * as React from 'react';
-import { style, classes } from 'typestyle';
+import { classes } from '../../helpers';
+import { flexPosition, rowStyle } from './style';
 
-export const Row: React.StatelessComponent<RowProps> = (props) => {
+export const Row: React.FC<RowProps> = (props) => {
   const { className } = props;
   return (
     <div
       onClick={props.onClick}
-      className={classes(rowStyle, flexPosition(props), className, 'sha-el-row')}
+      className={classes(rowStyle().container, flexPosition(props).container, className, 'sha-el-row')}
       style={props.style}
     >
       {props.children}
@@ -19,25 +20,6 @@ Row.defaultProps = {
   gutter: ['10px 0', '.5rem'],
   wrap: 'wrap',
 };
-
-const rowStyle = style({
-  boxSizing: 'border-box',
-  display: 'flex',
-  flexDirection: 'row',
-});
-
-const flexPosition = (props: RowProps) =>
-  style({
-    justifyContent: props.justifyContent,
-    alignItems: props.alignItems,
-    padding: props.gutter[0],
-    flexWrap: props.wrap,
-    $nest: {
-      '& > .sha-el-col': {
-        padding: props.gutter[1],
-      },
-    },
-  });
 
 export interface RowProps {
   children: React.ReactNode;

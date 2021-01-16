@@ -1,21 +1,13 @@
 import * as React from 'react';
-import { style, classes } from 'typestyle';
+import { classes } from '../../helpers';
+import { cardMediaStyle } from './style';
 
-export const CardMedia: React.FunctionComponent<CardMediaProps> = (props) => {
-  const css = style({
-    margin: '-16px',
-    marginBottom: '12px',
-    backgroundImage: `url("${props.image}")`,
-    height: props.height || 'auto',
-    display: 'block',
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center',
-  });
+export const CardMedia: React.FC<CardMediaProps> = (props) => {
+  const css = cardMediaStyle({ props });
 
   const { className, image: __image, height: __height, ...rest } = props;
   return (
-    <div className={classes(className, css)} {...rest}>
+    <div className={classes(className, css.image)} {...rest}>
       {props.children}
     </div>
   );

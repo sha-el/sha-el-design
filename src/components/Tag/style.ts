@@ -37,31 +37,37 @@ const sizeCss = (size: TagProps['size']) => {
   };
 };
 
-export const chipIconCss = createUseStyles({
-  chipIcon: {
-    marginLeft: '5px',
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-
-export const style = createUseStyles({
-  tag: ({ props, theme }) => {
-    return {
-      ...borderStyle(props),
-      ...sizeCss(props.size),
-      fontWeight: 500,
-      margin: '5px',
+export const chipIconCss = createUseStyles(
+  {
+    chipIcon: {
+      marginLeft: '5px',
       display: 'inline-flex',
-      boxShadow: shadow('DEFAULT', theme),
-      cursor: props.onClick && 'pointer',
-      textTransform: 'uppercase',
-      textAlign: 'center',
-      borderRadius: props.chips ? '16px' : '4px',
-      letterSpacing: '0.02857em',
-      boxSizing: 'border-box',
       alignItems: 'center',
-    };
+      justifyContent: 'center',
+    },
   },
-});
+  { name: 'sha-el-chip-tag' },
+);
+
+export const style = createUseStyles(
+  {
+    tag: ({ props, theme }) => {
+      return {
+        ...borderStyle(props),
+        ...sizeCss(props.size),
+        fontWeight: 500,
+        margin: '5px',
+        display: 'inline-flex',
+        boxShadow: shadow('DEFAULT', theme),
+        cursor: props.onClick && 'pointer',
+        textTransform: 'uppercase',
+        textAlign: 'center',
+        borderRadius: props.chips ? '16px' : '4px',
+        letterSpacing: '0.02857em',
+        boxSizing: 'border-box',
+        alignItems: 'center',
+      };
+    },
+  },
+  { name: 'sha-el-tag' },
+);

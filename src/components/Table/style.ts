@@ -1,23 +1,21 @@
 import { borderColor } from 'csx';
-import { stylesheet } from 'typestyle';
+import { createUseStyles } from 'react-jss';
 import { lightText, shadowColor } from '../../helpers/color';
-import { Theme } from '../Theme/Theme';
+import { Theme, theming } from '../Theme/Theme';
 
-export const style = (theme: Theme, nested: boolean, clickableRow: boolean) => {
-  return stylesheet({
+export const style = createUseStyles(
+  (theme: Theme) => ({
     tableContainer: {
       display: 'flex',
       overflowX: 'auto',
       padding: '0 !important',
       width: '100%',
       boxSizing: 'border-box',
-      $nest: {
-        '& .sha-el-col': {
-          overflow: 'hidden',
-        },
-        'li, ul': {
-          padding: '0 !important',
-        },
+      '& .sha-el-col': {
+        overflow: 'hidden',
+      },
+      '& li, & ul': {
+        padding: '0 !important',
       },
     },
     header: {
@@ -26,19 +24,17 @@ export const style = (theme: Theme, nested: boolean, clickableRow: boolean) => {
       color: lightText(theme),
       borderBottom: '2px solid ' + borderColor(theme.bodyBg),
       cursor: 'default',
-      $nest: {
-        '&:hover': {
-          background: theme.background,
-        },
+      '&:hover': {
+        background: theme.background,
       },
     },
-    tableRow: {
+    tableRow: ({ nested, clickableRow }) => ({
       padding: '0',
       cursor: (!nested && !clickableRow && 'auto !important') || undefined,
       fontFamily: "'Fira Code', monospace !important",
       borderBottom: `1px solid ${shadowColor(theme)[0]}`,
       borderCollapse: 'collapse',
-    },
+    }),
     nestedContent: {
       marginLeft: '-20px',
     },
@@ -49,5 +45,6 @@ export const style = (theme: Theme, nested: boolean, clickableRow: boolean) => {
       padding: '50px',
       fontSize: '16px',
     },
-  });
-};
+  }),
+  { theming, name: 'sha-el-flex-table' },
+);
