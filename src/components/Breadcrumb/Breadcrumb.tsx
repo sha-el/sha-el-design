@@ -14,14 +14,14 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = (props) => {
   return (
     <Row gutter={[0, 0]} className={css.breadcrumbs} alignItems="center">
       {children.map((v, index) => (
-        <>
+        <React.Fragment key={`breadcrumb-${index}`}>
           <li key={`bread-${index}`}>{v}</li>
           {index !== children.length - 1 && (
             <li className="breadcrumb-seperator" key={`breadcrumb-seperator-${index}`}>
               {props.seperator}
             </li>
           )}
-        </>
+        </React.Fragment>
       ))}
     </Row>
   );
