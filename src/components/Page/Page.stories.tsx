@@ -35,7 +35,7 @@ export const Basic = () => (
     extra={
       <Row gutter={[0, 0]}>
         <Col flex="1 0 auto">
-          <Input label="Search" borderLess after={<MdSearch style={{ cursor: 'pointer' }} />} />
+          <Input label="Search" borderless after={<MdSearch style={{ cursor: 'pointer' }} />} />
         </Col>
       </Row>
     }
@@ -83,15 +83,30 @@ export const Basic = () => (
           Yolo
         </TabPanel>,
         <TabPanel key="c" title="YOLO">
-          <AutoComplete
-            mode="single"
-            data={() => ['Bruce', 'Clark', 'Arthur', 'Diana']}
-            uniqueIdentifier={(e) => e}
-            listDisplayProp={(e) => e}
-            label="Select Alter Ego"
-            displayValue={(e) => e as string}
-            hint="Select an alter ego"
-          />
+          <Row>
+            <Col span={8}>
+              <AutoComplete
+                mode="single"
+                data={() => ['Bruce', 'Clark', 'Arthur', 'Diana']}
+                uniqueIdentifier={(e) => e}
+                listDisplayProp={(e) => e}
+                label="Select Alter Ego"
+                displayValue={(e) => e as string}
+                hint="Select an alter ego"
+              />
+            </Col>
+            <Col span={8}>
+              <AutoComplete
+                mode="single"
+                data={() => ['Bruce', 'Clark', 'Arthur', 'Diana']}
+                uniqueIdentifier={(e) => e}
+                listDisplayProp={(e) => e}
+                label="Select Alter Ego"
+                displayValue={(e) => e as string}
+                hint="Select an alter ego"
+              />
+            </Col>
+          </Row>
         </TabPanel>,
         <TabPanel key="d" title="YOLO">
           Yolo

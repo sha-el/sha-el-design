@@ -58,7 +58,6 @@ export const rowStyle = createUseStyles(
     container: {
       boxSizing: 'border-box',
       display: 'flex',
-      flexDirection: 'row',
     },
   },
   { name: 'sha-el-row' },
@@ -67,6 +66,7 @@ export const rowStyle = createUseStyles(
 export const flexPosition = createUseStyles(
   {
     container: (props) => ({
+      flexDirection: props.flexDirection,
       justifyContent: props.justifyContent,
       alignItems: props.alignItems,
       padding: props.gutter[0],

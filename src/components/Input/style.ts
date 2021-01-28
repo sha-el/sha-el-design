@@ -5,7 +5,7 @@ import { theming } from '../Theme/Theme';
 
 export const style = createUseStyles(
   {
-    container: ({ theme, error, label, active, borderless, disabled }) => {
+    container: ({ theme, error, label, active, borderless, disabled, props }) => {
       const borderColor = error ? theme.error : borderColorHelper(theme.background);
 
       const borderStyle = borderless
@@ -27,7 +27,8 @@ export const style = createUseStyles(
         lineHeight: 1.12857,
         cursor: 'text',
         transition: 'background-color 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s',
-        '&:focus-within': {
+        marginBottom: (props.error !== undefined || props.hint !== undefined) && '28px',
+        '&:focus-within': !error && {
           borderColor: theme.primary,
           '& .seudo': {
             color: theme.primary,
@@ -39,31 +40,21 @@ export const style = createUseStyles(
             },
           },
         },
-        '&:hover': {
-          borderColor: (!disabled && 'rgb(9, 30, 66)') || undefined,
-          '& .label': {
-            color: !disabled ? lightText(theme) : undefined,
-            '&:after, &:before': {
-              borderColor: !disabled ? (borderless ? 'transparent' : 'rgb(9, 30, 66)') : undefined,
+        '&:hover': !active &&
+          !error && {
+            borderColor: (!disabled && 'rgb(9, 30, 66)') || undefined,
+            '& .label': {
+              color: !disabled ? lightText(theme) : undefined,
+              '&:after, &:before': {
+                borderColor: !disabled ? (borderless ? 'transparent' : 'rgb(9, 30, 66)') : undefined,
+              },
+            },
+            '& .seudo': {
+              color: 'rgb(9, 30, 66)',
             },
           },
-          '& .seudo': {
-            color: 'rgb(9, 30, 66)',
-          },
-        },
       };
     },
-
-    section: ({ theme, disabled }) => ({
-      position: 'relative',
-      boxSizing: 'border-box',
-      color: disabled ? disabledText(theme) : lightText(theme),
-      fontSize: '14px',
-      lineHeight: 1.12857,
-      maxWidth: '100%',
-      transition: 'background-color 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s',
-      borderWidth: '1px',
-    }),
 
     input: ({ theme, disabled, borderless, before }) => ({
       fontSize: '14px',
@@ -166,20 +157,19 @@ export const style = createUseStyles(
 
     help: {
       width: '100%',
-      marginBottom: '20px',
       display: 'flex',
       placeContent: 'space-between',
       fontSize: '12px',
+      position: 'absolute',
+      bottom: '-18px',
     },
 
     hint: {
       color: '#aaaaaa',
-      padding: '0 5px',
     },
 
     error: ({ theme }) => ({
       color: theme.error,
-      padding: '0 5px',
     }),
 
     seudo: {

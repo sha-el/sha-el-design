@@ -19,6 +19,7 @@ Row.defaultProps = {
   justifyContent: 'flex-start',
   gutter: ['10px 0', '.5rem'],
   wrap: 'wrap',
+  flexDirection: 'row',
 };
 
 export interface RowProps {
@@ -34,4 +35,8 @@ export interface RowProps {
   className?: string;
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
   wrap?: React.CSSProperties['flexWrap'];
+  /**
+   * Flex direction
+   */
+  flexDirection?: React.CSSProperties['flexDirection'];
 }

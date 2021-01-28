@@ -1,6 +1,6 @@
 {
   "name": "sha-el-design",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "description": "React Components",
   "main": "./lib/",
   "typings": "./lib/",
@@ -47,6 +47,7 @@
     "@storybook/cli": "^6.1.11",
     "@storybook/react": "^6.1.11",
     "@testing-library/jest-dom": "^5.11.6",
+    "@testing-library/react": "^11.2.3",
     "@types/debounce": "^1.2.0",
     "@types/jest": "^26.0.10",
     "@types/rc-tooltip": "^3.7.3",

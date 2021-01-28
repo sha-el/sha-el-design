@@ -38,3 +38,4 @@ export { Tooltip } from './components/Tooltip';
 export { Text } from './components/Text';
 export { Upload } from './components/Upload';
 export { Slider, Range, SliderHandle } from './components/Slider';
+export { Step, Stepper } from './components/Stepper';
