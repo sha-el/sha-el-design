@@ -1,7 +1,7 @@
 import { createUseStyles } from 'react-jss';
 
-export const colStyle = createUseStyles(
-  {
+export const colStyle = () => {
+  const styles = {
     col: (props) => ({
       maxWidth: !props.flex && 100 / (24 / props.span) + '%',
       flexBasis: !props.flex && 100 / (24 / props.span) + '%',
@@ -17,7 +17,6 @@ export const colStyle = createUseStyles(
         marginLeft: props.offset && typeof props.offset === 'object' && 100 / (24 / props.offset.xs) + '%',
       }),
     },
-
     '@media (min-width: 576px)': {
       col: (props) => ({
         maxWidth: !props.flex && 100 / (24 / props.spanSm) + '%',
@@ -49,9 +48,9 @@ export const colStyle = createUseStyles(
         marginLeft: props.offset && typeof props.offset === 'object' && 100 / (24 / props.offset.xl) + '%',
       }),
     },
-  },
-  { name: 'sha-el-col' },
-);
+  };
+  return createUseStyles(styles, { name: 'sha-el-col' });
+};
 
 export const rowStyle = createUseStyles(
   {
