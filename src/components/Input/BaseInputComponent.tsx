@@ -35,6 +35,10 @@ export const BaseInputComponent: React.FC<BaseInputProps | BaseTextAreaProps> = 
     );
   };
 
+  const ShouldHover = () => {
+    return !(focused || error);
+  };
+
   const theme = useTheme();
   const css = style({
     theme,
@@ -45,6 +49,7 @@ export const BaseInputComponent: React.FC<BaseInputProps | BaseTextAreaProps> = 
     disabled: props.disabled || false,
     before: !!before,
     props: props,
+    hover: ShouldHover(),
   });
 
   return (
