@@ -29,7 +29,6 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
   static defaultProps = {
     children: <Input />,
     mode: 'single',
-    searchValue: (e) => String(e),
     clearable: true,
   };
 
@@ -62,8 +61,11 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
   displayList = () => {
     const { data, search, loading, selected } = this.state;
     const { listDisplayProp, uniqueIdentifier, searchValue } = this.props;
+    let filteredData = data;
 
-    const filteredData = data?.filter((v) => searchValue(v).toLowerCase().includes(search.toLowerCase()));
+    if (searchValue) {
+      filteredData = data?.filter((v) => searchValue(v).toLowerCase().includes(search.toLowerCase()));
+    }
 
     this.dataActualLength = filteredData.length;
 
@@ -132,7 +134,6 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
               textColor={lightText(theme)}
               onClick={() => this.onChange(v)}
               outline
-              chips
               size="SMALL"
               key={uniqueIdentifier(v)}
             >

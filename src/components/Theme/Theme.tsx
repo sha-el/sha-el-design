@@ -20,7 +20,7 @@ const LIGHT_THEME = {
   secondary: '#f06292',
   default: '#eeeeee',
   background: '#ffffff',
-  bodyBg: '#f0f2f5',
+  bodyBg: '#F6F7FF',
   error: '#f44336',
   danger: '#f44336',
   warning: '#ff9800',

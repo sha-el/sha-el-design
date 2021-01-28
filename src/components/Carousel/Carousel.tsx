@@ -3,7 +3,7 @@ import { useTheme } from '../Theme/Theme';
 import { style } from './style';
 
 export const Carousel: React.FC<CarouselProps> = (props) => {
-  const [sliderIndex, setSlideIndex] = React.useState(0);
+  const [sliderIndex, setSlideIndex] = React.useState(props.current || 0);
   React.useEffect(() => {
     let cTimeout = null;
     if (props.autoScroll) {
@@ -15,6 +15,10 @@ export const Carousel: React.FC<CarouselProps> = (props) => {
       window.clearTimeout(cTimeout);
     };
   }, [sliderIndex, props.children.length]);
+
+  React.useEffect(() => {
+    setSlideIndex(props.current);
+  }, [props.current]);
 
   const theme = useTheme();
   const css = style({ theme });
@@ -34,18 +38,20 @@ export const Carousel: React.FC<CarouselProps> = (props) => {
           </div>
         ))}
       </div>
-      <div className={css.dotsContainer}>
-        {props.children.map((v, index) => (
-          <li
-            key={index}
-            className={css.dots}
-            onClick={() => setSlideIndex(index)}
-            style={{
-              background: index === sliderIndex && 'white',
-            }}
-          />
-        ))}
-      </div>
+      {!props.hideDots && (
+        <div className={css.dotsContainer}>
+          {props.children.map((v, index) => (
+            <li
+              key={index}
+              className={css.dots}
+              onClick={() => setSlideIndex(index)}
+              style={{
+                background: index === sliderIndex && 'white',
+              }}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
@@ -56,7 +62,9 @@ const getItemWidth = (len: number) => {
 
 export interface CarouselProps {
   width: string;
+  children: React.ReactNode[];
+  hideDots: boolean;
   onChange?: (current: number) => void;
   autoScroll?: boolean;
-  children: React.ReactNode[];
+  current?: number;
 }

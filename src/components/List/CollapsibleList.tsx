@@ -3,14 +3,14 @@ import { ListItem, ListItemProps } from './ListItem';
 import { nestedItem as style } from './style';
 import { MdExpandMore, MdExpandLess } from 'react-icons/md';
 
-export interface CollapseProps extends ListItemProps {
+export interface CollapsibleListProps extends ListItemProps {
   header: React.ReactNode;
   expandable?: boolean;
   open?: boolean;
   onChange?: (open: boolean) => void;
 }
 
-export const CollapsibleList: React.FC<CollapseProps> = (props) => {
+export const CollapsibleList: React.FC<CollapsibleListProps> = (props) => {
   const [listOpen, toggleList] = React.useState(props.open || false);
   const open = props.open === undefined && !props.onChange ? listOpen : props.open;
 

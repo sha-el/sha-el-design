@@ -112,7 +112,6 @@ describe('input', () => {
     expect(error.innerHTML).toBe('error');
     expect(error).toHaveStyle(`
       color: rgb(244, 67, 54);
-      padding: 0px 5px;
     `);
   });
 
@@ -126,7 +125,6 @@ describe('input', () => {
     expect(hint.innerHTML).toBe('hint');
     expect(hint).toHaveStyle(`
       color: rgb(170, 170, 170);
-      padding: 0px 5px;
     `);
   });
 
@@ -141,7 +139,6 @@ describe('input', () => {
       width: 100%;
       display: flex;
       font-size: 12px;
-      margin-bottom: 20px;
       place-content: space-between;
     `);
   });
