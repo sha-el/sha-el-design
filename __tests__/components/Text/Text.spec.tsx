@@ -18,6 +18,20 @@ afterEach(() => {
 });
 
 describe('Text', () => {
+  it('should render a default text', () => {
+    act(() => {
+      ReactDOM.render(<Text color="light">Deafult Text</Text>, container);
+    });
+
+    const text = document.querySelector('span');
+    text.click();
+
+    expect(text).toHaveStyle(`
+      font-style: normal;
+      color: rgba(0, 0, 0, 0.54);
+    `);
+  });
+
   it('should render a h1 text', () => {
     act(() => {
       ReactDOM.render(<Text variant="h1">This is a h1 Heading.</Text>, container);
@@ -276,6 +290,23 @@ describe('Text', () => {
     `);
   });
 
+  it('should render a text with font weight equal to 0', () => {
+    act(() => {
+      ReactDOM.render(
+        <Text variant="p" fontWeight={0}>
+          The quick brown fox jumps over the lazy dog
+        </Text>,
+        container,
+      );
+    });
+
+    const text = document.querySelector('p');
+
+    expect(text).not.toHaveStyle(`
+      font-weight: normal;
+    `);
+  });
+
   it('should render a text with custom alignment', () => {
     act(() => {
       ReactDOM.render(
@@ -291,5 +322,26 @@ describe('Text', () => {
     expect(text).toHaveStyle(`
       text-align: right;
     `);
+  });
+
+  it('should render a text with onClick prop', () => {
+    let clickCount = 0;
+    const onClick = () => (clickCount += 1);
+
+    act(() => {
+      ReactDOM.render(
+        <Text variant="p" onClick={onClick}>
+          {' '}
+          Hello, World!{' '}
+        </Text>,
+        container,
+      );
+    });
+
+    const text = document.querySelector('p');
+
+    text.click();
+
+    expect(clickCount).toBe(1);
   });
 });
