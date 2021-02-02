@@ -102,8 +102,8 @@ export const style = createUseStyles(
       },
     }),
 
-    label: ({ theme, disabled, active, borderless, isError }) => {
-      const borderColor = isError ? theme.error : borderColorHelper(theme.background);
+    label: ({ theme, disabled, active, borderless, error }) => {
+      const borderColor = error ? theme.error : borderColorHelper(theme.background);
 
       return {
         position: 'absolute',
