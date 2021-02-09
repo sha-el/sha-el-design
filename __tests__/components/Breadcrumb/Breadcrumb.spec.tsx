@@ -1,33 +1,17 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { act } from 'react-dom/test-utils';
 import { Breadcrumb } from '../../../src';
 
 import '@testing-library/jest-dom';
-
-let container: HTMLDivElement;
-
-beforeEach(() => {
-  container = document.createElement('div');
-  document.body.appendChild(container);
-});
-
-afterEach(() => {
-  document.body.removeChild(container);
-  container = null;
-});
+import { render } from '@testing-library/react';
 
 describe('Breadcrumb', () => {
   it('should render a default breadcrumb', () => {
-    act(() => {
-      ReactDOM.render(
-        <Breadcrumb seperator="/">
-          <a href="#">Home</a>
-          <a href="#">Breadcrumb</a>
-        </Breadcrumb>,
-        container,
-      );
-    });
+    render(
+      <Breadcrumb seperator="/">
+        <a href="#">Home</a>
+        <a href="#">Breadcrumb</a>
+      </Breadcrumb>,
+    );
 
     const breadcrumb = document.querySelectorAll('li');
 
@@ -52,18 +36,27 @@ describe('Breadcrumb', () => {
   });
 
   it('should render a breadcrumb with different seprator', () => {
-    act(() => {
-      ReactDOM.render(
-        <Breadcrumb seperator="=>">
-          <a href="#">Home</a>
-          <a href="#">Breadcrumb</a>
-        </Breadcrumb>,
-        container,
-      );
-    });
+    render(
+      <Breadcrumb seperator="=>">
+        <a href="#">Home</a>
+        <a href="#">Breadcrumb</a>
+      </Breadcrumb>,
+    );
 
     const breadcrumb = document.querySelectorAll('li');
 
     expect(breadcrumb[1].innerHTML).toBe('=&gt;');
+  });
+
+  it('should render a breadcrumb with one children', () => {
+    render(
+      <Breadcrumb seperator="/">
+        <a href="#">Home</a>
+      </Breadcrumb>,
+    );
+
+    const breadcrumb = document.querySelectorAll('li');
+
+    expect(breadcrumb[0].innerHTML).toBe('<a href="#">Home</a>');
   });
 });

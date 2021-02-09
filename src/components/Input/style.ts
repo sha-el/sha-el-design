@@ -5,7 +5,7 @@ import { theming } from '../Theme/Theme';
 
 export const style = createUseStyles(
   {
-    container: ({ theme, error, label, active, borderless, disabled, props }) => {
+    container: ({ theme, error, label, active, borderless, disabled, hover, props }) => {
       const borderColor = error ? theme.error : borderColorHelper(theme.background);
 
       const borderStyle = borderless
@@ -27,7 +27,7 @@ export const style = createUseStyles(
         lineHeight: 1.12857,
         cursor: 'text',
         transition: 'background-color 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s',
-        marginBottom: (props.error !== undefined || props.hint !== undefined) && '28px',
+        marginBottom: (props.error !== undefined || props.hint !== undefined) && '12px',
         '&:focus-within': !error && {
           borderColor: theme.primary,
           '& .seudo': {
@@ -40,19 +40,18 @@ export const style = createUseStyles(
             },
           },
         },
-        '&:hover': !active &&
-          !error && {
-            borderColor: (!disabled && 'rgb(9, 30, 66)') || undefined,
-            '& .label': {
-              color: !disabled ? lightText(theme) : undefined,
-              '&:after, &:before': {
-                borderColor: !disabled ? (borderless ? 'transparent' : 'rgb(9, 30, 66)') : undefined,
-              },
-            },
-            '& .seudo': {
-              color: 'rgb(9, 30, 66)',
+        '&:hover': hover && {
+          borderColor: (!disabled && 'rgb(9, 30, 66)') || undefined,
+          '& .label': {
+            color: !disabled ? lightText(theme) : undefined,
+            '&:after, &:before': {
+              borderColor: !disabled ? (borderless ? 'transparent' : 'rgb(9, 30, 66)') : undefined,
             },
           },
+          '& .seudo': {
+            color: 'rgb(9, 30, 66)',
+          },
+        },
       };
     },
 
@@ -102,14 +101,14 @@ export const style = createUseStyles(
       },
     }),
 
-    label: ({ theme, disabled, active, borderless, isError }) => {
-      const borderColor = isError ? theme.error : borderColorHelper(theme.background);
+    label: ({ theme, disabled, active, borderless, error }) => {
+      const borderColor = error ? theme.error : borderColorHelper(theme.background);
 
       return {
         position: 'absolute',
         display: 'flex',
         alignSelf: 'center',
-        color: disabled ? disabledText(theme) : lightText(theme),
+        color: disabled ? disabledText(theme) : error ? active && theme.error : lightText(theme),
         boxSizing: 'border-box',
         left: 0,
         top: -7,
