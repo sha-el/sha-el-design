@@ -1,32 +1,16 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { act } from 'react-dom/test-utils';
 import { Badge, Button } from '../../../src';
 
 import '@testing-library/jest-dom';
-
-let container: HTMLDivElement;
-
-beforeEach(() => {
-  container = document.createElement('div');
-  document.body.appendChild(container);
-});
-
-afterEach(() => {
-  document.body.removeChild(container);
-  container = null;
-});
+import { render } from '@testing-library/react';
 
 describe('Badge', () => {
   it('should render a default badge', () => {
-    act(() => {
-      ReactDOM.render(
-        <Badge>
-          <Button>Submit</Button>
-        </Badge>,
-        container,
-      );
-    });
+    render(
+      <Badge>
+        <Button>Submit</Button>
+      </Badge>,
+    );
 
     const badge = document.querySelector('sup');
 
@@ -54,9 +38,7 @@ describe('Badge', () => {
   });
 
   it('should render a count badge', () => {
-    act(() => {
-      ReactDOM.render(<Badge count={7} />, container);
-    });
+    render(<Badge count={7} />);
 
     const badge = document.querySelector('sup');
 
@@ -67,9 +49,7 @@ describe('Badge', () => {
   });
 
   it('should render a color badge', () => {
-    act(() => {
-      ReactDOM.render(<Badge count={7} color="black" />, container);
-    });
+    render(<Badge count={7} color="black" />);
 
     const badge = document.querySelector('sup');
 
@@ -79,9 +59,7 @@ describe('Badge', () => {
   });
 
   it('should render a maxCount badge', () => {
-    act(() => {
-      ReactDOM.render(<Badge count={7} maxCount={5} />, container);
-    });
+    render(<Badge count={7} maxCount={5} />);
 
     const badge = document.querySelector('sup');
 
