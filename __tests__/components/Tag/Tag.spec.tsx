@@ -146,4 +146,25 @@ describe('Tag', () => {
     fontSize: 0.7125rem;
     `);
   });
+
+  it('should render a tag with onClick prop', () => {
+    let clickCount = 0;
+    const onClick = () => (clickCount += 1);
+
+    act(() => {
+      ReactDOM.render(
+        <Tag color="red" onClick={onClick}>
+          {' '}
+          Hello{' '}
+        </Tag>,
+        container,
+      );
+    });
+
+    const tag = document.querySelector('span');
+
+    tag.click();
+
+    expect(clickCount).toBe(1);
+  });
 });
