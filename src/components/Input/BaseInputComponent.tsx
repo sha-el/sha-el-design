@@ -10,6 +10,8 @@ export const BaseInputComponent: React.FC<BaseInputProps | BaseTextAreaProps> = 
     error,
     label,
     getElement,
+    onFocus,
+    onBlur,
     after,
     before,
     required,
@@ -84,11 +86,11 @@ export const BaseInputComponent: React.FC<BaseInputProps | BaseTextAreaProps> = 
               return e;
             },
             onFocus: (e) => {
-              props.onFocus && props.onFocus(e);
+              onFocus && onFocus(e);
               updateFocused(true);
             },
             onBlur: (e) => {
-              props.onBlur && props.onBlur(e);
+              onBlur && onBlur(e);
               updateFocused(false);
             },
             ...rest,

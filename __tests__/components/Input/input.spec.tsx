@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { act } from 'react-dom/test-utils';
-import { Input } from '../../../src';
+import { Input, Textarea } from '../../../src';
 
 import '@testing-library/jest-dom';
 
@@ -17,7 +17,7 @@ afterEach(() => {
   container = null;
 });
 
-describe('input', () => {
+describe('BaseInputComponent', () => {
   it('should render an input', () => {
     act(() => {
       ReactDOM.render(<Input placeholder="placeholder" />, container);
@@ -55,6 +55,32 @@ describe('input', () => {
     `);
   });
 
+  it('should render a textarea', () => {
+    act(() => {
+      ReactDOM.render(<Textarea placeholder="placeholder" />, container);
+    });
+
+    const textareaDiv = document.querySelector('.sha-el-input');
+    const textarea = textareaDiv.querySelector('textarea');
+
+    expect(textarea).toHaveAttribute('placeholder', 'placeholder');
+    expect(textarea).toHaveStyle(`
+      color: rgb(85, 85, 85);
+      height: 36px;
+      display: inline;
+      outline: none;
+      padding: 9px 10px;
+      font-size: 14px;
+      max-width: 100%;
+      min-width: 100%;
+      background: transparent;
+      box-sizing: border-box;
+      font-family: "Roboto", sans-serif;
+      line-height: 12px;
+      border: 1px solid;
+    `);
+  });
+
   it('should render a boderless input', () => {
     act(() => {
       ReactDOM.render(<Input borderless />, container);
@@ -64,6 +90,19 @@ describe('input', () => {
 
     expect(inputDiv).toHaveStyle(`
       border-bottom: 1px solid hsla(0,0%,0%,.2);
+      border-radius: 0;
+    `);
+  });
+
+  it('should render a disabled boderless input', () => {
+    act(() => {
+      ReactDOM.render(<Input disabled borderless />, container);
+    });
+
+    const inputDiv = document.querySelector('.sha-el-input');
+
+    expect(inputDiv).toHaveStyle(`
+      border-bottom: 1px dotted hsla(0,0%,0%,.2);
       border-radius: 0;
     `);
   });
@@ -95,10 +134,52 @@ describe('input', () => {
     `);
 
     input.focus();
-
     expect(label).toHaveStyle(`
       font-size: 10px;
       line-height: 13px;
+    `);
+
+    input.blur();
+    expect(label).toHaveStyle(`
+      font-size: 13px;
+      line-height: 51px;
+    `);
+  });
+
+  it('should render an input with ref, onFocus and onBlur props', () => {
+    let focus, blur, inputEvent;
+    act(() => {
+      ReactDOM.render(
+        <Input
+          onFocus={(e) => (focus = e.type)}
+          onBlur={(e) => (blur = e.type)}
+          getElement={(e) => (inputEvent = e)}
+        />,
+        container,
+      );
+    });
+
+    const input = document.querySelector('input');
+
+    input.focus();
+    expect(focus).toBe('focus');
+    input.blur();
+    expect(blur).toBe('blur');
+
+    expect(inputEvent).toBe(input);
+  });
+
+  it('should render an input with required label', () => {
+    act(() => {
+      ReactDOM.render(<Input label="label" required />, container);
+    });
+
+    const label = document.querySelector('span');
+    const required = label.querySelector('span');
+
+    expect(required.innerHTML).toBe('*');
+    expect(required).toHaveStyle(`
+      color: red;
     `);
   });
 
@@ -161,6 +242,25 @@ describe('input', () => {
     const after = document.querySelector('.seudo');
 
     expect(after.innerHTML).toBe('after');
+    expect(after).toHaveStyle(`padding-right: 5px`);
+  });
+
+  it('should render a boderless input with after and before prop', () => {
+    act(() => {
+      ReactDOM.render(<Input borderless after="after" before="before" />, container);
+    });
+
+    const after = document.querySelectorAll('.seudo')[0];
+    const before = document.querySelectorAll('.seudo')[1];
+
+    expect(after).toHaveStyle(`
+      display: flex;
+      align-items: center;
+    `);
+    expect(before).toHaveStyle(`
+      display: flex;
+      align-items: center;
+    `);
   });
 
   it('should render an input with custom style', () => {
