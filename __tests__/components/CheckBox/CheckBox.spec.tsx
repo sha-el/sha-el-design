@@ -20,10 +20,17 @@ afterEach(() => {
 
 describe('CheckBox', () => {
   it('should render a checkbox', () => {
+    let checked = null;
+    let el = null;
+    const onChange = (e) => {
+      checked = e.target.checked;
+      el = e.target;
+    };
+
     act(() => {
       ReactDOM.render(
         <div>
-          <CheckBox />
+          <CheckBox onChange={onChange} />
           <MdCheckBoxOutlineBlank size="22px" id="icon" />
         </div>,
         container,
@@ -47,6 +54,9 @@ describe('CheckBox', () => {
     expect(input).toHaveStyle(`
       display: none;
     `);
+
+    expect(checked).toBeTruthy();
+    expect(el).toEqual(input);
 
     expect(div).toHaveStyle(`
       cursor: pointer;
