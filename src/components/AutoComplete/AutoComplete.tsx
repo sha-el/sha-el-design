@@ -201,6 +201,10 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
 
   onKeyDown = (e: React.KeyboardEvent) => {
     const { data, selected, open } = this.state;
+
+    e.preventDefault();
+    e.stopPropagation();
+
     switch (e.key) {
       case 'ArrowDown': {
         if (!open) {
