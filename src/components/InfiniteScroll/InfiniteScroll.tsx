@@ -86,7 +86,7 @@ export class InfiniteScroll<T> extends React.Component<InfiniteScrollProps<T>, S
 
 const Container: React.FC<ContainerProps> = (props) => {
   const { data, render, loading, isLoading, element, height } = props;
-  const css = style({ height });
+  const css = style(height);
   return (
     <>
       <div className={css.container} ref={(el) => element(el)}>

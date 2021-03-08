@@ -1,11 +1,9 @@
 import * as React from 'react';
-
-import { LoadingProps } from './Loading';
 import { Card, CardBody } from '../Card';
 import { skeletonStyle as style } from './style';
 import { useTheme } from '../Theme/Theme';
 
-export const Skeleton: React.FunctionComponent<LoadingProps> = (props) => {
+export const Skeleton: React.FunctionComponent<SkeletonProps> = (props) => {
   const { isLoading, render = () => <div /> } = props;
 
   if (isLoading) {
@@ -14,7 +12,7 @@ export const Skeleton: React.FunctionComponent<LoadingProps> = (props) => {
     return (
       <Card>
         <CardBody>
-          <div className={style(theme).wrapper}>
+          <div className={style(theme)}>
             <div className="skeleton">
               <div className="skeleton-content">
                 <div className="skeleton-header">
@@ -51,3 +49,8 @@ export const Skeleton: React.FunctionComponent<LoadingProps> = (props) => {
 
   return render && render();
 };
+
+export interface SkeletonProps {
+  isLoading?: boolean;
+  render?: () => React.ReactElement;
+}

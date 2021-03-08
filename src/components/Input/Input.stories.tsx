@@ -3,7 +3,6 @@ import { Story, Meta } from '@storybook/react';
 
 import { Input } from './Input';
 import { MdEmail, MdSubject } from 'react-icons/md';
-import { Divider } from '../Divider';
 import { InputProps } from './Input';
 
 export default {
@@ -17,8 +16,8 @@ export default {
 const Template: Story<InputProps> = (args) => (
   <>
     <Input {...args} />
-    <Divider />
-    <Input {...args} borderless />
+    <br />
+    <Input borderless {...args} />
   </>
 );
 
@@ -36,6 +35,7 @@ export const ErrorAndHint = Template.bind({});
 ErrorAndHint.args = {
   error: 'Some error',
   hint: 'Some hint',
+  label: 'Label',
 };
 
 export const BeforeAndAfter = Template.bind({});

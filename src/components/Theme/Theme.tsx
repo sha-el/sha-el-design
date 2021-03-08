@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { color } from 'csx';
-import { createTheming } from 'react-jss';
+import { useTheme as themeHook, ThemeProvider as EmoThemeProvider } from '@emotion/react';
+import { initElevations } from '../../helpers/elevations';
 
 export const DARK_THEME = {
   primary: '#536DFE',
@@ -28,11 +29,9 @@ const LIGHT_THEME = {
   textColor: 'rgba(0,0,0,0.87)',
 };
 
-const ThemeContext = React.createContext<Theme>(LIGHT_THEME);
-
-export const theming = createTheming(ThemeContext);
 export const useTheme = () => {
-  const theme = theming.useTheme();
+  let theme = themeHook() as Theme;
+  theme = theme.primary ? theme : LIGHT_THEME;
   const style = document.querySelector('#sha-el-design-theme-consumer') || document.createElement('style');
   style.id = 'sha-el-design-theme-consumer';
   style.innerHTML = `
@@ -40,39 +39,19 @@ export const useTheme = () => {
           --primary: ${color(theme.primary).lighten(0.5)};
           --background: ${theme.bodyBg};
           --color: ${theme.textColor}
-        }`;
+        }
+        ${initElevations(theme)}`;
   document.getElementsByTagName('head')[0].appendChild(style);
   return theme;
 };
 
 export const ThemeProvider: React.FunctionComponent<ThemeProps> = (props) => {
   const theme = { ...(props.theme === 'DARK' ? DARK_THEME : LIGHT_THEME), ...(props.colors || {}) };
-  return <theming.ThemeProvider theme={theme}>{props.children}</theming.ThemeProvider>;
+  return <EmoThemeProvider theme={theme}>{props.children}</EmoThemeProvider>;
 };
 
 ThemeProvider.defaultProps = {
   theme: 'DARK',
-};
-
-export const ThemeConsumer: React.FunctionComponent<{ children: (theme: Theme) => React.ReactElement | null }> = (
-  props,
-) => {
-  return (
-    <ThemeContext.Consumer>
-      {(theme) => {
-        const style = document.querySelector('#sha-el-design-theme-consumer') || document.createElement('style');
-        style.id = 'sha-el-design-theme-consumer';
-        style.innerHTML = `
-        :root {
-          --primary: ${color(theme.primary).lighten(0.5)};
-          --background: ${theme.bodyBg};
-          --color: ${theme.textColor}
-        }`;
-        document.getElementsByTagName('head')[0].appendChild(style);
-        return props.children(theme);
-      }}
-    </ThemeContext.Consumer>
-  );
 };
 
 interface ThemeProps {

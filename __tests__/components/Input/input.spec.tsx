@@ -32,7 +32,7 @@ describe('BaseInputComponent', () => {
       cursor: text;
       position: relative;
       font-size: 14px;
-      transition: background-color 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s;
+      transition: background-color 0.2s ease-in-out 0s,border-color 0.2s ease-in-out 0s;
       line-height: 1.12857;
       border-radius: 4px;
     `);
@@ -49,7 +49,7 @@ describe('BaseInputComponent', () => {
       min-width: 100%;
       background: transparent;
       box-sizing: border-box;
-      font-family: "Roboto", sans-serif;
+      font-family: "Roboto",sans-serif;
       line-height: 12px;
       border: 2px inset;
     `);
@@ -75,7 +75,7 @@ describe('BaseInputComponent', () => {
       min-width: 100%;
       background: transparent;
       box-sizing: border-box;
-      font-family: "Roboto", sans-serif;
+      font-family: "Roboto",sans-serif;
       line-height: 12px;
       border: 1px solid;
     `);
@@ -220,7 +220,6 @@ describe('BaseInputComponent', () => {
       width: 100%;
       display: flex;
       font-size: 12px;
-      place-content: space-between;
     `);
   });
 

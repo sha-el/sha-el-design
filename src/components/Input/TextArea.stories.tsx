@@ -18,7 +18,7 @@ const Template: Story<TextareaProps> = (args) => (
   <>
     <Textarea {...args} />
     <Divider />
-    <Textarea {...args} borderLess />
+    <Textarea {...args} borderless />
   </>
 );
 

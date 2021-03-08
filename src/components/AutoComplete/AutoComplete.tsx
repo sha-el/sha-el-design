@@ -7,8 +7,6 @@ import { Tag } from '../Tag';
 import { MdExpandMore, MdExpandLess, MdClose } from 'react-icons/md';
 import { Button } from '../Button';
 import { InputProps } from '../Input/Input';
-import { ThemeConsumer } from '../Theme/Theme';
-import { lightText } from '../../helpers/color';
 import { Skeleton } from '../Loading';
 
 export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State<T>> {
@@ -127,20 +125,16 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
     return [
       before,
       ...(value as T[]).map((v) => (
-        <ThemeConsumer key={uniqueIdentifier(v)}>
-          {(theme) => (
-            <Tag
-              color="#aaa"
-              textColor={lightText(theme)}
-              onClick={() => this.onChange(v)}
-              outline
-              size="SMALL"
-              key={uniqueIdentifier(v)}
-            >
-              {displayValue(v)}
-            </Tag>
-          )}
-        </ThemeConsumer>
+        <Tag
+          color="#aaa"
+          textColor="light"
+          onClick={() => this.onChange(v)}
+          outline
+          size="SMALL"
+          key={uniqueIdentifier(v)}
+        >
+          {displayValue(v)}
+        </Tag>
       )),
     ];
   };

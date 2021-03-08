@@ -128,7 +128,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
     });
   };
 
-  const css = style();
+  const css = style;
 
   return (
     <Card elevation={props.elevation}>
@@ -137,7 +137,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
           <Col flex="0 1 auto">
             <Menu
               height="300px"
-              trigger="onHover"
+              trigger="onClick"
               anchor={
                 <Button primary displayBlock flat>
                   {months[date.getMonth()]}
@@ -154,7 +154,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
           <Col flex="0 1 auto">
             <Menu
               height="300px"
-              trigger="onHover"
+              trigger="onClick"
               anchor={
                 <Button primary displayBlock flat>
                   {date.getFullYear()}

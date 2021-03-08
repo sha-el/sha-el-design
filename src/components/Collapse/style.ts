@@ -1,12 +1,7 @@
-import { createUseStyles } from 'react-jss';
+import { css } from '@emotion/css';
 
-export const style = createUseStyles(
-  {
-    content: {
-      overflow: 'hidden',
-      boxSizing: 'border-box',
-      padding: '20px 0 30px',
-    },
-  },
-  { name: 'sha-el-collapse' },
-);
+export const style = css({
+  overflow: 'hidden',
+  boxSizing: 'border-box',
+  padding: '20px 0 30px',
+});

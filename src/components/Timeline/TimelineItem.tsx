@@ -9,7 +9,7 @@ export const TimelineItem: React.FunctionComponent<TimelineItemProps> = (props) 
       <div className={`content ${props.extra ? 'extra-content' : ''}`}>{props.children}</div>
       <div className="extra">{props.extra}</div>
       <div className="tail" />
-      <div className={`icon ${css.icon}`}>{props.icon}</div>
+      <div className={`icon ${css}`}>{props.icon}</div>
     </div>
   );
 };

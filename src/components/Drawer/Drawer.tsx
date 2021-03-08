@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { classes } from '../../helpers';
+import { elevationCss } from '../../helpers/elevations';
 import { Portal } from '../Popover/Portal';
 import { useTheme } from '../Theme/Theme';
 import { style } from './style';
@@ -32,7 +33,7 @@ export const Drawer: React.FunctionComponent<DrawerProps> = (props) => {
           className={classes(
             css.drawerStyle,
             css[`slideIn${props.placement.charAt(0).toUpperCase() + props.placement.slice(1)}` || 'slideInRight'],
-            css[`elevation${elevation}`],
+            elevationCss(elevation),
             className,
           )}
         >

@@ -11,7 +11,7 @@ export const Loading: React.FC<LoadingProps> = (props) => {
     return render();
   }
 
-  return <div {...rest} className={style({ theme, props }).loader} />;
+  return <div {...rest} className={style(theme, props)} />;
 };
 
 export interface LoadingProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {

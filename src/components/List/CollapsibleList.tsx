@@ -14,7 +14,7 @@ export const CollapsibleList: React.FC<CollapsibleListProps> = (props) => {
   const [listOpen, toggleList] = React.useState(props.open || false);
   const open = props.open === undefined && !props.onChange ? listOpen : props.open;
 
-  const css = style();
+  const css = style;
 
   return (
     <div>
@@ -29,7 +29,7 @@ export const CollapsibleList: React.FC<CollapsibleListProps> = (props) => {
         {props.header}
       </ListItem>
       <div
-        className={css.nestedItem}
+        className={css}
         style={{
           maxHeight: open ? '100vh' : '0',
         }}

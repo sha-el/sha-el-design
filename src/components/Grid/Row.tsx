@@ -7,7 +7,7 @@ export const Row: React.FC<RowProps> = (props) => {
   return (
     <div
       onClick={props.onClick}
-      className={classes(rowStyle().container, flexPosition(props).container, className, 'sha-el-row')}
+      className={classes(rowStyle, flexPosition(props), className, 'sha-el-row')}
       style={props.style}
     >
       {props.children}

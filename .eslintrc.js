@@ -1,5 +1,6 @@
 module.exports = {
   parser: '@typescript-eslint/parser', // Specifies the ESLint parser
+  plugins: ['@emotion'],
   parserOptions: {
     ecmaVersion: 2020, // Allows for the parsing of modern ECMAScript features
     sourceType: 'module', // Allows for the use of imports
@@ -30,6 +31,9 @@ module.exports = {
       'error',
       { varsIgnorePattern: '^__', args: 'after-used', argsIgnorePattern: '^__' },
     ],
+    '@emotion/jsx-import': 'error',
+    '@emotion/import-from-emotion': 'error',
+    '@emotion/styled-import': 'error',
     // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
     // e.g. "@typescript-eslint/explicit-function-return-type": "off",
   },

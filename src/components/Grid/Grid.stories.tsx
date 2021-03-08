@@ -49,11 +49,11 @@ export const Span: Story<ColProps> = (args) => (
 
 export const FlexBox: Story<ColProps> = (args) => (
   <Row {...RowTemplate.args}>
-    <Col flex="1 0 200px" {...args}>
-      <Card>flex=1 0 200px</Card>
+    <Col flex="1 0 100px" {...args}>
+      <Card>flex=1 0 100px</Card>
     </Col>
-    <Col flex="0 1 400px">
-      <Card>flex=0 1 400px</Card>
+    <Col flex="0 1 150px">
+      <Card>flex=0 1 150px</Card>
     </Col>
   </Row>
 );
@@ -129,8 +129,8 @@ export const Nested: Story<ColProps> = (args) => {
       <Col flex="1 0 200px" {...args}>
         <Card>
           <Row gutter={[0, 0]}>
-            <Col span={10}>a</Col>
-            <Col span={10}>b</Col>
+            <Col span={12}>a</Col>
+            <Col span={12}>b</Col>
           </Row>
         </Card>
       </Col>

@@ -8,7 +8,7 @@ export const Content: React.FC<ContentProps> = (props) => {
 
 const Inner: React.FC<InnerProps> = (props) => {
   const { width } = props;
-  return <main className={style({ width }).content}>{props.children}</main>;
+  return <main className={style(width)}>{props.children}</main>;
 };
 
 export interface ContentProps {

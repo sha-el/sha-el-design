@@ -3,6 +3,7 @@ import { Omit, nestedAccess, classes } from '../../helpers';
 import { Row, Col } from '../../';
 import { useTheme } from '../Theme/Theme';
 import { style } from './style';
+import { Text } from '../Text';
 
 export const BaseInputComponent: React.FC<BaseInputProps | BaseTextAreaProps> = (props) => {
   const [focused, updateFocused] = React.useState(false);
@@ -50,7 +51,6 @@ export const BaseInputComponent: React.FC<BaseInputProps | BaseTextAreaProps> = 
     borderless: borderless || false,
     disabled: props.disabled || false,
     before: !!before,
-    props: props,
     hover: ShouldHover(),
   });
 
@@ -63,9 +63,9 @@ export const BaseInputComponent: React.FC<BaseInputProps | BaseTextAreaProps> = 
         className={classes(containerClassName, css.container, 'sha-el-input')}
       >
         {label && (
-          <span key="label" className={classes(css.label, 'label')}>
+          <label key="label" className={classes(css.label, 'label')}>
             {label} {required && <span style={{ color: 'red' }}>*</span>}
-          </span>
+          </label>
         )}
         {before && (
           <Col
@@ -105,13 +105,34 @@ export const BaseInputComponent: React.FC<BaseInputProps | BaseTextAreaProps> = 
             {after}
           </Col>
         )}
-        {(error || hint) && (
-          <div className={classes(css.help, 'help')}>
-            {error && <label className={`${css.error}`}>{error}</label>}
-            {hint && <label className={`${css.hint}`}>{hint}</label>}
-          </div>
-        )}
+        <fieldset className={css.fieldset}>
+          <legend className={css.legend}>
+            <span>{label}</span>
+          </legend>
+        </fieldset>
       </Row>
+      {(error !== undefined || hint !== undefined) && (
+        <Row
+          justifyContent="flex-end"
+          gutter={[0, `0 ${borderless ? '0' : before ? '5px' : '14px'}`]}
+          className={classes(css.help, 'help')}
+        >
+          {error && (
+            <Col flex="1 0 auto">
+              <Text variant="label" className={`${css.error}`}>
+                {error}
+              </Text>
+            </Col>
+          )}
+          {hint && (
+            <Col flex="0 1 auto">
+              <Text variant="label" className={`${css.hint}`}>
+                {hint}
+              </Text>
+            </Col>
+          )}
+        </Row>
+      )}
     </>
   );
 };

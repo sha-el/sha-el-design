@@ -1,22 +1,21 @@
-import { createUseStyles } from 'react-jss';
+import { css } from '@emotion/css';
 
-export const style = createUseStyles(
-  {
-    container: ({ height }) => ({
+export const style = (height: string | number) => {
+  return {
+    container: css({
       height: height || 'auto',
       overflow: height ? 'auto' : 'hidden',
       position: 'relative',
     }),
-    loadingIndicator: {
+    loadingIndicator: css({
       marginBottom: '20px',
       position: 'relative',
       margin: 'auto',
       left: 0,
       right: 0,
-    },
-    loadingContainer: {
+    }),
+    loadingContainer: css({
       position: 'relative',
-    },
-  },
-  { name: 'sha-el-infinite-scroll' },
-);
+    }),
+  };
+};

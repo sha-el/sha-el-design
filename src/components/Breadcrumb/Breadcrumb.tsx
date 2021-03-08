@@ -12,7 +12,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = (props) => {
     : [props.children];
 
   return (
-    <Row gutter={[0, 0]} className={css.breadcrumbs} alignItems="center">
+    <Row gutter={[0, 0]} className={css} alignItems="center">
       {children.map((v, index) => (
         <React.Fragment key={`breadcrumb-${index}`}>
           <li key={`bread-${index}`}>{v}</li>

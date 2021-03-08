@@ -11,9 +11,9 @@ export const Page: React.FC<PageProps> = (props) => {
   const [activeKey, setActiveKey] = React.useState(nestedAccess(props.tabs, 'defaultActiveKey'));
 
   const theme = useTheme();
-  const css = style({ theme });
+  const css = style(theme);
   return (
-    <div className={css.container}>
+    <div>
       <div className={css.header}>
         <Row alignItems="center" gutter={['5px 0', '0 .5rem']}>
           {props.backIcon && (
