@@ -37,15 +37,15 @@ export class NotificationContainer extends React.Component<unknown, State> {
     const notification = this.state.notification[index];
     switch (notification.type) {
       case 'info':
-        return <MdInfoOutline style={{ color: getColor(info) }} />;
+        return <MdInfoOutline style={{ color: getColor(info), fontSize: '30px' }} />;
       case 'error':
-        return <MdErrorOutline style={{ color: getColor(error) }} />;
+        return <MdErrorOutline style={{ color: getColor(error), fontSize: '30px' }} />;
       case 'warning':
-        return <MdWarning style={{ color: getColor(warning) }} />;
+        return <MdWarning style={{ color: getColor(warning), fontSize: '30px' }} />;
       case 'success':
-        return <MdDoneAll style={{ color: getColor('#00c853') }} />;
+        return <MdDoneAll style={{ color: getColor('#00c853'), fontSize: '30px' }} />;
       default:
-        return <MdInfoOutline style={{ color: getColor(info) }} />;
+        return <MdInfoOutline style={{ color: getColor(info), fontSize: '30px' }} />;
     }
   };
 
@@ -63,13 +63,13 @@ export class NotificationContainer extends React.Component<unknown, State> {
 }
 
 const Container: React.FC<ContainerProps> = (props) => {
-  const css = style();
+  const css = style;
   const theme = DARK_THEME;
   const { notification, getIcon, color } = props;
 
   return (
     <Portal>
-      <div className={css.body}>
+      <div className={css}>
         <PoseGroup>
           {notification.map((notification, index) => (
             <NotificationTile style={notification.style || {}} key={`noti-${index}`}>

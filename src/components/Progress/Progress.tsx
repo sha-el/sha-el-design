@@ -6,7 +6,7 @@ import { style } from './style';
 
 export const Progress: React.FC<ProgressProps> = (props) => {
   const theme = useTheme();
-  const css = style({ props, theme });
+  const css = style(theme, props);
 
   if (props.type === 'circle') {
     const radius = 52;

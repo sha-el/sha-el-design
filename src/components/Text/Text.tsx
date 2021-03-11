@@ -12,7 +12,7 @@ import { classes } from '../../helpers';
  */
 export const Text: React.FunctionComponent<TextProps> = (props) => {
   const theme = useTheme();
-  const css = classes(style({ props, theme }).text, props.className);
+  const css = classes(style({ props, theme }), props.className);
 
   const element = {
     h1: <h1 />,
@@ -90,6 +90,11 @@ export interface TextProps {
    * Set Background
    */
   background?: keyof Theme | React.CSSProperties['background'];
+
+  /*
+   * Set monospace font.
+   */
+  monoFont?: boolean;
 
   className?: string;
 

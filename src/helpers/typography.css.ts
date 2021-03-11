@@ -4,10 +4,11 @@ a {
 }
 
 body {
-	font-family: "Roboto", sans-serif;
-	font-weight: normal;
+	font-family: 'Montserrat Alternates', sans-serif;
 	color: var(--color);
 	font-size: 14px;
+	font-weight: 400;
+	letter-spacing: 0.01071em;
 }
 
 @media only screen and (min-width: 0) {

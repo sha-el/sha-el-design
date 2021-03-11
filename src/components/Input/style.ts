@@ -1,61 +1,60 @@
 import { lightText, borderColor as borderColorHelper, disabledText } from '../../helpers/color';
 import { getColor } from '../../helpers';
-import { createUseStyles } from 'react-jss';
-import { theming } from '../Theme/Theme';
+import { css } from '@emotion/css';
 
-export const style = createUseStyles(
-  {
-    container: ({ theme, error, label, active, borderless, disabled, hover, props }) => {
-      const borderColor = error ? theme.error : borderColorHelper(theme.background);
+export const style = ({ theme, error, label, active, borderless, disabled, hover, before }) => {
+  const borderColor = error ? theme.error : borderColorHelper(theme.background);
 
-      const borderStyle = borderless
-        ? {
-            borderBottom: `1px ${disabled ? 'dotted' : 'solid'} ${borderColor}`,
-            borderRadius: '0',
-          }
-        : {
-            border: `1px ${disabled ? 'dotted' : 'solid'} ${borderColor}`,
-            borderTop: active && label ? 'none' : `1px ${disabled ? 'dotted' : 'solid'} ${borderColor}`,
-            borderRadius: '4px',
-          };
-
-      return {
-        ...borderStyle,
-        position: 'relative',
-        color: disabled ? disabledText(theme) : lightText(theme),
-        fontSize: '14px',
-        lineHeight: 1.12857,
-        cursor: 'text',
-        transition: 'background-color 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s',
-        marginBottom: (props.error !== undefined || props.hint !== undefined) && '12px',
-        '&:focus-within': !error && {
-          borderColor: theme.primary,
-          '& .seudo': {
-            color: theme.primary,
-          },
-          '& .label': {
-            color: theme.primary,
-            '&:after, &:before': {
-              borderColor: borderless ? 'transparent' : theme.primary,
-            },
-          },
-        },
-        '&:hover': hover && {
-          borderColor: (!disabled && 'rgb(9, 30, 66)') || undefined,
-          '& .label': {
-            color: !disabled ? lightText(theme) : undefined,
-            '&:after, &:before': {
-              borderColor: !disabled ? (borderless ? 'transparent' : 'rgb(9, 30, 66)') : undefined,
-            },
-          },
-          '& .seudo': {
-            color: 'rgb(9, 30, 66)',
-          },
-        },
+  const borderStyle = borderless
+    ? {
+        border: 'none',
+        borderBottom: `1px ${disabled ? 'dotted' : 'solid'} ${borderColor}`,
+        borderRadius: '0',
+      }
+    : {
+        border: `1px ${disabled ? 'dotted' : 'solid'} ${borderColor}`,
+        // borderTop: active && label ? 'none' : `1px ${disabled ? 'dotted' : 'solid'} ${borderColor}`,
+        borderRadius: '4px',
       };
-    },
-
-    input: ({ theme, disabled, borderless, before }) => ({
+  return {
+    container: css({
+      position: 'relative',
+      zIndex: 0,
+      color: disabled ? disabledText(theme) : lightText(theme),
+      fontSize: '14px',
+      lineHeight: 1.12857,
+      cursor: 'text',
+      transition: 'background-color 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s',
+      '&:focus-within': !error && {
+        '& fieldset': {
+          borderColor: theme.primary,
+        },
+        '& .seudo': {
+          color: theme.primary,
+        },
+        '& .label': {
+          color: theme.primary,
+          '&:after, &:before': {
+            borderColor: borderless ? 'transparent' : theme.primary,
+          },
+        },
+      },
+      '&:hover': hover && {
+        '& fieldset': {
+          borderColor: (!disabled && 'rgb(9, 30, 66)') || undefined,
+        },
+        '& .label': {
+          color: !disabled ? lightText(theme) : undefined,
+          '&:after, &:before': {
+            borderColor: !disabled ? (borderless ? 'transparent' : 'rgb(9, 30, 66)') : undefined,
+          },
+        },
+        '& .seudo': {
+          color: 'rgb(9, 30, 66)',
+        },
+      },
+    }),
+    input: css({
       fontSize: '14px',
       minWidth: '100%',
       display: 'inline',
@@ -67,11 +66,10 @@ export const style = createUseStyles(
       borderImage: 'initial',
       outline: 'none',
       lineHeight: '12px',
-      padding: `9px ${borderless ? '0' : before ? '5px' : '10px'}`,
+      padding: `9px ${borderless ? '0' : before ? '5px' : '14px'}`,
       color: disabled ? disabledText(theme) : getColor(theme.background),
       boxSizing: 'border-box',
       height: '36px',
-      fontFamily: '"Roboto", sans-serif',
       '&::placeholder': {
         color: '#aaaaaa',
       },
@@ -79,8 +77,7 @@ export const style = createUseStyles(
         cursor: 'not-allowed',
       },
     }),
-
-    textarea: ({ theme, disabled }) => ({
+    textarea: css({
       fontSize: '14px',
       minWidth: '0px',
       width: '100%',
@@ -95,86 +92,70 @@ export const style = createUseStyles(
       padding: '8px 5px',
       maxWidth: '100%',
       color: disabled ? disabledText(theme) : lightText(theme),
-      fontFamily: '"Roboto", sans-serif',
       '&::placeholder': {
         color: '#aaaaaa',
       },
     }),
-
-    label: ({ theme, disabled, active, borderless, error }) => {
-      const borderColor = error ? theme.error : borderColorHelper(theme.background);
-
-      return {
-        position: 'absolute',
-        display: 'flex',
-        alignSelf: 'center',
-        color: disabled ? disabledText(theme) : error ? active && theme.error : lightText(theme),
-        boxSizing: 'border-box',
-        left: 0,
-        top: -7,
-        height: '100%',
-        pointerEvents: 'none',
-        transition: 'line-height 0.2s',
-        '&:after, &:before': {
-          content: `''`,
-          display: 'block',
-          boxSizing: 'border-box',
-          marginTop: '6px',
-          borderTop: `${disabled ? 'dotted' : 'solid'} 1px`,
-          borderTopColor: active && !borderless ? borderColor : 'transparent',
-          minWidth: borderless ? '0px' : '10px',
-          height: '8px',
-          pointerEvents: 'none',
-          boxShadow: 'inset 0 1px transparent',
-          transition: 'border-color 0.2s, box-shadow 0.2s',
-        },
-        '&:before': {
-          marginRight: borderless ? '0px' : '4px',
-          borderTopLeftRadius: '4px',
-        },
-        '&:after': {
-          flexGrow: 1,
-          marginLeft: '4px',
-          borderTopRightRadius: '4px',
-        },
-
-        ...(active
-          ? {
-              fontSize: '10px',
-              fontWeight: 400,
-              lineHeight: '13px',
-              width: '100%',
-            }
-          : {
-              fontSize: '13px',
-              fontWeight: 300,
-              lineHeight: '51px',
-              width: '100%',
-            }),
-      };
-    },
-
-    help: {
-      width: '100%',
-      display: 'flex',
-      placeContent: 'space-between',
-      fontSize: '12px',
+    label: css({
       position: 'absolute',
-      bottom: '-18px',
-    },
+      color: disabled ? disabledText(theme) : error ? active && theme.error : lightText(theme),
+      left: 0,
+      top: 0,
+      zIndex: 1,
+      transform: active
+        ? `translate(${borderless ? '0px' : '14px'}, -5px) scale(0.75)`
+        : `translate(${borderless ? '0px' : '14px'}, 11.5px) scale(1)`,
+      pointerEvents: 'none',
+      transition: 'all 0.2s',
+      transformOrigin: 'top left',
+      display: 'block',
+    }),
+    fieldset: css({
+      ...borderStyle,
+      top: '-5px',
+      left: 0,
+      right: 0,
+      bottom: 0,
+      margin: 0,
+      padding: '0 8px',
+      overflow: 'hidden',
+      position: 'absolute',
+      pointerEvents: 'none',
+    }),
+    legend: css({
+      width: !label ? '0.01px' : 'auto',
+      height: '11px',
+      display: 'block',
+      padding: 0,
+      fontSize: '0.75em',
+      maxWidth: active ? '1000px' : '0.01px',
+      textAlign: 'left',
+      transition: `max-width ${active ? '100ms' : '50ms'} cubic-bezier(0.0, 0, 0.2, 1) 0ms`,
+      visibility: 'hidden',
+      '& span': {
+        display: 'inline-block',
+        paddingLeft: '5px',
+        paddingRight: '5px',
+      },
+    }),
+    help: css({
+      width: '100%',
+      fontSize: '.65rem',
+      lineHeight: 1.5,
+      marginTop: '1.5px',
+    }),
 
-    hint: {
+    hint: css({
       color: '#aaaaaa',
-    },
+    }),
 
-    error: ({ theme }) => ({
+    error: css({
       color: theme.error,
     }),
 
-    seudo: {
+    seudo: css({
       display: 'flex',
       alignItems: 'center',
-    },
-  },
-  { theming, name: 'sha-el-input' },
-);
+    }),
+  };
+};

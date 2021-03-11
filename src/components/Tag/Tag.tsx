@@ -1,3 +1,4 @@
+import { Theme } from '@emotion/react';
 import * as React from 'react';
 import { MdClear } from 'react-icons/md';
 import { useTheme } from '../Theme/Theme';
@@ -5,13 +6,13 @@ import { chipIconCss, style } from './style';
 
 export const Tag: React.FC<TagProps> = (props) => {
   const theme = useTheme();
-  const css = style({ props, theme });
+  const tagCss = style({ props, theme });
 
   return (
-    <span className={css.tag} onClick={() => props?.onClick()} style={props.style}>
+    <span className={tagCss} onClick={(e) => props?.onClick(e)} style={props.style}>
       {props.children}
       {props.chips && (
-        <span className={chipIconCss().chipIcon}>
+        <span className={chipIconCss}>
           <MdClear />
         </span>
       )}
@@ -20,10 +21,10 @@ export const Tag: React.FC<TagProps> = (props) => {
 };
 
 export interface TagProps {
-  color: string;
+  color: keyof Theme | 'light' | string;
   children: React.ReactNode;
-  onClick?: () => void;
-  textColor?: string;
+  onClick?: (e: React.MouseEvent) => void;
+  textColor?: keyof Theme | 'light' | string;
   style?: React.CSSProperties;
   outline?: boolean;
   chips?: boolean;

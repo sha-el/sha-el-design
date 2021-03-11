@@ -3,13 +3,14 @@ import RCTooltip from 'rc-tooltip';
 import { classes, isBrowser } from '../../helpers';
 import { useTheme } from '../Theme/Theme';
 import { style } from './style';
+import { elevationCss } from '../../helpers/elevations';
 
 export const Popover: React.FC<PopoverProps> = (props) => {
   const theme = useTheme();
   const [childWidth, updateChildWidth] = React.useState<number>();
   const [visible, updateVisible] = React.useState<boolean>(props.visible);
   const child = React.useRef<HTMLDivElement>();
-  const css = style({ theme, expand: props.expand || false, childWidth: childWidth });
+  const css = style(theme, props.expand || false, childWidth);
 
   React.useEffect(() => {
     updateVisible(props.visible);
@@ -53,7 +54,7 @@ export const Popover: React.FC<PopoverProps> = (props) => {
       trigger={triggers(trigger)}
       overlay={renderContent()}
       destroyTooltipOnHide={!preserveOnClose}
-      overlayClassName={classes(css.container, css[`elevation${elevation}`])}
+      overlayClassName={classes(css, elevationCss(elevation))}
       overlayStyle={containerStyle}
       onVisibleChange={(v) => {
         if (props.visible === undefined) {

@@ -7,6 +7,7 @@ import { CalendarProps } from '../Calendar/Calendar';
 import { TimePickerProps, TimePicker } from './TimePicker';
 import { Popover } from '../Popover';
 import { IoMdCalendar } from 'react-icons/io';
+import { Card } from '../..';
 
 export const DatePicker: React.FC<DatePickerProps> = (props) => {
   const {
@@ -43,8 +44,10 @@ export const DatePicker: React.FC<DatePickerProps> = (props) => {
               />
             </Col>
             {timePickerProps && (
-              <Col style={{ padding: '10px' }}>
-                <TimePicker {...timePickerProps} time={date || undefined} onChange={(t) => onChange(t)} />
+              <Col style={{ marginTop: '5px' }}>
+                <Card>
+                  <TimePicker {...timePickerProps} time={date || undefined} onChange={(t) => onChange(t)} />
+                </Card>
               </Col>
             )}
           </Row>

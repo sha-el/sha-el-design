@@ -1,18 +1,19 @@
-import { createUseStyles } from 'react-jss';
+import { css } from '@emotion/css';
 import { colorShades } from '../../helpers/color';
 import { shadow } from '../../helpers/style';
-import { Theme, theming } from '../Theme/Theme';
+import { Theme } from '../Theme/Theme';
+import { ProgressProps } from './Progress';
 
-export const style = createUseStyles(
-  (theme: Theme) => ({
-    container: {
+export const style = (theme: Theme, props: ProgressProps) => {
+  return {
+    container: css({
       width: '100%',
       minWidth: '200px',
       background: colorShades(theme.background)[2],
       borderRadius: '2px',
       overflow: 'visible',
-    },
-    line: ({ props }) => ({
+    }),
+    line: css({
       height: '10px',
       lineHeight: '10px',
       background: theme[props.status],
@@ -20,11 +21,10 @@ export const style = createUseStyles(
       transition: 'all .4s cubic-bezier(.08,.82,.17,1) 0s',
       boxShadow: shadow('BOT2X', theme, theme[props.status]),
     }),
-    circle: {
+    circle: css({
       transform: 'rotate(-90deg)',
       transformOrigin: '50% 50%',
       transition: '0.35s stroke-dashoffset',
-    },
-  }),
-  { theming, name: 'sha-el-progress' },
-);
+    }),
+  };
+};

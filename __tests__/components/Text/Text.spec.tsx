@@ -27,7 +27,6 @@ describe('Text', () => {
     text.click();
 
     expect(text).toHaveStyle(`
-      font-style: normal;
       color: rgba(0, 0, 0, 0.54);
     `);
   });
@@ -290,10 +289,10 @@ describe('Text', () => {
     `);
   });
 
-  it('should render a text with font weight equal to 0', () => {
+  it('should render a text with font weight equal to 700', () => {
     act(() => {
       ReactDOM.render(
-        <Text variant="p" fontWeight={0}>
+        <Text variant="p" fontWeight={700}>
           The quick brown fox jumps over the lazy dog
         </Text>,
         container,
@@ -302,8 +301,8 @@ describe('Text', () => {
 
     const text = document.querySelector('p');
 
-    expect(text).not.toHaveStyle(`
-      font-weight: normal;
+    expect(text).toHaveStyle(`
+      font-weight: 700;
     `);
   });
 

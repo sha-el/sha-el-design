@@ -49,7 +49,7 @@ export const Styling = () => (
     <Text padding="5px" variant="p">
       The quick brown fox jumps over the lazy dog
     </Text>
-    <Text padding="5px" variant="p">
+    <Text padding="5px" variant="p" monoFont>
       The quick brown fox jumps over the lazy dog
     </Text>
   </>

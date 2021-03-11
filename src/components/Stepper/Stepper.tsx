@@ -28,7 +28,7 @@ export interface StepProps {
 export const Stepper: React.FC<StepperProps> = (props) => {
   const { current = 0, nonLinear, onChange, direction = 'horizontal' } = props;
   const theme = useTheme();
-  const css = style({ theme, props });
+  const css = style(theme);
 
   const children: React.ReactElement[] = Array.isArray(props.children)
     ? (props.children as React.ReactElement[])

@@ -6,7 +6,7 @@ import { RadioProps } from './Radio';
 import { RadioGroup, RadioGroupProps } from './RadioGroup';
 
 export default {
-  title: 'Inputs/RadioButton',
+  title: 'Inputs/Radio Button',
   component: RadioButton,
   argTypes: {
     // backgroundColor: { control: 'color' },
@@ -18,7 +18,7 @@ export const Basic: Story<RadioProps> = (args) => {
   return <RadioButton label="Select" checked={checked} onChange={(e) => update(e.target.checked)} {...args} />;
 };
 
-export const WithGroup: Story<RadioGroupProps> = (args) => {
+export const WithRadioGroup: Story<RadioGroupProps> = (args) => {
   const [best, updatebest] = React.useState('Bruce');
 
   return (

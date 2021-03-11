@@ -8,7 +8,7 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
   const theme = useTheme();
   const css = style(theme);
 
-  return <RCTooltip {...props} overlayClassName={css.overlay} />;
+  return <RCTooltip {...props} overlayClassName={css} />;
 };
 
 export { TooltipProps };

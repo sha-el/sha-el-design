@@ -87,7 +87,7 @@ describe('CheckBox', () => {
       ReactDOM.render(<CheckBox label="Hello, World!" />, container);
     });
 
-    const label = document.querySelector('span');
+    const label = document.querySelector('label');
 
     expect(label.innerHTML).toBe('Hello, World!');
   });

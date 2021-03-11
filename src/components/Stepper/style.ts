@@ -1,40 +1,41 @@
-import { createUseStyles } from 'react-jss';
+import { css } from '@emotion/css';
 import { getColor } from '../../helpers';
 import { disabledColor, disabledText } from '../../helpers/color';
+import { Theme } from '../Theme/Theme';
 
-export const style = createUseStyles({
-  number: {
+export const style = (theme: Theme) => ({
+  number: css({
     borderRadius: '100%',
     width: '32px',
     height: '32px',
     textAlign: 'center',
-    color: ({ theme }) => disabledText(theme),
-    background: ({ theme }) => disabledColor(theme),
-  },
-  icon: {
+    color: disabledText(theme),
+    background: disabledColor(theme),
+  }),
+  icon: css({
     fontSize: '28px',
     paddingTop: '0',
     paddingBottom: '0',
-    color: ({ theme }) => disabledText(theme),
-  },
-  active: {
-    color: ({ theme }) => getColor(theme.primary),
-    background: ({ theme }) => theme.primary,
-  },
-  activeIcon: {
-    color: ({ theme }) => theme.primary,
-  },
-  error: {
-    color: ({ theme }) => theme.error,
-  },
-  success: {
-    color: ({ theme }) => theme.info,
-  },
-  clickable: {
+    color: disabledText(theme),
+  }),
+  active: css({
+    color: getColor(theme.primary),
+    background: theme.primary,
+  }),
+  activeIcon: css({
+    color: theme.primary,
+  }),
+  error: css({
+    color: theme.error,
+  }),
+  success: css({
+    color: theme.info,
+  }),
+  clickable: css({
     cursor: 'pointer',
-  },
-  disabled: {
-    color: ({ theme }) => disabledText(theme),
+  }),
+  disabled: css({
+    color: disabledText(theme),
     cursor: 'not-allowed',
-  },
+  }),
 });

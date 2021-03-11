@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { classes } from '../../helpers';
+import { elevationCss } from '../../helpers/elevations';
 import { Portal } from '../Popover/Portal';
 import { useTheme } from '../Theme/Theme';
 import { style as modalStyle } from './style';
@@ -26,7 +27,7 @@ export const Modal: React.FunctionComponent<ModalProps> = (props) => {
       <div key="mask" className={css.maskStyle} onClick={() => onClose && beforeClose()}>
         <div
           key="container"
-          className={classes(css.mediaQueries, css.modalContainer, css[`elevation${elevation}`], className)}
+          className={classes(css.mediaQueries, css.modalContainer, elevationCss(elevation), className)}
           style={{ width, ...style }}
           onClick={(e) => e.stopPropagation()}
         >

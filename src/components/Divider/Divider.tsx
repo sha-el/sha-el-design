@@ -6,7 +6,7 @@ import { style } from './style';
 export const Divider: React.FC<DividerProps> = (props) => {
   const theme = useTheme();
   const color = props.color;
-  const css = style({ color, theme });
+  const css = style(color, theme);
 
   return (
     <div

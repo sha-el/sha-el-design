@@ -32,11 +32,11 @@ export const ListItem: React.FC<ListItemProps> = (props) => {
   } = props;
 
   const theme = useTheme();
-  const css = listStyle({ background: theme.background });
+  const css = listStyle(theme.background);
 
   const Element: React.FC<unknown> = (p) =>
     React.cloneElement(props.element || <li />, {
-      className: classes(css.listItem, props.className, 'list-item'),
+      className: classes(props.className, css, 'list-item'),
       onClick: onClick,
       style: {
         background: selected && theme.primary,

@@ -3,17 +3,17 @@ import { classes } from '../../helpers';
 import { cardMediaStyle } from './style';
 
 export const CardMedia: React.FC<CardMediaProps> = (props) => {
-  const css = cardMediaStyle({ props });
+  const css = cardMediaStyle(props);
 
   const { className, image: __image, height: __height, ...rest } = props;
   return (
-    <div className={classes(className, css.image)} {...rest}>
+    <div className={classes(className, css)} {...rest}>
       {props.children}
     </div>
   );
 };
 
-interface CardMediaProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+export interface CardMediaProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   image?: string;
   height?: string;
 }

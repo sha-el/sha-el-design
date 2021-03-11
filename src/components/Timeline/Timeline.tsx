@@ -4,19 +4,21 @@ import { timeline as style, timelineStyle } from './style';
 
 export const Timeline: React.FC<TimelineProps> = (props) => {
   timelineStyle();
-  const css = style();
+  const css = style;
   if (Array.isArray(props.children)) {
     return (
-      <div className={classes('timeline', `timeline-${props.position}`)}>
-        {props.children.map((v, i) => {
-          const position = getPosition(i, props.position);
-          return React.cloneElement(v as React.ReactElement, { position, key: `timeline-item-${i}` });
-        })}
-      </div>
+      <span className={timelineStyle()}>
+        <div className={classes('timeline', `timeline-${props.position}`)}>
+          {props.children.map((v, i) => {
+            const position = getPosition(i, props.position);
+            return React.cloneElement(v as React.ReactElement, { position, key: `timeline-item-${i}` });
+          })}
+        </div>
+      </span>
     );
   }
   return (
-    <div className={classes('timeline', `timeline-${props.position}`, css.container)}>
+    <div className={classes('timeline', `timeline-${props.position}`, css)}>
       {React.cloneElement(props.children as React.ReactElement, { position: getPosition(0, props.position) })}
     </div>
   );

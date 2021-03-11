@@ -2,7 +2,7 @@ import React from 'react';
 import { Story, Meta } from '@storybook/react';
 
 import { Skeleton } from '.';
-import { LoadingProps } from './Loading';
+import { SkeletonProps } from './Skeleton';
 
 export default {
   title: 'Feedback/Skeleton',
@@ -12,21 +12,9 @@ export default {
   },
 } as Meta;
 
-const Template: Story<LoadingProps> = (args) => <Skeleton {...args} />;
+const Template: Story<SkeletonProps> = (args) => <Skeleton {...args} />;
 
 export const Basic = Template.bind({});
 Basic.args = {
-  isLoading: true,
-};
-
-export const Size = Template.bind({});
-Size.args = {
-  size: 'big',
-  isLoading: true,
-};
-
-export const Color = Template.bind({});
-Color.args = {
-  color: 'red',
   isLoading: true,
 };

@@ -3,7 +3,7 @@ import { useTheme } from '../Theme/Theme';
 import { style } from './style';
 
 export const Carousel: React.FC<CarouselProps> = (props) => {
-  const [sliderIndex, setSlideIndex] = React.useState(props.current || 0);
+  const [sliderIndex, setSlideIndex] = React.useState(Number(props.current) || 0);
   React.useEffect(() => {
     let cTimeout = null;
     if (props.autoScroll) {
@@ -21,7 +21,7 @@ export const Carousel: React.FC<CarouselProps> = (props) => {
   }, [props.current]);
 
   const theme = useTheme();
-  const css = style({ theme });
+  const css = style(theme);
 
   return (
     <div className={css.container} style={{ width: props.width }}>
@@ -54,6 +54,10 @@ export const Carousel: React.FC<CarouselProps> = (props) => {
       )}
     </div>
   );
+};
+
+Carousel.defaultProps = {
+  current: 0,
 };
 
 const getItemWidth = (len: number) => {

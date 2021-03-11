@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Text } from '../Text';
 import { MdCheckBox, MdCheckBoxOutlineBlank, MdIndeterminateCheckBox } from 'react-icons/md';
 import { Col, Row } from '../Grid';
-import { disabledColor } from '../../helpers/color';
+import { disabledColor, lightText } from '../../helpers/color';
 import { Theme, useTheme } from '../Theme/Theme';
 import { style } from './style';
 
@@ -18,7 +18,7 @@ export const CheckBox: React.FC<CheckBoxProps> = (props) => {
   };
 
   const theme = useTheme();
-  const css = style({ theme, checked, color, disabled });
+  const css = style(disabled, theme, checked, color);
 
   return (
     <Row alignItems="center" gutter={[0, 0]} className={css.container} onClick={() => !disabled && onContainerClick()}>
@@ -44,7 +44,12 @@ export const CheckBox: React.FC<CheckBoxProps> = (props) => {
         )}
       </Col>
       <Col flex="1 0 auto">
-        <Text color={disabled && disabledColor(theme)} fontSize="1rem" margin="0 0 0 9px">
+        <Text
+          variant="label"
+          color={(disabled && disabledColor(theme)) || lightText(theme)}
+          fontSize="13px"
+          margin="0 0 0 9px"
+        >
           {label}
         </Text>
       </Col>

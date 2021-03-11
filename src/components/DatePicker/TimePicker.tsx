@@ -50,7 +50,7 @@ export const TimePicker: React.FC<TimePickerProps> = (props) => {
     }
   };
 
-  const css = style();
+  const css = style;
 
   return (
     <>
@@ -92,14 +92,14 @@ export const TimePicker: React.FC<TimePickerProps> = (props) => {
 };
 
 const content = (
-  css: Record<'timePicker', string>,
+  css: string,
   props: TimePickerProps,
   onChange: (h?: number, m?: number, s?: number) => void,
   time: Date,
   updateVisible: (v: boolean) => void,
   refs: Record<'hourEl' | 'minEl' | 'secEl', React.MutableRefObject<HTMLDivElement>>,
 ) => (
-  <div className={css.timePicker}>
+  <div className={css}>
     <Row gutter={[0, 0]}>
       <Col span={6} className="hour-column" ref={refs.hourEl}>
         {arrayBetween(0, !props.use12Hour ? 24 : 12).map((v) => (

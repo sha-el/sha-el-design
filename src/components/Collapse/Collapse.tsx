@@ -1,22 +1,16 @@
 import * as React from 'react';
-import { lightText } from '../../helpers/color';
 
 import { List, CollapsibleList } from '../List';
 import { Text } from '../Text';
-import { ThemeConsumer } from '../Theme/Theme';
 import { style } from './style';
 
 export const Collapse: React.FC<CollapseProps> = (props) => {
   const { header, children, isOpen, onChange } = props;
 
   return (
-    <List>
-      <CollapsibleList
-        open={isOpen}
-        onChange={onChange}
-        header={<ThemeConsumer>{(theme) => <Text color={lightText(theme)}>{header}</Text>}</ThemeConsumer>}
-      >
-        <div className={style().content}>{children}</div>
+    <List style={{ borderRadius: '0' }}>
+      <CollapsibleList open={isOpen} onChange={onChange} header={<Text color="light">{header}</Text>}>
+        <div className={style}>{children}</div>
       </CollapsibleList>
     </List>
   );

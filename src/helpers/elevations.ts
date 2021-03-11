@@ -13,9 +13,9 @@ function createShadow(lightTheme = true, ...px: number[]) {
   }
 
   return [
-    `${px[0]}px ${px[1]}px ${px[2]}px ${px[3]}px rgba(0,0,0,${shadowKeyUmbraOpacity})`,
-    `${px[4]}px ${px[5]}px ${px[6]}px ${px[7]}px rgba(0,0,0,${shadowKeyPenumbraOpacity})`,
-    `${px[8]}px ${px[9]}px ${px[10]}px ${px[11]}px rgba(0,0,0,${shadowAmbientShadowOpacity})`,
+    `${px[0]}px ${px[1]}px ${px[2]}px ${px[3]}px rgba(34,41,47,${shadowKeyUmbraOpacity})`,
+    `${px[4]}px ${px[5]}px ${px[6]}px ${px[7]}px rgba(34,41,47,${shadowKeyPenumbraOpacity})`,
+    `${px[8]}px ${px[9]}px ${px[10]}px ${px[11]}px rgba(34,41,47,${shadowAmbientShadowOpacity})`,
   ].join(',');
 }
 
@@ -75,19 +75,49 @@ const darkThemeShadows = [
   createShadow(false, 0, 11, 15, -7, 0, 24, 38, 3, 0, 9, 46, 8),
 ];
 
-const elevations = (theme: Theme) => {
-  const values: { [key: string]: { boxShadow: string } } = {};
+export const initElevations = (theme: Theme) => {
+  let values = '';
   const color = csxColor(theme.bodyBg);
 
   const shadows: string[] = color.lightness() < 0.7 ? lightThemeShadows : darkThemeShadows;
 
   shadows.forEach((shadow, index) => {
-    values[`elevation${index}`] = {
-      boxShadow: shadow,
-    };
+    values += `
+    .elevation-level-${index} {
+      box-shadow: ${shadow};
+    }
+    `;
   });
 
   return values;
 };
 
-export default elevations;
+export const elevationCss = (num: number) => `elevation-level-${num}`;
+
+export enum Elevation {
+  elevation_0 = 'elevation-level-0',
+  elevation_1 = 'elevation-level-1',
+  elevation_2 = 'elevation-level-2',
+  elevation_3 = 'elevation-level-3',
+  elevation_4 = 'elevation-level-4',
+  elevation_5 = 'elevation-level-5',
+  elevation_6 = 'elevation-level-6',
+  elevation_7 = 'elevation-level-7',
+  elevation_8 = 'elevation-level-8',
+  elevation_9 = 'elevation-level-9',
+  elevation_10 = 'elevation-level-10',
+  elevation_11 = 'elevation-level-11',
+  elevation_12 = 'elevation-level-12',
+  elevation_13 = 'elevation-level-13',
+  elevation_14 = 'elevation-level-14',
+  elevation_15 = 'elevation-level-15',
+  elevation_16 = 'elevation-level-16',
+  elevation_17 = 'elevation-level-17',
+  elevation_18 = 'elevation-level-18',
+  elevation_19 = 'elevation-level-19',
+  elevation_20 = 'elevation-level-20',
+  elevation_21 = 'elevation-level-21',
+  elevation_22 = 'elevation-level-22',
+  elevation_23 = 'elevation-level-23',
+  elevation_24 = 'elevation-level-24',
+}

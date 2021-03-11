@@ -48,7 +48,7 @@ const Inner: React.FC<InnerProps> = (props) => {
   const { width, toggle } = props;
 
   const theme = useTheme();
-  const css = style({ theme, width });
+  const css = style(theme, width);
 
   return (
     <>

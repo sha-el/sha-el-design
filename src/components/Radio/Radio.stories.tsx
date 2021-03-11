@@ -1,7 +1,7 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 
-import { Radio } from '.';
+import { Radio, RadioGroup } from '.';
 import { RadioProps } from './Radio';
 
 export default {
@@ -21,8 +21,13 @@ Label.args = {
   label: 'Label',
 };
 
-export const Error = Template.bind({});
-Error.args = {
-  label: 'Label',
-  error: 'error',
+export const withRadioGroup: Story<RadioProps> = (args) => {
+  const [best, updatebest] = React.useState('Bruce');
+
+  return (
+    <RadioGroup {...args} value={best} name="rich" onChange={(e) => updatebest(e.target.value)}>
+      <Radio value="Bruce" label="Bruce" />
+      <Radio value="Stark" label="Stark" />
+    </RadioGroup>
+  );
 };

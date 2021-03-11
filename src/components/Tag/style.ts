@@ -1,19 +1,24 @@
-import { createUseStyles } from 'react-jss';
+import { css } from '@emotion/css';
 import { getColor } from '../../helpers';
+import { lightText } from '../../helpers/color';
 import { shadow } from '../../helpers/style';
+import { Theme } from '../Theme/Theme';
 import { TagProps } from './Tag';
 
-const borderStyle = (props: TagProps) => {
+const borderStyle = (props: TagProps, theme: Theme) => {
+  const background = props.color === 'light' ? lightText(theme) : theme[props.color] || props.color;
+  const color = props.textColor === 'light' ? lightText(theme) : theme[props.textColor] || props.textColor;
+
   if (!props.outline) {
     return {
-      background: props.color,
-      color: props.textColor || getColor(props.color),
+      background,
+      color: color || getColor(props.color),
     };
   }
 
   return {
-    border: '1px solid ' + props.color,
-    color: props.textColor || props.color,
+    border: '1px solid ' + background,
+    color: color || background,
   };
 };
 
@@ -37,37 +42,28 @@ const sizeCss = (size: TagProps['size']) => {
   };
 };
 
-export const chipIconCss = createUseStyles(
-  {
-    chipIcon: {
-      marginLeft: '5px',
-      display: 'inline-flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
+export const chipIconCss = css({
+  chipIcon: {
+    marginLeft: '5px',
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  { name: 'sha-el-chip-tag' },
-);
+});
 
-export const style = createUseStyles(
-  {
-    tag: ({ props, theme }) => {
-      return {
-        ...borderStyle(props),
-        ...sizeCss(props.size),
-        fontWeight: 500,
-        margin: '5px',
-        display: 'inline-flex',
-        boxShadow: shadow('DEFAULT', theme),
-        cursor: props.onClick && 'pointer',
-        textTransform: 'uppercase',
-        textAlign: 'center',
-        borderRadius: props.chips ? '16px' : '4px',
-        letterSpacing: '0.02857em',
-        boxSizing: 'border-box',
-        alignItems: 'center',
-      };
-    },
-  },
-  { name: 'sha-el-tag' },
-);
+export const style = ({ props, theme }: { props: TagProps; theme: Theme }) =>
+  css({
+    ...borderStyle(props, theme),
+    ...sizeCss(props.size),
+    fontWeight: 500,
+    margin: '5px',
+    display: 'inline-flex',
+    boxShadow: shadow('DEFAULT', theme),
+    cursor: props.onClick ? 'pointer' : 'default',
+    textTransform: 'uppercase',
+    textAlign: 'center',
+    borderRadius: props.chips ? '16px' : '4px',
+    letterSpacing: '0.02857em',
+    boxSizing: 'border-box',
+    alignItems: 'center',
+  });

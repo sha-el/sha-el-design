@@ -10,10 +10,10 @@ export const CardHeader: React.FC<CardHeaderProps> = (props) => {
   const { children, subtitle, className, action, ...restProps } = props;
 
   const theme = useTheme();
-  const css = cardHeaderStyle();
+  const css = cardHeaderStyle;
 
   return (
-    <div className={classes(css.header, className)} {...restProps}>
+    <div className={classes(css, className)} {...restProps}>
       <Row gutter={[0, 0]} alignItems="center">
         <Col flex="1 0 auto">
           <Text variant="h5" margin="0">

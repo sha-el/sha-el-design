@@ -19,7 +19,6 @@ export const Basic = Template.bind({});
 export const CellAppend = Template.bind({});
 CellAppend.args = {
   cellRender: (date: Date, week: weeksEnum) => {
-    console.log(date);
     if (week === weeksEnum.SUNDAY) {
       return <div style={{ background: 'red', color: 'white', width: '100%' }}>{date.getDate()}</div>;
     }

@@ -15,7 +15,7 @@ export const Col: React.FC<ColProps> = React.forwardRef((props, ref) => {
     ...rest
   } = props;
   return (
-    <div ref={ref} className={classes(className, colStyle()(props).col, 'sha-el-col')} {...rest}>
+    <div ref={ref} className={classes(className, colStyle(props), 'sha-el-col')} {...rest}>
       {children}
     </div>
   );

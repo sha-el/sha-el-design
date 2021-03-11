@@ -20,7 +20,7 @@ export const Container: React.FC<ContainerProps> = (props) => {
 
   return (
     <SidePanelContext.Provider value={{ width, updateWidth, toggle }}>
-      <div className={style().container}>{props.children}</div>
+      <div className={style}>{props.children}</div>
     </SidePanelContext.Provider>
   );
 };

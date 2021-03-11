@@ -39,7 +39,7 @@ export const Button: React.FC<ButtonProps> = (props) => {
   };
 
   const theme = useTheme();
-  const css = style({ props, theme });
+  const css = style(theme, props);
 
   if (rest.href !== undefined || link) {
     return (

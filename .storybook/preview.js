@@ -21,7 +21,6 @@ export const globalTypes = {
 
 const withThemeProvider=(Story,context)=>{
   const theme = context.globals.theme;
-  console.log(theme);
   return (
     <ThemeProvider theme={theme}>
       <div style={{ minWidth: '400px' }}><Story {...context} /></div>

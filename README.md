@@ -7,10 +7,13 @@
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md)
 ![CI](https://github.com/sha-el/sha-el-design/workflows/CI/badge.svg)
 [![codecov](https://codecov.io/gh/sha-el/sha-el-design/branch/master/graph/badge.svg?token=W010DZJ1U3)](https://codecov.io/gh/sha-el/sha-el-design)
+![gziped size](https://badgen.net/bundlephobia/minzip/sha-el-design)
+![npm version](https://badgen.net/npm/v/sha-el-design)
+![weekly downloads](https://badgen.net/npm/dw/sha-el-design)
 
 <div align="center">
 
-[React](https://reactjs.org/) components for easier customization and smooth development flow. Based heavily on [Material-Ui](https://material-ui.com/) and [Ant Design](https://ant.design/).
+[React](https://reactjs.org/) components for easier customization and smooth development flow.
 
 </div>
 
@@ -20,7 +23,7 @@
 - 📦 A complete package of ui resource for any React project.
 - 🛡 Made with ❤ using Typescript.
 - 🎨 Easy theme customization using `ThemeContext`.
-- 🤏 Smaller Footprint @ 75kb GZIPED.
+- 🤏 Smaller Footprint @ 102kb GZIPED.
 
 ## 🎛 Environment Support
 
@@ -54,7 +57,7 @@ import {Button} from 'sha-el-design';
 
 function App() {
   return (
-    <Button type='primary'>Hello World</Button>
+    <Button primary>Hello World</Button>
   );
 }
 
@@ -71,7 +74,7 @@ Check out our [Storybook](https://sha-el-design.netlify.app/).
 
 ## 🎨 Theming
 
-Sha-el-design supports Theming(DARK 👻 and LIGHT) out of box using `ThemeContext`.
+Sha-el-design supports Theming(DARK 👻, LIGHT and more) out of box using `ThemeContext`.
 
 ```jsx
 import * as React from 'react';
