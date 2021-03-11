@@ -7,7 +7,7 @@ export const cardStyle = (theme: Theme) =>
     background: theme.background,
     boxSizing: 'border-box',
     padding: '16px',
-    borderRadius: '5px',
+    borderRadius: '6.5px',
   });
 
 export const cardHeaderStyle = css({

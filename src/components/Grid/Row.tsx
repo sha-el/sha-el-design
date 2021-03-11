@@ -3,14 +3,26 @@ import { classes } from '../../helpers';
 import { flexPosition, rowStyle } from './style';
 
 export const Row: React.FC<RowProps> = (props) => {
-  const { className } = props;
+  const {
+    className,
+    onClick,
+    style,
+    children,
+    gutter: __gutter,
+    justifyContent: __justifyContent,
+    alignItems: __alignItems,
+    wrap: __wrap,
+    flexDirection: __flexDirection,
+    ...rest
+  } = props;
   return (
     <div
-      onClick={props.onClick}
+      onClick={onClick}
       className={classes(rowStyle, flexPosition(props), className, 'sha-el-row')}
-      style={props.style}
+      style={style}
+      {...rest}
     >
-      {props.children}
+      {children}
     </div>
   );
 };
@@ -22,7 +34,7 @@ Row.defaultProps = {
   flexDirection: 'row',
 };
 
-export interface RowProps {
+export interface RowProps extends React.HtmlHTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   style?: React.CSSProperties;
   /**

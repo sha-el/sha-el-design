@@ -80,16 +80,16 @@ export const BaseInputComponent: React.FC<BaseInputProps | BaseTextAreaProps> = 
           {React.cloneElement(children, {
             className: css.input,
             required,
-            ref: (e) => {
+            ref: (e: HTMLInputElement) => {
               getElement && getElement(e);
               input.current = e;
               return e;
             },
-            onFocus: (e) => {
+            onFocus: (e: React.FocusEvent<HTMLInputElement> & React.FocusEvent<HTMLTextAreaElement>) => {
               onFocus && onFocus(e);
               updateFocused(true);
             },
-            onBlur: (e) => {
+            onBlur: (e: React.FocusEvent<HTMLInputElement> & React.FocusEvent<HTMLTextAreaElement>) => {
               onBlur && onBlur(e);
               updateFocused(false);
             },

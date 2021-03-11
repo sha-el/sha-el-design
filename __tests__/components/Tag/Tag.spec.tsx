@@ -45,9 +45,7 @@ describe('Tag', () => {
     font-size: 0.8125rem;
     min-width: 64px;
     background: red;
-    box-shadow: 0 3px 1px -2px #E8EAFC,
-      0 2px 2px 0 #B2B2B21A,
-      0 1px 5px 0 #9A9A9A1A;
+    box-shadow: 0 3px 1px -2px #E8EAFC,0 2px 2px 0 #B2B2B21A,0 1px 5px 0 #9A9A9A1A;
     box-sizing: border-box;
     text-align: center;
     align-items: center;

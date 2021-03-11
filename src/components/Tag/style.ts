@@ -17,7 +17,7 @@ const borderStyle = (props: TagProps, theme: Theme) => {
   }
 
   return {
-    border: '1px solid ' + color,
+    border: '1px solid ' + background,
     color: color || background,
   };
 };

@@ -28,13 +28,11 @@ describe('BaseInputComponent', () => {
 
     expect(inputDiv).toHaveStyle(`
       color: rgba(0, 0, 0, 0.54);
-      border: 1px solid hsla(0,0%,0%,.2);
       cursor: text;
       position: relative;
       font-size: 14px;
       transition: background-color 0.2s ease-in-out 0s,border-color 0.2s ease-in-out 0s;
       line-height: 1.12857;
-      border-radius: 4px;
     `);
 
     expect(input).toHaveAttribute('placeholder', 'placeholder');
@@ -43,13 +41,12 @@ describe('BaseInputComponent', () => {
       height: 36px;
       display: inline;
       outline: none;
-      padding: 9px 10px;
+      padding: 9px 14px;
       font-size: 14px;
       max-width: 100%;
       min-width: 100%;
       background: transparent;
       box-sizing: border-box;
-      font-family: "Roboto",sans-serif;
       line-height: 12px;
       border: 2px inset;
     `);
@@ -69,13 +66,12 @@ describe('BaseInputComponent', () => {
       height: 36px;
       display: inline;
       outline: none;
-      padding: 9px 10px;
+      padding: 9px 14px;
       font-size: 14px;
       max-width: 100%;
       min-width: 100%;
       background: transparent;
       box-sizing: border-box;
-      font-family: "Roboto",sans-serif;
       line-height: 12px;
       border: 1px solid;
     `);
@@ -86,9 +82,9 @@ describe('BaseInputComponent', () => {
       ReactDOM.render(<Input borderless />, container);
     });
 
-    const inputDiv = document.querySelector('.sha-el-input');
+    const fieldset = document.querySelector('fieldset');
 
-    expect(inputDiv).toHaveStyle(`
+    expect(fieldset).toHaveStyle(`
       border-bottom: 1px solid hsla(0,0%,0%,.2);
       border-radius: 0;
     `);
@@ -99,9 +95,9 @@ describe('BaseInputComponent', () => {
       ReactDOM.render(<Input disabled borderless />, container);
     });
 
-    const inputDiv = document.querySelector('.sha-el-input');
+    const fieldset = document.querySelector('fieldset');
 
-    expect(inputDiv).toHaveStyle(`
+    expect(fieldset).toHaveStyle(`
       border-bottom: 1px dotted hsla(0,0%,0%,.2);
       border-radius: 0;
     `);
@@ -113,36 +109,30 @@ describe('BaseInputComponent', () => {
     });
 
     const input = document.querySelector('input');
-    const label = document.querySelector('span');
+    const label = document.querySelector('label');
 
     expect(label.innerHTML).toBe('label ');
     expect(label).toHaveStyle(`
-      top: -7px;
-      left: 0px;
-      color: rgba(0, 0, 0, 0.54);
-      width: 100%;
-      height: 100%;
-      display: flex;
       position: absolute;
-      font-size: 13px;
-      align-self: center;
-      box-sizing: border-box;
-      transition: line-height 0.2s;
-      font-weight: 300;
-      line-height: 51px;
+      color: rgba(0, 0, 0, 0.54);
+      left: 0;
+      top: 0;
+      z-index: 1;
+      transform: translate(14px, 11.5px) scale(1);
       pointer-events: none;
+      transition: all 0.2s;
+      transform-origin: top left;
+      display: block;
     `);
 
     input.focus();
     expect(label).toHaveStyle(`
-      font-size: 10px;
-      line-height: 13px;
+      transform: translate(14px, -5px) scale(0.75);
     `);
 
     input.blur();
     expect(label).toHaveStyle(`
-      font-size: 13px;
-      line-height: 51px;
+      transform: translate(14px, 11.5px) scale(1);
     `);
   });
 
@@ -174,7 +164,7 @@ describe('BaseInputComponent', () => {
       ReactDOM.render(<Input label="label" required />, container);
     });
 
-    const label = document.querySelector('span');
+    const label = document.querySelector('label');
     const required = label.querySelector('span');
 
     expect(required.innerHTML).toBe('*');
@@ -219,7 +209,7 @@ describe('BaseInputComponent', () => {
     expect(help).toHaveStyle(`
       width: 100%;
       display: flex;
-      font-size: 12px;
+      font-size: .65rem;
     `);
   });
 

@@ -44,7 +44,6 @@ describe('Button', () => {
       background: rgb(235, 235, 235);
       box-sizing: border-box;
       text-align: center;
-      font-family: "Roboto", "Helvetica", "Arial", sans-serif;
       font-weight: 500;
       line-height: 36px;
       white-space: nowrap;

@@ -57,7 +57,7 @@ import {Button} from 'sha-el-design';
 
 function App() {
   return (
-    <Button type='primary'>Hello World</Button>
+    <Button primary>Hello World</Button>
   );
 }
 

@@ -9,7 +9,7 @@ export const list = (theme: Theme, densed: boolean, background: string, inline: 
     listStyle: 'none',
     width: '100%',
     boxSizing: 'border-box',
-    borderRadius: '5px',
+    borderRadius: '6px',
     background: background,
     display: 'block',
     '& .list-item': {

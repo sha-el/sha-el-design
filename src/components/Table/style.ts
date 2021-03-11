@@ -22,7 +22,7 @@ export const style = ({ theme, nested, clickableRow }: { theme: Theme; nested: b
     fontSize: '12px',
     color: lightText(theme),
     borderBottom: '2px solid ' + borderColor(theme.bodyBg),
-    cursor: 'default',
+    cursor: 'default !important',
     '&:hover': {
       background: theme.background,
     },
