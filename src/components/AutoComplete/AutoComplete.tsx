@@ -77,6 +77,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
                 key={uniqueIdentifier(v)}
                 selected={this.isItemSelected(v) || selected === i}
                 onClick={() => this.onChange(v)}
+                onMouseEnter={() => this.setState({ selected: i })}
               >
                 {listDisplayProp(v)}
               </ListItem>
@@ -178,7 +179,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
     const { mode, value, onChange, uniqueIdentifier } = this.props;
     if (mode === 'single') {
       onChange(selected as never);
-      this.setState({ open: false, search: '' });
+      this.setState({ search: '' }, () => this.onOpen(false));
       return;
     }
 
@@ -195,7 +196,11 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
 
   onKeyDown = (e: React.KeyboardEvent) => {
     const { data, selected, open } = this.state;
+    e.preventDefault();
     switch (e.key) {
+      case 'Escape': {
+        return this.onOpen(false);
+      }
       case 'ArrowDown': {
         if (!open) {
           return this.onOpen(true);
