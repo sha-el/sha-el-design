@@ -34,7 +34,6 @@ export const sidePanel = (theme: Theme, width: number) => {
       background,
       transition: '.3s all',
       overflow: 'auto',
-      zIndex: 1,
       left: 0,
       top: 0,
       overflowX: 'visible',
@@ -80,7 +79,6 @@ export const sidePanel = (theme: Theme, width: number) => {
       left: '0',
       width: '60px',
       background,
-      zIndex: 2,
     }),
   };
 };

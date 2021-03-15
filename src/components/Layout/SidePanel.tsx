@@ -8,6 +8,7 @@ import { TabPanelContainer } from '../Tabs';
 import { classes } from '../../helpers';
 import { sidePanel as style } from './style';
 import { useTheme } from '../Theme/Theme';
+import { elevationCss } from '../../helpers/elevations';
 
 export const SidePanel: React.FC<SidePanelProps> = (props) => {
   return (
@@ -52,9 +53,9 @@ const Inner: React.FC<InnerProps> = (props) => {
 
   return (
     <>
-      <div className={classes(css.container, css['elevation2'])}>
+      <div className={classes(css.container, elevationCss(2))}>
         <Row gutter={[0, '0 5px 0 5px']} style={{ overflowX: 'hidden', maxWidth: width + 'px' }} wrap="nowrap">
-          <Col flex="0 0 60px" className={css['elevation3']}>
+          <Col flex="0 0 60px" className={elevationCss(3)}>
             {props.logo && <div className={css.logo}>{props.logo}</div>}
             {children.map((v, i) => (
               <div className={css.item} key={`item-${i}`} onClick={() => onOpen(v, i, false, toggle)}>
