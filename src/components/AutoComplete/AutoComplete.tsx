@@ -196,7 +196,6 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
 
   onKeyDown = (e: React.KeyboardEvent) => {
     const { data, selected, open } = this.state;
-    e.preventDefault();
     switch (e.key) {
       case 'Escape': {
         return this.onOpen(false);
@@ -224,6 +223,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
         return this.setState({ selected: selected - 1 });
       }
       case 'Enter': {
+        e.preventDefault();
         if (selected === -1) {
           return;
         }
