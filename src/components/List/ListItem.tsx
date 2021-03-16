@@ -7,7 +7,7 @@ import { Text } from '../Text';
 import { RowProps } from '../Grid/Row';
 import { classes, getColor } from '../../helpers';
 
-export interface ListItemProps {
+export interface ListItemProps extends Omit<React.HtmlHTMLAttributes<HTMLLIElement>, 'onChange'> {
   subtitle?: React.ReactNode;
   avatar?: React.ReactNode;
   action?: React.ReactNode;
@@ -29,14 +29,17 @@ export const ListItem: React.FC<ListItemProps> = (props) => {
     action,
     selected,
     gutter = [0, '12px 16px 12px 18px'],
+    element,
+    className,
+    ...rest
   } = props;
 
   const theme = useTheme();
   const css = listStyle(theme.background);
 
   const Element: React.FC<unknown> = (p) =>
-    React.cloneElement(props.element || <li />, {
-      className: classes(props.className, css, 'list-item'),
+    React.cloneElement(element || <li />, {
+      className: classes(className, css, 'list-item'),
       onClick: onClick,
       style: {
         background: selected && theme.primary,
@@ -47,7 +50,7 @@ export const ListItem: React.FC<ListItemProps> = (props) => {
     });
 
   return (
-    <Element>
+    <Element {...rest}>
       <Row wrap="nowrap" gutter={gutter} alignItems="center">
         {avatar && <Col flex="0 1 auto">{avatar}</Col>}
         {children && (
