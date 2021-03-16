@@ -3,10 +3,8 @@ import { BaseInputProps, BaseInputComponent } from './BaseInputComponent';
 
 export type InputProps = Omit<BaseInputProps, 'children'>;
 
-export const Input: React.FC<Omit<InputProps, 'children'>> = (props) => {
-  return (
-    <BaseInputComponent {...props}>
-      <input />
-    </BaseInputComponent>
-  );
-};
+export const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => (
+  <BaseInputComponent {...props}>
+    <input ref={ref} />
+  </BaseInputComponent>
+));
