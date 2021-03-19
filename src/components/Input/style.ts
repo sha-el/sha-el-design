@@ -156,6 +156,7 @@ export const style = ({ theme, error, label, active, borderless, disabled, hover
     seudo: css({
       display: 'flex',
       alignItems: 'center',
+      flexWrap: 'wrap',
     }),
   };
 };

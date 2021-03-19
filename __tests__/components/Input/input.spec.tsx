@@ -140,11 +140,7 @@ describe('BaseInputComponent', () => {
     let focus, blur, inputEvent;
     act(() => {
       ReactDOM.render(
-        <Input
-          onFocus={(e) => (focus = e.type)}
-          onBlur={(e) => (blur = e.type)}
-          getElement={(e) => (inputEvent = e)}
-        />,
+        <Input onFocus={(e) => (focus = e.type)} onBlur={(e) => (blur = e.type)} ref={(e) => (inputEvent = e)} />,
         container,
       );
     });
@@ -156,7 +152,7 @@ describe('BaseInputComponent', () => {
     input.blur();
     expect(blur).toBe('blur');
 
-    expect(inputEvent).toBe(input);
+    expect(inputEvent.innerHTML).toBe(input.innerHTML);
   });
 
   it('should render an input with required label', () => {

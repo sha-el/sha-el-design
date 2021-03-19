@@ -172,6 +172,9 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
   };
 
   onSearch = (search: string) => {
+    if (!this.state.open) {
+      return;
+    }
     this.setState({ search }, this.fetchData);
   };
 
