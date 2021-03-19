@@ -227,6 +227,24 @@ describe('Single AutoComplete', () => {
       background: rgb(83, 109, 254);
     `);
   });
+
+  it('should clear input on search', () => {
+    autoComplete(null, (e) => expect(e).toBe('bruce'));
+    act(() => {
+      fireEvent.click(document.querySelector('input'));
+    });
+    act(() => {
+      fireEvent.keyDown(document.querySelector('input'), { key: 'ArrowDown' });
+    });
+    act(() => {
+      fireEvent.keyDown(document.querySelector('input'), { key: 'Enter' });
+    });
+    act(() => {
+      fireEvent.change(document.querySelector('input'), { target: { value: 'dian' } });
+    });
+
+    expect(document.querySelector('.list-item').innerHTML).toContain('diana');
+  });
 });
 
 describe('Multiple AutoComplete', () => {
