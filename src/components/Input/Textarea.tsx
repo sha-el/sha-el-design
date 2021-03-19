@@ -6,7 +6,7 @@ export interface TextareaProps extends Omit<BaseTextAreaProps, 'children'> {
 }
 
 export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>((props, ref) => (
-  <BaseInputComponent {...props}>
-    <textarea ref={ref}>{props.children}</textarea>
+  <BaseInputComponent {...props} ref={ref}>
+    <textarea>{props.children}</textarea>
   </BaseInputComponent>
 ));
