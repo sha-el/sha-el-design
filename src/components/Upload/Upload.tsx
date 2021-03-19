@@ -23,7 +23,10 @@ export const Upload: React.FC<UploadProps> = (props) => {
         }}
       />
       {React.cloneElement(children, {
-        onClick: () => inputEl.current.click(),
+        onClick: (e: React.MouseEvent) => {
+          e.preventDefault();
+          inputEl.current.click();
+        },
         onDrop: (e: React.DragEvent) => {
           e.preventDefault();
           inputEl.current.files = e.dataTransfer.files;

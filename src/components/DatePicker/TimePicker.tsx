@@ -179,7 +179,8 @@ const content = (
     <Button
       flat
       primary
-      onClick={() => {
+      onClick={(e: React.MouseEvent) => {
+        e.preventDefault();
         const date = new Date();
         onChange(date.getHours(), date.getMinutes(), date.getSeconds());
         updateVisible(false);
