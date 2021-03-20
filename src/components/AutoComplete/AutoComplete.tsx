@@ -45,15 +45,15 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
     this.setState({ data: items });
   };
 
-  onOpen = (open: boolean) => {
+  onOpen = (open: boolean, callback?: () => void) => {
     if (this.props.disabled) {
       return;
     }
     if (!open) {
-      return this.setState({ open, selected: -1, search: '' });
+      return this.setState({ open, selected: -1, search: '' }, callback);
     }
     open && this.fetchData();
-    this.setState({ open });
+    this.setState({ open }, callback);
   };
 
   displayList = () => {
@@ -172,6 +172,9 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
   };
 
   onSearch = (search: string) => {
+    if (!this.state.open) {
+      return this.onOpen(true, () => this.onSearch(search.slice(-1)));
+    }
     this.setState({ search }, this.fetchData);
   };
 
@@ -196,7 +199,6 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
 
   onKeyDown = (e: React.KeyboardEvent) => {
     const { data, selected, open } = this.state;
-    e.preventDefault();
     switch (e.key) {
       case 'Escape': {
         return this.onOpen(false);
@@ -224,6 +226,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
         return this.setState({ selected: selected - 1 });
       }
       case 'Enter': {
+        e.preventDefault();
         if (selected === -1) {
           return;
         }

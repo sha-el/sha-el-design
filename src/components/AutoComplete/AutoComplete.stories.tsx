@@ -30,6 +30,7 @@ export const Single: Story<SingleAutoComplete<string>> = () => {
       displayValue={(e) => e as string}
       onChange={(e: string) => update(e)}
       hint="Select an alter ego"
+      searchValue={(e) => e}
     />
   );
 };
@@ -47,6 +48,7 @@ export const Multiple: Story<MultiAutoComplete<string>> = () => {
       value={value}
       displayValue={(e) => e as string}
       onChange={(e: string[]) => update(e)}
+      searchValue={(e) => e}
     />
   );
 };

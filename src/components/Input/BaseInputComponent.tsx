@@ -1,16 +1,36 @@
 import * as React from 'react';
-import { Omit, nestedAccess, classes } from '../../helpers';
+import { Omit, classes } from '../../helpers';
 import { Row, Col } from '../../';
 import { useTheme } from '../Theme/Theme';
 import { style } from './style';
 import { Text } from '../Text';
 
-export const BaseInputComponent: React.FC<BaseInputProps | BaseTextAreaProps> = (props) => {
+function useCombinedRefs(...refs: React.Ref<HTMLInputElement | HTMLTextAreaElement>[]) {
+  const targetRef = React.useRef();
+
+  React.useEffect(() => {
+    refs.forEach((ref) => {
+      if (!ref) return;
+
+      if (typeof ref === 'function') {
+        ref(targetRef.current);
+      } else {
+        (ref.current as typeof targetRef.current) = targetRef.current;
+      }
+    });
+  }, [refs]);
+
+  return targetRef;
+}
+
+export const BaseInputComponent = React.forwardRef<
+  HTMLInputElement | HTMLTextAreaElement,
+  BaseInputProps | BaseTextAreaProps
+>((props, ref) => {
   const [focused, updateFocused] = React.useState(false);
   const {
     error,
     label,
-    getElement,
     onFocus,
     onBlur,
     after,
@@ -25,15 +45,17 @@ export const BaseInputComponent: React.FC<BaseInputProps | BaseTextAreaProps> = 
   } = props;
 
   const input = React.useRef(null);
+  const combinedRef = useCombinedRefs(ref, input);
 
   const isInputActive = () => {
     return !!(
       focused ||
       props.value ||
       props.defaultValue ||
-      nestedAccess(input.current, 'value') ||
+      input.current?.value ||
+      input.current?.defaultValue ||
       props.placeholder ||
-      nestedAccess(input.current, 'placeholder') ||
+      input.current?.placeholder ||
       props.before
     );
   };
@@ -61,6 +83,7 @@ export const BaseInputComponent: React.FC<BaseInputProps | BaseTextAreaProps> = 
         alignItems="center"
         gutter={[0, 0]}
         className={classes(containerClassName, css.container, 'sha-el-input')}
+        wrap="wrap"
       >
         {label && (
           <label key="label" className={classes(css.label, 'label')}>
@@ -80,11 +103,7 @@ export const BaseInputComponent: React.FC<BaseInputProps | BaseTextAreaProps> = 
           {React.cloneElement(children, {
             className: css.input,
             required,
-            ref: (e: HTMLInputElement) => {
-              getElement && getElement(e);
-              input.current = e;
-              return e;
-            },
+            ref: combinedRef,
             onFocus: (e: React.FocusEvent<HTMLInputElement> & React.FocusEvent<HTMLTextAreaElement>) => {
               onFocus && onFocus(e);
               updateFocused(true);
@@ -135,7 +154,7 @@ export const BaseInputComponent: React.FC<BaseInputProps | BaseTextAreaProps> = 
       )}
     </>
   );
-};
+});
 
 export interface Props {
   label?: React.ReactNode;
@@ -145,7 +164,6 @@ export interface Props {
   hint?: React.ReactNode;
   borderless?: boolean;
 
-  getElement?: (input: HTMLInputElement) => void;
   containerStyle?: React.CSSProperties;
   containerClassName?: string;
   children: React.ReactElement;

@@ -10,7 +10,8 @@ export const RadioButton: React.FunctionComponent<RadioProps> = (props) => {
 
   const input = React.useRef<HTMLInputElement>();
 
-  const onContainerClick = () => {
+  const onContainerClick = (e: React.MouseEvent) => {
+    e.preventDefault();
     if (input.current) {
       input.current.click();
     }
@@ -18,7 +19,7 @@ export const RadioButton: React.FunctionComponent<RadioProps> = (props) => {
 
   const css = style;
   return (
-    <div style={{ display: 'inline' }} onClick={() => onContainerClick()}>
+    <div style={{ display: 'inline' }} onClick={onContainerClick}>
       <input className={css} ref={input} type="radio" {...props} />
       <Button
         className={classes(className)}
