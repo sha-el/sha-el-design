@@ -89,7 +89,7 @@ describe('Single AutoComplete', () => {
 
   it('should fetch data from a promise', () => {
     render(
-      <AutoComplete
+      <AutoComplete<string>
         data={() => new Promise<string[]>((resolve) => resolve(['bruce', 'diana', 'clark']))}
         listDisplayProp={(e) => String(e)}
         uniqueIdentifier={(e) => String(e)}
