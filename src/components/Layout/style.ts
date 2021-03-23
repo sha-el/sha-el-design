@@ -12,12 +12,10 @@ export const content = (width: number) =>
     position: 'relative',
     minWidth: 0,
     flex: '1 0 auto',
-    margin: '0 0 0 5px',
-    zIndex: 0,
     minHeight: '100%',
     width: `calc(100% - ${width + 50}px)`,
     marginLeft: width + 'px',
-    padding: '5px 25px',
+    margin: `5px 5px 5px ${width + 5 + 'px'}`,
   });
 
 export const sidePanel = (theme: Theme, width: number) => {

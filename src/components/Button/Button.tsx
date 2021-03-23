@@ -82,6 +82,7 @@ export const Button: React.FC<ButtonProps> = (props) => {
 Button.defaultProps = {
   size: 'default',
   shape: 'default',
+  type: 'button',
 };
 
 export interface BaseButtonProps {

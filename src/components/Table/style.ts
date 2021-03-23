@@ -5,7 +5,6 @@ import { Theme } from '../Theme/Theme';
 
 export const style = ({ theme, nested, clickableRow }: { theme: Theme; nested: boolean; clickableRow: boolean }) => ({
   tableContainer: css({
-    display: 'flex',
     overflowX: 'auto',
     padding: '0 !important',
     width: '100%',
