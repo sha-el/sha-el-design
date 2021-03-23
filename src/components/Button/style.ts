@@ -64,6 +64,12 @@ export const style = (theme: Theme, props: ButtonProps) => {
       transition: 'all .3s',
       '&:focus': {
         outline: 'none',
+        boxShadow: shadow('2X', theme),
+        ...((!(disabled || loading) && {
+          background: hoverBgColor,
+          color: textColor,
+        }) ||
+          {}),
       },
       '&:disabled': {
         background: bgColor,
