@@ -15,7 +15,7 @@ export const content = (width: number) =>
     minHeight: '100%',
     width: `calc(100% - ${width + 50}px)`,
     marginLeft: width + 'px',
-    margin: `5px 5px 5px ${width + 5 + 'px'}`,
+    margin: `5px 5px 5px ${width + 10 + 'px'}`,
   });
 
 export const sidePanel = (theme: Theme, width: number) => {
@@ -36,6 +36,7 @@ export const sidePanel = (theme: Theme, width: number) => {
       top: 0,
       overflowX: 'visible',
       overflowY: 'auto',
+      zIndex: 1,
     }),
     logo: css({
       cursor: 'pointer',
@@ -77,6 +78,7 @@ export const sidePanel = (theme: Theme, width: number) => {
       left: '0',
       width: '60px',
       background,
+      zIndex: 1,
     }),
   };
 };

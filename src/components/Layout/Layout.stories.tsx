@@ -8,6 +8,7 @@ import { Button } from '../Button';
 import { Divider } from '../Divider';
 import { Popover } from '../..';
 import { List, ListItem } from '../List';
+import { Card } from '../Card';
 
 export default {
   title: 'Layout/Layouts',
@@ -64,6 +65,8 @@ export const BasicLayout = () => (
         <MenuItem icon={<MdAccountBox />}>NAV 3</MenuItem>
       </Menu>
     </SidePanel>
-    <Content>Container</Content>
+    <Content>
+      <Card>Container</Card>
+    </Content>
   </Container>
 );

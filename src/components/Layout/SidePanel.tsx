@@ -31,11 +31,13 @@ const Inner: React.FC<InnerProps> = (props) => {
 
   const [drawer, toggleDrawer] = React.useState<boolean>(false);
   const [activeDrawer, updateActiveDrawer] = React.useState(0);
+  const [drawerButton, updateDrawerButton] = React.useState(false);
 
   const onOpen = (v: React.ReactElement, index: number, close: boolean, toggle: () => void) => {
     if (close) {
       toggle();
       toggleDrawer(false);
+      updateDrawerButton(false);
       return;
     }
     if (((v.type as unknown) as { displayName: string }).displayName !== 'Menu') {
@@ -53,7 +55,11 @@ const Inner: React.FC<InnerProps> = (props) => {
 
   return (
     <>
-      <div className={classes(css.container, elevationCss(2))}>
+      <div
+        className={classes(css.container, elevationCss(2))}
+        onMouseEnter={() => updateDrawerButton(true)}
+        onMouseLeave={() => updateDrawerButton(false)}
+      >
         <Row gutter={[0, '0 5px 0 5px']} style={{ overflowX: 'hidden', maxWidth: width + 'px' }} wrap="nowrap">
           <Col flex="0 0 60px" className={elevationCss(3)}>
             {props.logo && <div className={css.logo}>{props.logo}</div>}
@@ -79,13 +85,15 @@ const Inner: React.FC<InnerProps> = (props) => {
           )}
         </Row>
         <div className={css.resizer}>
-          <Button
-            onClick={() => onOpen(children[0], activeDrawer, !!drawer, toggle)}
-            shape="circle"
-            size="small"
-            icon={drawer ? <MdChevronLeft /> : <MdChevronRight />}
-            primary
-          />
+          {drawerButton && (
+            <Button
+              onClick={() => onOpen(children[0], activeDrawer, !!drawer, toggle)}
+              shape="circle"
+              size="small"
+              icon={drawer ? <MdChevronLeft /> : <MdChevronRight />}
+              primary
+            />
+          )}
         </div>
         {!drawer && <div className={css.line} />}
       </div>

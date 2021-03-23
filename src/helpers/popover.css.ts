@@ -57,7 +57,6 @@ export default `
   visibility: visible;
   line-height: 1.5;
   font-size: 12px;
-  background-color: rgba(0, 0, 0, 0.05);
   padding: 1px;
   opacity: 1;
 }
