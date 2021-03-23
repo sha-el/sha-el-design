@@ -2,7 +2,7 @@ import React from 'react';
 import { Radio, RadioButton, RadioGroup } from '../../../src';
 
 import '@testing-library/jest-dom';
-import { render } from '@testing-library/react';
+import { render, act, fireEvent } from '@testing-library/react';
 
 const CreateRadioGroup = () => {
   const [best, updatebest] = React.useState('Bruce');
@@ -71,23 +71,19 @@ describe('RadioGroup', () => {
     expect(radioButtons[0].innerHTML).toBe('<span>Bruce</span>');
     expect(radioButtons[1].innerHTML).toBe('<span>Stark</span>');
 
-    // Check normal state
+    // Check initial state
     expect(radioButtons[0]).toHaveStyle(`
       background: #536DFE;
     `);
     expect(inputs[0]).toBeChecked();
     expect(inputs[1]).not.toBeChecked();
 
-    radioButtons[1].click();
+    act(() => {
+      fireEvent.click(radioButtons[1]);
+    });
 
     // Check updated state
     expect(inputs[1]).toBeChecked();
     expect(inputs[0]).not.toBeChecked();
-    // expect(radioButtons[0]).toHaveStyle(`
-    //   background: #536DFE;
-    // `);
-    // expect(radioButtons[1]).toHaveStyle(`
-    //   background: #536DFE;
-    // `);
   });
 });
