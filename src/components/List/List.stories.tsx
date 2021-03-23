@@ -79,3 +79,26 @@ export const Densed: Story<ListProps> = (args) => (
     <ListItem subtitle="Do you Know Lorem Ipsum?">Basic Item List</ListItem>
   </List>
 );
+
+export const Inline: Story<ListProps> = (args) => (
+  <List inline {...args}>
+    <ListItem avatar={<MdAcUnit />} subtitle="Do you Know Lorem Ipsum?">
+      Basic Item List
+    </ListItem>
+    <ListItem avatar={<Md3DRotation />} subtitle="Do you Know Lorem Ipsum?">
+      Basic Item List
+    </ListItem>
+    <CollapsibleList header={'Hello World'}>
+      <List densed elevation={0}>
+        <ListItem subtitle="Do you Know Lorem Ipsum?">Basic Item List</ListItem>
+        <ListItem avatar={<MdAcUnit />} subtitle="Do you Know Lorem Ipsum?">
+          Basic Item List
+        </ListItem>
+        <ListItem avatar={<Md3DRotation />} subtitle="Do you Know Lorem Ipsum?">
+          Basic Item List
+        </ListItem>
+      </List>
+    </CollapsibleList>
+    <ListItem subtitle="Do you Know Lorem Ipsum?">Basic Item List</ListItem>
+  </List>
+);
