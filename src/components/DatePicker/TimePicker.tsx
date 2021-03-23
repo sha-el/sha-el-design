@@ -8,6 +8,7 @@ import { Button } from '../Button';
 import { MdTimer } from 'react-icons/md';
 import { style } from './style';
 import { Text } from '../Text';
+import { useTheme } from '../Theme/Theme';
 
 export const TimePicker: React.FC<TimePickerProps> = (props) => {
   const { onChange, time = new Date(0, 0, 0, 0, 0, 0), use12Hour, ...inputProps } = props;
@@ -50,7 +51,7 @@ export const TimePicker: React.FC<TimePickerProps> = (props) => {
     }
   };
 
-  const css = style;
+  const css = style(useTheme());
 
   return (
     <>
