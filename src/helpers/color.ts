@@ -43,7 +43,7 @@ export const disabledText = (theme: Theme) => {
 export const buttonColor = (
   props: ButtonProps,
   theme: Theme,
-  primary,
+  primary: boolean,
   secondary: boolean,
   danger: boolean,
   link: boolean,
@@ -53,15 +53,7 @@ export const buttonColor = (
   let hoverBgColor = 'none';
   let border = 'none';
 
-  const type = primary
-    ? 'primary'
-    : secondary
-    ? 'secondary'
-    : danger
-    ? 'danger'
-    : link
-    ? 'link'
-    : props.type || 'default';
+  const type = primary ? 'primary' : secondary ? 'secondary' : danger ? 'danger' : link ? 'link' : 'default';
 
   const defaultColor = () => (type === 'default' ? getColor(theme.background) : theme[type]);
 
