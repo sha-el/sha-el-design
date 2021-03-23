@@ -41,7 +41,7 @@ describe('RadioGroup', () => {
     expect(radios[0]).toHaveStyle(`
       borderColor: #536DFE;
       background: #536DFE;
-      box-shadow: 0px 3px 11px 0px #E8EAFC,0 3px 3px -2px #B2B2B21A,0 1px 8px 0 #9A9A9A1A;
+      box-shadow: 0 2px 4px 0 #E8EAFC;
     `);
     expect(inputs[0]).toBeChecked();
     expect(inputs[1]).not.toBeChecked();
@@ -52,7 +52,7 @@ describe('RadioGroup', () => {
     expect(radios[1]).toHaveStyle(`
       borderColor: #536DFE;
       background: #536DFE;
-      box-shadow: 0px 3px 11px 0px #E8EAFC,0 3px 3px -2px #B2B2B21A,0 1px 8px 0 #9A9A9A1A;
+      box-shadow: 0 2px 4px 0 #E8EAFC;
     `);
     expect(inputs[1]).toBeChecked();
     expect(inputs[0]).not.toBeChecked();

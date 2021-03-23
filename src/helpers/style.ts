@@ -27,6 +27,6 @@ export const shadow = (type: ShadowType, theme: Theme, color?: string) => {
       return `0 2px 1.5px -1.5px ${second}`;
 
     case 'BOT2X':
-      return `0 4px 3px -3px ${first}`;
+      return `0 2px 4px 0 ${first}`;
   }
 };

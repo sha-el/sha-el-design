@@ -45,7 +45,7 @@ describe('Radio', () => {
     expect(radio).toHaveStyle(`
       borderColor: #536DFE;
       background: #536DFE;
-      box-shadow: 0px 3px 11px 0px #E8EAFC,0 3px 3px -2px #B2B2B21A,0 1px 8px 0 #9A9A9A1A;
+      box-shadow: 0 2px 4px 0 #E8EAFC;
     `);
 
     const label = document.querySelector('label');
@@ -105,7 +105,7 @@ describe('Radio', () => {
     expect(radio).toHaveStyle(`
       borderColor: #536DFE;
       background: #536DFE;
-      box-shadow: 0px 3px 11px 0px #E8EAFC,0 3px 3px -2px #B2B2B21A,0 1px 8px 0 #9A9A9A1A;
+      box-shadow: 0 2px 4px 0 #E8EAFC;
     `);
   });
 });
