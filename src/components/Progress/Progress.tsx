@@ -3,6 +3,7 @@ import { Col, Row } from '../Grid';
 import { useTheme } from '../Theme/Theme';
 import { Text } from '../Text/Text';
 import { style } from './style';
+import { classes } from '../../helpers';
 
 export const Progress: React.FC<ProgressProps> = (props) => {
   const theme = useTheme();
@@ -16,7 +17,7 @@ export const Progress: React.FC<ProgressProps> = (props) => {
       <div style={{ position: 'relative', display: 'inline-block' }}>
         <svg width="120" height="120">
           <circle
-            className={css.circle}
+            className={classes(css.circle, 'sha-el-progress-circle')}
             style={{ strokeDashoffset: offset, strokeDasharray: `${circumference} ${circumference}` }}
             stroke={theme[props.status]}
             strokeWidth="10px"
@@ -34,8 +35,8 @@ export const Progress: React.FC<ProgressProps> = (props) => {
   return (
     <Row>
       <Col flex="1 0 auto">
-        <div className={css.container}>
-          <div style={{ width: props.percent + '%' }} className={css.line} />
+        <div className={classes(css.container, 'sha-el-progress')}>
+          <div style={{ width: props.percent + '%' }} className={classes(css.line, 'sha-el-progress-line')} />
         </div>
       </Col>
       {props.label && <Col flex="0 1 auto">{props.label}</Col>}
