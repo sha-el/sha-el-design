@@ -10,9 +10,7 @@ export const Radio: React.FunctionComponent<RadioProps> = (props) => {
   const input = React.useRef<HTMLInputElement>();
 
   const onContainerClick = () => {
-    if (input.current) {
-      input.current.click();
-    }
+    input.current?.click();
   };
 
   const theme = useTheme();

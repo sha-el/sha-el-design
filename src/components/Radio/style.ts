@@ -20,7 +20,7 @@ export const radioStyle = ({ theme, disabled }: { theme: Theme; disabled: boolea
     '&:checked + .radio-circle': {
       borderColor: theme.primary,
       background: theme.primary,
-      boxShadow: shadow('2X', theme),
+      boxShadow: shadow('BOT2X', theme),
     },
   }),
 });
