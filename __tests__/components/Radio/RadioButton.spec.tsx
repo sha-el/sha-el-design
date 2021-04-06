@@ -17,9 +17,6 @@ describe('RadioButton', () => {
     expect(radioButton).toHaveStyle(`
       color: #555555;
     `);
-    // expect(radioButton).toHaveStyle(`
-    //   background: #536DFE;
-    // `);
 
     input.click();
     expect(fn).toBeCalledTimes(1);
