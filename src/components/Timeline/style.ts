@@ -2,12 +2,6 @@ import { css } from '@emotion/css';
 import { getColor } from '../../helpers';
 import { TimelineItemProps } from './TimelineItem';
 
-export const timeline = css({
-  width: '70%',
-  position: 'relative',
-  margin: 'auto',
-});
-
 export const timelineItem = (props: TimelineItemProps) =>
   css({
     background: props.iconBgColor,
