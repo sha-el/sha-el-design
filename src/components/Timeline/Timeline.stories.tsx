@@ -59,3 +59,11 @@ export const Extra: Story<TimelineProps> = (args) => (
     </TimelineItem>
   </Timeline>
 );
+
+export const Single: Story<TimelineProps> = (args) => (
+  <Timeline {...args}>
+    <TimelineItem extra="2010-20-20" iconBgColor="#2196F3">
+      <Card>SMS</Card>
+    </TimelineItem>
+  </Timeline>
+);

@@ -1,10 +1,8 @@
 import * as React from 'react';
 import { classes } from '../../helpers';
-import { timeline as style, timelineStyle } from './style';
+import { timelineStyle } from './style';
 
 export const Timeline: React.FC<TimelineProps> = (props) => {
-  timelineStyle();
-  const css = style;
   if (Array.isArray(props.children)) {
     return (
       <span className={timelineStyle()}>
@@ -18,9 +16,11 @@ export const Timeline: React.FC<TimelineProps> = (props) => {
     );
   }
   return (
-    <div className={classes('timeline', `timeline-${props.position}`, css)}>
-      {React.cloneElement(props.children as React.ReactElement, { position: getPosition(0, props.position) })}
-    </div>
+    <span className={timelineStyle()}>
+      <div className={classes('timeline', `timeline-${props.position}`)}>
+        {React.cloneElement(props.children as React.ReactElement, { position: getPosition(0, props.position) })}
+      </div>
+    </span>
   );
 };
 
