@@ -1,5 +1,6 @@
 import { css } from '@emotion/css';
 import { getColor } from '../../helpers';
+import { zIndexBase } from '../../helpers/zIndex';
 import { Theme } from '../Theme/Theme';
 
 export const container = css({
@@ -36,7 +37,7 @@ export const sidePanel = (theme: Theme, width: number) => {
       top: 0,
       overflowX: 'visible',
       overflowY: 'auto',
-      zIndex: 1,
+      zIndex: zIndexBase,
     }),
     logo: css({
       cursor: 'pointer',
@@ -78,7 +79,7 @@ export const sidePanel = (theme: Theme, width: number) => {
       left: '0',
       width: '60px',
       background,
-      zIndex: 1,
+      zIndex: zIndexBase,
     }),
   };
 };

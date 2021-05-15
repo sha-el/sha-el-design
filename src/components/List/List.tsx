@@ -10,14 +10,13 @@ export interface ListProps {
   elevation?: number;
   className?: string;
   densed?: boolean;
-  inline?: boolean;
   backgroundColor?: string;
 }
 
 export const List: React.FC<ListProps> = (props) => {
   const { elevation = 2 } = props;
   const theme = useTheme();
-  const css = style(theme, props.densed, props.backgroundColor || theme.background, props.inline);
+  const css = style(props.densed, props.backgroundColor || theme.background);
 
   return (
     <div>

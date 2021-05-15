@@ -13,7 +13,6 @@ describe('Divider', () => {
       width: 100%;
       margin: 5px 0px;
       display: inline-block;
-      z-index: 2;
       position: relative;
       background: rgb(255, 255, 255);
       text-align: center;

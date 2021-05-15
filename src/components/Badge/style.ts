@@ -1,5 +1,6 @@
 import { css } from '@emotion/css';
 import { getColor } from '../../helpers';
+import { zAboveBase } from '../../helpers/zIndex';
 import { BadgeProps } from './Badge';
 
 export const style = (props: BadgeProps) => {
@@ -28,7 +29,7 @@ export const style = (props: BadgeProps) => {
       height: '20px',
       fontWeight: 500,
       padding: `0 ${count ? String(count).length * 2 : 0}px`,
-      zIndex: 1,
+      zIndex: zAboveBase,
     }),
   };
 };

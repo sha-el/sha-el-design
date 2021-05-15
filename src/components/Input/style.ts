@@ -1,6 +1,7 @@
 import { lightText, borderColor as borderColorHelper, disabledText } from '../../helpers/color';
 import { getColor } from '../../helpers';
 import { css } from '@emotion/css';
+import { zIndexBase } from '../../helpers/zIndex';
 
 export const style = ({ theme, error, label, active, borderless, disabled, hover, before }) => {
   const borderColor = error ? theme.error : borderColorHelper(theme.background);
@@ -19,7 +20,7 @@ export const style = ({ theme, error, label, active, borderless, disabled, hover
   return {
     container: css({
       position: 'relative',
-      zIndex: 0,
+      zIndex: zIndexBase,
       color: disabled ? disabledText(theme) : lightText(theme),
       fontSize: '14px',
       lineHeight: 1.12857,

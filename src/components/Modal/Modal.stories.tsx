@@ -16,6 +16,7 @@ export default {
 
 export const Basic: Story<ModalProps> = (args) => {
   const [isVisible, toggle] = React.useState(true);
+
   return (
     <Modal {...args} isVisible={isVisible} onClose={() => toggle(false)}>
       <Row>

@@ -1,8 +1,7 @@
-import { Theme } from '../Theme/Theme';
 import { hoverColor } from '../../helpers/color';
 import { css } from '@emotion/css';
 
-export const list = (theme: Theme, densed: boolean, background: string, inline: boolean) =>
+export const list = (densed: boolean, background: string) =>
   css({
     padding: densed ? '4px 0' : '8px 0',
     margin: 0,
@@ -13,7 +12,7 @@ export const list = (theme: Theme, densed: boolean, background: string, inline: 
     background: background,
     display: 'block',
     '& .list-item': {
-      display: inline ? 'inline-block' : 'block',
+      display: 'block',
       background: background,
       '&:hover': {
         filter: hoverColor(background),

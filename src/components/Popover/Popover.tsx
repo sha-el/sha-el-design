@@ -67,7 +67,7 @@ export const Popover: React.FC<PopoverProps> = (props) => {
       align={cover ? { points: ['tl', 't'] } : align}
       animation={animation}
     >
-      <div ref={child} style={{ display: 'inline-block', ...childStyle }}>
+      <div className="popover-element" ref={child} style={{ display: 'inline-block', ...childStyle }}>
         {React.cloneElement(children)}
       </div>
     </RCTooltip>

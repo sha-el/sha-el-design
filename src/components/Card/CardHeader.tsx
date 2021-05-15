@@ -16,7 +16,7 @@ export const CardHeader: React.FC<CardHeaderProps> = (props) => {
     <div className={classes(css, className)} {...restProps}>
       <Row gutter={[0, 0]} alignItems="center">
         <Col flex="1 0 auto">
-          <Text variant="h5" margin="0">
+          <Text variant="h6" margin="0">
             {children}
           </Text>
           <Text color={lightText(theme)}>{subtitle}</Text>
