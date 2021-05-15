@@ -1,5 +1,6 @@
 import { Theme } from '../Theme/Theme';
 import { css, keyframes } from '@emotion/css';
+import { zLayoutModal, zLayoutModalBackDrop } from '../../helpers/zIndex';
 
 const slideOutRight = keyframes({
   '0%': {
@@ -86,7 +87,7 @@ export const style = (theme: Theme) => ({
     position: 'fixed',
     boxSizing: 'border-box',
     background: theme.background,
-    zIndex: 1000,
+    zIndex: zLayoutModal,
     height: '100%',
     '& .header': {
       padding: '16px 24px',
@@ -111,6 +112,7 @@ export const style = (theme: Theme) => ({
     top: '0',
     bottom: '0',
     background: 'rgba(0, 0, 0, 0.5)',
+    zIndex: zLayoutModalBackDrop,
   }),
   slideOutRight: css({
     animation: `${slideOutRight} .5s ease-in both !important`,

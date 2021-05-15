@@ -1,5 +1,6 @@
 import { css, keyframes } from '@emotion/css';
 import { colorShades } from '../../helpers/color';
+import { zLayoutModal, zLayoutModalBackDrop } from '../../helpers/zIndex';
 import { Theme } from '../Theme/Theme';
 
 const slideInBottom = keyframes({
@@ -29,7 +30,7 @@ export const style = (theme: Theme) => ({
   modalContainer: css({
     maxHeight: '70vh',
     background: colorShades(theme.background)[1],
-    zIndex: 1001,
+    zIndex: zLayoutModal,
     top: '10vh',
     overflowY: 'auto',
     animation: `${slideInBottom} 0.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
@@ -47,7 +48,7 @@ export const style = (theme: Theme) => ({
     top: '0',
     bottom: '0',
     background: 'rgba(0, 0, 0, .5)',
-    zIndex: 1,
+    zIndex: zLayoutModalBackDrop,
   }),
   mediaQueries: css({
     '@media (max-width: 768px)': {
