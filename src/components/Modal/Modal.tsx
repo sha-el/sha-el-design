@@ -10,6 +10,7 @@ import { useTheme } from '../Theme/Theme';
 import { style as modalStyle } from './style';
 
 export const Modal: React.FunctionComponent<ModalProps> = (props) => {
+<<<<<<< HEAD
   const {
     children,
     isVisible,
@@ -20,6 +21,9 @@ export const Modal: React.FunctionComponent<ModalProps> = (props) => {
     margin = { xs: [2, 0], md: [4, 0] },
     border,
   } = props;
+=======
+  const { children, isVisible, style = {}, width, elevation = 24 } = props;
+>>>>>>> Minor fixes
 
   const [className, updateClassName] = React.useState('');
   const [open, updateOpen] = React.useState(isVisible);
