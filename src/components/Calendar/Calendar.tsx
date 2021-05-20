@@ -128,6 +128,64 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
     });
   };
 
+  const getdateArray = () => {
+    const dateArray: React.ReactElement[] = [];
+
+    weeksDateArray.map((v) => {
+      weeks.forEach((f, i) => {
+        const selectedDate = props.date;
+        const isSelectedDate =
+          selectedDate &&
+          compareDesc(
+            new Date(
+              date.getFullYear(),
+              date.getMonth(),
+              nestedAccess(v, f),
+              selectedDate.getHours(),
+              selectedDate.getMinutes(),
+              selectedDate.getSeconds(),
+              selectedDate.getMilliseconds(),
+            ),
+            selectedDate,
+          ) === 0;
+        const today = isToday(v?.[f]);
+        const newDate = new Date(
+          date.getFullYear(),
+          date.getMonth(),
+          nestedAccess(v, f),
+          selectedDate?.getHours() || 0,
+          selectedDate?.getMinutes() || 0,
+          selectedDate?.getSeconds() || 0,
+          selectedDate?.getMilliseconds() || 0,
+        );
+        dateArray.push(
+          <Col className={css.cell} key={i} span={24 / 7}>
+            {nestedAccess(v, f) ? (
+              props.cellRender?.(newDate, f) || (
+                <Button
+                  disabled={props.disabledDate?.(newDate)}
+                  flat={!today && !isSelectedDate}
+                  shape="circle"
+                  outline={today}
+                  primary={today || isSelectedDate || false}
+                  onClick={() => {
+                    return !props.disabledDate?.(newDate) && props.onClick && props.onClick(newDate);
+                  }}
+                >
+                  {v?.[f]}
+                </Button>
+              )
+            ) : (
+              <div />
+            )}
+            {props.calendarEvents && <div className={css.dateContent}>{calendarEvent(v?.[f], css)}</div>}
+          </Col>,
+        );
+      });
+    });
+    return dateArray;
+  };
+
   const css = style;
 
   return (
@@ -178,60 +236,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
             </Col>
           ))}
         </Row>
-        <Row gutter={[0, 0]}>
-          {weeksDateArray.map((v) => {
-            return weeks.map((f, i) => {
-              const selectedDate = props.date;
-              const isSelectedDate =
-                selectedDate &&
-                compareDesc(
-                  new Date(
-                    date.getFullYear(),
-                    date.getMonth(),
-                    nestedAccess(v, f),
-                    selectedDate.getHours(),
-                    selectedDate.getMinutes(),
-                    selectedDate.getSeconds(),
-                    selectedDate.getMilliseconds(),
-                  ),
-                  selectedDate,
-                ) === 0;
-              const today = isToday(v?.[f]);
-              const newDate = new Date(
-                date.getFullYear(),
-                date.getMonth(),
-                nestedAccess(v, f),
-                selectedDate?.getHours() || 0,
-                selectedDate?.getMinutes() || 0,
-                selectedDate?.getSeconds() || 0,
-                selectedDate?.getMilliseconds() || 0,
-              );
-              return (
-                <Col className={css.cell} key={i} span={24 / 7}>
-                  {nestedAccess(v, f) ? (
-                    props.cellRender?.(newDate, f) || (
-                      <Button
-                        disabled={props.disabledDate?.(newDate)}
-                        flat={!today && !isSelectedDate}
-                        shape="circle"
-                        outline={today}
-                        primary={today || isSelectedDate || false}
-                        onClick={() => {
-                          return !props.disabledDate?.(newDate) && props.onClick && props.onClick(newDate);
-                        }}
-                      >
-                        {v?.[f]}
-                      </Button>
-                    )
-                  ) : (
-                    <div />
-                  )}
-                  {props.calendarEvents && <div className={css.dateContent}>{calendarEvent(v?.[f], css)}</div>}
-                </Col>
-              );
-            });
-          })}
-        </Row>
+        <Row gutter={[0, 0]}>{getdateArray()}</Row>
       </CardBody>
     </Card>
   );
