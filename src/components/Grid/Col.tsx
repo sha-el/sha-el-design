@@ -25,7 +25,7 @@ export interface ColProps extends React.DetailedHTMLProps<React.HTMLAttributes<H
   style?: React.CSSProperties;
   children?: React.ReactNode;
   /**
-   * Number of cells to occupy out off 24
+   * Number of cells to occupy out of 24
    * @default 24
    */
   span?: number;

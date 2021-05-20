@@ -61,7 +61,7 @@ export function FlexTable<T>(props: FlexTableProps<T>) {
         gutter={[0, 0]}
         action={nested && <MdExpandMore style={{ color: disabledColor(theme) }} />}
       >
-        <Row gutter={[0, '15px']} alignItems="stretch">
+        <Row gutter={[30, 30]} alignItems="stretch">
           {headers}
         </Row>
       </ListItem>
@@ -81,7 +81,7 @@ export function FlexTable<T>(props: FlexTableProps<T>) {
                 return (
                   <CollapsibleList
                     header={
-                      <Row gutter={[0, '15px']} alignItems="stretch">
+                      <Row gutter={[30, 30]} alignItems="stretch">
                         {children}
                       </Row>
                     }
@@ -104,7 +104,7 @@ export function FlexTable<T>(props: FlexTableProps<T>) {
                   onClick={() => onRowClick && onRowClick(v, index)}
                   style={rowStyle && rowStyle(v, index)}
                 >
-                  <Row gutter={[0, '15px']} alignItems="stretch">
+                  <Row gutter={[30, 30]} alignItems="stretch">
                     {children}
                   </Row>
                 </ListItem>

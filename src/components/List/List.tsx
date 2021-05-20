@@ -27,11 +27,11 @@ export const List: React.FC<ListProps> = (props) => {
                 v &&
                 React.cloneElement(v, {
                   key: `item-${i}`,
-                  gutter: (props.densed && [0, '6px 8px 6px 9px']) || v.props.gutter,
+                  gutter: (props.densed && [16, 12]) || v.props.gutter,
                 }),
             )
           : React.cloneElement(props.children || <div />, {
-              gutter: (props.densed && [0, '6px 8px 6px 9px']) || props.children?.props.gutter,
+              gutter: (props.densed && [16, 12]) || props.children?.props.gutter,
             })}
       </ul>
     </div>

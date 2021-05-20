@@ -133,7 +133,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
   return (
     <Card elevation={props.elevation}>
       <CardBody>
-        <Row gutter={[0, '5px']} justifyContent="flex-end">
+        <Row gutter={[10, 10]} justifyContent="flex-end">
           <Col flex="0 1 auto">
             <Menu
               height="300px"

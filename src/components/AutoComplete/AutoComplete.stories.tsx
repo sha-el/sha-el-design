@@ -72,7 +72,7 @@ export const AsyncFetch: Story = () => {
       }
       uniqueIdentifier={(e) => String(e.id)}
       listDisplayProp={(e) => (
-        <Row gutter={[0, '0 10px']}>
+        <Row gutter={[0, 20]}>
           <Col flex="0 1 50px">
             <img width="100%" src={e.avatar} />
           </Col>

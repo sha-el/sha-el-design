@@ -35,7 +35,10 @@ export const TabHeader: React.FC<TabHeaderProps> = (props) => {
   const theme = useTheme();
   const css = style(theme);
   return (
-    <div className={css.tabHeaderContainer} onClick={(e) => onContainerClick(e.target as HTMLDivElement)}>
+    <div
+      className={classes(css.tabHeaderContainer, 'sha-el-tab-header')}
+      onClick={(e) => onContainerClick(e.target as HTMLDivElement)}
+    >
       <div className={css.inkBar} style={{ ...inkStyle, bottom: '0' }} />
       {props.titles.map((v, i) => (
         <div

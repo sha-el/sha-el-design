@@ -25,12 +25,7 @@ export const Basic: Story<TabsProps> = (args) => (
   </Tabs>
 );
 
-Basic.args = {
-  defaultActiveKey: '1',
-};
-
 export const UnmountOnChange = Basic.bind({});
 UnmountOnChange.args = {
-  defaultActiveKey: '1',
-  UnmountOnChange: true,
+  unMountOnChange: true,
 };

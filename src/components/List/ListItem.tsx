@@ -28,7 +28,7 @@ export const ListItem: React.FC<ListItemProps> = (props) => {
     subtitle,
     action,
     selected,
-    gutter = [0, '12px 16px 12px 18px'],
+    gutter = [32, 24],
     element,
     className,
     ...rest

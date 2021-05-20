@@ -97,7 +97,7 @@ export const Responsive: Story<ColProps> = () => (
 
 export const Gutter: Story<ColProps> = (args) => {
   return (
-    <Row {...RowTemplate.args} gutter={['10px', '20px']}>
+    <Row {...RowTemplate.args} gutter={[{ xs: 10, sm: 30, md: 50, xl: 100 }, 48]}>
       <Col span={24} {...args}>
         <Card>Span 24</Card>
       </Col>

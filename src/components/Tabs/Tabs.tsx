@@ -8,7 +8,7 @@ export class Tabs extends React.Component<TabsProps, State> {
 
     this.state = {
       titles: [],
-      activeKey: props.defaultActiveKey,
+      activeKey: '1',
       inkStyle: {
         top: 0,
         left: 0,
@@ -52,7 +52,6 @@ export class Tabs extends React.Component<TabsProps, State> {
 
 export interface TabsProps {
   children: React.ReactElement<TabPanelProps> | React.ReactElement<TabPanelProps>[];
-  defaultActiveKey: string;
   unMountOnChange?: boolean;
 }
 

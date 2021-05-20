@@ -131,21 +131,25 @@ export const BaseInputComponent = React.forwardRef<
         </fieldset>
       </Row>
       {(error !== undefined || hint !== undefined) && (
-        <Row
-          justifyContent="flex-end"
-          gutter={[0, `0 ${borderless ? '0' : before ? '5px' : '14px'}`]}
-          className={classes(css.help, 'help')}
-        >
+        <Row gutter={[0, 0]} justifyContent="flex-end" className={classes(css.help, 'help')}>
           {error && (
             <Col flex="1 0 auto">
-              <Text variant="label" className={`${css.error}`}>
+              <Text
+                padding={`0 ${borderless ? '0' : before ? '5px' : '14px'}`}
+                variant="label"
+                className={`${css.error}`}
+              >
                 {error}
               </Text>
             </Col>
           )}
           {hint && (
             <Col flex="0 1 auto">
-              <Text variant="label" className={`${css.hint}`}>
+              <Text
+                padding={`0 ${borderless ? '0' : before ? '5px' : '14px'}`}
+                variant="label"
+                className={`${css.hint}`}
+              >
                 {hint}
               </Text>
             </Col>

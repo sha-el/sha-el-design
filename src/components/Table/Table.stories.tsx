@@ -38,7 +38,7 @@ export const BasicTableWithHeadersAndFooters: Story<TableProps<{ name: string; a
       },
     ]}
     header={
-      <Row justifyContent="flex-end" gutter={['0', '0']}>
+      <Row justifyContent="flex-end" gutter={[0, 0]}>
         <Col flex="1 0 auto">Profile Table</Col>
         <Col flex="0 1 auto">
           <Menu anchor={<MdSort />} position="bottom">
