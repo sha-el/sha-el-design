@@ -15,7 +15,7 @@ export const Page: React.FC<PageProps> = (props) => {
   return (
     <div>
       <div className={css.header}>
-        <Row alignItems="center" gutter={['5px 0', '0 .5rem']}>
+        <Row alignItems="center" gutter={[14, 10]}>
           {props.backIcon && (
             <Col style={{ lineHeight: '0' }} flex="0 1 auto">
               {props.backIcon}
