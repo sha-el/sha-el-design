@@ -36,7 +36,7 @@ export const Stepper: React.FC<StepperProps> = (props) => {
 
   return (
     <>
-      <Row alignItems="center">
+      <Row style={{ padding: '10px 0' }} alignItems="center">
         {children.map((el, i) => {
           let iconCss: string;
           let numberCss: string;
@@ -72,7 +72,7 @@ export const Stepper: React.FC<StepperProps> = (props) => {
               <Col
                 flex="0 1 auto"
                 onClick={() => nonLinear && !el.props.disabled && onChange(i)}
-                className={classes(css.number, numberCss, nonLinear && css.clickable)}
+                className={classes(css.number, numberCss, css.container, nonLinear && css.clickable)}
               >
                 {i + 1}
               </Col>
@@ -91,7 +91,7 @@ export const Stepper: React.FC<StepperProps> = (props) => {
             <Col
               flex="0 1 auto"
               onClick={() => nonLinear && !el.props.disabled && onChange(i)}
-              className={classes(iconCss, nonLinear && css.clickable)}
+              className={classes(iconCss, css.container, nonLinear && css.clickable)}
             >
               {el.props.title}
               <Text variant="p" color="error" margin="0" fontSize="12px">
@@ -106,7 +106,7 @@ export const Stepper: React.FC<StepperProps> = (props) => {
           return (
             <React.Fragment key={`steps-${i}`}>
               {i !== 0 && direction === 'horizontal' && (
-                <Col flex="1 0 auto">
+                <Col className={css.container} flex="1 0 auto">
                   <Divider color={i === current ? theme.primary : lightText(theme)} />
                 </Col>
               )}
