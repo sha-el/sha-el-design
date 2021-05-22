@@ -20,17 +20,17 @@ export const Row: React.FC<RowProps> = (props) => {
     ? (__children as React.ReactElement[])
     : [__children];
 
-  const [RowGutterStyles, ColPadding] = gutterStyle(props);
+  const [rowGutterStyles, colPadding] = gutterStyle(props);
   return (
     <div
       onClick={onClick}
-      className={classes(rowStyle(props), RowGutterStyles, className, 'sha-el-row')}
+      className={classes(rowStyle(props), rowGutterStyles, className, 'sha-el-row')}
       style={style}
       {...rest}
     >
       {children
         .filter((child) => child !== undefined)
-        .map((child, i) => React.cloneElement(child, { key: i, style: { ...ColPadding, ...child.props.style } }))}
+        .map((child, i) => React.cloneElement(child, { key: i, style: { ...colPadding, ...child.props.style } }))}
     </div>
   );
 };

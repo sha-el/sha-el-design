@@ -227,7 +227,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
             </Menu>
           </Col>
         </Row>
-        <Row gutter={[0, 0]}>
+        <Row>
           {weeks.map((v) => (
             <Col span={24 / 7} key={v}>
               <Text fontWeight={600} textAlign="center" variant="p" color="light">
@@ -236,7 +236,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
             </Col>
           ))}
         </Row>
-        <Row gutter={[0, 0]}>{getdateArray()}</Row>
+        <Row>{getdateArray()}</Row>
       </CardBody>
     </Card>
   );

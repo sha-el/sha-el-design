@@ -35,7 +35,7 @@ export const Menu: React.FC<MenuProps> = (props) => {
 
   if (mode === 'horizontal') {
     return (
-      <Row gutter={[0, 0]}>
+      <Row>
         {(children as React.ReactElement[]).map((e, i) => (
           <Col flex="1 0 auto" key={i}>
             {e}

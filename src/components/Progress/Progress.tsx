@@ -34,12 +34,16 @@ export const Progress: React.FC<ProgressProps> = (props) => {
 
   return (
     <Row>
-      <Col flex="1 0 auto">
+      <Col style={{ padding: '0.5rem' }} flex="1 0 auto">
         <div className={classes(css.container, 'sha-el-progress')}>
           <div style={{ width: props.percent + '%' }} className={classes(css.line, 'sha-el-progress-line')} />
         </div>
       </Col>
-      {props.label && <Col flex="0 1 auto">{props.label}</Col>}
+      {props.label && (
+        <Col style={{ padding: '0.5rem' }} flex="0 1 auto">
+          {props.label}
+        </Col>
+      )}
     </Row>
   );
 };

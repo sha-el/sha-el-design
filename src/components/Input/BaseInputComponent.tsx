@@ -81,7 +81,6 @@ export const BaseInputComponent = React.forwardRef<
       <Row
         style={containerStyle}
         alignItems="center"
-        gutter={[0, 0]}
         className={classes(containerClassName, css.container, 'sha-el-input')}
         wrap="wrap"
       >
@@ -131,7 +130,7 @@ export const BaseInputComponent = React.forwardRef<
         </fieldset>
       </Row>
       {(error !== undefined || hint !== undefined) && (
-        <Row gutter={[0, 0]} justifyContent="flex-end" className={classes(css.help, 'help')}>
+        <Row justifyContent="flex-end" className={classes(css.help, 'help')}>
           {error && (
             <Col flex="1 0 auto">
               <Text

@@ -14,7 +14,7 @@ export const CardHeader: React.FC<CardHeaderProps> = (props) => {
 
   return (
     <div className={classes(css, className)} {...restProps}>
-      <Row gutter={[0, 0]} alignItems="center">
+      <Row alignItems="center">
         <Col flex="1 0 auto">
           <Text variant="h6" margin="0">
             {children}

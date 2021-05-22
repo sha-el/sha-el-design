@@ -60,7 +60,7 @@ const Inner: React.FC<InnerProps> = (props) => {
         onMouseEnter={() => updateDrawerButton(true)}
         onMouseLeave={() => updateDrawerButton(false)}
       >
-        <Row gutter={[0, 0]} style={{ overflowX: 'hidden', maxWidth: width + 'px' }} wrap="nowrap">
+        <Row style={{ overflowX: 'hidden', maxWidth: width + 'px' }} wrap="nowrap">
           <Col style={{ padding: '0 5px' }} flex="0 0 60px" className={elevationCss(3)}>
             {props.logo && <div className={css.logo}>{props.logo}</div>}
             {children.map((v, i) => (

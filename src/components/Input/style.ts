@@ -44,7 +44,7 @@ export const style = ({ theme, error, label, active, borderless, disabled, hover
         '& fieldset': {
           borderColor: (!disabled && 'rgb(9, 30, 66)') || undefined,
         },
-        '& .label': {
+        '&.label': {
           color: !disabled ? lightText(theme) : undefined,
           '&:after, &:before': {
             borderColor: !disabled ? (borderless ? 'transparent' : 'rgb(9, 30, 66)') : undefined,

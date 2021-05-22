@@ -58,7 +58,6 @@ export function FlexTable<T>(props: FlexTableProps<T>) {
       <ListItem
         className={css.header}
         style={style.header}
-        gutter={[0, 0]}
         action={nested && <MdExpandMore style={{ color: disabledColor(theme) }} />}
       >
         <Row gutter={[30, 30]} alignItems="stretch">
@@ -87,7 +86,6 @@ export function FlexTable<T>(props: FlexTableProps<T>) {
                     }
                     key={`row-${index}`}
                     className={css.tableRow}
-                    gutter={[0, 0]}
                     style={rowStyle && rowStyle(v, index)}
                   >
                     <div className={css.nestedContent}>{nested.render(v, index)}</div>
@@ -100,7 +98,6 @@ export function FlexTable<T>(props: FlexTableProps<T>) {
                   action={props.nested && <MdExpandMore style={{ color: disabledColor(theme) }} />}
                   key={`row-${index}`}
                   className={css.tableRow}
-                  gutter={[0, 0]}
                   onClick={() => onRowClick && onRowClick(v, index)}
                   style={rowStyle && rowStyle(v, index)}
                 >

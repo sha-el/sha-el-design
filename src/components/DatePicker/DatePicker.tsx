@@ -28,7 +28,7 @@ export const DatePicker: React.FC<DatePickerProps> = (props) => {
     <>
       <Popover
         content={
-          <Row gutter={[0, 0]}>
+          <Row>
             <Col span={24}>
               <Calendar
                 date={date || undefined}

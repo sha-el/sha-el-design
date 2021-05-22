@@ -128,7 +128,7 @@ export const Nested: Story<ColProps> = (args) => {
     <Row {...RowTemplate.args}>
       <Col flex="1 0 200px" {...args}>
         <Card>
-          <Row gutter={[0, 0]}>
+          <Row>
             <Col span={12}>a</Col>
             <Col span={12}>b</Col>
           </Row>

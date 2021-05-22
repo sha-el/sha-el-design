@@ -101,7 +101,7 @@ const content = (
   refs: Record<'hourEl' | 'minEl' | 'secEl', React.MutableRefObject<HTMLDivElement>>,
 ) => (
   <div className={css}>
-    <Row gutter={[0, 0]}>
+    <Row>
       <Col span={6} className="hour-column" ref={refs.hourEl}>
         {arrayBetween(0, !props.use12Hour ? 24 : 12).map((v) => (
           <Text
