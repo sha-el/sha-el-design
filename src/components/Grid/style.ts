@@ -1,6 +1,6 @@
 import { css } from '@emotion/css';
 import { ColProps } from './Col';
-import { Breakpoint, Gutter, RowProps } from './Row';
+import { ResponsiveBreakpoint, Gutter, RowProps } from './Row';
 import { useWindowSize } from '../../helpers/Grid';
 
 export const colStyle = (props: ColProps) =>
@@ -51,13 +51,13 @@ export const rowStyle = (props: RowProps) =>
     alignItems: props.alignItems,
   });
 
-const breakpointRowObject = (gutter: Gutter[], breakpoint: Breakpoint) => ({
+const breakpointRowObject = (gutter: Gutter[], breakpoint: ResponsiveBreakpoint) => ({
   marginLeft: typeof gutter[0] === 'object' && gutter[0][breakpoint] !== undefined ? gutter[0][breakpoint] / -2 : null,
   marginRight: typeof gutter[0] === 'object' && gutter[0][breakpoint] !== undefined ? gutter[0][breakpoint] / -2 : null,
   rowGap: typeof gutter[1] === 'object' && gutter[1][breakpoint] !== undefined ? gutter[1][breakpoint] : null,
 });
 
-const breakpointColObject = (gutter: Gutter[], breakpoint: Breakpoint | '') =>
+const breakpointColObject = (gutter: Gutter[], breakpoint: ResponsiveBreakpoint | '') =>
   typeof gutter[0] === 'object' &&
   gutter[0][breakpoint] !== undefined && {
     paddingLeft: gutter[0][breakpoint] / 2,

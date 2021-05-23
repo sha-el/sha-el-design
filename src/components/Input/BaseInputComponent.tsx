@@ -74,6 +74,7 @@ export const BaseInputComponent = React.forwardRef<
     disabled: props.disabled || false,
     before: !!before,
     hover: ShouldHover(),
+    required: required,
   });
 
   return (

@@ -74,3 +74,5 @@ export interface ColProps extends React.DetailedHTMLProps<React.HTMLAttributes<H
 Col.defaultProps = {
   span: 24,
 };
+
+Col.displayName = 'Col';

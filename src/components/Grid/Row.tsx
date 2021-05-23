@@ -30,7 +30,14 @@ export const Row: React.FC<RowProps> = (props) => {
     >
       {children
         .filter((child) => child !== undefined)
-        .map((child, i) => React.cloneElement(child, { key: i, style: { ...colPadding, ...child.props.style } }))}
+        .map((child, i) =>
+          React.cloneElement(
+            child,
+            ((child.type as unknown) as { displayName: string }).displayName === 'Col'
+              ? { key: i, style: { ...colPadding, ...child.props.style } }
+              : { key: i, style: { ...child.props.style } },
+          ),
+        )}
     </div>
   );
 };
@@ -42,8 +49,8 @@ Row.defaultProps = {
   flexDirection: 'row',
 };
 
-export type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-export type Gutter = number | Partial<Record<Breakpoint, number>>;
+export type ResponsiveBreakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type Gutter = number | Partial<Record<ResponsiveBreakpoint, number>>;
 
 export interface RowProps extends React.HtmlHTMLAttributes<HTMLDivElement> {
   children: React.ReactElement | React.ReactElement[];

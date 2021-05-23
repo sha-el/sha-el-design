@@ -3,7 +3,7 @@ import { getColor } from '../../helpers';
 import { css } from '@emotion/css';
 import { zIndexBase } from '../../helpers/zIndex';
 
-export const style = ({ theme, error, label, active, borderless, disabled, hover, before }) => {
+export const style = ({ theme, error, label, active, borderless, disabled, hover, before, required }) => {
   const borderColor = error ? theme.error : borderColorHelper(theme.background);
 
   const borderStyle = borderless
@@ -25,6 +25,8 @@ export const style = ({ theme, error, label, active, borderless, disabled, hover
       fontSize: '14px',
       lineHeight: 1.12857,
       cursor: 'text',
+      marginTop: '1px',
+      marginBottom: '2px',
       transition: 'background-color 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s',
       '&:focus-within': !error && {
         '& fieldset': {
@@ -136,7 +138,7 @@ export const style = ({ theme, error, label, active, borderless, disabled, hover
       '& span': {
         display: 'inline-block',
         paddingLeft: '5px',
-        paddingRight: '5px',
+        paddingRight: required ? '12px' : '5px',
       },
     }),
     help: css({
