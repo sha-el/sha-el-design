@@ -8,7 +8,8 @@ const availablePaddingLevel = arrayBetween(0, 25);
 
 const multiValuePadding = (padding: [number, number] | [number, number, number, number]) => {
   return `
-  .padding-${padding.join('-')} {
+  .padding-${padding.join('-')}
+  {
     padding: ${padding.map((v) => v + 'px').join(' ')};
   }
 
@@ -146,6 +147,13 @@ export const initPaddings = () => {
     ${multiValuePadding([0, 0, 0, 15])}
     ${multiValuePadding([0, 0, 0, 20])}
     ${multiValuePadding([0, 0, 0, 25])}
+
+    ${multiValuePadding([8, 0])}
+    ${multiValuePadding([4, 0])}
+    ${multiValuePadding([6, 8, 6, 9])}
+    ${multiValuePadding([6, 8, 6, 28])}
+    ${multiValuePadding([12, 16, 12, 18])}
+    ${multiValuePadding([12, 16, 12, 38])}
   `;
   return values;
 };

@@ -3,10 +3,8 @@ import { css } from '@emotion/css';
 import { getBorders } from '../../helpers/border';
 import { Theme } from '../Theme/Theme';
 
-export const list = (densed: boolean, background: string, border: number, theme: Theme) =>
+export const list = (background: string, border: number, theme: Theme) =>
   css({
-    padding: densed ? '4px 0' : '8px 0',
-    margin: 0,
     listStyle: 'none',
     width: '100%',
     boxSizing: 'border-box',
@@ -43,7 +41,6 @@ export const listItem = (background: string) =>
   });
 
 export const nestedItem = css({
-  paddingLeft: '20px',
   overflowY: 'hidden',
   transition: 'all .6s cubic-bezier(0.4, 0, 0.2, 1)',
 });

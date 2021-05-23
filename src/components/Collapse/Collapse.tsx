@@ -16,7 +16,7 @@ export const Collapse: React.FC<CollapseProps> = (props) => {
   );
 };
 
-interface CollapseProps {
+export interface CollapseProps {
   isOpen?: boolean;
   header?: React.ReactNode;
   onChange?: (isOpen: boolean) => void;
