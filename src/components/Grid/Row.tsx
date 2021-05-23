@@ -29,7 +29,7 @@ export const Row: React.FC<RowProps> = (props) => {
       {...rest}
     >
       {children
-        .filter((child) => child !== undefined)
+        .filter((child) => !!child)
         .map((child, i) =>
           React.cloneElement(
             child,
