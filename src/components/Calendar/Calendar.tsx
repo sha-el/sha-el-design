@@ -10,7 +10,7 @@ import { Menu, MenuItem } from '../Menu';
 import { style } from './style';
 import { daysInMonth, compareDesc } from '../../helpers/date';
 import { arrayBetween } from '../../helpers/array';
-import { SurfaceProps } from '../../typings/surface';
+import { CardProps } from '../Card/Card';
 
 export const Calendar: React.FC<CalendarProps> = (props) => {
   const initialDate = (date = props.date) => {
@@ -281,7 +281,7 @@ interface State {
   dateObj: Record<weeksEnum, number>[];
 }
 
-export interface CalendarProps extends SurfaceProps {
+export interface CalendarProps extends Omit<CardProps, 'onClick'> {
   /**
    * Set Calendar Initial Date
    */

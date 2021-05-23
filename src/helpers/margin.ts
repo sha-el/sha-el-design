@@ -146,9 +146,12 @@ export const initMargins = () => {
     ${multiValueMargin([0, 0, 0, 15])}
     ${multiValueMargin([0, 0, 0, 20])}
     ${multiValueMargin([0, 0, 0, 25])}
+<<<<<<< HEAD
 
     ${multiValueMargin([4, 0])}
     ${multiValueMargin([2, 0])}
+=======
+>>>>>>> Add global margin and padding.
   `;
   return values;
 };

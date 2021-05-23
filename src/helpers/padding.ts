@@ -147,6 +147,7 @@ export const initPaddings = () => {
     ${multiValuePadding([0, 0, 0, 15])}
     ${multiValuePadding([0, 0, 0, 20])}
     ${multiValuePadding([0, 0, 0, 25])}
+<<<<<<< HEAD
 
     ${multiValuePadding([8, 0])}
     ${multiValuePadding([4, 0])}
@@ -155,6 +156,8 @@ export const initPaddings = () => {
     ${multiValuePadding([6, 8, 6, 28])}
     ${multiValuePadding([12, 16, 12, 18])}
     ${multiValuePadding([12, 16, 12, 38])}
+=======
+>>>>>>> Add global margin and padding.
   `;
   return values;
 };
