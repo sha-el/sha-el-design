@@ -6,13 +6,8 @@ export const cardStyle = (theme: Theme) =>
   css({
     background: theme.background,
     boxSizing: 'border-box',
-    padding: '16px',
     borderRadius: '6.5px',
   });
-
-export const cardHeaderStyle = css({
-  marginBottom: '10px',
-});
 
 export const cardMediaStyle = (props: CardMediaProps) =>
   css({

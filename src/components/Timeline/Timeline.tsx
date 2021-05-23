@@ -18,7 +18,8 @@ export const Timeline: React.FC<TimelineProps> = (props) => {
   return (
     <span className={timelineStyle()}>
       <div className={classes('timeline', `timeline-${props.position}`)}>
-        {React.cloneElement(props.children as React.ReactElement, { position: getPosition(0, props.position) })}
+        {props.children &&
+          React.cloneElement(props.children as React.ReactElement, { position: getPosition(0, props.position) })}
       </div>
     </span>
   );

@@ -2,13 +2,14 @@ import * as React from 'react';
 import { nestedAccess, arrayBetween } from './../../helpers';
 import { Row, Col } from './../../index';
 import { Card, CardBody } from '../Card';
-import { color } from 'csx';
+import Color from 'color';
 import { Button } from '../Button';
 import { Tooltip } from '../Tooltip';
 import { Text } from '../Text';
 import { Menu, MenuItem } from '../Menu';
 import { style } from './style';
 import { daysInMonth, compareDesc } from '../../helpers/date';
+import { CardProps } from '../Card/Card';
 
 export const Calendar: React.FC<CalendarProps> = (props) => {
   const initialDate = (date = props.date) => {
@@ -77,7 +78,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
                 background: v.color || '#fcc',
                 boxShadow:
                   '0 10px 14px ' +
-                  color(v.color || '#fcc')
+                  Color(v.color || '#fcc')
                     .fade(0.4)
                     .toString(),
               }}
@@ -98,7 +99,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
                 background: v.color || '#fcc',
                 boxShadow:
                   '0 10px 14px ' +
-                  color(v.color || '#fcc')
+                  Color(v.color || '#fcc')
                     .fade(0.4)
                     .toString(),
               }}
@@ -117,7 +118,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
                 background: v.color || '#fcc',
                 boxShadow:
                   '0 10px 14px ' +
-                  color(v.color || '#fcc')
+                  Color(v.color || '#fcc')
                     .fade(0.4)
                     .toString(),
               }}
@@ -189,7 +190,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
   const css = style;
 
   return (
-    <Card elevation={props.elevation}>
+    <Card elevation={props.elevation} padding={props.padding} margin={props.margin} border={props.border}>
       <CardBody>
         <Row gutter={[10, 10]} justifyContent="flex-end">
           <Col flex="0 1 auto">
@@ -282,7 +283,7 @@ interface State {
   dateObj: Record<weeksEnum, number>[];
 }
 
-export interface CalendarProps {
+export interface CalendarProps extends Omit<CardProps, 'onClick'> {
   /**
    * Set Calendar Initial Date
    */
@@ -303,7 +304,6 @@ export interface CalendarProps {
     color?: string;
   }[];
 
-  elevation?: number;
   onClick?: (date: Date) => void;
   disabledDate?: (date: Date) => boolean;
 }

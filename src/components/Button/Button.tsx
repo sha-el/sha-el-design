@@ -45,7 +45,9 @@ export const Button: React.FC<ButtonProps> = (props) => {
     return (
       <BaseElement
         className={classes(css.anchor, css.default, className)}
-        onClick={(e) => !loading && onClick && onClick(e)}
+        onClick={(
+          e: React.MouseEvent<HTMLAnchorElement, MouseEvent> & React.MouseEvent<HTMLButtonElement, MouseEvent>,
+        ) => !loading && onClick && onClick(e)}
         {...rest}
       >
         {icon}

@@ -1,5 +1,5 @@
 import { css } from '@emotion/css';
-import { getColor } from '../../helpers';
+import { getColor } from '../../helpers/color';
 import { TimelineItemProps } from './TimelineItem';
 
 export const timelineItem = (props: TimelineItemProps) =>

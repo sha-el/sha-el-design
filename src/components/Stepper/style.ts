@@ -1,5 +1,5 @@
 import { css } from '@emotion/css';
-import { getColor } from '../../helpers';
+import { getColor } from '../../helpers/color';
 import { disabledColor, disabledText } from '../../helpers/color';
 import { Theme } from '../Theme/Theme';
 

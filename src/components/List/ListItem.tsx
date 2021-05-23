@@ -5,7 +5,8 @@ import { listItem as listStyle } from './style';
 import { lightText } from '../../helpers/color';
 import { Text } from '../Text';
 import { RowProps } from '../Grid/Row';
-import { classes, getColor } from '../../helpers';
+import { classes } from '../../helpers';
+import { getColor } from '../../helpers/color';
 
 export interface ListItemProps extends Omit<React.HtmlHTMLAttributes<HTMLLIElement>, 'onChange'> {
   subtitle?: React.ReactNode;

@@ -29,7 +29,7 @@ export const Drawer: React.FunctionComponent<DrawerProps> = (props) => {
       <>
         <div className={css.maskStyle} onClick={() => props.onClose && beforeClose()} />
         <div
-          style={props.style?.container}
+          style={props.style}
           className={classes(
             css.drawerStyle,
             css[`slideIn${props.placement.charAt(0).toUpperCase() + props.placement.slice(1)}` || 'slideInRight'],
@@ -37,21 +37,7 @@ export const Drawer: React.FunctionComponent<DrawerProps> = (props) => {
             className,
           )}
         >
-          {props.header && (
-            <div style={props.style?.header} className="header">
-              {props.header}
-            </div>
-          )}
-
-          <div style={props.style?.body} className="body">
-            {props.children}
-          </div>
-
-          {props.footer && (
-            <div style={props.style?.footer} className="footer">
-              {props.footer}
-            </div>
-          )}
+          {props.children}
         </div>
       </>
     </Portal>
@@ -72,24 +58,9 @@ export interface DrawerProps {
   children: React.ReactNode;
 
   /**
-   * Footer of Drawer
+   * Style
    */
-  footer?: React.ReactNode;
-
-  /**
-   * header of Drawer
-   */
-  header?: React.ReactNode;
-
-  /**
-   * Styles for all types of container
-   */
-  style?: {
-    header?: React.CSSProperties;
-    body?: React.CSSProperties;
-    footer?: React.CSSProperties;
-    container?: React.CSSProperties;
-  };
+  style?: React.CSSProperties;
   /**
    * Weather Drawer is visible or not
    */

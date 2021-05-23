@@ -1,5 +1,3 @@
-import { color } from 'csx';
-
 import { initializeNotification } from './../components/Notification/Notification';
 
 import popverCss from './popover.css';
@@ -52,10 +50,6 @@ export function nestedAccess<T>(obj: T, ...props: string[]): unknown {
 
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
-export function getColor(clr: string, black = '#555555', white = '#ffffff') {
-  return color(clr).lightness() > 0.7 ? black : white;
-}
-
 export function initialize() {
   const style = document.createElement('style');
   style.id = 'sha-el-design-base-style';
@@ -76,7 +70,7 @@ export function initialize() {
     svg {
       display: flex;
     }
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
     @import url('https://fonts.googleapis.com/css?family=Fira+Code:300,400,500,600,700&display=swap');
     ${popverCss}
     ${topography}

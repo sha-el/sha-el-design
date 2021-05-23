@@ -2,6 +2,7 @@ import React from 'react';
 import { Story, Meta } from '@storybook/react';
 
 import { Tag, TagProps } from './Tag';
+import { MdVerifiedUser } from 'react-icons/md';
 
 export default {
   title: 'Display/Tag',
@@ -16,7 +17,7 @@ const Template: Story<TagProps> = (args) => <Tag {...args} />;
 export const Basic = Template.bind({});
 Basic.args = {
   color: 'red',
-  children: 'Basic',
+  children: 'basic',
 };
 
 export const Outline = Template.bind({});
@@ -33,9 +34,9 @@ Chips.args = {
   children: 'Chips',
 };
 
-export const Size = Template.bind({});
-Size.args = {
-  color: 'red',
-  size: 'SMALL',
-  children: 'Size',
+export const Icon = Template.bind({});
+Icon.args = {
+  color: '#f60',
+  children: 'Chips',
+  icon: <MdVerifiedUser />,
 };

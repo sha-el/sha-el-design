@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { classes } from '../../helpers';
+import { borderCss } from '../../helpers/border';
 import { elevationCss } from '../../helpers/elevations';
 import { useTheme } from '../Theme/Theme';
 import { list as style } from './style';
@@ -8,6 +9,7 @@ export interface ListProps {
   children?: React.ReactElement | React.ReactElement[];
   style?: React.CSSProperties;
   elevation?: number;
+  border?: number;
   className?: string;
   densed?: boolean;
   backgroundColor?: string;
@@ -16,11 +18,14 @@ export interface ListProps {
 export const List: React.FC<ListProps> = (props) => {
   const { elevation = 2 } = props;
   const theme = useTheme();
-  const css = style(props.densed, props.backgroundColor || theme.background);
+  const css = style(props.densed, props.backgroundColor || theme.background, props.border, theme);
 
   return (
     <div>
-      <ul className={classes(elevationCss(elevation), props.className, css)} style={props.style}>
+      <ul
+        className={classes(elevationCss(elevation), borderCss(props.border), props.className, css)}
+        style={props.style}
+      >
         {Array.isArray(props.children)
           ? (props.children as React.ReactElement[])?.map(
               (v, i) =>

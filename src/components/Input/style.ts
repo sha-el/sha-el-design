@@ -1,5 +1,5 @@
 import { lightText, borderColor as borderColorHelper, disabledText } from '../../helpers/color';
-import { getColor } from '../../helpers';
+import { getColor } from '../../helpers/color';
 import { css } from '@emotion/css';
 import { zIndexBase } from '../../helpers/zIndex';
 
@@ -59,9 +59,6 @@ export const style = ({ theme, error, label, active, borderless, disabled, hover
     }),
     input: css({
       fontSize: '14px',
-      minWidth: '100%',
-      display: 'inline',
-      maxWidth: '100%',
       background: 'transparent',
       borderWidth: '0px',
       borderStyle: 'initial',

@@ -15,6 +15,7 @@ export interface TransferProps<T> {
   onChange?: (values: T[]) => void;
   values?: T[];
   elevation?: number;
+  border?: number;
 }
 
 interface State<T> {
@@ -162,7 +163,7 @@ export class Transfer<T> extends React.Component<TransferProps<T>, State<T>> {
   render() {
     const { selectedLeft, selectedRight, data } = this.state;
     return (
-      <Card elevation={this.props.elevation} style={{ minWidth: '500px' }}>
+      <Card elevation={this.props.elevation} border={this.props.border} style={{ minWidth: '500px' }}>
         <Row alignItems="center">
           <Col span={10} alignSelf="stretch">
             <CardHeader subtitle={`${data.length} item(s)`} />

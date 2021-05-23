@@ -257,7 +257,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
 
     return (
       <Popover
-        trigger="onClick"
+        trigger={['onClick', 'onFocus']}
         position="bottom"
         content={this.displayList()}
         onVisibleChange={(v) => this.onOpen(v)}

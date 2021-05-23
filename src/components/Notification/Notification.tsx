@@ -5,7 +5,8 @@ import { MdInfoOutline, MdErrorOutline, MdWarning, MdDoneAll } from 'react-icons
 import { Portal } from '../Popover/Portal';
 import { NotificationProps, notificationSubject$ } from './NotificationService';
 import posed, { PoseGroup } from 'react-pose';
-import { isBrowser, getColor } from '../../helpers';
+import { isBrowser } from '../../helpers';
+import { getColor } from '../../helpers/color';
 import { DARK_THEME, Theme } from '../Theme/Theme';
 import { ListItem } from '../List';
 import { Text } from '../Text';
