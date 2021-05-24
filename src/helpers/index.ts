@@ -2,6 +2,8 @@ import { initializeNotification } from './../components/Notification/Notificatio
 
 import popverCss from './popover.css';
 import topography from './typography.css';
+import { initMargins } from './margin';
+import { initPaddings } from './padding';
 
 export function removeObjectProperties<T extends Record<string, unknown>>(
   obj: T,
@@ -74,6 +76,9 @@ export function initialize() {
     @import url('https://fonts.googleapis.com/css?family=Fira+Code:300,400,500,600,700&display=swap');
     ${popverCss}
     ${topography}
+    ${initMargins()}
+    ${initPaddings()}
+    
   `;
   document.getElementsByTagName('head')[0].appendChild(style);
   initializeNotification();

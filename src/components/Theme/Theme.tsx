@@ -2,8 +2,6 @@ import * as React from 'react';
 import { useTheme as themeHook, ThemeProvider as EmoThemeProvider } from '@emotion/react';
 import { initElevations } from '../../helpers/elevations';
 import { initBorders } from '../../helpers/border';
-import { initMargins } from '../../helpers/margin';
-import { initPaddings } from '../../helpers/padding';
 
 export const DARK_THEME = {
   primary: '#536DFE',
@@ -43,9 +41,7 @@ export const useTheme = () => {
           --color: ${theme.textColor}
         }
         ${initElevations(theme)}
-        ${initBorders(theme)}
-        ${initMargins()}
-        ${initPaddings()}`;
+        ${initBorders(theme)}`;
   document.getElementsByTagName('head')[0].appendChild(style);
   return theme;
 };
