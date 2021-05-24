@@ -1,6 +1,6 @@
-import { arrayBetween } from '.';
+import { ResponsiveBreakpoint } from '../components/Grid/Row';
+import { arrayBetween } from './array';
 
-export type ResponsiveBreakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type MarginValue = number | [number, number] | [number, number, number, number];
 export type MarginClassNameInput = MarginValue | Partial<Record<ResponsiveBreakpoint, MarginValue>>;
 

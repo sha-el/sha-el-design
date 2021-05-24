@@ -35,7 +35,6 @@ describe('Tiemline', () => {
     expect(content.querySelector('div')).toHaveStyle(`
       background: #ffffff;
       box-sizing: border-box;
-      padding: 16px;
       border-radius: 6.5px;
     `);
     expect(content.querySelector('div').innerHTML).toBe('SMS');

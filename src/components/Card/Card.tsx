@@ -4,8 +4,9 @@ import { classes } from '../../helpers';
 import { cardStyle } from './style';
 import { elevationCss } from '../../helpers/elevations';
 import { borderCss } from '../../helpers/border';
-import { MarginClassNameInput, marginCss } from '../../helpers/margin';
-import { PaddingClassNameInput, paddingCss } from '../../helpers/padding';
+import { marginCss } from '../../helpers/margin';
+import { paddingCss } from '../../helpers/padding';
+import { SurfaceProps } from '../../typings/surface';
 
 export const Card: React.FC<CardProps> = (props) => {
   const {
@@ -37,10 +38,8 @@ export const Card: React.FC<CardProps> = (props) => {
   );
 };
 
-export interface CardProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+export interface CardProps
+  extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>,
+    SurfaceProps {
   children?: React.ReactNode;
-  elevation?: number;
-  border?: number;
-  padding?: PaddingClassNameInput;
-  margin?: MarginClassNameInput;
 }

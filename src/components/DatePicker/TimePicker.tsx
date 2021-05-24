@@ -3,7 +3,7 @@ import { Input } from '../Input';
 import { InputProps } from '../Input/Input';
 import { Popover } from '../Popover';
 import { Row, Col } from '../Grid';
-import { arrayBetween } from '../../helpers';
+import { arrayBetween } from '../../helpers/array';
 import { Button } from '../Button';
 import { MdTimer } from 'react-icons/md';
 import { style } from './style';

@@ -83,7 +83,7 @@ export const DatePicker: React.FC<DatePickerProps> = (props) => {
 };
 
 type InputType = Omit<InputProps, 'onClick' | 'value' | 'onChange'>;
-type CalendarType = Omit<CalendarProps, 'onChange'>;
+type CalendarType = Omit<CalendarProps, 'onChange' | 'onClick'>;
 
 export interface DatePickerProps extends InputType, CalendarType {
   displayProp?: (date?: Date | null) => string;

@@ -39,12 +39,10 @@ describe('BaseInputComponent', () => {
     expect(input).toHaveStyle(`
       color: rgb(85, 85, 85);
       height: 36px;
-      display: inline;
+      display: inline-block;
       outline: none;
       padding: 9px 14px;
       font-size: 14px;
-      max-width: 100%;
-      min-width: 100%;
       background: transparent;
       box-sizing: border-box;
       line-height: 12px;
@@ -64,12 +62,10 @@ describe('BaseInputComponent', () => {
     expect(textarea).toHaveStyle(`
       color: rgb(85, 85, 85);
       height: 36px;
-      display: inline;
+      display: inline-block;
       outline: none;
       padding: 9px 14px;
       font-size: 14px;
-      max-width: 100%;
-      min-width: 100%;
       background: transparent;
       box-sizing: border-box;
       line-height: 12px;

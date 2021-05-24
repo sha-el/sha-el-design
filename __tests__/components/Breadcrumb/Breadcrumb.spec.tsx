@@ -31,7 +31,7 @@ describe('Breadcrumb', () => {
 
     expect(breadcrumb[2].innerHTML).toBe('<a href="#">Breadcrumb</a>');
     expect(breadcrumb[2].children[0]).toHaveStyle(`
-      color: rgb(134, 152, 254);
+      color: rgb(48, 48, 48);
     `);
   });
 

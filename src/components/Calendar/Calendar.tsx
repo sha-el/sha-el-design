@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { nestedAccess, arrayBetween } from './../../helpers';
+import { nestedAccess } from './../../helpers';
 import { Row, Col } from './../../index';
 import { Card, CardBody } from '../Card';
 import Color from 'color';
@@ -9,7 +9,8 @@ import { Text } from '../Text';
 import { Menu, MenuItem } from '../Menu';
 import { style } from './style';
 import { daysInMonth, compareDesc } from '../../helpers/date';
-import { CardProps } from '../Card/Card';
+import { arrayBetween } from '../../helpers/array';
+import { SurfaceProps } from '../../typings/surface';
 
 export const Calendar: React.FC<CalendarProps> = (props) => {
   const initialDate = (date = props.date) => {
@@ -283,7 +284,7 @@ interface State {
   dateObj: Record<weeksEnum, number>[];
 }
 
-export interface CalendarProps extends Omit<CardProps, 'onClick'> {
+export interface CalendarProps extends SurfaceProps {
   /**
    * Set Calendar Initial Date
    */

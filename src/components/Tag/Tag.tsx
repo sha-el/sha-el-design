@@ -1,6 +1,8 @@
 import { Theme } from '@emotion/react';
 import * as React from 'react';
 import { MdClear } from 'react-icons/md';
+import { classes } from '../../helpers';
+import { elevationCss } from '../../helpers/elevations';
 import { useTheme } from '../Theme/Theme';
 import { style } from './style';
 
@@ -9,7 +11,7 @@ export const Tag: React.FC<TagProps> = (props) => {
   const { tag: tagCss, chipIcon, icon: iconCss } = style({ props, theme });
 
   return (
-    <span className={tagCss} onClick={(e) => props?.onClick(e)} style={props.style}>
+    <span className={classes(tagCss, elevationCss(2))} onClick={(e) => props?.onClick(e)} style={props.style}>
       {props.icon && <span className={iconCss}>{props.icon}</span>}
       <span>{props.children}</span>
       {props.chips && (

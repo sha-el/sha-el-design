@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Omit, classes } from '../../helpers';
+import { classes } from '../../helpers';
 import { Row, Col } from '../../';
 import { useTheme } from '../Theme/Theme';
 import { style } from './style';
@@ -177,8 +177,6 @@ export interface BaseInputProps extends Omit<React.InputHTMLAttributes<HTMLInput
   children: React.ReactElement;
 }
 
-export interface BaseTextAreaProps
-  extends React.DetailedHTMLProps<React.TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement>,
-    Props {
+export interface BaseTextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement>, Props {
   children: React.ReactElement;
 }

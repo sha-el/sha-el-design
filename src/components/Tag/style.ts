@@ -1,7 +1,6 @@
 import { css } from '@emotion/css';
 import Color from 'color';
 import { lightText } from '../../helpers/color';
-import { shadow } from '../../helpers/style';
 import { Theme } from '../Theme/Theme';
 import { TagProps } from './Tag';
 
@@ -49,7 +48,6 @@ export const style = ({ props, theme }: { props: TagProps; theme: Theme }) => ({
     fontWeight: 'bold',
     margin: '5px',
     marginLeft: '0',
-    boxShadow: shadow('DEFAULT', theme),
     cursor: props.onClick ? 'pointer' : 'default',
     textTransform: 'uppercase',
     textAlign: 'center',

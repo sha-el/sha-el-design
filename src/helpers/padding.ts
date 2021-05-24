@@ -1,6 +1,6 @@
-import { arrayBetween } from '.';
+import { arrayBetween } from './array';
+import { ResponsiveBreakpoint } from '../components/Grid/Row';
 
-export type ResponsiveBreakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type PaddingValue = number | [number, number] | [number, number, number, number];
 export type PaddingClassNameInput = PaddingValue | Partial<Record<ResponsiveBreakpoint, PaddingValue>>;
 
