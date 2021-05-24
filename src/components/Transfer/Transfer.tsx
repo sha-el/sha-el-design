@@ -5,6 +5,8 @@ import { Button } from '../Button';
 import { CardHeader, Card } from '../Card';
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from 'react-icons/md';
 import { Skeleton } from '../Loading';
+import { MarginClassNameInput } from '../../helpers/margin';
+import { PaddingClassNameInput } from '../../helpers/padding';
 
 export interface TransferProps<T> {
   listDisplayProp: (arg: T) => React.ReactNode;
@@ -16,6 +18,8 @@ export interface TransferProps<T> {
   values?: T[];
   elevation?: number;
   border?: number;
+  padding?: PaddingClassNameInput;
+  margin?: MarginClassNameInput;
 }
 
 interface State<T> {
@@ -162,8 +166,15 @@ export class Transfer<T> extends React.Component<TransferProps<T>, State<T>> {
 
   render() {
     const { selectedLeft, selectedRight, data } = this.state;
+    const { padding = { xs: 10, sm: 15, md: 24 }, margin } = this.props;
     return (
-      <Card elevation={this.props.elevation} border={this.props.border} style={{ minWidth: '500px' }}>
+      <Card
+        elevation={this.props.elevation}
+        margin={margin}
+        padding={padding}
+        border={this.props.border}
+        style={{ minWidth: '500px' }}
+      >
         <Row alignItems="center">
           <Col span={10} alignSelf="stretch">
             <CardHeader subtitle={`${data.length} item(s)`} />

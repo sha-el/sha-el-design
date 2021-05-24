@@ -4,6 +4,8 @@ import { classes, isBrowser } from '../../helpers';
 import { useTheme } from '../Theme/Theme';
 import { style } from './style';
 import { elevationCss } from '../../helpers/elevations';
+import { PaddingClassNameInput, paddingCss } from '../../helpers/padding';
+import { MarginClassNameInput, marginCss } from '../../helpers/margin';
 
 export const Popover: React.FC<PopoverProps> = (props) => {
   const theme = useTheme();
@@ -39,6 +41,8 @@ export const Popover: React.FC<PopoverProps> = (props) => {
     style: { container: containerStyle = {}, child: childStyle = {} } = {},
     onVisibleChange,
     elevation = 12,
+    padding = { xs: 0, sm: 2, md: 5, lg: 8 },
+    margin = { xs: 0, sm: 2, md: 5, lg: 8 },
   } = props;
 
   if (!isBrowser) {
@@ -54,7 +58,7 @@ export const Popover: React.FC<PopoverProps> = (props) => {
       trigger={triggers(trigger)}
       overlay={renderContent()}
       destroyTooltipOnHide={!preserveOnClose}
-      overlayClassName={classes(css, elevationCss(elevation))}
+      overlayClassName={classes(css, elevationCss(elevation), paddingCss(padding), marginCss(margin))}
       overlayStyle={containerStyle}
       onVisibleChange={(v) => {
         if (props.visible === undefined) {
@@ -110,6 +114,8 @@ export interface PopoverProps {
   elevation?: number;
   cover?: boolean;
   animation?: string;
+  padding?: PaddingClassNameInput;
+  margin?: MarginClassNameInput;
 }
 
 Popover.defaultProps = {

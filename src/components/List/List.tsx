@@ -46,7 +46,6 @@ export const List: React.FC<ListProps> = (props) => {
                     v &&
                     React.cloneElement(v, {
                       key: `item-${i}`,
-                      // padding: (props.densed && [6, 8, 6, 9]) || v.props.padding,
                       padding:
                         (props.densed
                           ? isCollapsible

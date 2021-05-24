@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { RowProps } from '../Grid/Row';
+import { MarginClassNameInput } from '../../helpers/margin';
+import { PaddingClassNameInput } from '../../helpers/padding';
 import { ListItem } from '../List';
 
 export const MenuItem: React.FC<MenuItemProps> = (props) => {
-  const { icon, children, onClick, element, close, active, action, gutter } = props;
+  const { icon, children, onClick, element, close, active, action, padding, margin } = props;
   return (
     <ListItem
       onClick={() => {
@@ -14,7 +15,8 @@ export const MenuItem: React.FC<MenuItemProps> = (props) => {
       element={element}
       selected={active}
       action={action}
-      gutter={gutter}
+      padding={padding}
+      margin={margin}
     >
       {children}
     </ListItem>
@@ -30,5 +32,6 @@ export interface MenuItemProps {
   element?: React.ReactElement;
   close?: () => void;
   action?: React.ReactNode;
-  gutter?: RowProps['gutter'];
+  padding?: PaddingClassNameInput;
+  margin?: MarginClassNameInput;
 }

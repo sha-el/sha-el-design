@@ -57,6 +57,8 @@ export const Menu: React.FC<MenuProps> = (props) => {
       }
       position={position}
       trigger={trigger}
+      padding={0}
+      margin={0}
     >
       {anchor}
     </Popover>

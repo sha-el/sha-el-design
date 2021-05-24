@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { classes } from '../../helpers';
 import { elevationCss } from '../../helpers/elevations';
+import { PaddingClassNameInput, paddingCss } from '../../helpers/padding';
 import { Portal } from '../Popover/Portal';
 import { useTheme } from '../Theme/Theme';
 import { style } from './style';
 
 export const Drawer: React.FunctionComponent<DrawerProps> = (props) => {
-  const { elevation = 24, onClose = () => ({}) } = props;
+  const { elevation = 24, padding = { xs: 5, sm: 10, md: 15, lg: 20 }, onClose = () => ({}) } = props;
 
   if (!props.isVisible) {
     return null;
@@ -34,6 +35,7 @@ export const Drawer: React.FunctionComponent<DrawerProps> = (props) => {
             css.drawerStyle,
             css[`slideIn${props.placement.charAt(0).toUpperCase() + props.placement.slice(1)}` || 'slideInRight'],
             elevationCss(elevation),
+            paddingCss(padding),
             className,
           )}
         >
@@ -70,4 +72,5 @@ export interface DrawerProps {
    */
   onClose?: () => void;
   elevation?: number;
+  padding?: PaddingClassNameInput;
 }

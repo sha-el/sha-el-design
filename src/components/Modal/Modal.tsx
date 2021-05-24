@@ -1,12 +1,22 @@
 import * as React from 'react';
 import { classes } from '../../helpers';
 import { elevationCss } from '../../helpers/elevations';
+import { MarginClassNameInput, marginCss } from '../../helpers/margin';
+import { PaddingClassNameInput, paddingCss } from '../../helpers/padding';
 import { Portal } from '../Popover/Portal';
 import { useTheme } from '../Theme/Theme';
 import { style as modalStyle } from './style';
 
 export const Modal: React.FunctionComponent<ModalProps> = (props) => {
-  const { children, isVisible, style = {}, width, elevation = 24 } = props;
+  const {
+    children,
+    isVisible,
+    style = {},
+    width,
+    elevation = 24,
+    padding = { xs: 2, sm: 5, md: 10 },
+    margin = { xs: [2, 0], md: [4, 0] },
+  } = props;
 
   const [className, updateClassName] = React.useState('');
   const [open, updateOpen] = React.useState(isVisible);
@@ -40,11 +50,11 @@ export const Modal: React.FunctionComponent<ModalProps> = (props) => {
       <div key="mask" className={css.maskStyle} onClick={() => props.onClose?.()}>
         <div
           key="container"
-          className={classes(css.mediaQueries, css.modalContainer, elevationCss(elevation), className)}
+          className={classes(css.mediaQueries, css.modalContainer, elevationCss(elevation), className, 'hello')}
           style={{ width, ...style }}
           onClick={(e) => e.stopPropagation()}
         >
-          <div>{children}</div>
+          <div className={classes(paddingCss(padding), marginCss(margin))}>{children}</div>
         </div>
       </div>
     </Portal>
@@ -58,4 +68,6 @@ export interface ModalProps {
   isVisible?: boolean;
   onClose?: () => void;
   elevation?: number;
+  padding?: PaddingClassNameInput;
+  margin?: MarginClassNameInput;
 }

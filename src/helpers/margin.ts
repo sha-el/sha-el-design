@@ -146,6 +146,9 @@ export const initMargins = () => {
     ${multiValueMargin([0, 0, 0, 15])}
     ${multiValueMargin([0, 0, 0, 20])}
     ${multiValueMargin([0, 0, 0, 25])}
+
+    ${multiValueMargin([4, 0])}
+    ${multiValueMargin([2, 0])}
   `;
   return values;
 };
