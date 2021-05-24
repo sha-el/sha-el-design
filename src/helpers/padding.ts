@@ -147,26 +147,15 @@ export const initPaddings = () => {
     ${multiValuePadding([0, 0, 0, 15])}
     ${multiValuePadding([0, 0, 0, 20])}
     ${multiValuePadding([0, 0, 0, 25])}
-<<<<<<< HEAD
-<<<<<<< HEAD
-
+    
     ${multiValuePadding([8, 0])}
     ${multiValuePadding([4, 0])}
     ${multiValuePadding([2, 0])}
-=======
 
-    ${multiValuePadding([8, 0])}
-    ${multiValuePadding([4, 0])}
->>>>>>> Fix list styles
     ${multiValuePadding([6, 8, 6, 9])}
     ${multiValuePadding([6, 8, 6, 28])}
     ${multiValuePadding([12, 16, 12, 18])}
     ${multiValuePadding([12, 16, 12, 38])}
-<<<<<<< HEAD
-=======
->>>>>>> Add global margin and padding.
-=======
->>>>>>> Fix list styles
   `;
   return values;
 };
