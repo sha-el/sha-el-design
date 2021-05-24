@@ -177,10 +177,11 @@ export const rcSliderStyle = (theme: Theme) => {
     '.rc-slider-tooltip-zoom-down-leave': {
       animationTimingFunction: 'cubic-bezier(0.755, 0.05, 0.855, 0.06)',
     },
-    '.rc-slider-tooltip-zoom-down-enter.rc-slider-tooltip-zoom-down-enter-active, .rc-slider-tooltip-zoom-down-appear.rc-slider-tooltip-zoom-down-appear-active': {
-      animationName: '$rcSliderTooltipZoomDownIn',
-      animationPlayState: 'running',
-    },
+    '.rc-slider-tooltip-zoom-down-enter.rc-slider-tooltip-zoom-down-enter-active, .rc-slider-tooltip-zoom-down-appear.rc-slider-tooltip-zoom-down-appear-active':
+      {
+        animationName: '$rcSliderTooltipZoomDownIn',
+        animationPlayState: 'running',
+      },
     '.rc-slider-tooltip-zoom-down-leave.rc-slider-tooltip-zoom-down-leave-active': {
       animationName: '$rcSliderTooltipZoomDownOut',
       animationPlayState: 'running',

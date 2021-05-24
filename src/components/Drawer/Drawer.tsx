@@ -1,13 +1,15 @@
 import * as React from 'react';
 import { classes } from '../../helpers';
+import { borderCss } from '../../helpers/border';
 import { elevationCss } from '../../helpers/elevations';
-import { PaddingClassNameInput, paddingCss } from '../../helpers/padding';
+import { paddingCss } from '../../helpers/padding';
+import { SurfaceProps } from '../../typings/surface';
 import { Portal } from '../Popover/Portal';
 import { useTheme } from '../Theme/Theme';
 import { style } from './style';
 
 export const Drawer: React.FunctionComponent<DrawerProps> = (props) => {
-  const { elevation = 24, padding = { xs: 5, sm: 10, md: 15, lg: 20 }, onClose = () => ({}) } = props;
+  const { elevation = 24, padding = { xs: 5, sm: 10, md: 15, lg: 20 }, border, onClose = () => ({}) } = props;
 
   if (!props.isVisible) {
     return null;
@@ -36,6 +38,7 @@ export const Drawer: React.FunctionComponent<DrawerProps> = (props) => {
             css[`slideIn${props.placement.charAt(0).toUpperCase() + props.placement.slice(1)}` || 'slideInRight'],
             elevationCss(elevation),
             paddingCss(padding),
+            borderCss(border),
             className,
           )}
         >
@@ -51,7 +54,7 @@ Drawer.defaultProps = {
   style: {},
 };
 
-export interface DrawerProps {
+export interface DrawerProps extends Omit<SurfaceProps, 'margin'> {
   /**
    * Placement of Drawer
    */
@@ -71,6 +74,4 @@ export interface DrawerProps {
    * Callback to be triggered when clicked on close(X) or on mask
    */
   onClose?: () => void;
-  elevation?: number;
-  padding?: PaddingClassNameInput;
 }

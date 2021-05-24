@@ -2,19 +2,16 @@ import * as React from 'react';
 import { classes } from '../../helpers';
 import { borderCss } from '../../helpers/border';
 import { elevationCss } from '../../helpers/elevations';
-import { MarginClassNameInput, marginCss } from '../../helpers/margin';
-import { PaddingClassNameInput, paddingCss } from '../../helpers/padding';
+import { marginCss } from '../../helpers/margin';
+import { paddingCss } from '../../helpers/padding';
+import { SurfaceProps } from '../../typings/surface';
 import { useTheme } from '../Theme/Theme';
 import { CollapsibleContext } from './CollapsibleList';
 import { list as style } from './style';
 
-export interface ListProps {
+export interface ListProps extends SurfaceProps {
   children?: React.ReactElement | React.ReactElement[];
   style?: React.CSSProperties;
-  elevation?: number;
-  border?: number;
-  margin?: MarginClassNameInput;
-  padding?: PaddingClassNameInput;
   className?: string;
   densed?: boolean;
   backgroundColor?: string;

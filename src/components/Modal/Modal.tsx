@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { classes } from '../../helpers';
+import { borderCss } from '../../helpers/border';
 import { elevationCss } from '../../helpers/elevations';
-import { MarginClassNameInput, marginCss } from '../../helpers/margin';
-import { PaddingClassNameInput, paddingCss } from '../../helpers/padding';
+import { marginCss } from '../../helpers/margin';
+import { paddingCss } from '../../helpers/padding';
+import { SurfaceProps } from '../../typings/surface';
 import { Portal } from '../Popover/Portal';
 import { useTheme } from '../Theme/Theme';
 import { style as modalStyle } from './style';
@@ -16,6 +18,7 @@ export const Modal: React.FunctionComponent<ModalProps> = (props) => {
     elevation = 24,
     padding = { xs: 2, sm: 5, md: 10 },
     margin = { xs: [2, 0], md: [4, 0] },
+    border,
   } = props;
 
   const [className, updateClassName] = React.useState('');
@@ -50,7 +53,13 @@ export const Modal: React.FunctionComponent<ModalProps> = (props) => {
       <div key="mask" className={css.maskStyle} onClick={() => props.onClose?.()}>
         <div
           key="container"
-          className={classes(css.mediaQueries, css.modalContainer, elevationCss(elevation), className, 'hello')}
+          className={classes(
+            css.mediaQueries,
+            css.modalContainer,
+            elevationCss(elevation),
+            borderCss(border),
+            className,
+          )}
           style={{ width, ...style }}
           onClick={(e) => e.stopPropagation()}
         >
@@ -61,13 +70,10 @@ export const Modal: React.FunctionComponent<ModalProps> = (props) => {
   );
 };
 
-export interface ModalProps {
+export interface ModalProps extends SurfaceProps {
   children: React.ReactElement;
   width?: string;
   style?: React.CSSProperties;
   isVisible?: boolean;
   onClose?: () => void;
-  elevation?: number;
-  padding?: PaddingClassNameInput;
-  margin?: MarginClassNameInput;
 }

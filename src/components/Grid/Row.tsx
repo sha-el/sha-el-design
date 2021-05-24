@@ -33,7 +33,7 @@ export const Row: React.FC<RowProps> = (props) => {
         .map((child, i) =>
           React.cloneElement(
             child,
-            ((child.type as unknown) as { displayName: string }).displayName === 'Col'
+            (child.type as unknown as { displayName: string }).displayName === 'Col'
               ? { key: i, style: { ...colPadding, ...child.props.style } }
               : { key: i, style: { ...child.props.style } },
           ),

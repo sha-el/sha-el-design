@@ -5,10 +5,9 @@ import { Button } from '../Button';
 import { CardHeader, Card } from '../Card';
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from 'react-icons/md';
 import { Skeleton } from '../Loading';
-import { MarginClassNameInput } from '../../helpers/margin';
-import { PaddingClassNameInput } from '../../helpers/padding';
+import { SurfaceProps } from '../../typings/surface';
 
-export interface TransferProps<T> {
+export interface TransferProps<T> extends SurfaceProps {
   listDisplayProp: (arg: T) => React.ReactNode;
   uniqueIdentifier: (arg: T) => string;
   data?: (search: string) => Promise<T[]> | T[];
@@ -16,10 +15,6 @@ export interface TransferProps<T> {
   searchValue?: (value: T) => string;
   onChange?: (values: T[]) => void;
   values?: T[];
-  elevation?: number;
-  border?: number;
-  padding?: PaddingClassNameInput;
-  margin?: MarginClassNameInput;
 }
 
 interface State<T> {
@@ -111,7 +106,7 @@ export class Transfer<T> extends React.Component<TransferProps<T>, State<T>> {
       <Skeleton
         isLoading={loading}
         render={() => (
-          <List style={{ maxHeight: '300px', overflowY: 'auto' }}>
+          <List style={{ maxHeight: '300px', overflowY: 'auto' }} border={this.props.border}>
             {data
               .filter((v) => searchValue(v).toLowerCase().includes(search))
               .map(
@@ -137,7 +132,7 @@ export class Transfer<T> extends React.Component<TransferProps<T>, State<T>> {
     const { listDisplayProp, uniqueIdentifier, values } = this.props;
 
     return (
-      <List style={{ maxHeight: '300px', overflowY: 'auto' }}>
+      <List style={{ maxHeight: '300px', overflowY: 'auto' }} border={this.props.border}>
         {values.map((v) => (
           <ListItem
             key={uniqueIdentifier(v)}
@@ -166,15 +161,9 @@ export class Transfer<T> extends React.Component<TransferProps<T>, State<T>> {
 
   render() {
     const { selectedLeft, selectedRight, data } = this.state;
-    const { padding = { xs: 10, sm: 15, md: 24 }, margin } = this.props;
+    const { padding = { xs: 10, sm: 15, md: 24 }, margin, border, elevation } = this.props;
     return (
-      <Card
-        elevation={this.props.elevation}
-        margin={margin}
-        padding={padding}
-        border={this.props.border}
-        style={{ minWidth: '500px' }}
-      >
+      <Card elevation={elevation} margin={margin} padding={padding} border={border} style={{ minWidth: '500px' }}>
         <Row alignItems="center">
           <Col span={10} alignSelf="stretch">
             <CardHeader subtitle={`${data.length} item(s)`} />

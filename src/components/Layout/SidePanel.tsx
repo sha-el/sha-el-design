@@ -40,7 +40,7 @@ const Inner: React.FC<InnerProps> = (props) => {
       updateDrawerButton(false);
       return;
     }
-    if (((v.type as unknown) as { displayName: string }).displayName !== 'Menu') {
+    if ((v.type as unknown as { displayName: string }).displayName !== 'Menu') {
       return;
     }
     !drawer && toggle();
