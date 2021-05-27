@@ -96,7 +96,7 @@ describe('Calendar', () => {
     expect(weeks.length).toBe(7);
   });
 
-  it('Should render correct date postion', () => {
+  it('Should render correct date week name', () => {
     render(<Calendar date={new Date(2007, 6, 7)} />);
 
     const datesArray = document.querySelectorAll('.sha-el-row')[2].querySelectorAll('.sha-el-col');
@@ -121,19 +121,21 @@ describe('Calendar', () => {
   });
 
   it('Should change date background on click', () => {
-    render(<Calendar date={new Date(2007, 6, 7)} />);
+    const fn = jest.fn();
+    render(<Calendar date={new Date(2007, 6, 7)} onClick={fn} />);
 
     const datesArray = document.querySelectorAll('.sha-el-row')[2].querySelectorAll('.sha-el-col');
 
     act(() => {
-      fireEvent.click(datesArray[9]);
+      fireEvent.click(datesArray[9].querySelector('button'));
     });
+    expect(fn).toBeCalledTimes(1);
     expect(datesArray[9]).toHaveStyle(`
       color: #555555;
     `);
   });
 
-  it('Should change date when month changes', () => {
+  it('Should re-render on month change', () => {
     render(<Calendar date={new Date(2007, 6, 7)} />);
 
     const datesArray = document.querySelectorAll('.sha-el-row')[2].querySelectorAll('.sha-el-col');
@@ -151,7 +153,7 @@ describe('Calendar', () => {
     expect(datesArray[6].querySelector('button').innerHTML).toBe('<span>1</span>');
   });
 
-  it('Should change date when year changes', () => {
+  it('Should re-render on year change', () => {
     render(<Calendar date={new Date(2007, 6, 7)} />);
 
     const datesArray = document.querySelectorAll('.sha-el-row')[2].querySelectorAll('.sha-el-col');
@@ -167,18 +169,6 @@ describe('Calendar', () => {
     });
 
     expect(datesArray[2].querySelector('button').innerHTML).toBe('<span>1</span>');
-  });
-
-  it('Should check date click', () => {
-    const fn = jest.fn();
-
-    render(<Calendar date={new Date(2007, 6, 7)} onClick={fn} />);
-
-    const datesArray = document.querySelectorAll('.sha-el-row')[2].querySelectorAll('.sha-el-col');
-    act(() => {
-      fireEvent.click(datesArray[0].querySelector('button'));
-    });
-    expect(fn).toBeCalledTimes(1);
   });
 
   it('Should render a calendar with cellRender prop', () => {
@@ -204,29 +194,22 @@ describe('Calendar', () => {
   });
 
   it('Should render a calendar with disabled dates', () => {
-    render(<Calendar date={new Date(2007, 6, 7)} disabledDate={(date: Date) => date.getDay() === 3} />);
+    const fn = jest.fn();
+    render(<Calendar date={new Date(2007, 6, 7)} onClick={fn} disabledDate={(date: Date) => date.getDay() === 3} />);
 
     const datesArray = document.querySelectorAll('.sha-el-row')[2].querySelectorAll('.sha-el-col');
     for (let i = 3; i < 31; i += 7) {
+      act(() => {
+        fireEvent.click(datesArray[i].querySelector('button'));
+      });
+
+      expect(fn).toBeCalledTimes(0);
       expect(datesArray[i].querySelector('button')).toHaveStyle(`
         background: transparent;
         cursor: not-allowed;
         color: rgba(0, 0, 0, 0.20);
       `);
     }
-  });
-
-  it('Should disable click on disabled dates', () => {
-    const fn = jest.fn();
-
-    render(<Calendar date={new Date(2007, 6, 7)} onClick={fn} disabledDate={(date: Date) => date.getDay() === 3} />);
-
-    const datesArray = document.querySelectorAll('.sha-el-row')[2].querySelectorAll('.sha-el-col');
-    act(() => {
-      fireEvent.click(datesArray[3].querySelector('button'));
-    });
-
-    expect(fn).toBeCalledTimes(0);
   });
 
   it('Should render a calendar with events', () => {
