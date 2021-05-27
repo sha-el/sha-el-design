@@ -63,15 +63,12 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
     }
     const { calendarEvents } = props;
     const [year, month] = [date.getFullYear(), date.getMonth()];
-    if (!calendarEvents) {
-      return;
-    }
 
-    return calendarEvents.map((v) => {
+    return calendarEvents?.map((v, i) => {
       const [startDate, endDate] = [initialDate(v.startDate), initialDate(v.endDate)];
-      if (day === startDate[2] && month === startDate[1] && year === startDate[0]) {
+      if (day === startDate.getDate() && month === startDate.getMonth() && year === startDate.getFullYear()) {
         return (
-          <Tooltip placement="top" trigger={['hover']} overlay={v.eventName}>
+          <Tooltip key={i} placement="top" trigger={['hover']} overlay={v.eventName}>
             <div
               className={style.badge}
               style={{
@@ -93,7 +90,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
         compareDesc(new Date(year, month, day), endDate) === 1
       ) {
         return (
-          <Tooltip placement="top" trigger={['hover']} overlay={v.eventName}>
+          <Tooltip key={i} placement="top" trigger={['hover']} overlay={v.eventName}>
             <div
               className={style.badge}
               style={{
@@ -109,9 +106,9 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
         );
       }
 
-      if (day === endDate[2] && month === endDate[1] && year === endDate[0]) {
+      if (day === endDate.getDate() && month === endDate.getMonth() && year === endDate.getFullYear()) {
         return (
-          <Tooltip placement="top" trigger={['hover']} overlay={v.eventName}>
+          <Tooltip key={i} placement="top" trigger={['hover']} overlay={v.eventName}>
             <div
               className={style.badge}
               style={{
@@ -129,6 +126,8 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
       }
     });
   };
+
+  const css = style;
 
   const getdateArray = () => {
     const dateArray: React.ReactElement[] = [];
@@ -187,8 +186,6 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
     });
     return dateArray;
   };
-
-  const css = style;
 
   return (
     <Card elevation={props.elevation} padding={props.padding} margin={props.margin} border={props.border}>
@@ -288,7 +285,7 @@ export interface CalendarProps extends SurfaceProps {
   /**
    * Set Calendar Initial Date
    */
-  date?: Date | Date;
+  date?: Date;
 
   /**
    * Updae Rendering of date cell
