@@ -38,7 +38,7 @@ export const ListItem: React.FC<ListItemProps> = (props) => {
   } = props;
 
   const theme = useTheme();
-  const css = listStyle(theme.background);
+  const css = listStyle(theme.background, !!onClick);
 
   const Element: React.FC<unknown> = (p) =>
     React.cloneElement(element || <li />, {

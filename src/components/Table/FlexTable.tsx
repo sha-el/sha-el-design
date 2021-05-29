@@ -3,7 +3,7 @@ import { GiEmptyMetalBucket } from 'react-icons/gi';
 import { MdExpandMore } from 'react-icons/md';
 import { Col, Row } from '../..';
 import { classes } from '../../helpers';
-import { disabledColor } from '../../helpers/color';
+import { disabledColor, shadowColor } from '../../helpers/color';
 import { ColProps } from '../Grid/Col';
 import { CollapsibleList, List, ListItem } from '../List';
 import { ListProps } from '../List/List';
@@ -28,7 +28,6 @@ export function FlexTable<T>(props: FlexTableProps<T>) {
     ? props.children.map((v) => React.cloneElement(v, { children: () => v.props.header as never, index: -1 }))
     : React.cloneElement(props.children, {
         children: () => (props.children as React.ReactElement<ColumnProps<T>>).props.header,
-        index: -1,
       });
 
   const showEmptyState = (className: string) => {
@@ -54,18 +53,20 @@ export function FlexTable<T>(props: FlexTableProps<T>) {
         minWidth: responsive && Array.isArray(props.children) ? `${props.children.length * 100}px` : '100px',
         ...(style.container || {}),
       }}
+      padding={0}
     >
       <ListItem
         className={css.header}
-        style={style.header}
+        style={{ background: shadowColor(theme)[0], ...(style.header || {}) }}
         action={nested && <MdExpandMore style={{ color: disabledColor(theme) }} />}
+        padding={0}
       >
-        <Row gutter={[30, 30]} alignItems="stretch">
-          {headers}
-        </Row>
+        <Row alignItems="stretch">{headers}</Row>
       </ListItem>
       <Skeleton
         isLoading={loading || false}
+        elevation={0}
+        padding={0}
         render={() => (
           <>
             {showEmptyState(css.empty)}
@@ -79,14 +80,11 @@ export function FlexTable<T>(props: FlexTableProps<T>) {
               if (nested && nested.exapandable?.(v, index)) {
                 return (
                   <CollapsibleList
-                    header={
-                      <Row gutter={[30, 30]} alignItems="stretch">
-                        {children}
-                      </Row>
-                    }
+                    header={<Row alignItems="stretch">{children}</Row>}
                     key={`row-${index}`}
                     className={css.tableRow}
                     style={rowStyle && rowStyle(v, index)}
+                    padding={0}
                   >
                     <div className={css.nestedContent}>{nested.render(v, index)}</div>
                   </CollapsibleList>
@@ -100,10 +98,9 @@ export function FlexTable<T>(props: FlexTableProps<T>) {
                   className={css.tableRow}
                   onClick={() => onRowClick && onRowClick(v, index)}
                   style={rowStyle && rowStyle(v, index)}
+                  padding={0}
                 >
-                  <Row gutter={[30, 30]} alignItems="stretch">
-                    {children}
-                  </Row>
+                  <Row alignItems="stretch">{children}</Row>
                 </ListItem>
               );
             })}
@@ -117,7 +114,7 @@ export function FlexTable<T>(props: FlexTableProps<T>) {
 
 FlexTable.Column = Column;
 
-interface FlexTableProps<T> extends Omit<ListProps, 'style'> {
+export interface FlexTableProps<T> extends Omit<ListProps, 'style'> {
   data: T[];
   children: React.ReactElement<ColumnProps<T>> | React.ReactElement<ColumnProps<T>>[];
   nested?: {
@@ -125,6 +122,10 @@ interface FlexTableProps<T> extends Omit<ListProps, 'style'> {
     exapandable?: (data: T, index: number) => boolean;
   };
   responsive?: boolean;
+
+  /**
+   * @description Might require `!important` with some stylings.
+   */
   style?: {
     header?: React.CSSProperties;
     container?: React.CSSProperties;
@@ -135,7 +136,7 @@ interface FlexTableProps<T> extends Omit<ListProps, 'style'> {
   rowStyle?: (data: T, index: number) => React.CSSProperties;
 }
 
-interface ColumnProps<T> extends ColProps {
+export interface ColumnProps<T> extends ColProps {
   data?: T;
   index?: number;
   /**

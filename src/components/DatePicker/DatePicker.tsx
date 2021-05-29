@@ -27,6 +27,7 @@ export const DatePicker: React.FC<DatePickerProps> = (props) => {
   return (
     <>
       <Popover
+        padding={0}
         content={
           <Row>
             <Col span={24}>

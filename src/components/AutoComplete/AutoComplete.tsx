@@ -71,7 +71,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
       <Skeleton
         isLoading={loading}
         render={() => (
-          <List densed style={{ maxHeight: '300px', overflowY: 'auto' }}>
+          <List elevation={0} padding={0} densed style={{ maxHeight: '300px', overflowY: 'auto' }}>
             {filteredData?.map((v, i) => (
               <ListItem
                 key={uniqueIdentifier(v)}
@@ -250,13 +250,14 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
 
     return (
       <Popover
-        trigger={['onClick', 'onFocus']}
+        trigger={['onClick']}
         position="bottom"
         content={this.displayList()}
         onVisibleChange={(v) => this.onOpen(v)}
         visible={open}
         expand
         hideArrow
+        padding={0}
         style={{ child: { display: 'block' } }}
       >
         <div>{inputElem}</div>

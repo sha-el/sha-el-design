@@ -15,8 +15,8 @@ export default {
   title: 'Display/Flex Table',
   component: FlexTable,
   subcomponents: { Column: FlexTable.Column },
-  argTypes: {
-    // backgroundColor: { control: 'color' },
+  parameters: {
+    layout: 'padded',
   },
 } as Meta;
 
@@ -40,9 +40,9 @@ export const Default: Story = () => {
       <FlexTable.Column key="Gender" span={2} header="Gender">
         {(data: DataType) => data.gender}
       </FlexTable.Column>
-      <FlexTable.Column key="Avatar" span={2} header="Avatar">
+      {/* <FlexTable.Column key="Avatar" span={2} header="Avatar">
         {(data: DataType) => <img src={data.avatar} />}
-      </FlexTable.Column>
+      </FlexTable.Column> */}
       <FlexTable.Column key="Car Make" span={3} header="Car Make">
         {(data: DataType) => data['car make']}
       </FlexTable.Column>
@@ -182,7 +182,7 @@ export const SortingAndFiltering: Story = () => {
           <Popover
             content={
               <Input
-                borderLess
+                borderless
                 placeholder="Press Enter to Apply"
                 onKeyDown={(e) =>
                   e.key === 'Enter' &&
@@ -210,7 +210,7 @@ export const SortingAndFiltering: Story = () => {
         span={3}
         header={
           <Row>
-            <Col flex="0 1 auto">Year</Col>
+            <Col flex="1 0 auto">Year</Col>
             <Col flex="0 1 auto">
               {['+', null].includes(sort) && (
                 <AiOutlineSortAscending
@@ -246,7 +246,7 @@ export const CustomStyling: Story = () => {
       data={MOCK_DATA.slice(0, 4)}
       style={{
         header: {
-          backgroundColor: '#F5F8EF',
+          backgroundColor: 'rgb(245, 248, 239)',
           color: '#989737',
         },
       }}

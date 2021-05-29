@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { nestedAccess } from './../../helpers';
 import { Row, Col } from './../../index';
-import { Card, CardBody } from '../Card';
+import { Card } from '../Card';
 import Color from 'color';
 import { Button } from '../Button';
 import { Tooltip } from '../Tooltip';
@@ -193,54 +193,52 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
 
   return (
     <Card elevation={props.elevation} padding={props.padding} margin={props.margin} border={props.border}>
-      <CardBody>
-        <Row gutter={[10, 10]} justifyContent="flex-end">
-          <Col flex="0 1 auto">
-            <Menu
-              height="300px"
-              trigger="onClick"
-              anchor={
-                <Button primary displayBlock flat>
-                  {months[date.getMonth()]}
-                </Button>
-              }
-            >
-              {months.map((v) => (
-                <MenuItem active={v === months[date.getMonth()]} onClick={() => monthChange(v)} key={v}>
-                  {v}
-                </MenuItem>
-              ))}
-            </Menu>
+      <Row gutter={[10, 10]} justifyContent="flex-end">
+        <Col flex="0 1 auto">
+          <Menu
+            height="300px"
+            trigger="onClick"
+            anchor={
+              <Button primary displayBlock flat>
+                {months[date.getMonth()]}
+              </Button>
+            }
+          >
+            {months.map((v) => (
+              <MenuItem active={v === months[date.getMonth()]} onClick={() => monthChange(v)} key={v}>
+                {v}
+              </MenuItem>
+            ))}
+          </Menu>
+        </Col>
+        <Col flex="0 1 auto">
+          <Menu
+            height="300px"
+            trigger="onClick"
+            anchor={
+              <Button primary displayBlock flat>
+                {date.getFullYear()}
+              </Button>
+            }
+          >
+            {arrayBetween(1980, 2030).map((v) => (
+              <MenuItem active={v === date.getFullYear()} onClick={() => yearChange(v)} key={v}>
+                {v}
+              </MenuItem>
+            ))}
+          </Menu>
+        </Col>
+      </Row>
+      <Row>
+        {weeks.map((v) => (
+          <Col span={24 / 7} key={v}>
+            <Text fontWeight={600} textAlign="center" variant="p" color="light">
+              {v.slice(0, 3)}
+            </Text>
           </Col>
-          <Col flex="0 1 auto">
-            <Menu
-              height="300px"
-              trigger="onClick"
-              anchor={
-                <Button primary displayBlock flat>
-                  {date.getFullYear()}
-                </Button>
-              }
-            >
-              {arrayBetween(1980, 2030).map((v) => (
-                <MenuItem active={v === date.getFullYear()} onClick={() => yearChange(v)} key={v}>
-                  {v}
-                </MenuItem>
-              ))}
-            </Menu>
-          </Col>
-        </Row>
-        <Row>
-          {weeks.map((v) => (
-            <Col span={24 / 7} key={v}>
-              <Text fontWeight={600} textAlign="center" variant="p" color="light">
-                {v.slice(0, 3)}
-              </Text>
-            </Col>
-          ))}
-        </Row>
-        <Row>{getdateArray()}</Row>
-      </CardBody>
+        ))}
+      </Row>
+      <Row>{getdateArray()}</Row>
     </Card>
   );
 };

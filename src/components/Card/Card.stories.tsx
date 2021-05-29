@@ -1,14 +1,14 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 
-import { Card, CardHeader, CardBody, CardMedia, Button } from '../..';
+import { Card, CardHeader, CardMedia, Button } from '../..';
 import { IoMdOptions } from 'react-icons/io';
 import { CardProps } from './Card';
 
 export default {
   title: 'Display/Card',
   component: Card,
-  subcomponents: { CardHeader, CardBody, CardMedia },
+  subcomponents: { CardHeader, CardMedia },
   argTypes: {
     // backgroundColor: { control: 'color' },
   },
@@ -21,11 +21,9 @@ HeaderAndBody.args = {
   children: (
     <>
       <CardHeader subtitle="Do you Know Lorem Ipsum?">Lorem Ipsum</CardHeader>
-      <CardBody>
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the standard
-        dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type
-        specimen book.
-      </CardBody>
+      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the standard dummy
+      text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen
+      book.
     </>
   ),
 };
@@ -38,11 +36,9 @@ CardMediaAndBody.args = {
       <CardHeader subtitle="Do you Know Lorem Ipsum?" action={<Button flat icon={<IoMdOptions />} />}>
         Lorem Ipsum
       </CardHeader>
-      <CardBody>
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the standard
-        dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type
-        specimen book.
-      </CardBody>
+      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the standard dummy
+      text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen
+      book.
     </>
   ),
 };

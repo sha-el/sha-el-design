@@ -27,10 +27,10 @@ export const list = (background: string, border: number, theme: Theme) =>
     },
   });
 
-export const listItem = (background: string) =>
+export const listItem = (background: string, clickable: boolean) =>
   css({
     transition: 'background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-    cursor: 'pointer',
+    cursor: clickable && 'pointer',
     listStyle: 'none',
     overflow: 'hidden',
     padding: '6px 8px 6px 9px',
