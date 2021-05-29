@@ -33,7 +33,6 @@ export const listItem = (background: string, clickable: boolean) =>
     cursor: clickable && 'pointer',
     listStyle: 'none',
     overflow: 'hidden',
-    padding: '6px 8px 6px 9px',
     '&:hover': {
       filter: hoverColor(background),
       background: background,
