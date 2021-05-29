@@ -10,11 +10,7 @@ import { Menu, MenuItem } from '../Menu';
 import { style } from './style';
 import { daysInMonth, compareDesc } from '../../helpers/date';
 import { arrayBetween } from '../../helpers/array';
-<<<<<<< HEAD
-import { CardProps } from '../Card/Card';
-=======
 import { SurfaceProps } from '../../typings/surface';
->>>>>>> Fix failing test cases.
 
 export const Calendar: React.FC<CalendarProps> = (props) => {
   const initialDate = (date = props.date) => {
