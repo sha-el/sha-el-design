@@ -50,7 +50,7 @@ export const Modal: React.FunctionComponent<ModalProps> = (props) => {
 
   return (
     <Portal key="modal">
-      <div key="mask" className={css.maskStyle} onClick={() => props.onClose?.()}>
+      <div key="mask" className={classes(css.maskStyle, 'sha-el-modal')} onClick={() => props.onClose?.()}>
         <div
           key="container"
           className={classes(
