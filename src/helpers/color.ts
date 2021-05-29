@@ -99,7 +99,7 @@ export const buttonColor = (
 };
 
 export const colorShades = (color: string) => {
-  if (Color(color).lightness() > 0.7) {
+  if (Color(color).lightness() > 0.6) {
     return [
       Color(color).darken(0.05).toString(),
       Color(color).darken(0.08).toString(),

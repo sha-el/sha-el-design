@@ -27,6 +27,7 @@ export const DatePicker: React.FC<DatePickerProps> = (props) => {
   return (
     <>
       <Popover
+        padding={0}
         content={
           <Row>
             <Col span={24}>
@@ -64,7 +65,7 @@ export const DatePicker: React.FC<DatePickerProps> = (props) => {
         onVisibleChange={updateVisible}
         style={{ child: { display: 'block' }, content: { width: '400px' } }}
         hideArrow
-        trigger={['onClick', 'onFocus']}
+        trigger={['onClick']}
       >
         <Input
           {...rest}

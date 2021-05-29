@@ -99,7 +99,7 @@ export const BaseInputComponent = React.forwardRef<
             {before}
           </Col>
         )}
-        <Col flex="1" style={{ width: '0', overflow: 'hidden' }}>
+        <Col flex="1" style={{ overflow: 'hidden' }}>
           {React.cloneElement(children, {
             className: css.input,
             required,
