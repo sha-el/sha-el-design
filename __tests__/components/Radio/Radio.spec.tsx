@@ -12,7 +12,6 @@ describe('Radio', () => {
 
     expect(container).toHaveStyle(`
       cursor: pointer;
-      margin: 0 5px;
     `);
     const radio = document.querySelector('.radio-circle');
 

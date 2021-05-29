@@ -126,14 +126,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
     return [
       before,
       ...(value as T[]).map((v) => (
-        <Tag
-          color="#aaa"
-          textColor="light"
-          onClick={() => this.onChange(v)}
-          outline
-          size="SMALL"
-          key={uniqueIdentifier(v)}
-        >
+        <Tag color="#aaa" textColor="light" onClick={() => this.onChange(v)} outline key={uniqueIdentifier(v)}>
           {displayValue(v)}
         </Tag>
       )),
@@ -257,7 +250,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
 
     return (
       <Popover
-        trigger="onClick"
+        trigger={['onClick', 'onFocus']}
         position="bottom"
         content={this.displayList()}
         onVisibleChange={(v) => this.onOpen(v)}

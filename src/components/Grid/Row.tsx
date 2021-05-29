@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { classes } from '../../helpers';
-import { flexPosition, rowStyle } from './style';
+import { gutterStyle, rowStyle } from './style';
 
 export const Row: React.FC<RowProps> = (props) => {
   const {
     className,
     onClick,
     style,
-    children,
+    children: __children,
     gutter: __gutter,
     justifyContent: __justifyContent,
     alignItems: __alignItems,
@@ -15,33 +15,51 @@ export const Row: React.FC<RowProps> = (props) => {
     flexDirection: __flexDirection,
     ...rest
   } = props;
+
+  const children: React.ReactElement[] = Array.isArray(__children)
+    ? (__children as React.ReactElement[])
+    : [__children];
+
+  const [rowGutterStyles, colPadding] = gutterStyle(props);
   return (
     <div
       onClick={onClick}
-      className={classes(rowStyle, flexPosition(props), className, 'sha-el-row')}
+      className={classes(rowStyle(props), rowGutterStyles, className, 'sha-el-row')}
       style={style}
       {...rest}
     >
-      {children}
+      {children
+        .filter((child) => !!child)
+        .map((child, i) =>
+          React.cloneElement(
+            child,
+            (child.type as unknown as { displayName: string }).displayName === 'Col'
+              ? { key: i, style: { ...colPadding, ...child.props.style } }
+              : { key: i, style: { ...child.props.style } },
+          ),
+        )}
     </div>
   );
 };
 
 Row.defaultProps = {
   justifyContent: 'flex-start',
-  gutter: ['10px 0', '.5rem'],
+  gutter: [0, 0],
   wrap: 'wrap',
   flexDirection: 'row',
 };
 
+export type ResponsiveBreakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type Gutter = number | Partial<Record<ResponsiveBreakpoint, number>>;
+
 export interface RowProps extends React.HtmlHTMLAttributes<HTMLDivElement> {
-  children: React.ReactNode;
+  children: React.ReactElement | React.ReactElement[];
   style?: React.CSSProperties;
   /**
    * Spacing between elements
    * [Row, Col]
    */
-  gutter?: [React.CSSProperties['padding'], React.CSSProperties['padding']];
+  gutter?: Gutter | [Gutter, Gutter];
   justifyContent?: React.CSSProperties['justifyContent'];
   alignItems?: React.CSSProperties['alignItems'];
   className?: string;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Omit, classes } from '../../helpers';
+import { classes } from '../../helpers';
 import { Row, Col } from '../../';
 import { useTheme } from '../Theme/Theme';
 import { style } from './style';
@@ -74,6 +74,7 @@ export const BaseInputComponent = React.forwardRef<
     disabled: props.disabled || false,
     before: !!before,
     hover: ShouldHover(),
+    required: required,
   });
 
   return (
@@ -81,7 +82,6 @@ export const BaseInputComponent = React.forwardRef<
       <Row
         style={containerStyle}
         alignItems="center"
-        gutter={[0, 0]}
         className={classes(containerClassName, css.container, 'sha-el-input')}
         wrap="wrap"
       >
@@ -99,7 +99,7 @@ export const BaseInputComponent = React.forwardRef<
             {before}
           </Col>
         )}
-        <Col flex="1 0 auto">
+        <Col flex="1" style={{ width: '0', overflow: 'hidden' }}>
           {React.cloneElement(children, {
             className: css.input,
             required,
@@ -131,21 +131,25 @@ export const BaseInputComponent = React.forwardRef<
         </fieldset>
       </Row>
       {(error !== undefined || hint !== undefined) && (
-        <Row
-          justifyContent="flex-end"
-          gutter={[0, `0 ${borderless ? '0' : before ? '5px' : '14px'}`]}
-          className={classes(css.help, 'help')}
-        >
+        <Row justifyContent="flex-end" className={classes(css.help, 'help')}>
           {error && (
             <Col flex="1 0 auto">
-              <Text variant="label" className={`${css.error}`}>
+              <Text
+                padding={`0 ${borderless ? '0' : before ? '5px' : '14px'}`}
+                variant="label"
+                className={`${css.error}`}
+              >
                 {error}
               </Text>
             </Col>
           )}
           {hint && (
             <Col flex="0 1 auto">
-              <Text variant="label" className={`${css.hint}`}>
+              <Text
+                padding={`0 ${borderless ? '0' : before ? '5px' : '14px'}`}
+                variant="label"
+                className={`${css.hint}`}
+              >
                 {hint}
               </Text>
             </Col>
@@ -173,8 +177,6 @@ export interface BaseInputProps extends Omit<React.InputHTMLAttributes<HTMLInput
   children: React.ReactElement;
 }
 
-export interface BaseTextAreaProps
-  extends React.DetailedHTMLProps<React.TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement>,
-    Props {
+export interface BaseTextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement>, Props {
   children: React.ReactElement;
 }

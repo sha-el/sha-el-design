@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardHeader } from 'sha-el-design/lib';
 import { CardDropDown } from '@components/Dashboard/CardDropDown';
-import { ResponsiveContainer, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { ResponsiveContainer, BarChart, Bar, XAxis, Tooltip, Legend } from 'recharts';
 
 const data = [
   {

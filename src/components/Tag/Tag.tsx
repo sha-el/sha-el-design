@@ -1,18 +1,21 @@
 import { Theme } from '@emotion/react';
 import * as React from 'react';
 import { MdClear } from 'react-icons/md';
+import { classes } from '../../helpers';
+import { elevationCss } from '../../helpers/elevations';
 import { useTheme } from '../Theme/Theme';
-import { chipIconCss, style } from './style';
+import { style } from './style';
 
 export const Tag: React.FC<TagProps> = (props) => {
   const theme = useTheme();
-  const tagCss = style({ props, theme });
+  const { tag: tagCss, chipIcon, icon: iconCss } = style({ props, theme });
 
   return (
-    <span className={tagCss} onClick={(e) => props?.onClick(e)} style={props.style}>
-      {props.children}
+    <span className={classes(tagCss, elevationCss(2))} onClick={(e) => props?.onClick(e)} style={props.style}>
+      {props.icon && <span className={iconCss}>{props.icon}</span>}
+      <span>{props.children}</span>
       {props.chips && (
-        <span className={chipIconCss}>
+        <span className={chipIcon}>
           <MdClear />
         </span>
       )}
@@ -28,10 +31,10 @@ export interface TagProps {
   style?: React.CSSProperties;
   outline?: boolean;
   chips?: boolean;
-  size?: 'DEFAULT' | 'SMALL';
+  icon?: React.ReactNode;
 }
 
 Tag.defaultProps = {
   style: {},
-  size: 'DEFAULT',
+  color: '#aaa',
 };

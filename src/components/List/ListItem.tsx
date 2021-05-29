@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { Row, Col } from '../Grid';
 import { useTheme } from '../Theme/Theme';
 import { listItem as listStyle } from './style';
 import { lightText } from '../../helpers/color';
 import { Text } from '../Text';
-import { RowProps } from '../Grid/Row';
-import { classes, getColor } from '../../helpers';
+import { classes } from '../../helpers';
+import { getColor } from '../../helpers/color';
+import { MarginClassNameInput, marginCss } from '../../helpers/margin';
+import { PaddingClassNameInput, paddingCss } from '../../helpers/padding';
 
 export interface ListItemProps extends Omit<React.HtmlHTMLAttributes<HTMLLIElement>, 'onChange'> {
   subtitle?: React.ReactNode;
@@ -16,7 +17,8 @@ export interface ListItemProps extends Omit<React.HtmlHTMLAttributes<HTMLLIEleme
   selected?: boolean;
   element?: React.ReactElement;
   className?: string;
-  gutter?: RowProps['gutter'];
+  margin?: MarginClassNameInput;
+  padding?: PaddingClassNameInput;
 }
 
 export const ListItem: React.FC<ListItemProps> = (props) => {
@@ -28,9 +30,10 @@ export const ListItem: React.FC<ListItemProps> = (props) => {
     subtitle,
     action,
     selected,
-    gutter = [0, '12px 16px 12px 18px'],
     element,
     className,
+    padding = [12, 16, 12, 18],
+    margin = 0,
     ...rest
   } = props;
 
@@ -39,11 +42,14 @@ export const ListItem: React.FC<ListItemProps> = (props) => {
 
   const Element: React.FC<unknown> = (p) =>
     React.cloneElement(element || <li />, {
-      className: classes(className, css, 'list-item'),
+      className: classes(className, css, paddingCss(0), 'list-item'),
       onClick: onClick,
       style: {
         background: selected && theme.primary,
         color: selected && getColor(theme.primary),
+        wrap: 'nowrap',
+        alignItems: 'center',
+        display: 'flex',
         ...style,
       },
       ...p,
@@ -51,18 +57,24 @@ export const ListItem: React.FC<ListItemProps> = (props) => {
 
   return (
     <Element {...rest}>
-      <Row wrap="nowrap" gutter={gutter} alignItems="center">
-        {avatar && <Col flex="0 1 auto">{avatar}</Col>}
-        {children && (
-          <Col flex="1 0 auto">
-            <div>{children}</div>
-            <Text fontSize="12px" color={lightText(theme)}>
-              {subtitle}
-            </Text>
-          </Col>
-        )}
-        {action && <Col flex="0 1 auto">{action}</Col>}
-      </Row>
+      {avatar && (
+        <div className={classes(marginCss(margin), paddingCss(padding))} style={{ flex: '0 1 auto' }}>
+          {avatar}
+        </div>
+      )}
+      {children && (
+        <div className={classes(marginCss(margin), paddingCss(padding))} style={{ flex: '1 0 auto' }}>
+          <div>{children}</div>
+          <Text fontSize="12px" color={lightText(theme)}>
+            {subtitle}
+          </Text>
+        </div>
+      )}
+      {action && (
+        <div className={classes(marginCss(margin), paddingCss(padding))} style={{ flex: '0 1 auto' }}>
+          {action}
+        </div>
+      )}
     </Element>
   );
 };

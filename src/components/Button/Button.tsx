@@ -5,6 +5,7 @@ import { Loading } from '../Loading';
 import { Text } from '../Text';
 import { classes } from '../../helpers';
 import { shapeTypes, sizeTypes, style } from './style';
+import { PaddingClassNameInput, paddingCss } from '../../helpers/padding';
 
 export const Button: React.FC<ButtonProps> = (props) => {
   const {
@@ -22,6 +23,7 @@ export const Button: React.FC<ButtonProps> = (props) => {
     secondary,
     danger,
     link,
+    padding,
     ...rest
   } = props;
 
@@ -44,8 +46,10 @@ export const Button: React.FC<ButtonProps> = (props) => {
   if (rest.href !== undefined || link) {
     return (
       <BaseElement
-        className={classes(css.anchor, css.default, className)}
-        onClick={(e) => !loading && onClick && onClick(e)}
+        className={classes(css.anchor, css.default, className, paddingCss(padding))}
+        onClick={(
+          e: React.MouseEvent<HTMLAnchorElement, MouseEvent> & React.MouseEvent<HTMLButtonElement, MouseEvent>,
+        ) => !loading && onClick && onClick(e)}
         {...rest}
       >
         {icon}
@@ -62,7 +66,7 @@ export const Button: React.FC<ButtonProps> = (props) => {
   const buttonProps = rest as NativeButtonProps;
   return (
     <BaseElement
-      className={classes(css.default, css.button, className)}
+      className={classes(css.default, css.button, className, paddingCss(padding))}
       onClick={(e) => !loading && onClick && onClick(e)}
       {...buttonProps}
     >
@@ -105,6 +109,8 @@ export interface BaseButtonProps {
   href?: string;
   target?: string;
   disabled?: boolean;
+
+  padding?: PaddingClassNameInput;
 }
 
 export type AnchorButtonProps = {

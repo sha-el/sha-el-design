@@ -9,7 +9,7 @@ import { Input } from '../Input';
 export const Pagination: React.FC<PaginationProps> = (props) => {
   const { totalCount, batchSize, currentPage, onChange, itemsPerPage, justify } = props;
   return (
-    <Row alignItems="center" justifyContent={justify} gutter={[0, '10px']}>
+    <Row alignItems="center" justifyContent={justify} gutter={[20, 20]}>
       {itemsPerPage && (
         <Col flex="0 1 auto">
           <Menu

@@ -1,14 +1,16 @@
 import * as React from 'react';
-import { nestedAccess, arrayBetween } from './../../helpers';
+import { nestedAccess } from './../../helpers';
 import { Row, Col } from './../../index';
 import { Card, CardBody } from '../Card';
-import { color } from 'csx';
+import Color from 'color';
 import { Button } from '../Button';
 import { Tooltip } from '../Tooltip';
 import { Text } from '../Text';
 import { Menu, MenuItem } from '../Menu';
 import { style } from './style';
 import { daysInMonth, compareDesc } from '../../helpers/date';
+import { arrayBetween } from '../../helpers/array';
+import { SurfaceProps } from '../../typings/surface';
 
 export const Calendar: React.FC<CalendarProps> = (props) => {
   const initialDate = (date = props.date) => {
@@ -61,15 +63,12 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
     }
     const { calendarEvents } = props;
     const [year, month] = [date.getFullYear(), date.getMonth()];
-    if (!calendarEvents) {
-      return;
-    }
 
-    return calendarEvents.map((v) => {
+    return calendarEvents?.map((v, i) => {
       const [startDate, endDate] = [initialDate(v.startDate), initialDate(v.endDate)];
-      if (day === startDate[2] && month === startDate[1] && year === startDate[0]) {
+      if (day === startDate.getDate() && month === startDate.getMonth() && year === startDate.getFullYear()) {
         return (
-          <Tooltip placement="top" trigger={['hover']} overlay={v.eventName}>
+          <Tooltip key={i} placement="top" trigger={['hover']} overlay={v.eventName}>
             <div
               className={style.badge}
               style={{
@@ -77,7 +76,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
                 background: v.color || '#fcc',
                 boxShadow:
                   '0 10px 14px ' +
-                  color(v.color || '#fcc')
+                  Color(v.color || '#fcc')
                     .fade(0.4)
                     .toString(),
               }}
@@ -91,14 +90,14 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
         compareDesc(new Date(year, month, day), endDate) === 1
       ) {
         return (
-          <Tooltip placement="top" trigger={['hover']} overlay={v.eventName}>
+          <Tooltip key={i} placement="top" trigger={['hover']} overlay={v.eventName}>
             <div
               className={style.badge}
               style={{
                 background: v.color || '#fcc',
                 boxShadow:
                   '0 10px 14px ' +
-                  color(v.color || '#fcc')
+                  Color(v.color || '#fcc')
                     .fade(0.4)
                     .toString(),
               }}
@@ -107,9 +106,9 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
         );
       }
 
-      if (day === endDate[2] && month === endDate[1] && year === endDate[0]) {
+      if (day === endDate.getDate() && month === endDate.getMonth() && year === endDate.getFullYear()) {
         return (
-          <Tooltip placement="top" trigger={['hover']} overlay={v.eventName}>
+          <Tooltip key={i} placement="top" trigger={['hover']} overlay={v.eventName}>
             <div
               className={style.badge}
               style={{
@@ -117,7 +116,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
                 background: v.color || '#fcc',
                 boxShadow:
                   '0 10px 14px ' +
-                  color(v.color || '#fcc')
+                  Color(v.color || '#fcc')
                     .fade(0.4)
                     .toString(),
               }}
@@ -130,10 +129,68 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
 
   const css = style;
 
+  const getdateArray = () => {
+    const dateArray: React.ReactElement[] = [];
+
+    weeksDateArray.map((v) => {
+      weeks.forEach((f, i) => {
+        const selectedDate = props.date;
+        const isSelectedDate =
+          selectedDate &&
+          compareDesc(
+            new Date(
+              date.getFullYear(),
+              date.getMonth(),
+              nestedAccess(v, f),
+              selectedDate.getHours(),
+              selectedDate.getMinutes(),
+              selectedDate.getSeconds(),
+              selectedDate.getMilliseconds(),
+            ),
+            selectedDate,
+          ) === 0;
+        const today = isToday(v?.[f]);
+        const newDate = new Date(
+          date.getFullYear(),
+          date.getMonth(),
+          nestedAccess(v, f),
+          selectedDate?.getHours() || 0,
+          selectedDate?.getMinutes() || 0,
+          selectedDate?.getSeconds() || 0,
+          selectedDate?.getMilliseconds() || 0,
+        );
+        dateArray.push(
+          <Col className={css.cell} key={i} span={24 / 7}>
+            {nestedAccess(v, f) ? (
+              props.cellRender?.(newDate, f) || (
+                <Button
+                  disabled={props.disabledDate?.(newDate)}
+                  flat={!today && !isSelectedDate}
+                  shape="circle"
+                  outline={today}
+                  primary={today || isSelectedDate || false}
+                  onClick={() => {
+                    return !props.disabledDate?.(newDate) && props.onClick && props.onClick(newDate);
+                  }}
+                >
+                  {v?.[f]}
+                </Button>
+              )
+            ) : (
+              <div />
+            )}
+            {props.calendarEvents && <div className={css.dateContent}>{calendarEvent(v?.[f], css)}</div>}
+          </Col>,
+        );
+      });
+    });
+    return dateArray;
+  };
+
   return (
-    <Card elevation={props.elevation}>
+    <Card elevation={props.elevation} padding={props.padding} margin={props.margin} border={props.border}>
       <CardBody>
-        <Row gutter={[0, '5px']} justifyContent="flex-end">
+        <Row gutter={[10, 10]} justifyContent="flex-end">
           <Col flex="0 1 auto">
             <Menu
               height="300px"
@@ -169,7 +226,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
             </Menu>
           </Col>
         </Row>
-        <Row gutter={[0, 0]}>
+        <Row>
           {weeks.map((v) => (
             <Col span={24 / 7} key={v}>
               <Text fontWeight={600} textAlign="center" variant="p" color="light">
@@ -178,60 +235,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
             </Col>
           ))}
         </Row>
-        <Row gutter={[0, 0]}>
-          {weeksDateArray.map((v) => {
-            return weeks.map((f, i) => {
-              const selectedDate = props.date;
-              const isSelectedDate =
-                selectedDate &&
-                compareDesc(
-                  new Date(
-                    date.getFullYear(),
-                    date.getMonth(),
-                    nestedAccess(v, f),
-                    selectedDate.getHours(),
-                    selectedDate.getMinutes(),
-                    selectedDate.getSeconds(),
-                    selectedDate.getMilliseconds(),
-                  ),
-                  selectedDate,
-                ) === 0;
-              const today = isToday(v?.[f]);
-              const newDate = new Date(
-                date.getFullYear(),
-                date.getMonth(),
-                nestedAccess(v, f),
-                selectedDate?.getHours() || 0,
-                selectedDate?.getMinutes() || 0,
-                selectedDate?.getSeconds() || 0,
-                selectedDate?.getMilliseconds() || 0,
-              );
-              return (
-                <Col className={css.cell} key={i} span={24 / 7}>
-                  {nestedAccess(v, f) ? (
-                    props.cellRender?.(newDate, f) || (
-                      <Button
-                        disabled={props.disabledDate?.(newDate)}
-                        flat={!today && !isSelectedDate}
-                        shape="circle"
-                        outline={today}
-                        primary={today || isSelectedDate || false}
-                        onClick={() => {
-                          return !props.disabledDate?.(newDate) && props.onClick && props.onClick(newDate);
-                        }}
-                      >
-                        {v?.[f]}
-                      </Button>
-                    )
-                  ) : (
-                    <div />
-                  )}
-                  {props.calendarEvents && <div className={css.dateContent}>{calendarEvent(v?.[f], css)}</div>}
-                </Col>
-              );
-            });
-          })}
-        </Row>
+        <Row>{getdateArray()}</Row>
       </CardBody>
     </Card>
   );
@@ -277,11 +281,11 @@ interface State {
   dateObj: Record<weeksEnum, number>[];
 }
 
-export interface CalendarProps {
+export interface CalendarProps extends SurfaceProps {
   /**
    * Set Calendar Initial Date
    */
-  date?: Date | Date;
+  date?: Date;
 
   /**
    * Updae Rendering of date cell
@@ -298,7 +302,6 @@ export interface CalendarProps {
     color?: string;
   }[];
 
-  elevation?: number;
   onClick?: (date: Date) => void;
   disabledDate?: (date: Date) => boolean;
 }

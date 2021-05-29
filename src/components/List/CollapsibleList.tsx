@@ -10,6 +10,8 @@ export interface CollapsibleListProps extends ListItemProps {
   onChange?: (open: boolean) => void;
 }
 
+export const CollapsibleContext = React.createContext({ isCollapsible: false });
+
 export const CollapsibleList: React.FC<CollapsibleListProps> = (props) => {
   const [listOpen, toggleList] = React.useState(props.open || false);
   const open = props.open === undefined && !props.onChange ? listOpen : props.open;
@@ -34,7 +36,7 @@ export const CollapsibleList: React.FC<CollapsibleListProps> = (props) => {
           maxHeight: open ? '100vh' : '0',
         }}
       >
-        {props.children}
+        <CollapsibleContext.Provider value={{ isCollapsible: true }}>{props.children}</CollapsibleContext.Provider>
       </div>
     </div>
   );

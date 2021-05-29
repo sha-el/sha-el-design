@@ -13,7 +13,7 @@ const style = (mode: MenuProps['mode']) =>
   });
 
 export const Menu: React.FC<MenuProps> = (props) => {
-  const { anchor, trigger, mode, children, position, elevation, backgroundColor, height, densed } = props;
+  const { anchor, trigger, mode, children, position, elevation, border, backgroundColor, height, densed } = props;
 
   if (mode === 'expand') {
     return <CollapsibleList header={anchor}>{children}</CollapsibleList>;
@@ -25,6 +25,7 @@ export const Menu: React.FC<MenuProps> = (props) => {
         backgroundColor={backgroundColor}
         style={{ width: 'auto' }}
         elevation={elevation}
+        border={border}
         densed={densed}
         className={style(mode)}
       >
@@ -35,7 +36,7 @@ export const Menu: React.FC<MenuProps> = (props) => {
 
   if (mode === 'horizontal') {
     return (
-      <Row gutter={[0, 0]}>
+      <Row>
         {(children as React.ReactElement[]).map((e, i) => (
           <Col flex="1 0 auto" key={i}>
             {e}
@@ -56,6 +57,8 @@ export const Menu: React.FC<MenuProps> = (props) => {
       }
       position={position}
       trigger={trigger}
+      padding={0}
+      margin={0}
     >
       {anchor}
     </Popover>
@@ -71,6 +74,7 @@ export interface MenuProps {
   trigger?: PopoverProps['trigger'];
   position?: PopoverProps['position'];
   elevation?: number;
+  border?: number;
   backgroundColor?: string;
   height?: string;
   densed?: boolean;

@@ -1,5 +1,5 @@
 import { css } from '@emotion/css';
-import { getColor } from '../../helpers';
+import { getColor } from '../../helpers/color';
 import { disabledColor, disabledText } from '../../helpers/color';
 import { Theme } from '../Theme/Theme';
 
@@ -14,8 +14,7 @@ export const style = (theme: Theme) => ({
   }),
   icon: css({
     fontSize: '28px',
-    paddingTop: '0',
-    paddingBottom: '0',
+    padding: '0.5rem',
     color: disabledText(theme),
   }),
   active: css({
@@ -37,5 +36,8 @@ export const style = (theme: Theme) => ({
   disabled: css({
     color: disabledText(theme),
     cursor: 'not-allowed',
+  }),
+  container: css({
+    padding: '0.5rem',
   }),
 });

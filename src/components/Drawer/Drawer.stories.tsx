@@ -4,6 +4,7 @@ import { Story, Meta } from '@storybook/react';
 import { Drawer } from './';
 import { DrawerProps } from './Drawer';
 import { Button } from '../Button';
+import { Card } from '../..';
 
 export default {
   title: 'Navigation/Drawer',
@@ -26,11 +27,11 @@ const Template: Story<DrawerProps> = (args) => {
 export const Basic = Template.bind({});
 Basic.args = {
   children: (
-    <>
-      <p>LOREM IPSUM....</p>
-      <p>LOREM IPSUM....</p>
-      <p>LOREM IPSUM....</p>
-      <p>LOREM IPSUM....</p>
-    </>
+    <Card elevation={0}>
+      <p>LOREM IPSUM................</p>
+      <p>LOREM IPSUM................</p>
+      <p>LOREM IPSUM................</p>
+      <p>LOREM IPSUM................</p>
+    </Card>
   ),
 };

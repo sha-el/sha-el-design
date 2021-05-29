@@ -40,7 +40,7 @@ const Inner: React.FC<InnerProps> = (props) => {
       updateDrawerButton(false);
       return;
     }
-    if (((v.type as unknown) as { displayName: string }).displayName !== 'Menu') {
+    if ((v.type as unknown as { displayName: string }).displayName !== 'Menu') {
       return;
     }
     !drawer && toggle();
@@ -60,8 +60,8 @@ const Inner: React.FC<InnerProps> = (props) => {
         onMouseEnter={() => updateDrawerButton(true)}
         onMouseLeave={() => updateDrawerButton(false)}
       >
-        <Row gutter={[0, '0 5px 0 5px']} style={{ overflowX: 'hidden', maxWidth: width + 'px' }} wrap="nowrap">
-          <Col flex="0 0 60px" className={elevationCss(3)}>
+        <Row style={{ overflowX: 'hidden', maxWidth: width + 'px' }} wrap="nowrap">
+          <Col style={{ padding: '0 5px' }} flex="0 0 60px" className={elevationCss(3)}>
             {props.logo && <div className={css.logo}>{props.logo}</div>}
             {children.map((v, i) => (
               <div className={css.item} key={`item-${i}`} onClick={() => onOpen(v, i, false, toggle)}>

@@ -20,7 +20,6 @@ const Template: Story<TimePickerProps> = (args) => {
         {...args}
         time={time}
         onChange={(e) => {
-          console.log(e);
           return updateTime(e);
         }}
       />

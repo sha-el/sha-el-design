@@ -1,8 +1,7 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 
-import { Collapse } from './Collapse';
-import { CollapseProps } from '../List/CollapsibleList';
+import { Collapse, CollapseProps } from './Collapse';
 
 export default {
   title: 'Display/Collapse',

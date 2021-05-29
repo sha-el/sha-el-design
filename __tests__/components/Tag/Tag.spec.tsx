@@ -35,24 +35,17 @@ describe('Tag', () => {
     tag.click();
     expect(fn).toBeCalledTimes(1);
 
-    expect(tag.innerHTML).toBe('Basic');
+    expect(tag.innerHTML).toBe('<span>Basic</span>');
     expect(tag).toHaveStyle(`
-    color: rgb(255, 255, 255);
-    height: 36px;
-    margin: 5px;
-    display: inline-flex;
-    padding: 0px 20px;
-    font-size: 0.8125rem;
-    min-width: 64px;
-    background: red;
-    box-shadow: 0 3px 1px -2px #E8EAFC,0 2px 2px 0 #B2B2B21A,0 1px 5px 0 #9A9A9A1A;
+    border-radius: 2px;
+    box-shadow: 0px 3px 1px -2px rgba(34,41,47,0.12),0px 2px 2px 0px rgba(34,41,47,0.08),0px 1px 5px 0px rgba(34,41,47,0.05);
     box-sizing: border-box;
     text-align: center;
     align-items: center;
-    font-weight: 500;
+    font-weight: bold;
     line-height: 36px;
-    border-radius: 4px;
-    letter-spacing: 0.02857em;
+    letter-spacing: 1px;
+    line-height: 22px;
     text-transform: uppercase;
     `);
   });
@@ -122,27 +115,6 @@ describe('Tag', () => {
     const chip = document.querySelector('svg');
 
     expect(chip).not.toBeNull();
-  });
-
-  it('should render a small tag', () => {
-    act(() => {
-      ReactDOM.render(
-        <Tag color="red" size="SMALL">
-          Small
-        </Tag>,
-        container,
-      );
-    });
-
-    const tag = document.querySelector('span');
-
-    expect(tag).toHaveStyle(`
-    padding: 0 14px;
-    minWidth: 50px;
-    lineHeight: 22px;
-    height: 22px;
-    fontSize: 0.7125rem;
-    `);
   });
 
   it('should render a tag with onClick prop', () => {

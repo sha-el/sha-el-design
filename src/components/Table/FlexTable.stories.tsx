@@ -209,7 +209,7 @@ export const SortingAndFiltering: Story = () => {
         key="Car Model Year"
         span={3}
         header={
-          <Row gutter={[0, 0]}>
+          <Row>
             <Col flex="0 1 auto">Year</Col>
             <Col flex="0 1 auto">
               {['+', null].includes(sort) && (

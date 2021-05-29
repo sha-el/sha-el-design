@@ -3,7 +3,7 @@ import { Input } from '../Input';
 import { InputProps } from '../Input/Input';
 import { Popover } from '../Popover';
 import { Row, Col } from '../Grid';
-import { arrayBetween } from '../../helpers';
+import { arrayBetween } from '../../helpers/array';
 import { Button } from '../Button';
 import { MdTimer } from 'react-icons/md';
 import { style } from './style';
@@ -101,7 +101,7 @@ const content = (
   refs: Record<'hourEl' | 'minEl' | 'secEl', React.MutableRefObject<HTMLDivElement>>,
 ) => (
   <div className={css}>
-    <Row gutter={[0, 0]}>
+    <Row>
       <Col span={6} className="hour-column" ref={refs.hourEl}>
         {arrayBetween(0, !props.use12Hour ? 24 : 12).map((v) => (
           <Text

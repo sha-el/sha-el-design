@@ -1,4 +1,4 @@
-import { color as csxColor } from 'csx';
+import Color from 'color';
 import { Theme } from '../components/Theme/Theme';
 
 function createShadow(lightTheme = true, ...px: number[]) {
@@ -77,7 +77,7 @@ const darkThemeShadows = [
 
 export const initElevations = (theme: Theme) => {
   let values = '';
-  const color = csxColor(theme.bodyBg);
+  const color = Color(theme.bodyBg);
 
   const shadows: string[] = color.lightness() < 0.7 ? lightThemeShadows : darkThemeShadows;
 

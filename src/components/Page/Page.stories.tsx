@@ -33,7 +33,7 @@ export const Basic = () => (
     }
     backIcon={<MdArrowBack />}
     extra={
-      <Row gutter={[0, 0]}>
+      <Row>
         <Col flex="1 0 auto">
           <Input label="Search" borderless after={<MdSearch style={{ cursor: 'pointer' }} />} />
         </Col>

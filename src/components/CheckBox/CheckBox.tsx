@@ -21,7 +21,7 @@ export const CheckBox: React.FC<CheckBoxProps> = (props) => {
   const css = style(disabled, theme, checked, color);
 
   return (
-    <Row alignItems="center" gutter={[0, 0]} className={css.container} onClick={() => !disabled && onContainerClick()}>
+    <Row alignItems="center" className={css.container} onClick={() => !disabled && onContainerClick()}>
       <input
         className={css.input}
         ref={input}

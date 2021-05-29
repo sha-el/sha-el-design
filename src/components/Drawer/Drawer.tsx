@@ -1,12 +1,15 @@
 import * as React from 'react';
 import { classes } from '../../helpers';
+import { borderCss } from '../../helpers/border';
 import { elevationCss } from '../../helpers/elevations';
+import { paddingCss } from '../../helpers/padding';
+import { SurfaceProps } from '../../typings/surface';
 import { Portal } from '../Popover/Portal';
 import { useTheme } from '../Theme/Theme';
 import { style } from './style';
 
 export const Drawer: React.FunctionComponent<DrawerProps> = (props) => {
-  const { elevation = 24, onClose = () => ({}) } = props;
+  const { elevation = 24, padding = { xs: 5, sm: 10, md: 15, lg: 20 }, border, onClose = () => ({}) } = props;
 
   if (!props.isVisible) {
     return null;
@@ -29,29 +32,17 @@ export const Drawer: React.FunctionComponent<DrawerProps> = (props) => {
       <>
         <div className={css.maskStyle} onClick={() => props.onClose && beforeClose()} />
         <div
-          style={props.style?.container}
+          style={props.style}
           className={classes(
             css.drawerStyle,
             css[`slideIn${props.placement.charAt(0).toUpperCase() + props.placement.slice(1)}` || 'slideInRight'],
             elevationCss(elevation),
+            paddingCss(padding),
+            borderCss(border),
             className,
           )}
         >
-          {props.header && (
-            <div style={props.style?.header} className="header">
-              {props.header}
-            </div>
-          )}
-
-          <div style={props.style?.body} className="body">
-            {props.children}
-          </div>
-
-          {props.footer && (
-            <div style={props.style?.footer} className="footer">
-              {props.footer}
-            </div>
-          )}
+          {props.children}
         </div>
       </>
     </Portal>
@@ -63,7 +54,7 @@ Drawer.defaultProps = {
   style: {},
 };
 
-export interface DrawerProps {
+export interface DrawerProps extends Omit<SurfaceProps, 'margin'> {
   /**
    * Placement of Drawer
    */
@@ -72,24 +63,9 @@ export interface DrawerProps {
   children: React.ReactNode;
 
   /**
-   * Footer of Drawer
+   * Style
    */
-  footer?: React.ReactNode;
-
-  /**
-   * header of Drawer
-   */
-  header?: React.ReactNode;
-
-  /**
-   * Styles for all types of container
-   */
-  style?: {
-    header?: React.CSSProperties;
-    body?: React.CSSProperties;
-    footer?: React.CSSProperties;
-    container?: React.CSSProperties;
-  };
+  style?: React.CSSProperties;
   /**
    * Weather Drawer is visible or not
    */
@@ -98,5 +74,4 @@ export interface DrawerProps {
    * Callback to be triggered when clicked on close(X) or on mask
    */
   onClose?: () => void;
-  elevation?: number;
 }

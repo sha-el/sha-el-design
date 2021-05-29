@@ -1,5 +1,5 @@
 import { css } from '@emotion/css';
-import { getColor } from '../../helpers';
+import { getColor } from '../../helpers/color';
 import { zAboveBase } from '../../helpers/zIndex';
 import { BadgeProps } from './Badge';
 

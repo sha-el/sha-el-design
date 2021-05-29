@@ -1,5 +1,5 @@
 import { css } from '@emotion/css';
-import { borderColor } from 'csx';
+import { borderColor } from '../../helpers/color';
 import { lightText, shadowColor } from '../../helpers/color';
 import { Theme } from '../Theme/Theme';
 

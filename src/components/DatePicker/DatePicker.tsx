@@ -28,9 +28,10 @@ export const DatePicker: React.FC<DatePickerProps> = (props) => {
     <>
       <Popover
         content={
-          <Row gutter={['0', '0']}>
+          <Row>
             <Col span={24}>
               <Calendar
+                elevation={0}
                 date={date || undefined}
                 cellRender={cellRender}
                 calendarEvents={calendarEvents}
@@ -44,20 +45,26 @@ export const DatePicker: React.FC<DatePickerProps> = (props) => {
               />
             </Col>
             {timePickerProps && (
-              <Col style={{ marginTop: '5px' }}>
-                <Card>
-                  <TimePicker {...timePickerProps} time={date || undefined} onChange={(t) => onChange(t)} />
-                </Card>
-              </Col>
+              <>
+                <Col style={{ marginTop: '5px' }}>
+                  <Card elevation={0}>
+                    <TimePicker {...timePickerProps} time={date || undefined} onChange={(t) => onChange(t)} />
+                  </Card>
+                </Col>
+                <Col span={4} offset={20}>
+                  <Button primary flat onClick={() => updateVisible(false)}>
+                    Close
+                  </Button>
+                </Col>
+              </>
             )}
           </Row>
         }
         visible={visible}
         onVisibleChange={updateVisible}
-        style={{ child: { display: 'block' } }}
+        style={{ child: { display: 'block' }, content: { width: '400px' } }}
         hideArrow
-        expand
-        trigger="onClick"
+        trigger={['onClick', 'onFocus']}
       >
         <Input
           {...rest}
@@ -76,7 +83,7 @@ export const DatePicker: React.FC<DatePickerProps> = (props) => {
 };
 
 type InputType = Omit<InputProps, 'onClick' | 'value' | 'onChange'>;
-type CalendarType = Omit<CalendarProps, 'onClick'>;
+type CalendarType = Omit<CalendarProps, 'onChange' | 'onClick'>;
 
 export interface DatePickerProps extends InputType, CalendarType {
   displayProp?: (date?: Date | null) => string;
