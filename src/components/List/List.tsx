@@ -38,7 +38,7 @@ export const List: React.FC<ListProps> = (props) => {
             style={props.style}
           >
             {Array.isArray(props.children)
-              ? (props.children as React.ReactElement[])?.map(
+              ? (props.children as React.ReactElement[]).map(
                   (v, i) =>
                     v &&
                     React.cloneElement(v, {
