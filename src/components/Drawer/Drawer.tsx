@@ -30,7 +30,7 @@ export const Drawer: React.FunctionComponent<DrawerProps> = (props) => {
   return (
     <Portal>
       <>
-        <div className={css.maskStyle} onClick={() => props.onClose && beforeClose()} />
+        <div className={classes(css.maskStyle, 'sha-el-drawer')} onClick={() => props.onClose && beforeClose()} />
         <div
           style={props.style}
           className={classes(

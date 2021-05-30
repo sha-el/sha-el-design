@@ -89,19 +89,8 @@ export const style = (theme: Theme) => ({
     background: theme.background,
     zIndex: zLayoutModal,
     height: '100%',
-    '& .header': {
-      padding: '16px 24px',
-      borderBottom: '1px solid #ccc',
-    },
-    '& .body': {
-      padding: '16px 24px',
-      overflowY: 'auto',
-      overflowX: 'auto',
-    },
-    '& .footer': {
-      padding: '16px 24px',
-      borderTop: '1px solid #ccc',
-    },
+    overflowY: 'auto',
+    overflowX: 'auto',
   }),
   maskStyle: css({
     position: 'fixed',
@@ -132,9 +121,6 @@ export const style = (theme: Theme) => ({
     width: 'auto',
     height: '100%',
     animation: `${slideInRight} 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
-    '& .body': {
-      height: '100%',
-    },
   }),
   slideInLeft: css({
     left: '0',
@@ -142,9 +128,6 @@ export const style = (theme: Theme) => ({
     height: '100%',
     top: '0',
     animation: `${slideInLeft} 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
-    '& .body': {
-      height: '100%',
-    },
   }),
   slideInTop: css({
     top: '0',

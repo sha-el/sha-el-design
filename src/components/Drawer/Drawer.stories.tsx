@@ -15,7 +15,7 @@ export default {
 } as Meta;
 
 const Template: Story<DrawerProps> = (args) => {
-  const [open, update] = React.useState(true);
+  const [open, update] = React.useState(args.isVisible);
   return (
     <>
       <Button onClick={() => update(!open)}>Open</Button>
@@ -34,4 +34,5 @@ Basic.args = {
       <p>LOREM IPSUM................</p>
     </Card>
   ),
+  isVisible: true,
 };
