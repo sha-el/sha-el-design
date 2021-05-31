@@ -188,7 +188,13 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
   };
 
   return (
-    <Card elevation={props.elevation} padding={props.padding} margin={props.margin} border={props.border}>
+    <Card
+      className="sha-el-calendar"
+      elevation={props.elevation}
+      padding={props.padding}
+      margin={props.margin}
+      border={props.border}
+    >
       <Row gutter={[10, 10]} justifyContent="flex-end">
         <Col flex="0 1 auto">
           <Menu
