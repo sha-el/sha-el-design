@@ -6,7 +6,7 @@ export const [OPEN_WIDTH, COLLAPSED_WIDTH] = [250, 60];
 
 const ctx = React.createContext<{ width: number; toggle: () => void }>({
   width: OPEN_WIDTH,
-  toggle: () => ({}),
+  toggle: undefined,
 });
 
 export const SidePanelContext = ctx;
