@@ -56,7 +56,7 @@ const Inner: React.FC<InnerProps> = (props) => {
   return (
     <>
       <div
-        className={classes(css.container, elevationCss(2))}
+        className={classes(css.container, elevationCss(2), 'sha-el-side-panel')}
         onMouseEnter={() => updateDrawerButton(true)}
         onMouseLeave={() => updateDrawerButton(false)}
       >
@@ -70,7 +70,7 @@ const Inner: React.FC<InnerProps> = (props) => {
             ))}
           </Col>
           {drawer && (
-            <Col flex="0 0 190px" className={css.drawer}>
+            <Col flex="0 0 190px" className={classes(css.drawer, 'drawer')}>
               <TabPanelContainer
                 activeKey={String(activeDrawer)}
                 titles={children.concat(bottom).map((_, i) => ({ title: '', key: String(i) }))}
@@ -84,7 +84,7 @@ const Inner: React.FC<InnerProps> = (props) => {
             </Col>
           )}
         </Row>
-        <div className={css.resizer}>
+        <div className={classes(css.resizer, 'resizer')}>
           {drawerButton && (
             <Button
               onClick={() => onOpen(children[0], activeDrawer, !!drawer, toggle)}
@@ -95,9 +95,9 @@ const Inner: React.FC<InnerProps> = (props) => {
             />
           )}
         </div>
-        {!drawer && <div className={css.line} />}
+        {!drawer && <div className={classes(css.line, 'line')} />}
       </div>
-      <div className={css.bottom}>
+      <div className={classes(css.bottom, 'sha-el-side-panel-bottom')}>
         {bottom.map((v, i) => (
           <div className={css.item} key={`item-${i}`} onClick={() => onOpen(v, children.length + i, false, toggle)}>
             {v.props?.anchor || v}

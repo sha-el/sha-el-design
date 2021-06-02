@@ -1,11 +1,11 @@
 import * as React from 'react';
+import { classes } from '../../helpers';
 import { container as style } from './style';
 
 export const [OPEN_WIDTH, COLLAPSED_WIDTH] = [250, 60];
 
-const ctx = React.createContext<{ width: number; updateWidth: (width: number) => void; toggle: () => void }>({
+const ctx = React.createContext<{ width: number; toggle: () => void }>({
   width: OPEN_WIDTH,
-  updateWidth: (__width: number) => ({}),
   toggle: () => ({}),
 });
 
@@ -19,17 +19,12 @@ export const Container: React.FC<ContainerProps> = (props) => {
   };
 
   return (
-    <SidePanelContext.Provider value={{ width, updateWidth, toggle }}>
-      <div className={style}>{props.children}</div>
+    <SidePanelContext.Provider value={{ width, toggle }}>
+      <div className={classes(style, 'sha-el-conatiner')}>{props.children}</div>
     </SidePanelContext.Provider>
   );
 };
 
-Container.defaultProps = {
-  sidePanelWidth: COLLAPSED_WIDTH,
-};
-
 export interface ContainerProps {
   children: React.ReactNode;
-  sidePanelWidth?: number;
 }
