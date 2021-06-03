@@ -292,7 +292,7 @@ describe('TimePicker', () => {
     const timePickerContainer = document.querySelector('.rc-tooltip').querySelector('.sha-el-row');
 
     const hours = timePickerContainer.querySelector('.hour-column').querySelectorAll('p');
-    expect(hours[Number(currentTime[0])]).toHaveStyle(`
+    expect(hours[Number(currentTime[0] === '12' ? '0' : currentTime[0])]).toHaveStyle(`
       background: #536DFE;
     `);
 
