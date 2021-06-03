@@ -7,7 +7,7 @@ import { classes } from '../../helpers';
 import { shapeTypes, sizeTypes, style } from './style';
 import { PaddingClassNameInput, paddingCss } from '../../helpers/padding';
 
-export const Button: React.FC<ButtonProps> = (props) => {
+export const Button = React.forwardRef<HTMLButtonElement & HTMLAnchorElement, ButtonProps>((props, ref) => {
   const {
     size: __size,
     shape: __shape,
@@ -27,30 +27,66 @@ export const Button: React.FC<ButtonProps> = (props) => {
     ...rest
   } = props;
 
-  const BaseElement = (
-    p: React.AnchorHTMLAttributes<HTMLAnchorElement> | React.ButtonHTMLAttributes<HTMLButtonElement>,
-  ) => {
-    if (component) {
-      return React.cloneElement(props.component, p);
-    }
-    if (rest.href !== undefined || link) {
-      return React.cloneElement(<a {...(p as React.AnchorHTMLAttributes<HTMLAnchorElement>)} />);
-    }
-
-    return React.cloneElement(<button {...(p as React.ButtonHTMLAttributes<HTMLButtonElement>)} />);
-  };
-
   const theme = useTheme();
   const css = style(theme, props);
 
-  if (rest.href !== undefined || link) {
+  const buttonProps = rest as NativeButtonProps;
+  const anchorProps = rest as AnchorButtonProps;
+
+  if (component) {
+    const Element = (p: Record<string, unknown>) => React.cloneElement(props.component, p);
+
+    if (link || props.href !== undefined) {
+      return (
+        <Element
+          className={classes(css.anchor, css.default, className, paddingCss(padding))}
+          onClick={(
+            e: React.MouseEvent<HTMLAnchorElement, MouseEvent> & React.MouseEvent<HTMLButtonElement, MouseEvent>,
+          ) => !loading && onClick && onClick(e)}
+          {...anchorProps}
+        >
+          {icon}
+          <Loading
+            color={buttonColor(props, theme, primary, secondary, danger, link)[1]}
+            isLoading={loading}
+            size="small"
+            render={() => <span>{props.children}</span>}
+          />
+        </Element>
+      );
+    }
+
     return (
-      <BaseElement
+      <Element
+        className={classes(css.default, css.button, className, paddingCss(padding))}
+        onClick={(
+          e: React.MouseEvent<HTMLAnchorElement, MouseEvent> & React.MouseEvent<HTMLButtonElement, MouseEvent>,
+        ) => !loading && onClick && onClick(e)}
+        ref={ref}
+        {...buttonProps}
+      >
+        {icon}
+        <Loading
+          style={{ margin: '0' }}
+          color={buttonColor(props, theme, primary, secondary, danger, link)[1]}
+          isLoading={loading}
+          size="small"
+          render={() => <span>{props.children}</span>}
+        />
+        {loading && <Text margin="0 10px">Loading</Text>}
+      </Element>
+    );
+  }
+
+  if (link) {
+    return (
+      <a
         className={classes(css.anchor, css.default, className, paddingCss(padding))}
         onClick={(
           e: React.MouseEvent<HTMLAnchorElement, MouseEvent> & React.MouseEvent<HTMLButtonElement, MouseEvent>,
         ) => !loading && onClick && onClick(e)}
-        {...rest}
+        ref={ref}
+        {...anchorProps}
       >
         {icon}
         <Loading
@@ -59,15 +95,17 @@ export const Button: React.FC<ButtonProps> = (props) => {
           size="small"
           render={() => <span>{props.children}</span>}
         />
-      </BaseElement>
+      </a>
     );
   }
 
-  const buttonProps = rest as NativeButtonProps;
   return (
-    <BaseElement
+    <button
       className={classes(css.default, css.button, className, paddingCss(padding))}
-      onClick={(e) => !loading && onClick && onClick(e)}
+      onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent> & React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+        !loading && onClick && onClick(e)
+      }
+      ref={ref}
       {...buttonProps}
     >
       {icon}
@@ -79,9 +117,9 @@ export const Button: React.FC<ButtonProps> = (props) => {
         render={() => <span>{props.children}</span>}
       />
       {loading && <Text margin="0 10px">Loading</Text>}
-    </BaseElement>
+    </button>
   );
-};
+});
 
 Button.defaultProps = {
   size: 'default',
