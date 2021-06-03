@@ -68,7 +68,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
       const [startDate, endDate] = [initialDate(v.startDate), initialDate(v.endDate)];
       if (day === startDate.getDate() && month === startDate.getMonth() && year === startDate.getFullYear()) {
         return (
-          <Tooltip key={i} placement="top" trigger={['hover']} overlay={v.eventName}>
+          <Tooltip key={i} placement="top" trigger={['onMouseOver']} overlay={v.eventName}>
             <div
               className={style.badge}
               style={{
@@ -90,7 +90,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
         compareDesc(new Date(year, month, day), endDate) === 1
       ) {
         return (
-          <Tooltip key={i} placement="top" trigger={['hover']} overlay={v.eventName}>
+          <Tooltip key={i} placement="top" trigger={['onMouseOver']} overlay={v.eventName}>
             <div
               className={style.badge}
               style={{
@@ -108,7 +108,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
 
       if (day === endDate.getDate() && month === endDate.getMonth() && year === endDate.getFullYear()) {
         return (
-          <Tooltip key={i} placement="top" trigger={['hover']} overlay={v.eventName}>
+          <Tooltip key={i} placement="top" trigger={['onMouseOver']} overlay={v.eventName}>
             <div
               className={style.badge}
               style={{
