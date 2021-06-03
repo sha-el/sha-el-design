@@ -23,8 +23,14 @@ const CreateTimePicker = (props: { use12Hour?: boolean; disabled?: boolean; bode
   );
 };
 
-// Convert 0: number -> 00: string to compare with TimePicker Input value
-export const toInputString = (n: number) => (n < 10 ? '0' + n : n.toString());
+const compareTime = (num: number, value: string) => new Date(num).toTimeString().split(' ')[0] === value;
+const compare12HourTime = (num: number, value: string) => {
+  const time = new Date(num).toLocaleTimeString().split(':');
+  time[0] = time[0].length === 1 && '0' + time[0];
+  const newTime = time.join(':').toString();
+
+  return newTime === value;
+};
 
 describe('TimePicker', () => {
   it('Should render a timepicker component', () => {
@@ -221,17 +227,25 @@ describe('TimePicker', () => {
     });
 
     const tooltip = document.querySelector('.rc-tooltip');
-    let currentTime: string[] = [];
+    let date: Date;
     act(() => {
       fireEvent.click(tooltip.querySelector('button'));
-      currentTime = [
-        toInputString(new Date().getHours()),
-        toInputString(new Date().getMinutes()),
-        toInputString(new Date().getSeconds()),
-      ];
+      date = new Date();
     });
 
-    expect(timePickerInput.querySelector('input').value).toBe(`${currentTime[0]}:${currentTime[1]}:${currentTime[2]}`);
+    const value = timePickerInput.querySelector('input').value;
+    const isCurrentTime =
+      compareTime(date.setSeconds(date.getSeconds()), value) ||
+      compareTime(date.setSeconds(date.getSeconds() - 1), value) ||
+      compareTime(date.setSeconds(date.getSeconds() - 1), value);
+
+    expect(isCurrentTime).toBeTruthy();
+
+    const currentTime = date
+      .toTimeString()
+      .split(' ')[0]
+      .split(':')
+      .map((v) => Number(v));
 
     act(() => {
       fireEvent.click(document.querySelector('input'));
@@ -240,17 +254,17 @@ describe('TimePicker', () => {
     const timePickerContainer = document.querySelector('.rc-tooltip').querySelector('.sha-el-row');
 
     const hours = timePickerContainer.querySelector('.hour-column').querySelectorAll('p');
-    expect(hours[Number(currentTime[0])]).toHaveStyle(`
+    expect(hours[currentTime[0]]).toHaveStyle(`
       background: #536DFE;
     `);
 
     const minutes = timePickerContainer.querySelector('.min-column').querySelectorAll('p');
-    expect(minutes[Number(currentTime[1])]).toHaveStyle(`
+    expect(minutes[currentTime[1]]).toHaveStyle(`
       background: #536DFE;
     `);
 
     const seconds = timePickerContainer.querySelector('.sec-column').querySelectorAll('p');
-    expect(seconds[Number(currentTime[2])]).toHaveStyle(`
+    expect(seconds[currentTime[2]]).toHaveStyle(`
       background: #536DFE;
     `);
   });
@@ -266,24 +280,22 @@ describe('TimePicker', () => {
     });
 
     const tooltip = document.querySelector('.rc-tooltip');
-    let currentTime: string[] = [];
+    let date: Date;
     act(() => {
       fireEvent.click(tooltip.querySelector('button'));
-      currentTime = [
-        new Date().getHours() > 12
-          ? toInputString(new Date().getHours() - 12)
-          : new Date().getHours() === 0
-          ? '12'
-          : toInputString(new Date().getHours()),
-        toInputString(new Date().getMinutes()),
-        toInputString(new Date().getSeconds()),
-        new Date().getHours() < 12 ? 'AM' : 'PM',
-      ];
+      date = new Date();
     });
 
-    expect(timePickerInput.querySelector('input').value).toBe(
-      `${currentTime[0]}:${currentTime[1]}:${currentTime[2]} ${currentTime[3]}`,
-    );
+    const value = timePickerInput.querySelector('input').value;
+    const isCurrentTime =
+      compare12HourTime(date.setSeconds(date.getSeconds()), value) ||
+      compare12HourTime(date.setSeconds(date.getSeconds() - 1), value) ||
+      compare12HourTime(date.setSeconds(date.getSeconds() - 1), value);
+
+    expect(isCurrentTime).toBeTruthy();
+
+    const currentTime = date.toLocaleTimeString().split(' ')[0].split(':');
+    currentTime.push(date.toLocaleTimeString().split(' ')[1]);
 
     act(() => {
       fireEvent.click(document.querySelector('input'));
