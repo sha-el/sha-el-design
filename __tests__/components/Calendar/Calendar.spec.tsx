@@ -212,25 +212,31 @@ describe('Calendar', () => {
     }
   });
 
-  it('Should render a calendar with events', () => {
-    render(
-      <Calendar
-        date={new Date(2007, 6, 7)}
-        calendarEvents={[
-          {
-            startDate: new Date(2007, 6, 5),
-            endDate: new Date(2007, 6, 6),
-            eventName: 'Event 1',
-            color: '#fcf',
-          },
-          {
-            startDate: new Date(2007, 6, 6),
-            endDate: new Date(2007, 6, 7),
-            eventName: 'Event 2',
-          },
-        ]}
-      />,
-    );
+  it('Should render a calendar with events', async () => {
+    await act(async () => {
+      render(
+        <Calendar
+          date={new Date(2007, 6, 7)}
+          calendarEvents={[
+            {
+              startDate: new Date(2007, 6, 5),
+              endDate: new Date(2007, 6, 6),
+              eventName: 'Event 1',
+              color: '#fcf',
+            },
+            {
+              startDate: new Date(2007, 6, 6),
+              endDate: new Date(2007, 6, 7),
+              eventName: 'Event 2',
+            },
+          ]}
+        />,
+      );
+    });
+
+    act(() => {
+      jest.runAllTimers();
+    });
 
     const datesArray = document.querySelectorAll('.sha-el-row')[2].querySelectorAll('.sha-el-col');
 
@@ -273,30 +279,42 @@ describe('Calendar', () => {
     `);
   });
 
-  it('Should render tooltip when hover on an event', () => {
-    render(
-      <Calendar
-        date={new Date(2007, 6, 7)}
-        calendarEvents={[
-          {
-            startDate: new Date(2007, 6, 4),
-            endDate: new Date(2007, 6, 8),
-            eventName: 'Event 1',
-            color: '#fcf',
-          },
-        ]}
-      />,
-    );
+  it('Should render tooltip when hover on an event', async () => {
+    jest.useFakeTimers();
+
+    await act(async () => {
+      render(
+        <Calendar
+          date={new Date(2007, 6, 7)}
+          calendarEvents={[
+            {
+              startDate: new Date(2007, 6, 4),
+              endDate: new Date(2007, 6, 8),
+              eventName: 'Event 1',
+              color: '#fcf',
+            },
+          ]}
+        />,
+      );
+    });
+
+    act(() => {
+      jest.runAllTimers();
+    });
 
     const datesArray = document.querySelectorAll('.sha-el-row')[2].querySelectorAll('.sha-el-col');
 
     for (let i = 3; i < 8; i++) {
-      act(() => {
-        fireEvent.mouseEnter(datesArray[i].querySelector('div').querySelector('div'));
+      await act(async () => {
+        fireEvent.mouseOver(datesArray[i].querySelector('div').querySelector('div'));
       });
 
-      const eventTooltip = document.querySelector('.rc-tooltip-inner');
-      expect(eventTooltip.innerHTML).toBe('Event 1');
+      act(() => {
+        jest.runAllTimers();
+      });
+
+      const eventTooltip = document.querySelectorAll('.sha-el-tooltip')[1];
+      expect(eventTooltip.innerHTML).toContain('Event 1');
     }
   });
 });

@@ -48,6 +48,10 @@ describe('Tooltip', () => {
       fireEvent.mouseOver(document.getElementById('button'));
     });
 
+    act(() => {
+      jest.runAllTimers();
+    });
+
     expect(document.querySelector('.sha-el-tooltip').classList).toContain('css-bw1o8r');
 
     await act(async () => {
