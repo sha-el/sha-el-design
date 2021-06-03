@@ -14,6 +14,23 @@ export const Text: React.FunctionComponent<TextProps> = (props) => {
   const theme = useTheme();
   const css = classes(style({ props, theme }), props.className);
 
+  const {
+    variant: __variant,
+    italicize: __italicize,
+    fontFamily: __fontFamily,
+    fontSize: __fontSize,
+    padding: __padding,
+    margin: __margin,
+    color: __color,
+    underline: __underline,
+    strikeThrough: __strikethrough,
+    fontWeight: __fontWeight,
+    textAlign: __textAlign,
+    background: __background,
+    monoFont: __monoFont,
+    ...rest
+  } = props;
+
   const element = {
     h1: <h1 />,
     h2: <h2 />,
@@ -27,13 +44,11 @@ export const Text: React.FunctionComponent<TextProps> = (props) => {
 
   return React.cloneElement(element, {
     className: css,
-    style: props.style,
-    onClick: props.onClick,
-    children: props.children,
+    ...rest,
   });
 };
 
-export interface TextProps {
+export interface TextProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
   children: React.ReactNode;
   /**
    *  Defines variant for heading.
@@ -72,11 +87,6 @@ export interface TextProps {
    */
   strikeThrough?: boolean;
   /**
-   * Add custom styling
-   */
-  style?: React.CSSProperties;
-
-  /**
    * Add font weight
    */
   fontWeight?: React.CSSProperties['fontWeight'];
@@ -95,10 +105,6 @@ export interface TextProps {
    * Set monospace font.
    */
   monoFont?: boolean;
-
-  className?: string;
-
-  onClick?: (e: React.MouseEvent) => void;
 }
 
 Text.defaultProps = {
