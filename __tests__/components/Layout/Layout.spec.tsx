@@ -358,24 +358,4 @@ describe('Layout', () => {
     const sidePanelBottom = document.querySelector('.sha-el-side-panel-bottom');
     expect(sidePanelBottom.querySelectorAll('div').length).toBe(1);
   });
-
-  // it('Should change sidePanelWidth', () => {
-  //   render(<CreateLayout sidePanelWidth={100} />);
-  // });
 });
-
-// width
-
-// check content not to be dispalyed by the drawer if it's not a menu component
-// check mouse enter and mouse leave : it is basically a replacement of hover for an entire component
-// check custom width everywhere (specially in sidepanel and content style) ref => width in container
-// NOTE: width changes everywhere when SidePanel is toggled
-// test drawer thing in sidepanel : when we open sidepanel only then we can test the drawer
-// should not render a line while drawer is open
-// check single childer branching
-// should open sidepanel when clicked on a childern
-/*
- **
- ** Drawer not opening
- **
- */
