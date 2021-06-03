@@ -1,6 +1,7 @@
 import React from 'react';
 import { TimePicker } from '../../../src';
 
+import MockDate from 'mockdate';
 import '@testing-library/jest-dom';
 import { fireEvent, render, act } from '@testing-library/react';
 
@@ -22,9 +23,6 @@ const CreateTimePicker = (props: { use12Hour?: boolean; disabled?: boolean; bode
     </>
   );
 };
-
-// Convert 0: number -> 00: string to compare with TimePicker Input value
-export const toInputString = (n: number) => (n < 10 ? '0' + n : n.toString());
 
 describe('TimePicker', () => {
   it('Should render a timepicker component', () => {
@@ -211,6 +209,7 @@ describe('TimePicker', () => {
   });
 
   it('Should show current time when clicked on now button', () => {
+    MockDate.set(new Date(2007, 6, 7, 7, 5, 17));
     render(<CreateTimePicker />);
 
     const timePickerInput = document.querySelector('.sha-el-input');
@@ -221,17 +220,12 @@ describe('TimePicker', () => {
     });
 
     const tooltip = document.querySelector('.rc-tooltip');
-    let currentTime: string[] = [];
     act(() => {
       fireEvent.click(tooltip.querySelector('button'));
-      currentTime = [
-        toInputString(new Date().getHours()),
-        toInputString(new Date().getMinutes()),
-        toInputString(new Date().getSeconds()),
-      ];
     });
 
-    expect(timePickerInput.querySelector('input').value).toBe(`${currentTime[0]}:${currentTime[1]}:${currentTime[2]}`);
+    const value = timePickerInput.querySelector('input').value;
+    expect(value).toBe('07:05:17');
 
     act(() => {
       fireEvent.click(document.querySelector('input'));
@@ -240,22 +234,23 @@ describe('TimePicker', () => {
     const timePickerContainer = document.querySelector('.rc-tooltip').querySelector('.sha-el-row');
 
     const hours = timePickerContainer.querySelector('.hour-column').querySelectorAll('p');
-    expect(hours[Number(currentTime[0])]).toHaveStyle(`
+    expect(hours[7]).toHaveStyle(`
       background: #536DFE;
     `);
 
     const minutes = timePickerContainer.querySelector('.min-column').querySelectorAll('p');
-    expect(minutes[Number(currentTime[1])]).toHaveStyle(`
+    expect(minutes[5]).toHaveStyle(`
       background: #536DFE;
     `);
 
     const seconds = timePickerContainer.querySelector('.sec-column').querySelectorAll('p');
-    expect(seconds[Number(currentTime[2])]).toHaveStyle(`
+    expect(seconds[17]).toHaveStyle(`
       background: #536DFE;
     `);
   });
 
   it('Should show current time when clicked on now button in 12 hour format', () => {
+    MockDate.set(new Date(2007, 6, 7, 24, 33, 59));
     render(<CreateTimePicker use12Hour />);
 
     const timePickerInput = document.querySelector('.sha-el-input');
@@ -266,24 +261,12 @@ describe('TimePicker', () => {
     });
 
     const tooltip = document.querySelector('.rc-tooltip');
-    let currentTime: string[] = [];
     act(() => {
       fireEvent.click(tooltip.querySelector('button'));
-      currentTime = [
-        new Date().getHours() > 12
-          ? toInputString(new Date().getHours() - 12)
-          : new Date().getHours() === 0
-          ? '12'
-          : toInputString(new Date().getHours()),
-        toInputString(new Date().getMinutes()),
-        toInputString(new Date().getSeconds()),
-        new Date().getHours() < 12 ? 'AM' : 'PM',
-      ];
     });
 
-    expect(timePickerInput.querySelector('input').value).toBe(
-      `${currentTime[0]}:${currentTime[1]}:${currentTime[2]} ${currentTime[3]}`,
-    );
+    const value = timePickerInput.querySelector('input').value;
+    expect(value).toBe('12:33:59 AM');
 
     act(() => {
       fireEvent.click(document.querySelector('input'));
@@ -292,23 +275,22 @@ describe('TimePicker', () => {
     const timePickerContainer = document.querySelector('.rc-tooltip').querySelector('.sha-el-row');
 
     const hours = timePickerContainer.querySelector('.hour-column').querySelectorAll('p');
-    expect(hours[Number(currentTime[0] === '12' ? '0' : currentTime[0])]).toHaveStyle(`
+    expect(hours[0]).toHaveStyle(`
       background: #536DFE;
     `);
 
     const minutes = timePickerContainer.querySelector('.min-column').querySelectorAll('p');
-    expect(minutes[Number(currentTime[1])]).toHaveStyle(`
+    expect(minutes[33]).toHaveStyle(`
       background: #536DFE;
     `);
 
     const seconds = timePickerContainer.querySelector('.sec-column').querySelectorAll('p');
-    expect(seconds[Number(currentTime[2])]).toHaveStyle(`
+    expect(seconds[59]).toHaveStyle(`
       background: #536DFE;
     `);
 
     const period = timePickerContainer.querySelector('.am-column').querySelectorAll('p');
-    const index = currentTime[3] === 'AM' ? 0 : 1;
-    expect(period[index]).toHaveStyle(`
+    expect(period[0]).toHaveStyle(`
       background: #536DFE;
     `);
   });

@@ -69,6 +69,7 @@
     "husky": "^4.2.5",
     "jest": "^26.6.3",
     "lint-staged": "^10.2.13",
+    "mockdate": "^3.0.5",
     "prettier": "^2.0.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

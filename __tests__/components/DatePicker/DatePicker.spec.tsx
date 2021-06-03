@@ -1,6 +1,7 @@
 import React from 'react';
 import { DatePicker } from '../../../src';
 
+import MockDate from 'mockdate';
 import '@testing-library/jest-dom';
 import { fireEvent, render, act, screen } from '@testing-library/react';
 
@@ -48,10 +49,11 @@ describe('DatePicker', () => {
   });
 
   it('Should render a datepicker with today date', () => {
+    MockDate.set(new Date(2021, 5, 3));
     render(<CreateDatePicker date={new Date()} />);
 
     const datePickerInput = document.querySelector('input');
-    expect(datePickerInput.value).toBe(new Date().toLocaleDateString());
+    expect(datePickerInput.value).toBe('6/3/2021');
   });
 
   it('Should re-render on date change', () => {
@@ -105,14 +107,11 @@ describe('DatePicker', () => {
   });
 
   it('Should render datepicker with today date and time', () => {
-    let currentDateTime: string;
-    act(() => {
-      render(<CreateDatePicker withTimePicker={{}} date={new Date()} />);
-      currentDateTime = new Date().toLocaleString();
-    });
+    MockDate.set(new Date(2025, 4, 18, 18, 6, 44));
+    render(<CreateDatePicker withTimePicker={{}} date={new Date()} />);
 
     const datePickerInput = document.querySelector('input');
-    expect(datePickerInput.value).toBe(currentDateTime);
+    expect(datePickerInput.value).toBe('5/18/2025, 6:06:44 PM');
   });
 
   it('Should close datepicker', () => {
