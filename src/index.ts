@@ -14,7 +14,7 @@ export { MenuItem, Menu } from './components/Menu';
 export { Modal } from './components/Modal';
 export { Pagination } from './components/Pagination';
 export { Popover } from './components/Popover';
-export { Table, FlexTable } from './components/Table';
+export { FlexTable } from './components/FlexTable';
 export { TabPanel, Tabs, TabHeader, TabPanelContainer } from './components/Tabs';
 export { Calendar } from './components/Calendar';
 export { CheckBox } from './components/CheckBox';
