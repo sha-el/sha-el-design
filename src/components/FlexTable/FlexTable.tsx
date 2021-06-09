@@ -33,7 +33,7 @@ export function FlexTable<T>(props: FlexTableProps<T>) {
   const showEmptyState = (className: string) => {
     if (!props.data.length) {
       return (
-        <div className={className}>
+        <div className={classes(className, 'empty-state')}>
           <div>
             <GiEmptyMetalBucket style={{ margin: '20px auto', fontSize: '100px' }} />
           </div>
@@ -56,7 +56,7 @@ export function FlexTable<T>(props: FlexTableProps<T>) {
       padding={0}
     >
       <ListItem
-        className={css.header}
+        className={classes(css.header, 'header')}
         style={{ background: shadowColor(theme)[0], ...(style.header || {}) }}
         action={nested && <MdExpandMore style={{ color: disabledColor(theme) }} />}
         padding={0}
@@ -86,7 +86,7 @@ export function FlexTable<T>(props: FlexTableProps<T>) {
                     style={rowStyle && rowStyle(v, index)}
                     padding={0}
                   >
-                    <div className={css.nestedContent}>{nested.render(v, index)}</div>
+                    <div className={classes(css.nestedContent, 'nested-content')}>{nested.render(v, index)}</div>
                   </CollapsibleList>
                 );
               }
