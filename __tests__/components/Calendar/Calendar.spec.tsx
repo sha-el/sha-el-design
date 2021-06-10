@@ -6,8 +6,10 @@ import { fireEvent, render, act, screen } from '@testing-library/react';
 import { months, weeksEnum } from '../../../src/components/Calendar/Calendar';
 
 describe('Calendar', () => {
-  it('Should check cell styles', () => {
-    render(<Calendar />);
+  it('Should check cell styles', async () => {
+    await act(async () => {
+      render(<Calendar />);
+    });
 
     const datesArray = document.querySelectorAll('.sha-el-row')[2].querySelectorAll('.sha-el-col');
 
@@ -24,8 +26,10 @@ describe('Calendar', () => {
     `);
   });
 
-  it('Should change month of calendar', () => {
-    render(<Calendar />);
+  it('Should change month of calendar', async () => {
+    await act(async () => {
+      render(<Calendar />);
+    });
 
     const currentMonth = months[new Date().getMonth()];
 
@@ -57,8 +61,10 @@ describe('Calendar', () => {
     `);
   });
 
-  it('Should change year of calendar', () => {
-    render(<Calendar />);
+  it('Should change year of calendar', async () => {
+    await act(async () => {
+      render(<Calendar />);
+    });
 
     const currentYear = new Date().getFullYear();
 
@@ -69,7 +75,8 @@ describe('Calendar', () => {
       fireEvent.click(yearMenu);
     });
 
-    let yearArray = document.querySelector('ul').querySelectorAll('li');
+    let yearArray = document.querySelectorAll('ul')[1].querySelectorAll('li');
+
     expect(yearArray[currentYear - 1980]).toHaveStyle(`
       background: rgb(83, 109, 254);
       color: rgb(255, 255, 255);
@@ -82,22 +89,26 @@ describe('Calendar', () => {
     yearMenu = document.querySelector('.sha-el-row').querySelectorAll('.sha-el-col')[1].querySelector('button');
     expect(yearMenu.innerHTML).toBe(`<span>1993</span>`);
 
-    yearArray = document.querySelector('ul').querySelectorAll('li');
+    yearArray = document.querySelectorAll('ul')[1].querySelectorAll('li');
     expect(yearArray[1993 - 1980]).toHaveStyle(`
       background: rgb(83, 109, 254);
       color: rgb(255, 255, 255);
     `);
   });
 
-  it('Should check weeks of calendar', () => {
-    render(<Calendar />);
+  it('Should check weeks of calendar', async () => {
+    await act(async () => {
+      render(<Calendar />);
+    });
 
     const weeks = document.querySelectorAll('.sha-el-row')[1].querySelectorAll('.sha-el-col');
     expect(weeks.length).toBe(7);
   });
 
-  it('Should render correct date week name', () => {
-    render(<Calendar date={new Date(2007, 6, 7)} />);
+  it('Should render correct date week name', async () => {
+    await act(async () => {
+      render(<Calendar date={new Date(2007, 6, 7)} />);
+    });
 
     const datesArray = document.querySelectorAll('.sha-el-row')[2].querySelectorAll('.sha-el-col');
     expect(datesArray[0].querySelector('button').innerHTML).toBe('<span>1</span>'); // 1 July 2007 -> Sunday i.e 1st Day of array.
@@ -108,8 +119,10 @@ describe('Calendar', () => {
     `);
   });
 
-  it(`Should check today's date style`, () => {
-    render(<Calendar />);
+  it(`Should check today's date style`, async () => {
+    await act(async () => {
+      render(<Calendar />);
+    });
 
     expect(screen.getByText(`${new Date().getDate()}`).parentNode).toHaveStyle(`
         box-shadow: none;
@@ -120,9 +133,11 @@ describe('Calendar', () => {
     `);
   });
 
-  it('Should change date background on click', () => {
+  it('Should change date background on click', async () => {
     const fn = jest.fn();
-    render(<Calendar date={new Date(2007, 6, 7)} onClick={fn} />);
+    await act(async () => {
+      render(<Calendar date={new Date(2007, 6, 7)} onClick={fn} />);
+    });
 
     const datesArray = document.querySelectorAll('.sha-el-row')[2].querySelectorAll('.sha-el-col');
 
@@ -135,8 +150,10 @@ describe('Calendar', () => {
     `);
   });
 
-  it('Should re-render on month change', () => {
-    render(<Calendar date={new Date(2007, 6, 7)} />);
+  it('Should re-render on month change', async () => {
+    await act(async () => {
+      render(<Calendar date={new Date(2007, 6, 7)} />);
+    });
 
     const datesArray = document.querySelectorAll('.sha-el-row')[2].querySelectorAll('.sha-el-col');
     expect(datesArray[0].querySelector('button').innerHTML).toBe('<span>1</span>');
@@ -153,8 +170,10 @@ describe('Calendar', () => {
     expect(datesArray[6].querySelector('button').innerHTML).toBe('<span>1</span>');
   });
 
-  it('Should re-render on year change', () => {
-    render(<Calendar date={new Date(2007, 6, 7)} />);
+  it('Should re-render on year change', async () => {
+    await act(async () => {
+      render(<Calendar date={new Date(2007, 6, 7)} />);
+    });
 
     const datesArray = document.querySelectorAll('.sha-el-row')[2].querySelectorAll('.sha-el-col');
     expect(datesArray[0].querySelector('button').innerHTML).toBe('<span>1</span>');
@@ -163,7 +182,7 @@ describe('Calendar', () => {
     act(() => {
       fireEvent.click(yearMenu);
     });
-    const yearArray = document.querySelector('ul').querySelectorAll('li');
+    const yearArray = document.querySelectorAll('ul')[1].querySelectorAll('li');
     act(() => {
       fireEvent.click(yearArray[2025 - 1980]);
     });
@@ -171,17 +190,19 @@ describe('Calendar', () => {
     expect(datesArray[2].querySelector('button').innerHTML).toBe('<span>1</span>');
   });
 
-  it('Should render a calendar with cellRender prop', () => {
-    render(
-      <Calendar
-        date={new Date(2007, 6, 7)}
-        cellRender={(date: Date, week: weeksEnum) => {
-          if (week === weeksEnum.SUNDAY) {
-            return <div style={{ background: 'red', color: 'white', width: '100%' }}>{date.getDate()}</div>;
-          }
-        }}
-      />,
-    );
+  it('Should render a calendar with cellRender prop', async () => {
+    await act(async () => {
+      render(
+        <Calendar
+          date={new Date(2007, 6, 7)}
+          cellRender={(date: Date, week: weeksEnum) => {
+            if (week === weeksEnum.SUNDAY) {
+              return <div style={{ background: 'red', color: 'white', width: '100%' }}>{date.getDate()}</div>;
+            }
+          }}
+        />,
+      );
+    });
 
     const datesArray = document.querySelectorAll('.sha-el-row')[2].querySelectorAll('.sha-el-col');
     for (let i = 0; i < 31; i += 7) {
@@ -193,9 +214,11 @@ describe('Calendar', () => {
     }
   });
 
-  it('Should render a calendar with disabled dates', () => {
+  it('Should render a calendar with disabled dates', async () => {
     const fn = jest.fn();
-    render(<Calendar date={new Date(2007, 6, 7)} onClick={fn} disabledDate={(date: Date) => date.getDay() === 3} />);
+    await act(async () => {
+      render(<Calendar date={new Date(2007, 6, 7)} onClick={fn} disabledDate={(date: Date) => date.getDay() === 3} />);
+    });
 
     const datesArray = document.querySelectorAll('.sha-el-row')[2].querySelectorAll('.sha-el-col');
     for (let i = 3; i < 31; i += 7) {
@@ -313,7 +336,7 @@ describe('Calendar', () => {
         jest.runAllTimers();
       });
 
-      const eventTooltip = document.querySelectorAll('.sha-el-tooltip')[1];
+      const eventTooltip = document.querySelectorAll('.sha-el-tooltip')[2];
       expect(eventTooltip.innerHTML).toContain('Event 1');
     }
   });

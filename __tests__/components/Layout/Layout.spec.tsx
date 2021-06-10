@@ -24,11 +24,10 @@ const CreateLayout = () => (
       bottom={[
         <Popover
           key="bottom-2"
-          position="right"
-          trigger="onHover"
-          style={{ child: { display: 'block' } }}
-          animation="zoom"
-          content={
+          placement="right"
+          trigger="onMouseOver"
+          // animation="zoom"
+          overlay={
             <List>
               <ListItem>user option 1</ListItem>
               <ListItem>user option 2</ListItem>

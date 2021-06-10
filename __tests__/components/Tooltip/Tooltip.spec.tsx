@@ -17,17 +17,22 @@ function ControlledToolTip(args: Partial<TooltipProps>) {
   const [state, updateState] = useState(args.visible);
 
   return (
-    <Tooltip
-      {...args}
-      visible={state}
-      onVisibleChange={(v) => {
-        updateState(v);
-        args.onVisibleChange(v);
-      }}
-      overlay={<Text id="text">Hello World</Text>}
-    >
-      <Button id="button">Hello</Button>
-    </Tooltip>
+    <>
+      <Tooltip
+        {...args}
+        visible={state}
+        onVisibleChange={(v) => {
+          updateState(v);
+          args.onVisibleChange(v);
+        }}
+        overlay={<Text id="text">Hello World</Text>}
+      >
+        <Button id="button">Hello</Button>
+      </Tooltip>
+      <Button id="button2" onClick={() => updateState(true)}>
+        Open
+      </Button>
+    </>
   );
 }
 
@@ -39,10 +44,9 @@ describe('Tooltip', () => {
       render(toolTip({}));
     });
 
-    // css-157afoo is classname when tooltip is hidden
-    // jest-dom has bug that stops it from testing element visiblity
-    // https://github.com/testing-library/jest-dom/issues/209
-    expect(document.querySelector('.sha-el-tooltip').classList).toContain('css-157afoo');
+    expect(document.querySelector('.sha-el-tooltip')).toHaveStyle(`
+      opacity: 0;
+    `);
 
     await act(async () => {
       fireEvent.mouseOver(document.getElementById('button'));
@@ -52,7 +56,9 @@ describe('Tooltip', () => {
       jest.runAllTimers();
     });
 
-    expect(document.querySelector('.sha-el-tooltip').classList).toContain('css-bw1o8r');
+    expect(document.querySelector('.sha-el-tooltip')).toHaveStyle(`
+      opacity: 1;
+    `);
 
     await act(async () => {
       fireEvent.mouseOver(document.querySelector('body'));
@@ -62,7 +68,9 @@ describe('Tooltip', () => {
       jest.runAllTimers();
     });
 
-    expect(document.querySelector('.sha-el-tooltip').classList).toContain('css-157afoo');
+    expect(document.querySelector('.sha-el-tooltip')).toHaveStyle(`
+      opacity: 0;
+    `);
 
     expect(document.querySelector('.arrow')).not.toBeNull();
   });
@@ -74,13 +82,17 @@ describe('Tooltip', () => {
       render(toolTip({ trigger: 'onMouseOver' }));
     });
 
-    expect(document.querySelector('.sha-el-tooltip').classList).toContain('css-157afoo');
+    expect(document.querySelector('.sha-el-tooltip')).toHaveStyle(`
+      opacity: 0;
+    `);
 
     await act(async () => {
       fireEvent.click(document.getElementById('button'));
     });
 
-    expect(document.querySelector('.sha-el-tooltip').classList).toContain('css-157afoo');
+    expect(document.querySelector('.sha-el-tooltip')).toHaveStyle(`
+      opacity: 0;
+    `);
   });
 
   it('Should open on click and close on click outside of reference element and tooltip', async () => {
@@ -90,7 +102,9 @@ describe('Tooltip', () => {
       render(toolTip({ trigger: 'onClick' }));
     });
 
-    expect(document.querySelector('.sha-el-tooltip').classList).toContain('css-157afoo');
+    expect(document.querySelector('.sha-el-tooltip')).toHaveStyle(`
+      opacity: 0;
+    `);
 
     await act(async () => {
       fireEvent.click(document.getElementById('button'));
@@ -100,7 +114,7 @@ describe('Tooltip', () => {
       jest.runAllTimers();
     });
 
-    expect(document.querySelector('.sha-el-tooltip').classList).toContain('css-bw1o8r');
+    expect(document.querySelector('.sha-el-tooltip')).toHaveStyle(`opacity: 1;`);
 
     await act(async () => {
       fireEvent.click(document.querySelector('body'));
@@ -110,7 +124,9 @@ describe('Tooltip', () => {
       jest.runAllTimers();
     });
 
-    expect(document.querySelector('.sha-el-tooltip').classList).toContain('css-157afoo');
+    expect(document.querySelector('.sha-el-tooltip')).toHaveStyle(`
+      opacity: 0;
+    `);
   });
 
   it('Should open on focus and close on blur', async () => {
@@ -120,7 +136,9 @@ describe('Tooltip', () => {
       render(toolTip({ trigger: 'onFocus' }));
     });
 
-    expect(document.querySelector('.sha-el-tooltip').classList).toContain('css-157afoo');
+    expect(document.querySelector('.sha-el-tooltip')).toHaveStyle(`
+    opacity: 0;
+  `);
 
     await act(async () => {
       fireEvent.focus(document.getElementById('button'));
@@ -130,7 +148,7 @@ describe('Tooltip', () => {
       jest.runAllTimers();
     });
 
-    expect(document.querySelector('.sha-el-tooltip').classList).toContain('css-bw1o8r');
+    expect(document.querySelector('.sha-el-tooltip')).toHaveStyle(`opacity: 1;`);
 
     await act(async () => {
       fireEvent.blur(document.getElementById('button'));
@@ -140,7 +158,9 @@ describe('Tooltip', () => {
       jest.runAllTimers();
     });
 
-    expect(document.querySelector('.sha-el-tooltip').classList).toContain('css-157afoo');
+    expect(document.querySelector('.sha-el-tooltip')).toHaveStyle(`
+    opacity: 0;
+  `);
   });
 
   it('Should open on mouseover and close on click', async () => {
@@ -150,7 +170,9 @@ describe('Tooltip', () => {
       render(toolTip({ trigger: 'onMouseOver', closeTrigger: 'onClick' }));
     });
 
-    expect(document.querySelector('.sha-el-tooltip').classList).toContain('css-157afoo');
+    expect(document.querySelector('.sha-el-tooltip')).toHaveStyle(`
+    opacity: 0;
+  `);
 
     await act(async () => {
       fireEvent.mouseOver(document.getElementById('button'));
@@ -160,7 +182,7 @@ describe('Tooltip', () => {
       jest.runAllTimers();
     });
 
-    expect(document.querySelector('.sha-el-tooltip').classList).toContain('css-bw1o8r');
+    expect(document.querySelector('.sha-el-tooltip')).toHaveStyle(`opacity: 1;`);
 
     await act(async () => {
       fireEvent.click(document.querySelector('body'));
@@ -170,7 +192,9 @@ describe('Tooltip', () => {
       jest.runAllTimers();
     });
 
-    expect(document.querySelector('.sha-el-tooltip').classList).toContain('css-157afoo');
+    expect(document.querySelector('.sha-el-tooltip')).toHaveStyle(`
+    opacity: 0;
+  `);
   });
 
   it('Should open on click or mouseover and close on blur or click', async () => {
@@ -180,7 +204,9 @@ describe('Tooltip', () => {
       render(toolTip({ trigger: ['onClick', 'onMouseOver'], closeTrigger: ['onBlur', 'onClick'] }));
     });
 
-    expect(document.querySelector('.sha-el-tooltip').classList).toContain('css-157afoo');
+    expect(document.querySelector('.sha-el-tooltip')).toHaveStyle(`
+      opacity: 0;
+    `);
 
     await act(async () => {
       fireEvent.click(document.getElementById('button'));
@@ -190,7 +216,7 @@ describe('Tooltip', () => {
       jest.runAllTimers();
     });
 
-    expect(document.querySelector('.sha-el-tooltip').classList).toContain('css-bw1o8r');
+    expect(document.querySelector('.sha-el-tooltip')).toHaveStyle(`opacity: 1;`);
 
     await act(async () => {
       fireEvent.blur(document.querySelector('#button'));
@@ -200,13 +226,17 @@ describe('Tooltip', () => {
       jest.runAllTimers();
     });
 
-    expect(document.querySelector('.sha-el-tooltip').classList).toContain('css-157afoo');
+    expect(document.querySelector('.sha-el-tooltip')).toHaveStyle(`
+      opacity: 0;
+    `);
 
     /**
      * Mouse over trigger
      */
 
-    expect(document.querySelector('.sha-el-tooltip').classList).toContain('css-157afoo');
+    expect(document.querySelector('.sha-el-tooltip')).toHaveStyle(`
+      opacity: 0;
+    `);
 
     await act(async () => {
       fireEvent.mouseOver(document.getElementById('button'));
@@ -216,7 +246,7 @@ describe('Tooltip', () => {
       jest.runAllTimers();
     });
 
-    expect(document.querySelector('.sha-el-tooltip').classList).toContain('css-bw1o8r');
+    expect(document.querySelector('.sha-el-tooltip')).toHaveStyle(`opacity: 1;`);
 
     await act(async () => {
       fireEvent.click(document.querySelector('body'));
@@ -226,7 +256,9 @@ describe('Tooltip', () => {
       jest.runAllTimers();
     });
 
-    expect(document.querySelector('.sha-el-tooltip').classList).toContain('css-157afoo');
+    expect(document.querySelector('.sha-el-tooltip')).toHaveStyle(`
+      opacity: 0;
+    `);
   });
 
   it('should hide arrow', async () => {
@@ -247,6 +279,56 @@ describe('Tooltip', () => {
     expect(document.querySelector('.arrow')).toBeNull();
   });
 
+  it('should close on click on achor', async () => {
+    jest.useFakeTimers();
+
+    await act(async () => {
+      render(toolTip({ trigger: 'onClick' }));
+    });
+
+    expect(document.querySelector('.sha-el-tooltip')).toHaveStyle(`
+      opacity: 0;
+    `);
+
+    await act(async () => {
+      fireEvent.click(document.getElementById('button'));
+    });
+
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    expect(document.querySelector('.sha-el-tooltip')).toHaveStyle(`
+      opacity: 1;
+    `);
+
+    await act(async () => {
+      fireEvent.click(document.getElementById('button'));
+    });
+
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    expect(document.querySelector('.sha-el-tooltip')).toHaveStyle(`
+      opacity: 0;
+    `);
+
+    expect(document.querySelector('.arrow')).not.toBeNull();
+  });
+
+  it('should expose reference element', async () => {
+    jest.useFakeTimers();
+
+    const ref = jest.fn();
+
+    await act(async () => {
+      render(toolTip({ trigger: 'onClick', referenceElement: ref }));
+    });
+
+    expect(ref).toBeCalledWith(document.querySelector('#button'));
+  });
+
   it('should render a controlled component', async () => {
     jest.useFakeTimers();
 
@@ -256,7 +338,7 @@ describe('Tooltip', () => {
       render(<ControlledToolTip visible onVisibleChange={updateState} />);
     });
 
-    expect(document.querySelector('.sha-el-tooltip').classList).toContain('css-bw1o8r');
+    expect(document.querySelector('.sha-el-tooltip')).toHaveStyle(`opacity: 1;`);
 
     await act(async () => {
       fireEvent.mouseOver(document.querySelector('body'));

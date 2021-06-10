@@ -25,13 +25,10 @@ const CreateTimePicker = (props: { use12Hour?: boolean; disabled?: boolean; bode
 };
 
 describe('TimePicker', () => {
-  it('Should render a timepicker component', () => {
-    render(<CreateTimePicker />);
-
-    const popoverElement = document.querySelector('.popover-element');
-    expect(popoverElement).toHaveStyle(`
-      display: block;
-    `);
+  it('Should render a timepicker component', async () => {
+    await act(async () => {
+      render(<CreateTimePicker />);
+    });
 
     const timePickerInput = document.querySelector('.sha-el-input');
 
@@ -45,8 +42,10 @@ describe('TimePicker', () => {
     );
   });
 
-  it('Should render a 12 hour format timepicker component', () => {
-    render(<CreateTimePicker use12Hour />);
+  it('Should render a 12 hour format timepicker component', async () => {
+    await act(async () => {
+      render(<CreateTimePicker use12Hour />);
+    });
 
     const timePickerInput = document.querySelector('.sha-el-input');
 
@@ -54,27 +53,25 @@ describe('TimePicker', () => {
     expect(timePickerInput.querySelector('input').value).toBe('12:00:00 AM');
   });
 
-  it('Should open timepicker', () => {
-    render(<CreateTimePicker />);
+  it('Should open timepicker', async () => {
+    await act(async () => {
+      render(<CreateTimePicker />);
+    });
 
-    let tooltip = document.querySelector('.rc-tooltip');
-    expect(tooltip).toBeNull();
+    let tooltip = document.querySelector('.sha-el-tooltip');
+    expect(tooltip).toHaveStyle(`opacity: 0;`);
 
     act(() => {
       fireEvent.click(document.querySelector('input'));
     });
 
-    tooltip = document.querySelector('.rc-tooltip');
-    expect(tooltip).toBeDefined();
-    expect(tooltip).toHaveStyle(`
-      display: block;
-    `);
+    act(() => {
+      jest.runAllTimers();
+    });
 
-    expect(document.querySelectorAll('.rc-tooltip-arrow')[0]).toHaveStyle(`
-      display: none;
-    `);
-    expect(document.querySelectorAll('.rc-tooltip-arrow')[1]).toHaveStyle(`
-      display: none;
+    tooltip = document.querySelector('.sha-el-tooltip');
+    expect(tooltip).toHaveStyle(`
+      opacity: 1;
     `);
 
     const timePickerContainer = tooltip.querySelector('.sha-el-row').parentElement;
@@ -91,7 +88,7 @@ describe('TimePicker', () => {
       border-right: 1px solid #eee;
     `);
     expect(hourColumn).toHaveStyle(`
-      max-height: 300px;
+      max-height: 250px;
       overflow-y: hidden;
       cursor: pointer;
       min-width: 50px;
@@ -107,7 +104,7 @@ describe('TimePicker', () => {
       border-right: 1px solid #eee;
     `);
     expect(minColumn).toHaveStyle(`
-      max-height: 300px;
+      max-height: 250px;
       overflow-y: hidden;
       cursor: pointer;
       min-width: 50px;
@@ -123,7 +120,7 @@ describe('TimePicker', () => {
       border-right: 1px solid #eee;
     `);
     expect(secColumn).toHaveStyle(`
-      max-height: 300px;
+      max-height: 250px;
       overflow-y: hidden;
       cursor: pointer;
       min-width: 50px;
@@ -135,7 +132,6 @@ describe('TimePicker', () => {
     expect(hours[0].innerHTML).toBe('0');
     expect(hours[23].innerHTML).toBe('23');
     expect(hours[0]).toHaveStyle(`
-      font-size: 16px;
       font-weight: normal;
       font-style: normal;
       margin: 0;
@@ -148,7 +144,6 @@ describe('TimePicker', () => {
     expect(minutes[0].innerHTML).toBe('0');
     expect(minutes[59].innerHTML).toBe('59');
     expect(minutes[0]).toHaveStyle(`
-      font-size: 16px;
       font-weight: normal;
       font-style: normal;
       margin: 0;
@@ -161,7 +156,6 @@ describe('TimePicker', () => {
     expect(seconds[0].innerHTML).toBe('0');
     expect(seconds[59].innerHTML).toBe('59');
     expect(seconds[0]).toHaveStyle(`
-      font-size: 16px;
       font-weight: normal;
       font-style: normal;
       margin: 0;
@@ -173,14 +167,20 @@ describe('TimePicker', () => {
     expect(now.innerHTML).toBe('<span>Now</span>');
   });
 
-  it('Should open a 12 hour format timepicker', () => {
-    render(<CreateTimePicker use12Hour />);
+  it('Should open a 12 hour format timepicker', async () => {
+    await act(async () => {
+      render(<CreateTimePicker use12Hour />);
+    });
 
     act(() => {
       fireEvent.click(document.querySelector('input'));
     });
 
-    const timePickerContainer = document.querySelector('.rc-tooltip').querySelector('.sha-el-row').parentElement;
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    const timePickerContainer = document.querySelector('.sha-el-tooltip').querySelector('.sha-el-row').parentElement;
 
     const hours = timePickerContainer.querySelector('.hour-column').querySelectorAll('p');
     expect(hours.length).toBe(12);
@@ -191,7 +191,6 @@ describe('TimePicker', () => {
     expect(twelveHourElements.length).toBe(2);
     expect(twelveHourElements[0].innerHTML).toBe('AM');
     expect(twelveHourElements[0]).toHaveStyle(`
-      font-size: 16px;
       font-weight: normal;
       font-style: normal;
       margin: 0;
@@ -200,7 +199,6 @@ describe('TimePicker', () => {
     `);
     expect(twelveHourElements[1].innerHTML).toBe('PM');
     expect(twelveHourElements[1]).toHaveStyle(`
-      font-size: 16px;
       font-weight: normal;
       font-style: normal;
       margin: 0;
@@ -208,9 +206,11 @@ describe('TimePicker', () => {
     `);
   });
 
-  it('Should show current time when clicked on now button', () => {
+  it('Should show current time when clicked on now button', async () => {
     MockDate.set(new Date(2007, 6, 7, 7, 5, 17));
-    render(<CreateTimePicker />);
+    await act(async () => {
+      render(<CreateTimePicker />);
+    });
 
     const timePickerInput = document.querySelector('.sha-el-input');
     expect(timePickerInput.querySelector('input').value).toBe('00:00:00');
@@ -219,7 +219,11 @@ describe('TimePicker', () => {
       fireEvent.click(document.querySelector('input'));
     });
 
-    const tooltip = document.querySelector('.rc-tooltip');
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    const tooltip = document.querySelector('.sha-el-tooltip');
     act(() => {
       fireEvent.click(tooltip.querySelector('button'));
     });
@@ -231,7 +235,11 @@ describe('TimePicker', () => {
       fireEvent.click(document.querySelector('input'));
     });
 
-    const timePickerContainer = document.querySelector('.rc-tooltip').querySelector('.sha-el-row');
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    const timePickerContainer = document.querySelector('.sha-el-tooltip').querySelector('.sha-el-row');
 
     const hours = timePickerContainer.querySelector('.hour-column').querySelectorAll('p');
     expect(hours[7]).toHaveStyle(`
@@ -249,9 +257,11 @@ describe('TimePicker', () => {
     `);
   });
 
-  it('Should show current time when clicked on now button in 12 hour format', () => {
+  it('Should show current time when clicked on now button in 12 hour format', async () => {
     MockDate.set(new Date(2007, 6, 7, 24, 33, 59));
-    render(<CreateTimePicker use12Hour />);
+    await act(async () => {
+      render(<CreateTimePicker use12Hour />);
+    });
 
     const timePickerInput = document.querySelector('.sha-el-input');
     expect(timePickerInput.querySelector('input').value).toBe('12:00:00 AM');
@@ -260,9 +270,17 @@ describe('TimePicker', () => {
       fireEvent.click(document.querySelector('input'));
     });
 
-    const tooltip = document.querySelector('.rc-tooltip');
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    const tooltip = document.querySelector('.sha-el-tooltip');
     act(() => {
       fireEvent.click(tooltip.querySelector('button'));
+    });
+
+    act(() => {
+      jest.runAllTimers();
     });
 
     const value = timePickerInput.querySelector('input').value;
@@ -272,7 +290,11 @@ describe('TimePicker', () => {
       fireEvent.click(document.querySelector('input'));
     });
 
-    const timePickerContainer = document.querySelector('.rc-tooltip').querySelector('.sha-el-row');
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    const timePickerContainer = document.querySelector('.sha-el-tooltip').querySelector('.sha-el-row');
 
     const hours = timePickerContainer.querySelector('.hour-column').querySelectorAll('p');
     expect(hours[0]).toHaveStyle(`
@@ -295,19 +317,26 @@ describe('TimePicker', () => {
     `);
   });
 
-  it('Should re-render on time change', () => {
-    render(<CreateTimePicker />);
+  it('Should re-render on time change', async () => {
+    await act(async () => {
+      render(<CreateTimePicker />);
+    });
 
     act(() => {
       fireEvent.click(document.querySelector('input'));
     });
 
-    const timePickerContainer = document.querySelector('.rc-tooltip').querySelector('.sha-el-row');
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    const timePickerContainer = document.querySelector('.sha-el-tooltip').querySelector('.sha-el-row');
 
     const hours = timePickerContainer.querySelector('.hour-column').querySelectorAll('p');
     act(() => {
       fireEvent.click(hours[22]);
     });
+
     expect(hours[22]).toHaveStyle(`
       background: #536DFE;
     `);
@@ -331,14 +360,20 @@ describe('TimePicker', () => {
     expect(document.querySelector('input').value).toBe('22:45:49');
   });
 
-  it('Should re-render 12 hour format timeline on time change', () => {
-    render(<CreateTimePicker use12Hour />);
+  it('Should re-render 12 hour format timeline on time change', async () => {
+    await act(async () => {
+      render(<CreateTimePicker use12Hour />);
+    });
 
     act(() => {
       fireEvent.click(document.querySelector('input'));
     });
 
-    const timePickerContainer = document.querySelector('.rc-tooltip').querySelector('.sha-el-row');
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    const timePickerContainer = document.querySelector('.sha-el-tooltip').querySelector('.sha-el-row');
 
     const hours = timePickerContainer.querySelector('.hour-column').querySelectorAll('p');
     act(() => {
@@ -375,14 +410,20 @@ describe('TimePicker', () => {
     expect(document.querySelector('input').value).toBe('09:45:00 PM');
   });
 
-  it('Should check click on AM', () => {
-    render(<CreateTimePicker use12Hour time={new Date(2021, 4, 25, 20)} />);
+  it('Should check click on AM', async () => {
+    await act(async () => {
+      render(<CreateTimePicker use12Hour time={new Date(2021, 4, 25, 20)} />);
+    });
 
     act(() => {
       fireEvent.click(document.querySelector('input'));
     });
 
-    const timePickerContainer = document.querySelector('.rc-tooltip').querySelector('.sha-el-row');
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    const timePickerContainer = document.querySelector('.sha-el-tooltip').querySelector('.sha-el-row');
     const period = timePickerContainer.querySelector('.am-column').querySelectorAll('p');
     expect(period[0]).not.toHaveStyle(`
       background: #536DFE;
@@ -395,20 +436,26 @@ describe('TimePicker', () => {
     `);
   });
 
-  it('Should render timepicker with time prop', () => {
-    render(<CreateTimePicker time={new Date(2007, 6, 7, 11, 11, 11)} />);
+  it('Should render timepicker with time prop', async () => {
+    await act(async () => {
+      render(<CreateTimePicker time={new Date(2007, 6, 7, 11, 11, 11)} />);
+    });
 
     expect(document.querySelector('input').value).toBe('11:11:11');
   });
 
-  it('Should render a 12 hour format timepicker with time prop', () => {
-    render(<CreateTimePicker use12Hour time={new Date(2007, 6, 7, 23, 11, 11)} />);
+  it('Should render a 12 hour format timepicker with time prop', async () => {
+    await act(async () => {
+      render(<CreateTimePicker use12Hour time={new Date(2007, 6, 7, 23, 11, 11)} />);
+    });
 
     expect(document.querySelector('input').value).toBe('11:11:11 PM');
   });
 
-  it('Should re-render on input value change', () => {
-    render(<CreateTimePicker />);
+  it('Should re-render on input value change', async () => {
+    await act(async () => {
+      render(<CreateTimePicker />);
+    });
 
     act(() => {
       fireEvent.click(document.querySelector('.sha-el-input'));
@@ -429,7 +476,7 @@ describe('TimePicker', () => {
       fireEvent.click(timePickerInput);
     });
 
-    const timePickerContainer = document.querySelector('.rc-tooltip').querySelector('.sha-el-row');
+    const timePickerContainer = document.querySelector('.sha-el-tooltip').querySelector('.sha-el-row');
 
     const hours = timePickerContainer.querySelector('.hour-column').querySelectorAll('p');
     act(() => {
@@ -456,8 +503,10 @@ describe('TimePicker', () => {
     `);
   });
 
-  it('Should re-render timepicker on enter key press', () => {
-    render(<CreateTimePicker />);
+  it('Should re-render timepicker on enter key press', async () => {
+    await act(async () => {
+      render(<CreateTimePicker />);
+    });
 
     act(() => {
       fireEvent.click(document.querySelector('.sha-el-input'));
@@ -475,8 +524,10 @@ describe('TimePicker', () => {
     expect(timePickerInput.value).toBe('04:15:16');
   });
 
-  it('Should re-render 12 hour format timepicker on enter key press', () => {
-    render(<CreateTimePicker use12Hour />);
+  it('Should re-render 12 hour format timepicker on enter key press', async () => {
+    await act(async () => {
+      render(<CreateTimePicker use12Hour />);
+    });
 
     const timePickerInput = document.querySelector('input');
 
@@ -494,22 +545,29 @@ describe('TimePicker', () => {
     expect(timePickerInput.value).toBe('02:15:16 AM');
   });
 
-  it('Should open a timepicker on arrow down', () => {
-    render(<CreateTimePicker />);
-
-    let tooltip = document.querySelector('.rc-tooltip');
-    expect(tooltip).toBeNull();
-
-    act(() => {
-      fireEvent.keyDown(document.querySelector('.sha-el-input'), { key: 'ArrowDown', code: 'ArrowDown' });
+  it('Should open a timepicker on arrow down', async () => {
+    await act(async () => {
+      render(<CreateTimePicker />);
     });
 
-    tooltip = document.querySelector('.rc-tooltip');
-    expect(tooltip).toBeDefined();
+    let tooltip = document.querySelector('.sha-el-tooltip');
+    expect(tooltip).toHaveStyle(`opacity: 0`);
+    await act(async () => {
+      fireEvent.keyDown(document.querySelector('input'), { key: 'ArrowDown', code: 'ArrowDown' });
+    });
+
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    tooltip = document.querySelector('.sha-el-tooltip');
+    expect(tooltip).toHaveStyle(`opacity: 1`);
   });
 
-  it('Should render a disabled timepicker', () => {
-    render(<CreateTimePicker disabled />);
+  it('Should render a disabled timepicker', async () => {
+    await act(async () => {
+      render(<CreateTimePicker disabled />);
+    });
 
     const input = document.querySelector('input');
     expect(input).toHaveAttribute('disabled');
