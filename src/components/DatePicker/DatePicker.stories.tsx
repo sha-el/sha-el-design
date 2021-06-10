@@ -13,7 +13,12 @@ export default {
 
 const Template: Story<DatePickerProps> = (args) => {
   const [date, updateDate] = useState(null);
-  return <DatePicker {...args} date={date} onChange={(e) => updateDate(e)} />;
+  return (
+    <>
+      <DatePicker {...args} date={date} onChange={(e) => updateDate(e)} />
+      <div style={{ paddingBottom: '500px' }} />
+    </>
+  );
 };
 
 export const Basic = Template.bind({});

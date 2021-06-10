@@ -233,8 +233,8 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
       </Row>
       <Row>
         {weeks.map((v) => (
-          <Col span={24 / 7} key={v}>
-            <Text fontWeight={600} textAlign="center" variant="p" color="light">
+          <Col span={24 / 7} key={v} style={{ overflow: 'hidden' }}>
+            <Text padding="5px" fontWeight={600} textAlign="center" variant="p" color="light">
               {v.slice(0, 3)}
             </Text>
           </Col>

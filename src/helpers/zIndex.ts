@@ -8,3 +8,5 @@ export const zLayoutFooter = above + zIndexBase;
 export const zLayoutModal = above + zAboveBase;
 export const zLayoutModalBackDrop = above + zAboveBase + zIndexBase;
 export const zLayoutPopUp = above + zLayoutModal;
+
+export const zBelowBase = zIndexBase - above;

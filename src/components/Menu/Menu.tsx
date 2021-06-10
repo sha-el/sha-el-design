@@ -13,7 +13,7 @@ const style = (mode: MenuProps['mode']) =>
   });
 
 export const Menu: React.FC<MenuProps> = (props) => {
-  const { anchor, trigger, mode, children, position, elevation, border, backgroundColor, height, densed } = props;
+  const { anchor, trigger, mode, children, placement, elevation, border, backgroundColor, height, densed } = props;
 
   if (mode === 'expand') {
     return <CollapsibleList header={anchor}>{children}</CollapsibleList>;
@@ -48,14 +48,14 @@ export const Menu: React.FC<MenuProps> = (props) => {
 
   return (
     <Popover
-      cover={!position}
+      expand={!placement}
       hideArrow
-      content={
+      overlay={
         <List densed={densed} style={{ maxHeight: height, overflow: 'auto' }} elevation={elevation}>
           {children}
         </List>
       }
-      position={position}
+      placement={placement}
       trigger={trigger}
       padding={0}
       margin={0}
@@ -72,7 +72,7 @@ export interface MenuProps {
   children?: React.ReactElement | React.ReactElement[];
   mode?: 'vertical' | 'horizontal' | 'inline' | 'expand';
   trigger?: PopoverProps['trigger'];
-  position?: PopoverProps['position'];
+  placement?: PopoverProps['placement'];
   elevation?: number;
   border?: number;
   backgroundColor?: string;

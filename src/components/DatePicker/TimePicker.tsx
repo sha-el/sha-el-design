@@ -9,6 +9,7 @@ import { MdTimer } from 'react-icons/md';
 import { style } from './style';
 import { Text } from '../Text';
 import { useTheme } from '../Theme/Theme';
+import { classes } from '../../helpers';
 
 export const TimePicker: React.FC<TimePickerProps> = (props) => {
   const { onChange, time = new Date(0, 0, 0, 0, 0, 0), use12Hour, ...inputProps } = props;
@@ -53,40 +54,55 @@ export const TimePicker: React.FC<TimePickerProps> = (props) => {
 
   const css = style(useTheme());
 
+  const inputComponent = (
+    <Input
+      {...inputProps}
+      value={inputValue}
+      onChange={({ target: { value } }) => updateInputValue(value)}
+      onBlur={({ target: { value } }) => handleInputValueUpdate(value)}
+      onKeyDown={({ key, target }) => {
+        if (key === 'Enter') {
+          handleInputValueUpdate((target as HTMLInputElement).value);
+        }
+        if (key === 'ArrowDown') {
+          console.log('hello');
+          updateVisible(true);
+        }
+
+        if (key === 'Escape') {
+          updateVisible(false);
+        }
+      }}
+      after={
+        <>
+          {!props.open && <Button flat shape="circle" icon={<MdTimer />} disabled={props.disabled} />}
+          {inputProps.after}
+        </>
+      }
+    />
+  );
+
+  if (props.open) {
+    return (
+      <div className="sha-el-timepicker">
+        {inputComponent}
+        {content(css, props, handleChange, time, updateVisible, { hourEl, minEl, secEl })}
+      </div>
+    );
+  }
+
   return (
     <>
       <Popover
-        style={{ child: { display: 'block' } }}
-        content={content(css, props, handleChange, time, updateVisible, { hourEl, minEl, secEl })}
+        overlay={content(css, props, handleChange, time, updateVisible, { hourEl, minEl, secEl })}
         trigger={['onClick']}
-        position="bottomLeft"
+        placement="bottom-start"
         visible={!props.disabled && visible}
-        preserveOnClose
+        padding={0}
         onVisibleChange={(e) => !props.disabled && updateVisible(e)}
         hideArrow
       >
-        <div>
-          <Input
-            {...inputProps}
-            value={inputValue}
-            onChange={({ target: { value } }) => updateInputValue(value)}
-            onBlur={({ target: { value } }) => handleInputValueUpdate(value)}
-            onKeyDown={({ key, target }) => {
-              if (key === 'Enter') {
-                handleInputValueUpdate((target as HTMLInputElement).value);
-              }
-              if (key === 'ArrowDown') {
-                updateVisible(true);
-              }
-            }}
-            after={
-              <>
-                <Button flat shape="circle" icon={<MdTimer />} disabled={props.disabled} />
-                {inputProps.after}
-              </>
-            }
-          />
-        </div>
+        {inputComponent}
       </Popover>
     </>
   );
@@ -105,15 +121,14 @@ const content = (
   (props.use12Hour ? arrayBetween(1, 12) : arrayBetween(0, 24)).map((v) => hourArray.push(v));
 
   return (
-    <div className={css}>
-      <Row>
+    <div className={classes(css, 'sha-el-timepicker')}>
+      <Row gutter={0}>
         <Col span={6} className="hour-column" ref={refs.hourEl}>
           {hourArray.map((v) => (
             <Text
               margin="0"
               padding="5px 15px"
               variant="p"
-              fontSize="16px"
               background={(!props.use12Hour ? time.getHours() : to12HourFormat(time.getHours())) === v && 'primary'}
               onClick={() => {
                 if (!props.use12Hour) {
@@ -133,7 +148,6 @@ const content = (
               margin="0"
               padding="5px 15px"
               variant="p"
-              fontSize="16px"
               background={time.getMinutes() === v && 'primary'}
               onClick={() => onChange(undefined, v)}
               key={v}
@@ -148,7 +162,6 @@ const content = (
               margin="0"
               padding="5px 15px"
               variant="p"
-              fontSize="16px"
               background={time.getSeconds() === v && 'primary'}
               onClick={() => onChange(undefined, undefined, v)}
               key={v}
@@ -163,7 +176,6 @@ const content = (
               margin="0"
               padding="5px 15px"
               variant="p"
-              fontSize="16px"
               background={time.getHours() < 12 && 'primary'}
               onClick={() => handleAmPmChange('AM', time, onChange)}
             >
@@ -173,7 +185,6 @@ const content = (
               margin="0"
               padding="5px 15px"
               variant="p"
-              fontSize="16px"
               background={time.getHours() >= 12 && 'primary'}
               onClick={() => handleAmPmChange('PM', time, onChange)}
             >
@@ -221,6 +232,7 @@ export interface TimePickerProps extends InputType {
   time?: Date;
   onChange?: (time: Date | null) => void;
   use12Hour?: boolean;
+  open?: boolean;
 }
 
 const handleAmPmChange = (amPm: 'AM' | 'PM', time: Date, onChange: (h?: number, m?: number, s?: number) => void) => {

@@ -24,7 +24,7 @@ export const Pagination: React.FC<PaginationProps> = (props) => {
                 containerStyle={{ margin: '7px 0' }}
               />
             }
-            position="bottom"
+            placement="bottom"
           >
             {itemsPerPage.map((v) => (
               <MenuItem onClick={() => onChange?.(1, v, false, false)} key={`pagination-${v}`}>

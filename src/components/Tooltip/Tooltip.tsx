@@ -1,5 +1,5 @@
 import { debounce } from 'debounce';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { usePopper } from 'react-popper';
 import { classes } from '../../helpers';
 import { borderCss } from '../../helpers/border';
@@ -7,7 +7,7 @@ import { elevationCss } from '../../helpers/elevations';
 import { marginCss } from '../../helpers/margin';
 import { paddingCss } from '../../helpers/padding';
 import { SurfaceProps } from '../../typings/surface';
-import { Portal } from '../Popover/Portal';
+import { Portal, PortalContext } from '../Popover/Portal';
 import { useTheme } from '../Theme/Theme';
 import { style } from './style';
 
@@ -75,23 +75,26 @@ export interface TooltipProps extends SurfaceProps {
    * Hides arrrow
    */
   hideArrow?: boolean;
-  // defaultVisible?: boolean;
-  // transitionName?: string;
-  // // animation?: AnimationType;
-  // onVisibleChange?: (visible: boolean) => void;
-  // afterVisibleChange?: () => void;
-  // overlayStyle?: React.CSSProperties;
-  // overlayClassName?: string;
-  // prefixCls?: string;
-  // mouseEnterDelay?: number;
-  // mouseLeaveDelay?: number;
-  // getTooltipContainer?: (node: HTMLElement) => HTMLElement;
-  // destroyTooltipOnHide?: boolean;
-  // // align?: AlignType;
-  // arrowContent?: React.ReactNode;
-  // id?: string;
-  // popupVisible?: boolean;
-  // overlayInnerStyle?: React.CSSProperties;
+  /**
+   * Refernce dom object
+   */
+  referenceElement?: (e: HTMLElement) => void;
+  /**
+   * Overlay classname
+   */
+  className?: string;
+  /**
+   * Arrow classname
+   */
+  arrowClassName?: string;
+  /**
+   * Style object for overlay
+   */
+  style?: React.CSSProperties;
+  /**
+   * Style object for arrow
+   */
+  arrowStyle?: React.CSSProperties;
 }
 
 export const Tooltip: React.FC<TooltipProps> = (props) => {
@@ -110,19 +113,11 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
     onVisibleChange,
   } = props;
 
-  const [referenceElement, setReferenceElement] = useState(null);
-  const [popperElement, setPopperElement] = useState(null);
-  const [arrowElement, setArrowElement] = useState(null);
+  const [referenceElement, setReferenceElement] = useState<HTMLElement>(null);
+  const [popperElement, setPopperElement] = useState<HTMLElement>(null);
+  const [arrowElement, setArrowElement] = useState<HTMLElement>(null);
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
-    modifiers: [
-      { name: 'arrow', options: { element: arrowElement } },
-      {
-        name: 'offset',
-        options: {
-          offset: hideArrow ? [0, 0] : [0, 8],
-        },
-      },
-    ],
+    modifiers: [{ name: 'arrow', options: { element: arrowElement } }],
     placement,
   });
 
@@ -138,13 +133,21 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
   const debouncedFn = debounce(onClose, 300);
 
   useEffect(() => {
-    visible && attachEvents(Array.isArray(trigger) ? trigger[0] : trigger);
+    if (visible) {
+      attachEvents(Array.isArray(trigger) ? trigger[0] : trigger);
+      updateTooltipState(true);
+    } else {
+      onClose();
+    }
     return debouncedFn.flush;
   }, [visible]);
 
   const handleVisible = (actionType: ActionType) => {
     if (!trigger.includes(actionType)) {
       return;
+    }
+    if (actionType === 'onClick' && isOpen) {
+      debouncedFn();
     }
     updateTooltipState(true);
     onVisibleChange?.(true);
@@ -165,14 +168,17 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
     }
   };
 
+  const dom = useContext(PortalContext);
+
   function handleClose(event: MouseEvent) {
     const target = event.target as HTMLElement;
     if (
       (target.isSameNode(referenceElement) ||
         target.isSameNode(popperElement) ||
         target.isSameNode(arrowElement) ||
-        referenceElement?.innerHTML?.includes?.(target.outerHTML) ||
-        popperElement?.innerHTML?.includes?.(target.outerHTML)) &&
+        referenceElement?.contains(target) ||
+        popperElement?.parentElement?.contains(target) ||
+        popperElement?.contains(target)) &&
       event.type !== 'blur'
     ) {
       return;
@@ -181,13 +187,17 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
   }
 
   const theme = useTheme();
-  const css = style(theme, isOpen, attributes.popper?.['data-popper-placement']);
+  const css = style(theme, isOpen, attributes.popper?.['data-popper-placement'], hideArrow);
 
   return (
     <>
       {React.cloneElement(children, {
-        ref: (e: HTMLElement) => setReferenceElement(e),
+        ref: (e: HTMLElement) => {
+          setReferenceElement(e);
+          props.referenceElement?.(e);
+        },
         onClick: (e: React.MouseEvent) => {
+          e.stopPropagation();
           handleVisible('onClick');
           children.props.onClick?.(e);
         },
@@ -204,22 +214,34 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
           children.props.onBlur?.(e);
         },
       })}
-      <Portal>
+      <Portal dom={dom.element}>
         <div
-          className={classes(
-            css.content,
-            elevationCss(elevation),
-            borderCss(border),
-            paddingCss(padding),
-            marginCss(margin),
-            'sha-el-tooltip',
-          )}
+          className={classes(css.content, 'sha-el-tooltip')}
           ref={setPopperElement}
           style={styles.popper}
           {...attributes.poppper}
         >
-          {overlay}
-          {!hideArrow && <div ref={setArrowElement} style={styles.arrow} className={classes('arrow', css.arrow)} />}
+          <div
+            className={classes(
+              css.inner,
+              props.className,
+              elevationCss(elevation),
+              borderCss(border),
+              paddingCss(padding),
+              marginCss(margin),
+              'sha-el-tooltip-inner',
+            )}
+            style={props.style}
+          >
+            {overlay}
+            {!hideArrow && (
+              <div
+                ref={setArrowElement}
+                style={{ ...styles.arrow, ...props.arrowStyle }}
+                className={classes('arrow', css.arrow)}
+              />
+            )}
+          </div>
         </div>
       </Portal>
     </>
@@ -232,4 +254,6 @@ Tooltip.defaultProps = {
   trigger: 'onMouseOver',
   elevation: 12,
   overlay: '',
+  style: {},
+  arrowStyle: {},
 };

@@ -7,7 +7,6 @@ import { CalendarProps } from '../Calendar/Calendar';
 import { TimePickerProps, TimePicker } from './TimePicker';
 import { Popover } from '../Popover';
 import { IoMdCalendar } from 'react-icons/io';
-import { Card } from '../..';
 
 export const DatePicker: React.FC<DatePickerProps> = (props) => {
   const {
@@ -28,11 +27,15 @@ export const DatePicker: React.FC<DatePickerProps> = (props) => {
     <>
       <Popover
         padding={0}
-        content={
-          <Row>
-            <Col span={24}>
+        overlay={
+          <Row gutter={0}>
+            <Col
+              span={props.timePickerProps && 12.5}
+              style={{ borderRight: '1px solid #eee', borderBottom: '1px solid #eee' }}
+            >
               <Calendar
                 elevation={0}
+                margin={0}
                 date={date || undefined}
                 cellRender={cellRender}
                 calendarEvents={calendarEvents}
@@ -47,10 +50,15 @@ export const DatePicker: React.FC<DatePickerProps> = (props) => {
             </Col>
             {timePickerProps && (
               <>
-                <Col style={{ marginTop: '5px' }}>
-                  <Card elevation={0}>
-                    <TimePicker {...timePickerProps} time={date || undefined} onChange={(t) => onChange(t)} />
-                  </Card>
+                <Col span={11.5} style={{ borderBottom: '1px solid #eee' }}>
+                  <TimePicker
+                    open
+                    borderless
+                    style={{ textAlign: 'center' }}
+                    {...timePickerProps}
+                    time={date || undefined}
+                    onChange={(t) => onChange(t)}
+                  />
                 </Col>
                 <Col span={4} offset={20}>
                   <Button primary flat onClick={() => updateVisible(false)}>
@@ -63,7 +71,7 @@ export const DatePicker: React.FC<DatePickerProps> = (props) => {
         }
         visible={visible}
         onVisibleChange={updateVisible}
-        style={{ child: { display: 'block' }, content: { width: '400px' } }}
+        style={{ width: '450px' }}
         hideArrow
         trigger={['onClick']}
       >

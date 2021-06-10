@@ -43,3 +43,8 @@ export const Borderless = Template.bind({});
 Borderless.args = {
   borderless: true,
 };
+
+export const OpenState = Template.bind({});
+OpenState.args = {
+  open: true,
+};

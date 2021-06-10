@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { createPortal } from 'react-dom';
 
+export const PortalContext = React.createContext<{ element: HTMLDivElement }>({ element: null });
+
 export class Portal extends React.Component<Props, { dom: HTMLDivElement }> {
   constructor(props: Props) {
     super(props);
@@ -10,15 +12,23 @@ export class Portal extends React.Component<Props, { dom: HTMLDivElement }> {
     };
   }
 
-  createPortalDom = () => {
+  static defaultProps = {
+    className: '',
+  };
+
+  createPortalDom = (element: HTMLDivElement) => {
+    if (element) {
+      return this.setState({ dom: element });
+    }
     const dom = document.createElement('div');
+    dom.className = this.props.className + ' sha-el-portal';
     document.body.appendChild(dom);
     return this.setState({ dom });
   };
 
   componentDidMount() {
     if (document) {
-      return this.createPortalDom();
+      return this.createPortalDom(this.props.dom);
     }
     setTimeout(this.componentDidMount, 500);
   }
@@ -28,10 +38,15 @@ export class Portal extends React.Component<Props, { dom: HTMLDivElement }> {
   }
 
   render() {
-    return (this.state.dom && createPortal(this.props.children, this.state.dom)) || <div />;
+    return (
+      <PortalContext.Provider value={{ element: this.state.dom }}>
+        {(this.state.dom && createPortal(this.props.children, this.state.dom)) || <div />}
+      </PortalContext.Provider>
+    );
   }
 }
 
 interface Props {
-  children: React.ReactNode;
+  className?: string;
+  dom?: HTMLDivElement;
 }

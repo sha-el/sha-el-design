@@ -11,9 +11,6 @@ import { MdExpandMore } from 'react-icons/md';
 export default {
   title: 'Inputs/AutoComplete',
   component: AutoComplete,
-  argTypes: {
-    // backgroundColor: { control: 'color' },
-  },
 } as Meta;
 
 export const Single: Story<SingleAutoComplete<string>> = () => {
@@ -89,7 +86,7 @@ export const AsyncFetch: Story = () => {
   );
 };
 
-export const CustomTrigger: Story<SingleAutoComplete<string>> = () => {
+export const CustomAnchorElement: Story<SingleAutoComplete<string>> = () => {
   const [value, update] = React.useState('Clark');
 
   return (
