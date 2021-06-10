@@ -46,8 +46,10 @@ function MultipleAutoComplete({ value, onChange }: { value: string[]; onChange: 
 }
 
 describe('Single AutoComplete', () => {
-  it('should render a simple AutoComplete with selected value', () => {
-    autoComplete('diana', () => ({}));
+  it('should render a simple AutoComplete with selected value', async () => {
+    await act(async () => {
+      autoComplete('diana', () => ({}));
+    });
 
     const input = document.querySelector('input');
     expect(input.value).toBe('diana');
@@ -62,9 +64,11 @@ describe('Single AutoComplete', () => {
     expect(document.querySelector('input').value).toBe('');
   });
 
-  it('should render a clear button if value is selected', () => {
+  it('should render a clear button if value is selected', async () => {
     let value = 'diana';
-    autoComplete('diana', (e) => (value = e));
+    await act(async () => {
+      autoComplete('diana', (e) => (value = e));
+    });
     expect(document.querySelector('.seudo').innerHTML).toContain(
       // Path for cross svg.
       'M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z',
@@ -77,8 +81,10 @@ describe('Single AutoComplete', () => {
     expect(value).toBeNull();
   });
 
-  it('should not open popup if disabled', () => {
-    autoComplete('diana', jest.fn, jest.fn, true);
+  it('should not open popup if disabled', async () => {
+    await act(async () => {
+      autoComplete('diana', jest.fn, jest.fn, true);
+    });
 
     act(() => {
       fireEvent.click(document.querySelector('input'));
@@ -87,18 +93,20 @@ describe('Single AutoComplete', () => {
     expect(document.querySelector('.list-item')).toBeNull();
   });
 
-  it('should fetch data from a promise', () => {
-    render(
-      <AutoComplete<string>
-        data={() => new Promise<string[]>((resolve) => resolve(['bruce', 'diana', 'clark']))}
-        listDisplayProp={(e) => String(e)}
-        uniqueIdentifier={(e) => String(e)}
-        displayValue={(e) => String(e)}
-        value="diana"
-        onChange={jest.fn}
-        searchValue={(e) => e}
-      />,
-    );
+  it('should fetch data from a promise', async () => {
+    await act(async () => {
+      render(
+        <AutoComplete<string>
+          data={() => new Promise<string[]>((resolve) => resolve(['bruce', 'diana', 'clark']))}
+          listDisplayProp={(e) => String(e)}
+          uniqueIdentifier={(e) => String(e)}
+          displayValue={(e) => String(e)}
+          value="diana"
+          onChange={jest.fn}
+          searchValue={(e) => e}
+        />,
+      );
+    });
 
     act(() => {
       fireEvent.click(document.querySelector('input'));
@@ -110,9 +118,11 @@ describe('Single AutoComplete', () => {
       .forEach((element, index) => expect(element.innerHTML).toContain(data[index]));
   });
 
-  it('should update value on select', () => {
+  it('should update value on select', async () => {
     let value = 'diana';
-    autoComplete(value, (e) => (value = e));
+    await act(async () => {
+      autoComplete(value, (e) => (value = e));
+    });
 
     const input = document.querySelector('input');
     act(() => {
@@ -124,13 +134,15 @@ describe('Single AutoComplete', () => {
     expect(value).toBe('bruce');
   });
 
-  it('should update list on search', () => {
+  it('should update list on search', async () => {
     let search = '';
-    autoComplete(
-      'diana',
-      () => ({}),
-      (e) => (search = e),
-    );
+    await act(async () => {
+      autoComplete(
+        'diana',
+        () => ({}),
+        (e) => (search = e),
+      );
+    });
 
     act(() => {
       fireEvent.click(document.querySelector('input'));
@@ -146,9 +158,11 @@ describe('Single AutoComplete', () => {
     expect(document.querySelector('.list-item:nth-child(2)').innerHTML).toContain('clark');
   });
 
-  it('should navigate list with arrow keys and close popup with escape', () => {
+  it('should navigate list with arrow keys and close popup with escape', async () => {
     let value = 'diana';
-    autoComplete(value, (e) => (value = e));
+    await act(async () => {
+      autoComplete(value, (e) => (value = e));
+    });
 
     const input = document.querySelector('input');
     act(() => {
@@ -168,12 +182,12 @@ describe('Single AutoComplete', () => {
       fireEvent.keyDown(input, { key: 'Enter' });
     });
     expect(value).toBe('bruce');
-    expect(document.querySelector('.list-item')).toBeNull();
+    expect(document.querySelector('.sha-el-tooltip')).toHaveStyle(`opacity: 0;`);
 
     act(() => {
       fireEvent.keyDown(input, { key: 'ArrowDown' });
     });
-    expect(document.querySelector('.list-item')).not.toBeNull();
+    expect(document.querySelector('.sha-el-tooltip')).toHaveStyle(`opacity: 1;`);
 
     act(() => {
       fireEvent.keyDown(document.querySelector('input'), { key: 'Enter' });
@@ -200,15 +214,17 @@ describe('Single AutoComplete', () => {
     act(() => {
       fireEvent.keyDown(document.querySelector('input'), { key: 'Escape' });
     });
-    expect(document.querySelector('.list-item')).toBeNull();
+    expect(document.querySelector('.sha-el-tooltip')).toHaveStyle(`opacity: 0;`);
     act(() => {
       fireEvent.keyDown(document.querySelector('input'), { key: 'ArrowUp' });
     });
     expect(document.querySelector('.list-item')).not.toBeNull();
   });
 
-  it('should not have any selected items on list if value is null', () => {
-    autoComplete(null, () => ({}));
+  it('should not have any selected items on list if value is null', async () => {
+    await act(async () => {
+      autoComplete(null, () => ({}));
+    });
 
     act(() => {
       fireEvent.click(document.querySelector('input'));
@@ -228,8 +244,10 @@ describe('Single AutoComplete', () => {
     `);
   });
 
-  it('should clear input on search', () => {
-    autoComplete(null, (e) => expect(e).toBe('bruce'));
+  it('should clear input on search', async () => {
+    await act(async () => {
+      autoComplete(null, (e) => expect(e).toBe('bruce'));
+    });
     act(() => {
       fireEvent.click(document.querySelector('input'));
     });
@@ -248,8 +266,10 @@ describe('Single AutoComplete', () => {
 });
 
 describe('Multiple AutoComplete', () => {
-  it('should render autocomplete with multiple values', () => {
-    render(<MultipleAutoComplete value={['diana', 'clark']} onChange={() => ({})} />);
+  it('should render autocomplete with multiple values', async () => {
+    await act(async () => {
+      render(<MultipleAutoComplete value={['diana', 'clark']} onChange={() => ({})} />);
+    });
 
     expect(document.querySelector('.seudo').innerHTML).toContain('clark');
     expect(document.querySelector('.seudo').innerHTML).toContain('diana');
@@ -266,9 +286,11 @@ describe('Multiple AutoComplete', () => {
     `);
   });
 
-  it('should update value on select', () => {
+  it('should update value on select', async () => {
     let value = [];
-    render(<MultipleAutoComplete value={['diana', 'clark']} onChange={(e) => (value = e)} />);
+    await act(async () => {
+      render(<MultipleAutoComplete value={['diana', 'clark']} onChange={(e) => (value = e)} />);
+    });
 
     act(() => {
       fireEvent.click(document.querySelector('input'));

@@ -58,8 +58,10 @@ const CreateLayout = () => (
 );
 
 describe('Layout', () => {
-  it('Should render a layout', () => {
-    render(<CreateLayout />);
+  it('Should render a layout', async () => {
+    await act(async () => {
+      render(<CreateLayout />);
+    });
 
     const container = document.querySelector('.sha-el-conatiner');
     expect(container).toBeDefined();
@@ -112,8 +114,10 @@ describe('Layout', () => {
     `);
   });
 
-  it('Should show & hide resizer on mouse enter & leave', () => {
-    render(<CreateLayout />);
+  it('Should show & hide resizer on mouse enter & leave', async () => {
+    await act(async () => {
+      render(<CreateLayout />);
+    });
 
     const container = document.querySelector('.sha-el-conatiner');
     const sidePanel = container.querySelector('.sha-el-side-panel');
@@ -145,8 +149,10 @@ describe('Layout', () => {
     expect(resizer.innerHTML).toBe('');
   });
 
-  it('Should check line between sidepanel and bottom', () => {
-    render(<CreateLayout />);
+  it('Should check line between sidepanel and bottom', async () => {
+    await act(async () => {
+      render(<CreateLayout />);
+    });
 
     const container = document.querySelector('.sha-el-conatiner');
     const sidePanel = container.querySelector('.sha-el-side-panel');
@@ -162,9 +168,11 @@ describe('Layout', () => {
     `);
   });
 
-  it('Should open sidepanel', () => {
+  it('Should open sidepanel', async () => {
     jest.useFakeTimers();
-    render(<CreateLayout />);
+    await act(async () => {
+      render(<CreateLayout />);
+    });
 
     const container = document.querySelector('.sha-el-conatiner');
     const sidePanel = container.querySelector('.sha-el-side-panel');
@@ -245,9 +253,11 @@ describe('Layout', () => {
     expect(activeDrawer.querySelectorAll('li').length).toBe(4); // Should not change active drawer since it's not a menu component
   });
 
-  it('Should close sidepanel', () => {
+  it('Should close sidepanel', async () => {
     jest.useFakeTimers();
-    render(<CreateLayout />);
+    await act(async () => {
+      render(<CreateLayout />);
+    });
 
     const container = document.querySelector('.sha-el-conatiner');
     const sidePanel = container.querySelector('.sha-el-side-panel');
@@ -298,11 +308,13 @@ describe('Layout', () => {
     `);
   });
 
-  it('Should check sidepanel bottom children', () => {
-    render(<CreateLayout />);
+  it('Should check sidepanel bottom children', async () => {
+    await act(async () => {
+      render(<CreateLayout />);
+    });
 
     const sidePanelBottom = document.querySelector('.sha-el-side-panel-bottom');
-    expect(sidePanelBottom.querySelectorAll('div').length).toBe(3);
+    expect(sidePanelBottom.querySelectorAll('div').length).toBe(2);
 
     const item = sidePanelBottom.querySelector('div');
     expect(item).toHaveStyle(`
@@ -319,17 +331,19 @@ describe('Layout', () => {
     expect(document.querySelector('.drawer')).toBeNull();
   });
 
-  it('Should render a sidepanel with single children', () => {
-    render(
-      <Container>
-        <SidePanel logo={<Md3DRotation size="50px" />}>
-          <Button size="big" displayBlock flat icon={<MdAccessTime />} />
-        </SidePanel>
-        <Content>
-          <Card>Container</Card>
-        </Content>
-      </Container>,
-    );
+  it('Should render a sidepanel with single children', async () => {
+    await act(async () => {
+      render(
+        <Container>
+          <SidePanel logo={<Md3DRotation size="50px" />}>
+            <Button size="big" displayBlock flat icon={<MdAccessTime />} />
+          </SidePanel>
+          <Content>
+            <Card>Container</Card>
+          </Content>
+        </Container>,
+      );
+    });
 
     const sidePanelContent = document.querySelectorAll('.sha-el-col')[0];
     expect(sidePanelContent.querySelectorAll('div').length).toBe(2);
@@ -339,20 +353,22 @@ describe('Layout', () => {
     expect(sidePanelBottom.innerHTML).toBe('');
   });
 
-  it('Should render a sidepanel with single bottom', () => {
-    render(
-      <Container>
-        <SidePanel
-          logo={<Md3DRotation size="50px" />}
-          bottom={<Button key="bottom-1" size="big" displayBlock flat icon={<MdSettings />} />}
-        >
-          <Button size="big" displayBlock flat icon={<MdAccessTime />} />
-        </SidePanel>
-        <Content>
-          <Card>Container</Card>
-        </Content>
-      </Container>,
-    );
+  it('Should render a sidepanel with single bottom', async () => {
+    await act(async () => {
+      render(
+        <Container>
+          <SidePanel
+            logo={<Md3DRotation size="50px" />}
+            bottom={<Button key="bottom-1" size="big" displayBlock flat icon={<MdSettings />} />}
+          >
+            <Button size="big" displayBlock flat icon={<MdAccessTime />} />
+          </SidePanel>
+          <Content>
+            <Card>Container</Card>
+          </Content>
+        </Container>,
+      );
+    });
 
     const sidePanelBottom = document.querySelector('.sha-el-side-panel-bottom');
     expect(sidePanelBottom.querySelectorAll('div').length).toBe(1);
