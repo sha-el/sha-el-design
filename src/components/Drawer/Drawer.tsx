@@ -4,7 +4,7 @@ import { borderCss } from '../../helpers/border';
 import { elevationCss } from '../../helpers/elevations';
 import { paddingCss } from '../../helpers/padding';
 import { SurfaceProps } from '../../typings/surface';
-import { Portal } from '../Popover/Portal';
+import { Portal } from '../Portal/Portal';
 import { useTheme } from '../Theme/Theme';
 import { style } from './style';
 

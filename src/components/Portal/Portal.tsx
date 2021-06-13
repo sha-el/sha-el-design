@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { createPortal } from 'react-dom';
+import { classes } from '../../helpers';
 
 export const PortalContext = React.createContext<{ element: HTMLDivElement }>({ element: null });
 
-export class Portal extends React.Component<Props, { dom: HTMLDivElement }> {
-  constructor(props: Props) {
+export class Portal extends React.Component<PortalProps, { dom: HTMLDivElement }> {
+  constructor(props: PortalProps) {
     super(props);
 
     this.state = {
@@ -21,16 +22,16 @@ export class Portal extends React.Component<Props, { dom: HTMLDivElement }> {
       return this.setState({ dom: element });
     }
     const dom = document.createElement('div');
-    dom.className = this.props.className + ' sha-el-portal';
+    dom.className = classes(this.props.className, 'sha-el-portal');
     document.body.appendChild(dom);
     return this.setState({ dom });
   };
 
   componentDidMount() {
-    if (document) {
-      return this.createPortalDom(this.props.dom);
+    if (!document) {
+      setTimeout(this.componentDidMount, 500);
     }
-    setTimeout(this.componentDidMount, 500);
+    return this.createPortalDom(this.props.dom);
   }
 
   componentWillUnmount() {
@@ -46,7 +47,8 @@ export class Portal extends React.Component<Props, { dom: HTMLDivElement }> {
   }
 }
 
-interface Props {
+export interface PortalProps {
+  children?: React.ReactNode;
   className?: string;
   dom?: HTMLDivElement;
 }

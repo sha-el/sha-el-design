@@ -7,7 +7,7 @@ import { elevationCss } from '../../helpers/elevations';
 import { marginCss } from '../../helpers/margin';
 import { paddingCss } from '../../helpers/padding';
 import { SurfaceProps } from '../../typings/surface';
-import { Portal, PortalContext } from '../Popover/Portal';
+import { Portal, PortalContext } from '../Portal/Portal';
 import { useTheme } from '../Theme/Theme';
 import { style } from './style';
 

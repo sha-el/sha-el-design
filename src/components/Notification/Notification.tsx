@@ -2,7 +2,7 @@ import * as React from 'react';
 import { render } from 'react-dom';
 
 import { MdInfoOutline, MdErrorOutline, MdWarning, MdDoneAll } from 'react-icons/md';
-import { Portal } from '../Popover/Portal';
+import { Portal } from '../Portal/Portal';
 import { NotificationProps, notificationSubject$ } from './NotificationService';
 import posed, { PoseGroup } from 'react-pose';
 import { isBrowser } from '../../helpers';

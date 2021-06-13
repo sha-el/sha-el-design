@@ -66,6 +66,10 @@ export function initialize() {
   initializeNotification();
 }
 
+export function getChildIndex(node: HTMLElement) {
+  return Array.prototype.indexOf.call(node.parentNode.childNodes, node);
+}
+
 export const isBrowser = () => typeof window !== 'undefined' && typeof window.document !== 'undefined';
 
-export const classes = (...args) => args.filter((v) => !!v).join(' ');
+export const classes = (...args: string[]) => args.filter((v) => !!v).join(' ');
