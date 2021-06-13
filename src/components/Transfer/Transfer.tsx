@@ -10,15 +10,13 @@ import { SurfaceProps } from '../../typings/surface';
 export interface TransferProps<T> extends SurfaceProps {
   listDisplayProp: (arg: T) => React.ReactNode;
   uniqueIdentifier: (arg: T) => string;
-  data?: (search: string) => Promise<T[]> | T[];
+  data?: T[];
   displayValue?: (value: T) => string;
-  searchValue?: (value: T) => string;
   onChange?: (values: T[]) => void;
   values?: T[];
 }
 
 interface State<T> {
-  search: string;
   data: T[];
   selectedLeft: T[];
   selectedRight: T[];
@@ -31,7 +29,6 @@ export class Transfer<T> extends React.Component<TransferProps<T>, State<T>> {
     super(props);
 
     this.state = {
-      search: '',
       data: [],
       open: false,
       loading: false,
@@ -46,23 +43,8 @@ export class Transfer<T> extends React.Component<TransferProps<T>, State<T>> {
   };
 
   componentDidMount() {
-    this.fetchData();
+    this.setState({ data: this.props.data });
   }
-
-  fetchData = async () => {
-    const { data } = this.props;
-    const { search } = this.state;
-
-    let items = data(search);
-
-    if (!Array.isArray(items)) {
-      this.setState({ loading: true });
-      items = await items;
-      this.setState({ loading: false });
-    }
-
-    this.setState({ data: items });
-  };
 
   isItemMoved = (current: T) => {
     const { uniqueIdentifier, values } = this.props;
@@ -99,28 +81,26 @@ export class Transfer<T> extends React.Component<TransferProps<T>, State<T>> {
   };
 
   displayList = () => {
-    const { data, search, loading, selectedLeft } = this.state;
-    const { listDisplayProp, uniqueIdentifier, searchValue } = this.props;
+    const { data, loading, selectedLeft } = this.state;
+    const { listDisplayProp, uniqueIdentifier } = this.props;
 
     return (
       <Skeleton
         isLoading={loading}
         render={() => (
           <List style={{ maxHeight: '300px', overflowY: 'auto' }} border={this.props.border}>
-            {data
-              .filter((v) => searchValue(v).toLowerCase().includes(search))
-              .map(
-                (v) =>
-                  !this.isItemMoved(v) && (
-                    <ListItem
-                      key={uniqueIdentifier(v)}
-                      selected={this.isItemSelected(v, selectedLeft)}
-                      onClick={() => this.makeSelection(v, 'selectedLeft')}
-                    >
-                      {listDisplayProp(v)}
-                    </ListItem>
-                  ),
-              )}
+            {data?.map(
+              (v) =>
+                !this.isItemMoved(v) && (
+                  <ListItem
+                    key={uniqueIdentifier(v)}
+                    selected={this.isItemSelected(v, selectedLeft)}
+                    onClick={() => this.makeSelection(v, 'selectedLeft')}
+                  >
+                    {listDisplayProp(v)}
+                  </ListItem>
+                ),
+            )}
           </List>
         )}
       />
@@ -133,7 +113,7 @@ export class Transfer<T> extends React.Component<TransferProps<T>, State<T>> {
 
     return (
       <List style={{ maxHeight: '300px', overflowY: 'auto' }} border={this.props.border}>
-        {values.map((v) => (
+        {values?.map((v) => (
           <ListItem
             key={uniqueIdentifier(v)}
             selected={this.isItemSelected(v, selectedRight)}
@@ -166,7 +146,7 @@ export class Transfer<T> extends React.Component<TransferProps<T>, State<T>> {
       <Card elevation={elevation} margin={margin} padding={padding} border={border} style={{ minWidth: '500px' }}>
         <Row alignItems="center">
           <Col span={10} alignSelf="stretch">
-            <CardHeader subtitle={`${data.length} item(s)`} />
+            <CardHeader subtitle={`${data?.length} item(s)`} />
             {this.displayList()}
           </Col>
           <Col span={4}>
@@ -188,7 +168,7 @@ export class Transfer<T> extends React.Component<TransferProps<T>, State<T>> {
             />
           </Col>
           <Col span={10} alignSelf="stretch">
-            <CardHeader subtitle={`${this.props.values.length} item(s)`} />
+            <CardHeader subtitle={`${this.props.values?.length} item(s)`} />
             {this.displayValue()}
           </Col>
         </Row>

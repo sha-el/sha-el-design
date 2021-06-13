@@ -17,7 +17,7 @@ export const Basic: Story<TransferProps<string>> = (args) => {
 
   return (
     <Transfer
-      data={() => ['Bruce', 'Clark', 'Arthur', 'Diana', 'Banner', 'Stark', 'Steve']}
+      data={['Bruce', 'Clark', 'Arthur', 'Diana', 'Banner', 'Stark', 'Steve']}
       values={values}
       onChange={update}
       listDisplayProp={(e) => e}
