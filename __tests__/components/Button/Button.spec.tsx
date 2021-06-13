@@ -271,4 +271,40 @@ describe('Button', () => {
     background: rgba(0, 0, 0, 0.2);
   `);
   });
+
+  it('should render a custom anchor component', () => {
+    const fn = jest.fn();
+
+    act(() => {
+      ReactDOM.render(<Button link component={<a id="hello" />} onClick={fn} />, container);
+    });
+
+    expect(document.getElementById('hello')).toBeDefined();
+  });
+
+  it('should render a custom anchor component which is not clickable while loading', () => {
+    const fn = jest.fn();
+
+    act(() => {
+      ReactDOM.render(<Button link component={<a id="hello" />} loading onClick={fn} />, container);
+    });
+
+    const button = document.getElementById('hello');
+
+    button.click();
+    expect(fn).toBeCalledTimes(0);
+  });
+
+  it('should render a custom button component which is not clickable while loading', () => {
+    const fn = jest.fn();
+
+    act(() => {
+      ReactDOM.render(<Button component={<a id="hello" />} loading onClick={fn} />, container);
+    });
+
+    const button = document.getElementById('hello');
+
+    button.click();
+    expect(fn).toBeCalledTimes(0);
+  });
 });
