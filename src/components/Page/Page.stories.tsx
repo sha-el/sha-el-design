@@ -7,8 +7,8 @@ import { Textarea, Input } from '../Input';
 
 import { MdAdd, MdArrowBack, MdHome, MdSearch } from 'react-icons/md';
 import { Breadcrumb } from '../Breadcrumb';
-import { FlexTable } from '../Table';
-import MOCK_DATA from '../Table/MOCK_DATA.json';
+import { FlexTable } from '../FlexTable';
+import MOCK_DATA from '../FlexTable/MOCK_DATA.json';
 import { Button } from '../Button';
 
 type DataType = typeof MOCK_DATA[0];
