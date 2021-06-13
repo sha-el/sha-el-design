@@ -23,8 +23,10 @@ const CreatePagination = (props: { itemsPerPage?: number[]; justify?: string }) 
 };
 
 describe('Pagination', () => {
-  it('Should render a basic pagination', () => {
-    render(<CreatePagination />);
+  it('Should render a basic pagination', async () => {
+    await act(async () => {
+      render(<CreatePagination />);
+    });
 
     const pagination = document.querySelector('.sha-el-pagination');
     expect(pagination.querySelectorAll('.sha-el-col').length).toBe(4);
@@ -63,8 +65,10 @@ describe('Pagination', () => {
     );
   });
 
-  it('Should re-render pagination when clicked on next button', () => {
-    render(<CreatePagination />);
+  it('Should re-render pagination when clicked on next button', async () => {
+    await act(async () => {
+      render(<CreatePagination />);
+    });
 
     const pagination = document.querySelector('.sha-el-pagination');
     const forwardArrow = pagination.querySelectorAll('.sha-el-col')[3].querySelector('button');
@@ -80,8 +84,10 @@ describe('Pagination', () => {
     expect(currentPage.innerHTML).toBe('5');
   });
 
-  it('Should re-render pagination when clicked on back button', () => {
-    render(<CreatePagination />);
+  it('Should re-render pagination when clicked on back button', async () => {
+    await act(async () => {
+      render(<CreatePagination />);
+    });
 
     const pagination = document.querySelector('.sha-el-pagination');
     const backArrow = pagination.querySelectorAll('.sha-el-col')[1].querySelector('button');
@@ -97,8 +103,10 @@ describe('Pagination', () => {
     expect(currentPage.innerHTML).toBe('3');
   });
 
-  it('Should render pagination with items per page', () => {
-    render(<CreatePagination itemsPerPage={[10, 20, 30]} />);
+  it('Should render pagination with items per page', async () => {
+    await act(async () => {
+      render(<CreatePagination itemsPerPage={[10, 20, 30]} />);
+    });
 
     const pagination = document.querySelector('.sha-el-pagination');
     let itemsPerPage = pagination.querySelector('.sha-el-input');
@@ -122,8 +130,10 @@ describe('Pagination', () => {
     expect(currentPage.innerHTML).toBe('1');
   });
 
-  it('Should render a pagination with justify prop', () => {
-    render(<CreatePagination justify="flex-end" />);
+  it('Should render a pagination with justify prop', async () => {
+    await act(async () => {
+      render(<CreatePagination justify="flex-end" />);
+    });
 
     const pagination = document.querySelector('.sha-el-pagination');
     expect(pagination).toHaveStyle(`
@@ -131,9 +141,11 @@ describe('Pagination', () => {
     `);
   });
 
-  it('Should render a pagination with onChnage', () => {
+  it('Should render a pagination with onChnage', async () => {
     const fn = jest.fn();
-    render(<Pagination batchSize={10} currentPage={3} onChange={fn} totalCount={100} itemsPerPage={[10, 20, 30]} />);
+    await act(async () => {
+      render(<Pagination batchSize={10} currentPage={3} onChange={fn} totalCount={100} itemsPerPage={[10, 20, 30]} />);
+    });
 
     const pagination = document.querySelector('.sha-el-pagination');
 
@@ -159,8 +171,10 @@ describe('Pagination', () => {
     expect(fn).toBeCalledTimes(3);
   });
 
-  it('Should render a pagination without onChange', () => {
-    render(<Pagination batchSize={10} currentPage={3} totalCount={100} itemsPerPage={[10, 20, 30]} />);
+  it('Should render a pagination without onChange', async () => {
+    await act(async () => {
+      render(<Pagination batchSize={10} currentPage={3} totalCount={100} itemsPerPage={[10, 20, 30]} />);
+    });
 
     const pagination = document.querySelector('.sha-el-pagination');
 
@@ -195,8 +209,10 @@ describe('Pagination', () => {
     expect(text.innerHTML).toContain('21 - 30 of 100');
   });
 
-  it('Should render a pagination with totalCount equal to 0', () => {
-    render(<Pagination batchSize={10} currentPage={3} totalCount={0} />);
+  it('Should render a pagination with totalCount equal to 0', async () => {
+    await act(async () => {
+      render(<Pagination batchSize={10} currentPage={3} totalCount={0} />);
+    });
 
     const pagination = document.querySelector('.sha-el-pagination');
 

@@ -1,4 +1,3 @@
-import popverCss from './popover.css';
 import topography from './typography.css';
 import { initializeNotification } from './../components/Notification/Notification';
 import { initMargins } from './margin';
@@ -58,7 +57,6 @@ export function initialize() {
     }
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
     @import url('https://fonts.googleapis.com/css?family=Fira+Code:300,400,500,600,700&display=swap');
-    ${popverCss}
     ${topography}
     ${initMargins()}
     ${initPaddings()}
@@ -68,6 +66,10 @@ export function initialize() {
   initializeNotification();
 }
 
+export function getChildIndex(node: HTMLElement) {
+  return Array.prototype.indexOf.call(node.parentNode.childNodes, node);
+}
+
 export const isBrowser = () => typeof window !== 'undefined' && typeof window.document !== 'undefined';
 
-export const classes = (...args) => args.filter((v) => !!v).join(' ');
+export const classes = (...args: string[]) => args.filter((v) => !!v).join(' ');

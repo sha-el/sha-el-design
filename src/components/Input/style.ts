@@ -58,6 +58,7 @@ export const style = ({ theme, error, label, active, borderless, disabled, hover
       },
     }),
     input: css({
+      width: '100%',
       fontSize: '14px',
       background: 'transparent',
       borderWidth: '0px',

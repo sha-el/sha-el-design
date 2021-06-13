@@ -250,15 +250,14 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
 
     return (
       <Popover
-        trigger={['onClick']}
-        position="bottom"
-        content={this.displayList()}
+        trigger="onClick"
+        placement="bottom"
+        overlay={this.displayList()}
         onVisibleChange={(v) => this.onOpen(v)}
         visible={open}
         expand
         hideArrow
         padding={0}
-        style={{ child: { display: 'block' } }}
       >
         <div>{inputElem}</div>
       </Popover>

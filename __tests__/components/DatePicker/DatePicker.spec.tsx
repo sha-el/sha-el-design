@@ -13,15 +13,12 @@ const CreateDatePicker = (props: { date?: Date; withTimePicker?: Record<string, 
 };
 
 describe('DatePicker', () => {
-  it('Should render a datepicker component', () => {
-    render(<CreateDatePicker />);
+  it('Should render a datepicker component', async () => {
+    await act(async () => {
+      render(<CreateDatePicker />);
+    });
 
-    const popoverElement = document.querySelector('.popover-element');
-    expect(popoverElement).toHaveStyle(`
-      display: block;
-    `);
-
-    const datePickerInput = popoverElement.querySelector('.sha-el-input');
+    const datePickerInput = document.querySelector('.sha-el-input');
 
     expect(datePickerInput.querySelector('label').innerHTML).toBe('Enter Date ');
 
@@ -32,32 +29,41 @@ describe('DatePicker', () => {
     );
   });
 
-  it('Should open a datepicker', () => {
-    render(<CreateDatePicker />);
+  it('Should open a datepicker', async () => {
+    await act(async () => {
+      render(<CreateDatePicker />);
+    });
 
     let datePickerCalendar = document.querySelector('.sha-el-calendar');
-    expect(datePickerCalendar).toBeNull();
 
     act(() => {
       fireEvent.click(document.querySelector('input'));
     });
 
+    act(() => {
+      jest.runAllTimers();
+    });
+
     datePickerCalendar = document.querySelector('.sha-el-calendar');
     expect(datePickerCalendar).toBeDefined();
-    const timePicker = document.querySelector('.rc-tooltip').querySelectorAll('.popover-element')[2];
+    const timePicker = document.querySelector('.sha-el-tooltip').querySelectorAll('.popover-element')[2];
     expect(timePicker).not.toBeDefined();
   });
 
-  it('Should render a datepicker with today date', () => {
+  it('Should render a datepicker with today date', async () => {
     MockDate.set(new Date(2021, 5, 3));
-    render(<CreateDatePicker date={new Date()} />);
+    await act(async () => {
+      render(<CreateDatePicker date={new Date()} />);
+    });
 
     const datePickerInput = document.querySelector('input');
     expect(datePickerInput.value).toBe('6/3/2021');
   });
 
-  it('Should re-render on date change', () => {
-    render(<CreateDatePicker />);
+  it('Should re-render on date change', async () => {
+    await act(async () => {
+      render(<CreateDatePicker />);
+    });
 
     act(() => {
       fireEvent.click(document.querySelector('input'));
@@ -69,7 +75,8 @@ describe('DatePicker', () => {
     act(() => {
       fireEvent.click(monthButton);
     });
-    const monthArray = document.querySelectorAll('.rc-tooltip')[1].querySelectorAll('li');
+
+    const monthArray = document.querySelectorAll('.sha-el-tooltip')[1].querySelectorAll('li');
     act(() => {
       fireEvent.click(monthArray[6]);
     });
@@ -78,7 +85,8 @@ describe('DatePicker', () => {
     act(() => {
       fireEvent.click(yearButton);
     });
-    const yearArray = document.querySelectorAll('.rc-tooltip')[2].querySelectorAll('li');
+
+    const yearArray = document.querySelectorAll('.sha-el-tooltip')[2].querySelectorAll('li');
     act(() => {
       fireEvent.click(yearArray[2007 - 1980]);
     });
@@ -89,52 +97,71 @@ describe('DatePicker', () => {
     });
 
     datePickerCalendar = document.querySelector('.sha-el-calendar');
-    expect(datePickerCalendar).toBeNull();
+    expect(document.querySelector('.sha-el-tooltip')).toHaveStyle(`
+      opacity: 0;
+    `);
 
-    const datePickerInput = document.querySelector('input');
-    expect(datePickerInput.value).toBe('7/7/2007');
+    expect(document.querySelector('input').value).toBe('7/7/2007');
   });
 
-  it('Should render a datepicker with timepicker', () => {
-    render(<CreateDatePicker withTimePicker={{}} />);
+  it('Should render a datepicker with timepicker', async () => {
+    await act(async () => {
+      render(<CreateDatePicker withTimePicker={{}} />);
+    });
 
     act(() => {
       fireEvent.click(document.querySelector('input'));
     });
 
-    const timePicker = document.querySelector('.rc-tooltip').querySelectorAll('.popover-element')[2];
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    const timePicker = document.querySelector('.sha-el-tooltip').querySelector('.sha-el-timepicker');
     expect(timePicker).toBeDefined();
   });
 
-  it('Should render datepicker with today date and time', () => {
+  it('Should render datepicker with today date and time', async () => {
     MockDate.set(new Date(2025, 4, 18, 18, 6, 44));
-    render(<CreateDatePicker withTimePicker={{}} date={new Date()} />);
+    await act(async () => {
+      render(<CreateDatePicker withTimePicker={{}} date={new Date()} />);
+    });
 
     const datePickerInput = document.querySelector('input');
     expect(datePickerInput.value).toBe('5/18/2025, 6:06:44 PM');
   });
 
-  it('Should close datepicker', () => {
-    render(<CreateDatePicker withTimePicker={{}} />);
+  it('Should close datepicker on click on close button', async () => {
+    await act(async () => {
+      render(<CreateDatePicker withTimePicker={{}} />);
+    });
 
-    expect(document.querySelectorAll('.rc-tooltip').length).toBe(0);
+    document.querySelectorAll('.sha-el-tooltip').forEach((el) => expect(el).toHaveStyle(`opacity: 0`));
 
     act(() => {
       fireEvent.click(document.querySelector('input'));
     });
-    expect(document.querySelectorAll('.rc-tooltip').length).toBe(1);
+
+    expect(document.querySelectorAll('.sha-el-tooltip')[0]).toHaveStyle(`opacity: 1`);
 
     act(() => {
       fireEvent.click(screen.getByText('Close').parentElement);
     });
-    expect(document.querySelectorAll('.rc-tooltip').length).toBe(0);
+
+    document.querySelectorAll('.sha-el-tooltip').forEach((el) => expect(el).toHaveStyle(`opacity: 0`));
   });
 
-  it('Should not close datepicker with time picker when clicked on a date', () => {
-    render(<CreateDatePicker withTimePicker={{}} date={new Date(2007, 6, 7)} />);
+  it('Should not close datepicker with time picker when clicked on a date', async () => {
+    await act(async () => {
+      render(<CreateDatePicker withTimePicker={{}} date={new Date(2007, 6, 7)} />);
+    });
 
     act(() => {
       fireEvent.click(document.querySelector('input'));
+    });
+
+    act(() => {
+      jest.runAllTimers();
     });
 
     let datePickerCalendar = document.querySelector('.sha-el-calendar');
@@ -148,18 +175,26 @@ describe('DatePicker', () => {
     expect(datePickerCalendar).toBeDefined();
   });
 
-  it('Should re-render on time change', () => {
-    render(<CreateDatePicker withTimePicker={{}} date={new Date(2021, 6, 7)} />);
+  it('Should re-render on time change', async () => {
+    await act(async () => {
+      render(<CreateDatePicker withTimePicker={{}} date={new Date(2021, 6, 7)} />);
+    });
 
     act(() => {
       fireEvent.click(document.querySelector('input'));
     });
 
-    const timePicker = document.querySelector('.rc-tooltip').querySelectorAll('.popover-element')[2];
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    const timePicker = document.querySelector('.sha-el-tooltip').querySelector('.sha-el-timepicker');
+
     act(() => {
       fireEvent.click(timePicker.querySelector('input'));
     });
-    const timePickerContainer = document.querySelectorAll('.rc-tooltip')[1].querySelector('.sha-el-row').parentElement;
+
+    const timePickerContainer = document.querySelector('.sha-el-timepicker');
 
     const hours = timePickerContainer.querySelector('.hour-column').querySelectorAll('p');
     act(() => {
@@ -177,8 +212,9 @@ describe('DatePicker', () => {
     });
 
     act(() => {
-      fireEvent.click(screen.getByText('Close').parentElement);
+      fireEvent.click(screen.getByText('Close'));
     });
+
     expect(document.querySelector('input').value).toBe('7/7/2021, 10:45:49 PM');
   });
 });

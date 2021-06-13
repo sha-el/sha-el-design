@@ -17,7 +17,7 @@ export default {
 export const Basic: Story<PopoverProps> = (args) => (
   <Popover
     {...args}
-    content={
+    overlay={
       <Text margin="15px" variant="h4">
         Content
       </Text>
@@ -27,14 +27,14 @@ export const Basic: Story<PopoverProps> = (args) => (
   </Popover>
 );
 
-export const Position: Story<PopoverProps> = (args) => (
+export const placement: Story<PopoverProps> = (args) => (
   <>
     <Row justifyContent="center">
       <Col span={8}>
         <Popover
           {...args}
-          position="topLeft"
-          content={
+          placement="left-start"
+          overlay={
             <Text margin="15px" variant="h4">
               Content
             </Text>
@@ -46,8 +46,8 @@ export const Position: Story<PopoverProps> = (args) => (
       <Col span={8}>
         <Popover
           {...args}
-          position="top"
-          content={
+          placement="top"
+          overlay={
             <Text margin="15px" variant="h4">
               Content
             </Text>
@@ -59,8 +59,8 @@ export const Position: Story<PopoverProps> = (args) => (
       <Col span={8}>
         <Popover
           {...args}
-          position="topRight"
-          content={
+          placement="right-start"
+          overlay={
             <Text margin="15px" variant="h4">
               Content
             </Text>
@@ -74,8 +74,8 @@ export const Position: Story<PopoverProps> = (args) => (
       <Col span={8}>
         <Popover
           {...args}
-          position="left"
-          content={
+          placement="left"
+          overlay={
             <Text margin="15px" variant="h4">
               Content
             </Text>
@@ -87,8 +87,8 @@ export const Position: Story<PopoverProps> = (args) => (
       <Col span={8}>
         <Popover
           {...args}
-          position="right"
-          content={
+          placement="right"
+          overlay={
             <Text margin="15px" variant="h4">
               Content
             </Text>
@@ -102,8 +102,8 @@ export const Position: Story<PopoverProps> = (args) => (
       <Col span={8}>
         <Popover
           {...args}
-          position="bottomLeft"
-          content={
+          placement="bottom-start"
+          overlay={
             <Text margin="15px" variant="h4">
               Content
             </Text>
@@ -115,8 +115,8 @@ export const Position: Story<PopoverProps> = (args) => (
       <Col span={8}>
         <Popover
           {...args}
-          position="bottom"
-          content={
+          placement="bottom"
+          overlay={
             <Text margin="15px" variant="h4">
               Content
             </Text>
@@ -128,8 +128,8 @@ export const Position: Story<PopoverProps> = (args) => (
       <Col span={8}>
         <Popover
           {...args}
-          position="bottomRight"
-          content={
+          placement="bottom-end"
+          overlay={
             <Text margin="15px" variant="h4">
               Content
             </Text>
@@ -147,7 +147,7 @@ export const Triggers: Story<PopoverProps> = (args) => (
     <Popover
       {...args}
       trigger="onClick"
-      content={
+      overlay={
         <Text margin="15px" variant="h4">
           Content
         </Text>
@@ -158,7 +158,7 @@ export const Triggers: Story<PopoverProps> = (args) => (
     <Popover
       {...args}
       trigger="onFocus"
-      content={
+      overlay={
         <Text margin="15px" variant="h4">
           Content
         </Text>
@@ -168,8 +168,8 @@ export const Triggers: Story<PopoverProps> = (args) => (
     </Popover>
     <Popover
       {...args}
-      trigger="onHover"
-      content={
+      trigger="onMouseOver"
+      overlay={
         <Text margin="15px" variant="h4">
           Content
         </Text>
@@ -183,12 +183,32 @@ export const Triggers: Story<PopoverProps> = (args) => (
 export const HideArrow: Story<PopoverProps> = (args) => (
   <Popover
     {...args}
-    content={
+    overlay={
       <Text margin="15px" variant="h4">
         Content
       </Text>
     }
     hideArrow
+  >
+    <Button>Hello</Button>
+  </Popover>
+);
+
+export const Nested: Story<PopoverProps> = (args) => (
+  <Popover
+    {...args}
+    overlay={
+      <Popover
+        {...args}
+        overlay={
+          <Text margin="15px" variant="h4">
+            Content
+          </Text>
+        }
+      >
+        <Button>Hello</Button>
+      </Popover>
+    }
   >
     <Button>Hello</Button>
   </Popover>

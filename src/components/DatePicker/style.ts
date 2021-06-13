@@ -5,7 +5,7 @@ export const style = (theme: Theme) =>
   css({
     background: theme.background,
     '& .sha-el-col': {
-      maxHeight: '300px',
+      maxHeight: '250px',
       overflowY: 'hidden',
       cursor: 'pointer',
       minWidth: '50px',
