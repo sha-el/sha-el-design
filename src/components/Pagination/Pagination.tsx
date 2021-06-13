@@ -9,7 +9,7 @@ import { Input } from '../Input';
 export const Pagination: React.FC<PaginationProps> = (props) => {
   const { totalCount, batchSize, currentPage, onChange, itemsPerPage, justify } = props;
   return (
-    <Row alignItems="center" justifyContent={justify} gutter={[20, 20]}>
+    <Row alignItems="center" justifyContent={justify} gutter={[20, 0]} className="sha-el-pagination">
       {itemsPerPage && (
         <Col flex="0 1 auto">
           <Menu
@@ -21,6 +21,7 @@ export const Pagination: React.FC<PaginationProps> = (props) => {
                 value={batchSize}
                 readOnly
                 borderless
+                containerStyle={{ margin: '7px 0' }}
               />
             }
             position="bottom"
