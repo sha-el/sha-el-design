@@ -25,6 +25,7 @@ export const style = (theme: Theme, open: boolean, placement: string, hideArrow:
       boxSizing: 'border-box',
       zIndex: open ? zLayoutPopUp : zBelowBase,
       opacity: open ? '1' : '0',
+      transition: '.3s all',
     }),
     inner: css({
       backgroundColor: colorShades(Color(theme.background).negate().toString())[4],
