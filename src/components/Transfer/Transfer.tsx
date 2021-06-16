@@ -9,9 +9,9 @@ import { SurfaceProps } from '../../typings/surface';
 export interface TransferProps<T> extends SurfaceProps {
   listDisplayProp: (arg: T) => React.ReactNode;
   uniqueIdentifier: (arg: T) => string;
-  data?: T[];
-  onChange?: (values: T[]) => void;
-  values?: T[];
+  data: T[];
+  onChange: (values: T[]) => void;
+  values: T[];
 }
 
 export function Transfer<T>(props: TransferProps<T>) {
@@ -26,16 +26,10 @@ export function Transfer<T>(props: TransferProps<T>) {
   });
 
   const isItemMoved = (current: T) => {
-    if (!values) {
-      return false;
-    }
     return !!values.find((v) => uniqueIdentifier(v) === uniqueIdentifier(current));
   };
 
   const isItemSelected = (current: T, selections: T[]) => {
-    if (!selections) {
-      return false;
-    }
     return !!selections.find((v) => uniqueIdentifier(v) === uniqueIdentifier(current));
   };
 
@@ -52,7 +46,7 @@ export function Transfer<T>(props: TransferProps<T>) {
   const displayList = () => {
     return (
       <List style={{ maxHeight: '300px', overflowY: 'auto' }} border={props.border}>
-        {data?.map(
+        {data.map(
           (v) =>
             !isItemMoved(v) && (
               <ListItem
@@ -71,7 +65,7 @@ export function Transfer<T>(props: TransferProps<T>) {
   const displayValue = () => {
     return (
       <List style={{ maxHeight: '300px', overflowY: 'auto' }} border={props.border}>
-        {values?.map((v) => (
+        {values.map((v) => (
           <ListItem
             key={uniqueIdentifier(v)}
             selected={isItemSelected(v, selectedRight)}
@@ -88,7 +82,6 @@ export function Transfer<T>(props: TransferProps<T>) {
     if (to === 'right') {
       onChange([...values, ...selectedLeft]);
       updateSelectedLeft([]);
-      console.log(values);
       return;
     }
     onChange(values.filter((v) => !selectedRight.find((sr) => uniqueIdentifier(sr) === uniqueIdentifier(v))));
@@ -97,13 +90,20 @@ export function Transfer<T>(props: TransferProps<T>) {
 
   const { padding = { xs: 10, sm: 15, md: 24 }, margin, border, elevation } = props;
   return (
-    <Card elevation={elevation} margin={margin} padding={padding} border={border} style={{ minWidth: '500px' }}>
+    <Card
+      elevation={elevation}
+      margin={margin}
+      padding={padding}
+      border={border}
+      style={{ minWidth: '500px' }}
+      className="sha-el-transfer"
+    >
       <Row alignItems="center">
-        <Col span={10} alignSelf="stretch">
-          <CardHeader subtitle={`${data?.length} item(s)`} />
+        <Col span={10} alignSelf="stretch" className="list-column">
+          <CardHeader subtitle={`${data.length - values.length} item(s)`} />
           {displayList()}
         </Col>
-        <Col span={4}>
+        <Col span={4} className="button-column">
           <Button
             displayBlock
             flat
@@ -121,8 +121,8 @@ export function Transfer<T>(props: TransferProps<T>) {
             onClick={() => transfer('left')}
           />
         </Col>
-        <Col span={10} alignSelf="stretch">
-          <CardHeader subtitle={`${values?.length} item(s)`} />
+        <Col span={10} alignSelf="stretch" className="value-column">
+          <CardHeader subtitle={`${values.length} item(s)`} />
           {displayValue()}
         </Col>
       </Row>
