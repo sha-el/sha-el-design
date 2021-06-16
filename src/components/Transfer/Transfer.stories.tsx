@@ -17,12 +17,12 @@ export const Basic: Story<TransferProps<string>> = (args) => {
 
   return (
     <Transfer
-      data={() => ['Bruce', 'Clark', 'Arthur', 'Diana', 'Banner', 'Stark', 'Steve']}
+      {...args}
+      data={['Bruce', 'Clark', 'Arthur', 'Diana', 'Banner', 'Stark', 'Steve']}
       values={values}
       onChange={update}
       listDisplayProp={(e) => e}
       uniqueIdentifier={(e) => e}
-      {...args}
     />
   );
 };
