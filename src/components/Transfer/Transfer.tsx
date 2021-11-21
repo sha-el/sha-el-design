@@ -1,143 +1,75 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col } from '../Grid';
 import { List, ListItem } from '../List';
 import { Button } from '../Button';
 import { CardHeader, Card } from '../Card';
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from 'react-icons/md';
-import { Skeleton } from '../Loading';
 import { SurfaceProps } from '../../typings/surface';
 
 export interface TransferProps<T> extends SurfaceProps {
   listDisplayProp: (arg: T) => React.ReactNode;
   uniqueIdentifier: (arg: T) => string;
-  data?: (search: string) => Promise<T[]> | T[];
-  displayValue?: (value: T) => string;
-  searchValue?: (value: T) => string;
-  onChange?: (values: T[]) => void;
-  values?: T[];
-}
-
-interface State<T> {
-  search: string;
   data: T[];
-  selectedLeft: T[];
-  selectedRight: T[];
-  open: boolean;
-  loading: boolean;
+  onChange: (values: T[]) => void;
+  values: T[];
 }
 
-export class Transfer<T> extends React.Component<TransferProps<T>, State<T>> {
-  constructor(props: TransferProps<T>) {
-    super(props);
+export function Transfer<T>(props: TransferProps<T>) {
+  const { listDisplayProp, uniqueIdentifier, onChange, values } = props;
 
-    this.state = {
-      search: '',
-      data: [],
-      open: false,
-      loading: false,
-      selectedRight: [],
-      selectedLeft: [],
-    };
-  }
+  const [data, updateData] = useState<T[]>([]);
+  const [selectedLeft, updateSelectedLeft] = useState<T[]>([]);
+  const [selectedRight, updateSelectedRight] = useState<T[]>([]);
 
-  static defaultProps = {
-    searchValue: (e) => String(e),
-    elevation: 0,
-  };
+  useEffect(() => {
+    updateData(props.data);
+  });
 
-  componentDidMount() {
-    this.fetchData();
-  }
-
-  fetchData = async () => {
-    const { data } = this.props;
-    const { search } = this.state;
-
-    let items = data(search);
-
-    if (!Array.isArray(items)) {
-      this.setState({ loading: true });
-      items = await items;
-      this.setState({ loading: false });
-    }
-
-    this.setState({ data: items });
-  };
-
-  isItemMoved = (current: T) => {
-    const { uniqueIdentifier, values } = this.props;
-
-    if (!values) {
-      return false;
-    }
-
+  const isItemMoved = (current: T) => {
     return !!values.find((v) => uniqueIdentifier(v) === uniqueIdentifier(current));
   };
 
-  isItemSelected = (current: T, selections: T[]) => {
-    const { uniqueIdentifier } = this.props;
-
-    if (!selections) {
-      return false;
-    }
-
+  const isItemSelected = (current: T, selections: T[]) => {
     return !!selections.find((v) => uniqueIdentifier(v) === uniqueIdentifier(current));
   };
 
-  makeSelection = (current: T, key: 'selectedRight' | 'selectedLeft') => {
-    const { uniqueIdentifier } = this.props;
-
-    let selections = this.state[key];
-
-    if (this.isItemSelected(current, selections)) {
+  const makeSelection = (current: T, key: 'selectedRight' | 'selectedLeft') => {
+    let selections: T[] = key === 'selectedLeft' ? selectedLeft : selectedRight;
+    if (isItemSelected(current, selections)) {
       selections = selections.filter((v) => uniqueIdentifier(v) !== uniqueIdentifier(current));
     } else {
       selections.push(current);
     }
-    const state = { ...this.state, [key]: selections };
-    this.setState(state);
+    key === 'selectedLeft' ? updateSelectedLeft([...selections]) : updateSelectedRight([...selections]);
   };
 
-  displayList = () => {
-    const { data, search, loading, selectedLeft } = this.state;
-    const { listDisplayProp, uniqueIdentifier, searchValue } = this.props;
-
+  const displayList = () => {
     return (
-      <Skeleton
-        isLoading={loading}
-        render={() => (
-          <List style={{ maxHeight: '300px', overflowY: 'auto' }} border={this.props.border}>
-            {data
-              .filter((v) => searchValue(v).toLowerCase().includes(search))
-              .map(
-                (v) =>
-                  !this.isItemMoved(v) && (
-                    <ListItem
-                      key={uniqueIdentifier(v)}
-                      selected={this.isItemSelected(v, selectedLeft)}
-                      onClick={() => this.makeSelection(v, 'selectedLeft')}
-                    >
-                      {listDisplayProp(v)}
-                    </ListItem>
-                  ),
-              )}
-          </List>
+      <List style={{ maxHeight: '300px', overflowY: 'auto' }} border={props.border}>
+        {data.map(
+          (v) =>
+            !isItemMoved(v) && (
+              <ListItem
+                key={uniqueIdentifier(v)}
+                selected={isItemSelected(v, selectedLeft)}
+                onClick={() => makeSelection(v, 'selectedLeft')}
+              >
+                {listDisplayProp(v)}
+              </ListItem>
+            ),
         )}
-      />
+      </List>
     );
   };
 
-  displayValue = () => {
-    const { selectedRight } = this.state;
-    const { listDisplayProp, uniqueIdentifier, values } = this.props;
-
+  const displayValue = () => {
     return (
-      <List style={{ maxHeight: '300px', overflowY: 'auto' }} border={this.props.border}>
+      <List style={{ maxHeight: '300px', overflowY: 'auto' }} border={props.border}>
         {values.map((v) => (
           <ListItem
             key={uniqueIdentifier(v)}
-            selected={this.isItemSelected(v, selectedRight)}
-            onClick={() => this.makeSelection(v, 'selectedRight')}
+            selected={isItemSelected(v, selectedRight)}
+            onClick={() => makeSelection(v, 'selectedRight')}
           >
             {listDisplayProp(v)}
           </ListItem>
@@ -146,53 +78,58 @@ export class Transfer<T> extends React.Component<TransferProps<T>, State<T>> {
     );
   };
 
-  transfer = (to: 'right' | 'left') => {
-    const { onChange, values, uniqueIdentifier } = this.props;
-    const { selectedLeft, selectedRight } = this.state;
+  const transfer = (to: 'right' | 'left') => {
     if (to === 'right') {
       onChange([...values, ...selectedLeft]);
-      this.setState({ selectedLeft: [] });
+      updateSelectedLeft([]);
       return;
     }
-
     onChange(values.filter((v) => !selectedRight.find((sr) => uniqueIdentifier(sr) === uniqueIdentifier(v))));
-    this.setState({ selectedRight: [] });
+    updateSelectedRight([]);
   };
 
-  render() {
-    const { selectedLeft, selectedRight, data } = this.state;
-    const { padding = { xs: 10, sm: 15, md: 24 }, margin, border, elevation } = this.props;
-    return (
-      <Card elevation={elevation} margin={margin} padding={padding} border={border} style={{ minWidth: '500px' }}>
-        <Row alignItems="center">
-          <Col span={10} alignSelf="stretch">
-            <CardHeader subtitle={`${data.length} item(s)`} />
-            {this.displayList()}
-          </Col>
-          <Col span={4}>
-            <Button
-              displayBlock
-              flat
-              disabled={!selectedLeft.length}
-              icon={<MdKeyboardArrowRight />}
-              type="primary"
-              onClick={() => this.transfer('right')}
-            />
-            <Button
-              displayBlock
-              flat
-              disabled={!selectedRight.length}
-              icon={<MdKeyboardArrowLeft />}
-              type="primary"
-              onClick={() => this.transfer('left')}
-            />
-          </Col>
-          <Col span={10} alignSelf="stretch">
-            <CardHeader subtitle={`${this.props.values.length} item(s)`} />
-            {this.displayValue()}
-          </Col>
-        </Row>
-      </Card>
-    );
-  }
+  const { padding = { xs: 10, sm: 15, md: 24 }, margin, border, elevation } = props;
+  return (
+    <Card
+      elevation={elevation}
+      margin={margin}
+      padding={padding}
+      border={border}
+      style={{ minWidth: '500px' }}
+      className="sha-el-transfer"
+    >
+      <Row alignItems="center">
+        <Col span={10} alignSelf="stretch" className="list-column">
+          <CardHeader subtitle={`${data.length - values.length} item(s)`} />
+          {displayList()}
+        </Col>
+        <Col span={4} className="button-column">
+          <Button
+            displayBlock
+            flat
+            disabled={!selectedLeft.length}
+            icon={<MdKeyboardArrowRight />}
+            type="primary"
+            onClick={() => transfer('right')}
+          />
+          <Button
+            displayBlock
+            flat
+            disabled={!selectedRight.length}
+            icon={<MdKeyboardArrowLeft />}
+            type="primary"
+            onClick={() => transfer('left')}
+          />
+        </Col>
+        <Col span={10} alignSelf="stretch" className="value-column">
+          <CardHeader subtitle={`${values.length} item(s)`} />
+          {displayValue()}
+        </Col>
+      </Row>
+    </Card>
+  );
 }
+
+Transfer.defaultProps = {
+  elevation: 0,
+};
