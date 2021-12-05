@@ -37,6 +37,6 @@ export { List, ListItem, CollapsibleList } from './components/List';
 export { Tooltip } from './components/Tooltip';
 export { Text } from './components/Text';
 export { Upload } from './components/Upload';
-export { Slider, Range, SliderHandle } from './components/Slider';
+export { Slider } from './components/Slider';
 export { Step, Stepper } from './components/Stepper';
 export { Portal } from './components/Portal';

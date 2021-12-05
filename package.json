@@ -31,10 +31,8 @@
     "csstips": "^1.2.0",
     "debounce": "^1.2.0",
     "rc-slider": "^9.6.2",
-    "rc-tooltip": "^4.2.1",
     "react-popper": "^2.2.5",
     "react-pose": "^4.0.10",
-    "react-pose-text": "^3.1.0",
     "rxjs": "^6.6.2"
   },
   "devDependencies": {

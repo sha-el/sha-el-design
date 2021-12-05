@@ -1,6 +1,75 @@
+import { css } from '@emotion/css';
+import Color from 'color';
 import { colorShades } from '../../helpers/color';
 import { shadow } from '../../helpers/style';
+import { zLayoutPopUp } from '../../helpers/zIndex';
 import { Theme } from '../Theme/Theme';
+
+export const style = (theme: Theme, active: boolean) => {
+  const [, , borderColor, handleColor, railColor] = colorShades(theme.primary);
+
+  return {
+    slider: css({
+      position: 'relative',
+      boxSizing: 'border-box',
+      width: '100%',
+      cursor: 'pointer',
+      '& .sha-el-slider-rail': {
+        width: '100%',
+        height: '5px',
+        borderRadius: '2.5px',
+        background: railColor,
+        cursor: 'pointer',
+      },
+      '& .sha-el-slider-track': {
+        position: 'absolute',
+        height: '5px',
+        borderRadius: '2.5px',
+        background: theme.primary,
+        top: 0,
+      },
+      '& .sha-el-slider-handle': {
+        width: '14px',
+        height: '14px',
+        position: 'absolute',
+        background: theme.background,
+        border: `2px solid ${borderColor}`,
+        transform: 'translateX(-50%)',
+        borderRadius: '100%',
+        marginTop: '-9px',
+        boxSizing: 'border-box',
+        ...(active
+          ? {
+              scale: '1.3',
+              background: handleColor,
+            }
+          : {}),
+        '&:hover': {
+          scale: '1.3',
+          background: handleColor,
+          '& ~ .sha-el-slider-tooltip': {
+            opacity: 1,
+          },
+        },
+        '&:active': {
+          boxShadow: shadow('2X', theme),
+        },
+      },
+      '& .sha-el-slider-tooltip': {
+        position: 'absolute',
+        top: '-40px',
+        textAlign: 'center',
+        width: '40px',
+        boxSizing: 'border-box',
+        opacity: active ? 1 : 0,
+        backgroundColor: colorShades(Color(theme.background).negate().toString())[4],
+        color: theme.background,
+        borderRadius: '4px',
+        zIndex: zLayoutPopUp,
+      },
+    }),
+  };
+};
 
 export const rcSliderStyle = (theme: Theme) => {
   const railColor = colorShades(theme.primary)[4];

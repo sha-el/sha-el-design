@@ -26,7 +26,7 @@ export const initBorders = (theme: Theme) => {
   let values = '';
   const color = Color(theme.bodyBg);
 
-  const shadows: string[] = color.lightness() < 0.7 ? lightThemeShadows(theme) : darkThemeShadows(theme);
+  const shadows: string[] = color.lightness() < 70 ? lightThemeShadows(theme) : darkThemeShadows(theme);
 
   shadows.forEach((shadow, index) => {
     values += `
@@ -40,7 +40,7 @@ export const initBorders = (theme: Theme) => {
 };
 
 export const getBorders = (theme: Theme, value: number) => {
-  const shadows: string[] = Color(theme.bodyBg).lightness() < 0.7 ? lightThemeShadows(theme) : darkThemeShadows(theme);
+  const shadows: string[] = Color(theme.bodyBg).lightness() < 70 ? lightThemeShadows(theme) : darkThemeShadows(theme);
   return shadows[value];
 };
 
