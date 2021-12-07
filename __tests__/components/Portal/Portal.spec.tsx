@@ -29,13 +29,15 @@ describe('Portal', () => {
   it('should not render if document in not defined', () => {
     jest.useFakeTimers();
 
-    const document = global.document;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const document = (global as any).document;
     global.document = undefined;
     render(portal({}));
 
     jest.runAllTimers();
 
-    global.document = document;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (global as any).document = document;
     jest.runAllTimers();
 
     expect(document.querySelector('sha-el-portal')).toBeDefined();
