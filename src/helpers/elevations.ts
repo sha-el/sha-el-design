@@ -79,7 +79,7 @@ export const initElevations = (theme: Theme) => {
   let values = '';
   const color = Color(theme.bodyBg);
 
-  const shadows: string[] = color.lightness() < 0.7 ? lightThemeShadows : darkThemeShadows;
+  const shadows: string[] = color.lightness() < 70 ? lightThemeShadows : darkThemeShadows;
 
   shadows.forEach((shadow, index) => {
     values += `
