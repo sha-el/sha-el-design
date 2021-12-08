@@ -18,8 +18,7 @@ export const InlineMenu: Story<MenuProps> = (args) => (
     <MenuItem>Option 2</MenuItem>
     <MenuItem>Option 3</MenuItem>
     <Menu
-      trigger="onHover"
-      position="right"
+      trigger="onMouseOver"
       anchor={
         <MenuItem action={<MdChevronRight />} icon={<MdAcUnit />}>
           More
@@ -29,7 +28,7 @@ export const InlineMenu: Story<MenuProps> = (args) => (
       <MenuItem element={<a />}>Option 4</MenuItem>
       <MenuItem>Option 5</MenuItem>
       <MenuItem>Option 6</MenuItem>
-      <Menu trigger="onHover" position="right" anchor={<MenuItem icon={<MdAcUnit />}>Even More</MenuItem>}>
+      <Menu trigger="onMouseOver" placement="right" anchor={<MenuItem icon={<MdAcUnit />}>Even More</MenuItem>}>
         <MenuItem element={<a />}>Option 7</MenuItem>
         <MenuItem>Option 8</MenuItem>
         <MenuItem>Option 9</MenuItem>
@@ -44,8 +43,7 @@ export const HorizontalMenu: Story<MenuProps> = (args) => (
     <MenuItem>Option 2</MenuItem>
     <MenuItem>Option 3</MenuItem>
     <Menu
-      trigger="onHover"
-      position="right"
+      trigger="onMouseOver"
       anchor={
         <MenuItem action={<MdExpandMore />} icon={<MdAcUnit />}>
           More
@@ -55,7 +53,7 @@ export const HorizontalMenu: Story<MenuProps> = (args) => (
       <MenuItem element={<a />}>Option 4</MenuItem>
       <MenuItem>Option 5</MenuItem>
       <MenuItem>Option 6</MenuItem>
-      <Menu trigger="onHover" position="right" anchor={<MenuItem icon={<MdAcUnit />}>Even More</MenuItem>}>
+      <Menu trigger="onMouseOver" placement="right" anchor={<MenuItem icon={<MdAcUnit />}>Even More</MenuItem>}>
         <MenuItem element={<a />}>Option 7</MenuItem>
         <MenuItem>Option 8</MenuItem>
         <MenuItem>Option 9</MenuItem>

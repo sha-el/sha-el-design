@@ -7,6 +7,7 @@ import { classes } from '../../helpers';
 import { getColor } from '../../helpers/color';
 import { MarginClassNameInput, marginCss } from '../../helpers/margin';
 import { PaddingClassNameInput, paddingCss } from '../../helpers/padding';
+import { Theme } from '../Theme/Theme';
 
 export interface ListItemProps extends Omit<React.HtmlHTMLAttributes<HTMLLIElement>, 'onChange'> {
   subtitle?: React.ReactNode;
@@ -21,7 +22,29 @@ export interface ListItemProps extends Omit<React.HtmlHTMLAttributes<HTMLLIEleme
   padding?: PaddingClassNameInput;
 }
 
-export const ListItem: React.FC<ListItemProps> = (props) => {
+type ElementProps = Partial<ListItemProps> & {
+  theme: Theme;
+} & React.HTMLProps<HTMLLIElement>;
+
+const Element = React.forwardRef<unknown, ElementProps>(
+  ({ element, className, onClick, selected, theme, style, ...p }, ref) =>
+    React.cloneElement(element || <li />, {
+      ref,
+      className: classes(className, paddingCss(0), 'list-item'),
+      onClick: onClick,
+      style: {
+        background: selected && theme.primary,
+        color: selected && getColor(theme.primary),
+        wrap: 'nowrap',
+        alignItems: 'center',
+        display: 'flex',
+        ...style,
+      },
+      ...p,
+    }),
+);
+
+export const ListItem = React.forwardRef<unknown, ListItemProps>((props, ref) => {
   const {
     style = {},
     onClick,
@@ -40,23 +63,16 @@ export const ListItem: React.FC<ListItemProps> = (props) => {
   const theme = useTheme();
   const css = listStyle(theme.background, !!onClick);
 
-  const Element: React.FC<unknown> = (p) =>
-    React.cloneElement(element || <li />, {
-      className: classes(className, css, paddingCss(0), 'list-item'),
-      onClick: onClick,
-      style: {
-        background: selected && theme.primary,
-        color: selected && getColor(theme.primary),
-        wrap: 'nowrap',
-        alignItems: 'center',
-        display: 'flex',
-        ...style,
-      },
-      ...p,
-    });
-
   return (
-    <Element {...rest}>
+    <Element
+      theme={theme}
+      ref={ref}
+      style={style}
+      selected={selected}
+      element={element}
+      className={classes(className, css)}
+      {...rest}
+    >
       {avatar && (
         <div className={classes(marginCss(margin), paddingCss(padding))} style={{ flex: '0 1 auto' }}>
           {avatar}
@@ -77,4 +93,4 @@ export const ListItem: React.FC<ListItemProps> = (props) => {
       )}
     </Element>
   );
-};
+});
