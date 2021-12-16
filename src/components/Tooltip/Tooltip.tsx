@@ -135,7 +135,7 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
   useEffect(() => {
     if (visible) {
       attachEvents(Array.isArray(trigger) ? trigger[0] : trigger);
-      forceUpdate();
+      forceUpdate?.();
       updateTooltipState(true);
     } else {
       onClose();
