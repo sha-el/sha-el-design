@@ -71,6 +71,7 @@ export const ListItem = React.forwardRef<unknown, ListItemProps>((props, ref) =>
       selected={selected}
       element={element}
       className={classes(className, css)}
+      onClick={onClick}
       {...rest}
     >
       {avatar && (
