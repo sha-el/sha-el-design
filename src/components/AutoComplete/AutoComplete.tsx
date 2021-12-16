@@ -12,7 +12,7 @@ import { Skeleton } from '../Loading';
 export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State<T>> {
   dataActualLength = 0;
 
-  constructor(props) {
+  constructor(props: AutoCompleteProps<T>) {
     super(props);
 
     this.state = {
@@ -50,7 +50,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
       return;
     }
     if (!open) {
-      return this.setState({ open, selected: -1, search: '' }, callback);
+      return this.setState({ open, selected: this.props.mode === 'keywords' ? 0 : -1, search: '' }, callback);
     }
     open && this.fetchData();
     this.setState({ open }, callback);
@@ -126,7 +126,15 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
     return [
       before,
       ...(value as T[]).map((v) => (
-        <Tag color="#aaa" textColor="light" onClick={() => this.onChange(v)} outline key={uniqueIdentifier(v)}>
+        <Tag
+          color="#aaa"
+          textColor="light"
+          chips
+          elevation={0}
+          style={{ border: 'none', background: 'transparent', textTransform: 'none', fontWeight: 400 }}
+          onClick={() => this.onChange(v)}
+          key={uniqueIdentifier(v)}
+        >
           {displayValue(v)}
         </Tag>
       )),
@@ -251,7 +259,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
     return (
       <Popover
         trigger="onClick"
-        placement="bottom"
+        placement="bottom-start"
         overlay={this.displayList()}
         onVisibleChange={(v) => this.onOpen(v)}
         visible={open}
@@ -291,7 +299,7 @@ export interface SingleAutoComplete<T> extends BaseAutoComplete<T> {
 }
 
 export interface MultiAutoComplete<T> extends BaseAutoComplete<T> {
-  mode?: 'multiple';
+  mode?: 'multiple' | 'keywords';
   value?: T[];
   onChange?: (value: T[]) => void;
 }
