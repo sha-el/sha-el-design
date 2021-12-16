@@ -16,7 +16,6 @@ export default {
 
 const Template: Story<StepperProps> = (args) => {
   const [step, updateStep] = React.useState(0);
-  console.log(step);
   return (
     <div style={{ minWidth: '800px' }}>
       <Stepper {...args} current={step} onChange={updateStep} />
@@ -30,30 +29,18 @@ const Template: Story<StepperProps> = (args) => {
 export const Basic = Template.bind({});
 Basic.args = {
   children: [
-    <Step title="Enter User Details" description="This is a description text" key="1" icon={<MdHome />}>
-      Step 1
-    </Step>,
-    <Step title="Enter Company Details" key="2">
-      Step 2
-    </Step>,
-    <Step key="3" icon={<MdClearAll />}>
-      Step 3
-    </Step>,
+    <Step title="Enter User Details" description="This is a description text" key="1" icon={<MdHome />} />,
+    <Step title="Enter Company Details" key="2" />,
+    <Step key="3" icon={<MdClearAll />} />,
   ],
 };
 
 export const Error = Template.bind({});
 Error.args = {
   children: [
-    <Step title="Enter User Details" error="Some error" key="1" icon={<MdHome />}>
-      Step 1
-    </Step>,
-    <Step title="Enter Company Details" key="2">
-      Step 2
-    </Step>,
-    <Step key="3" icon={<MdClearAll />}>
-      Step 3
-    </Step>,
+    <Step title="Enter User Details" error="Some error" key="1" icon={<MdHome />} />,
+    <Step title="Enter Company Details" key="2" />,
+    <Step key="3" icon={<MdClearAll />} />,
   ],
 };
 
@@ -61,14 +48,8 @@ export const NonLinear = Template.bind({});
 NonLinear.args = {
   nonLinear: true,
   children: [
-    <Step error="Some error" key="1" icon={<MdHome />}>
-      Step 1
-    </Step>,
-    <Step title="Enter Company Details" key="2">
-      Step 2
-    </Step>,
-    <Step title="Disabled Step" disabled key="3" icon={<MdClearAll />}>
-      Step 3
-    </Step>,
+    <Step error="Some error" key="1" icon={<MdHome />} />,
+    <Step title="Enter Company Details" key="2" />,
+    <Step title="Disabled Step" disabled key="3" icon={<MdClearAll />} />,
   ],
 };

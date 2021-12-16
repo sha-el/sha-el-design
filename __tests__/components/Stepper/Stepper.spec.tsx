@@ -7,26 +7,18 @@ import { MdHome, MdClearAll } from 'react-icons/md';
 const renderStep = (current?: number) =>
   render(
     <Stepper current={current}>
-      <Step error="Error" title="1" description="This is a description text" key="1" icon={<MdHome />}>
-        Step 1
-      </Step>
-      <Step disabled title="Enter Step 2" key="2">
-        Step 2
-      </Step>
-      <Step key="3" title="3" icon={<MdClearAll />}>
-        Step 3
-      </Step>
+      <Step error="Error" title="1" description="This is a description text" key="1" icon={<MdHome />} />
+      <Step disabled title="Enter Step 2" key="2" />
+      <Step key="3" title="3" icon={<MdClearAll />} />
     </Stepper>,
   );
 
 const renderNonLinearStep = (current?: number, onChange?: (e: number) => void) =>
   render(
     <Stepper nonLinear onChange={onChange} current={current}>
-      <Step icon={<MdHome title="icon" />} title="1">
-        Step 1
-      </Step>
-      <Step title="Title 2">Step 2</Step>
-      <Step>Step 3</Step>
+      <Step icon={<MdHome title="icon" />} title="1" />
+      <Step title="Title 2" />
+      <Step />
     </Stepper>,
   );
 
@@ -35,11 +27,9 @@ describe('Stepper', () => {
     renderStep();
 
     const row = document.querySelector('.sha-el-row');
-    const carousel = document.body.children[2].children[1];
 
     // 3 icons, 3 title and 2 <Divider />
     expect(row.children.length).toBe(3 + 3 + 2);
-    expect(carousel.children[0].children.length).toBe(3);
   });
 
   it('should render a step with error', () => {
@@ -96,11 +86,5 @@ describe('Stepper', () => {
     expect(document.querySelector('.sha-el-row').children[6]).toHaveStyle(`
       color: rgb(33, 150, 243);
     `);
-  });
-
-  it('should render a step', () => {
-    render(<Step>Hello</Step>);
-
-    expect(screen.getByText('Hello').innerHTML).toBe('Hello');
   });
 });

@@ -11,7 +11,11 @@ export const Tag: React.FC<TagProps> = (props) => {
   const { tag: tagCss, chipIcon, icon: iconCss } = style({ props, theme });
 
   return (
-    <span className={classes(tagCss, elevationCss(2))} onClick={(e) => props?.onClick(e)} style={props.style}>
+    <span
+      className={classes(tagCss, elevationCss(props.elevation))}
+      onClick={(e) => props?.onClick(e)}
+      style={props.style}
+    >
       {props.icon && <span className={iconCss}>{props.icon}</span>}
       <span>{props.children}</span>
       {props.chips && (
@@ -32,9 +36,11 @@ export interface TagProps {
   outline?: boolean;
   chips?: boolean;
   icon?: React.ReactNode;
+  elevation?: number;
 }
 
 Tag.defaultProps = {
   style: {},
   color: '#aaa',
+  elevation: 2,
 };

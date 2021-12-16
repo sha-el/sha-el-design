@@ -116,7 +116,7 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
   const [referenceElement, setReferenceElement] = useState<HTMLElement>(null);
   const [popperElement, setPopperElement] = useState<HTMLElement>(null);
   const [arrowElement, setArrowElement] = useState<HTMLElement>(null);
-  const { styles, attributes } = usePopper(referenceElement, popperElement, {
+  const { styles, attributes, forceUpdate } = usePopper(referenceElement, popperElement, {
     modifiers: [{ name: 'arrow', options: { element: arrowElement } }],
     placement,
   });
@@ -135,6 +135,7 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
   useEffect(() => {
     if (visible) {
       attachEvents(Array.isArray(trigger) ? trigger[0] : trigger);
+      forceUpdate?.();
       updateTooltipState(true);
     } else {
       onClose();

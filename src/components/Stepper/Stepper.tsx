@@ -2,7 +2,6 @@ import React from 'react';
 import { MdCheck } from 'react-icons/md';
 import { classes } from '../../helpers';
 import { lightText } from '../../helpers/color';
-import { Carousel } from '../Carousel';
 import { Divider } from '../Divider';
 import { Col, Row } from '../Grid';
 import { Text } from '../Text';
@@ -74,7 +73,7 @@ export const Stepper: React.FC<StepperProps> = (props) => {
                 onClick={() => nonLinear && !el.props.disabled && onChange(i)}
                 className={classes(css.number, numberCss, css.container, nonLinear && css.clickable)}
               >
-                {i + 1}
+                <Text style={{ lineHeight: 1.3 }}>{i + 1}</Text>
               </Col>
             );
           }
@@ -116,13 +115,11 @@ export const Stepper: React.FC<StepperProps> = (props) => {
           );
         })}
       </Row>
-      <Carousel hideDots current={current} width="100%">
-        {children.map((el) => el.props.children)}
-      </Carousel>
+      {children[current]}
     </>
   );
 };
 
-export const Step: React.FC<StepProps> = (props) => {
-  return <div>{props.children}</div>;
+export const Step: React.FC<StepProps> = () => {
+  return <div />;
 };

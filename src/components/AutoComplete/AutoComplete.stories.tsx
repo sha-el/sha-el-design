@@ -106,3 +106,21 @@ export const CustomAnchorElement: Story<SingleAutoComplete<string>> = () => {
     </AutoComplete>
   );
 };
+
+export const Keywords: Story<MultiAutoComplete<string>> = () => {
+  const [value, update] = React.useState(['Clark', 'Arthur']);
+
+  return (
+    <AutoComplete<string>
+      mode="keywords"
+      data={(s) => [s, 'Bruce', 'Clark', 'Arthur', 'Diana']}
+      uniqueIdentifier={(e) => e}
+      listDisplayProp={(e) => e}
+      label="Select Alter Ego"
+      value={value}
+      displayValue={(e) => e as string}
+      onChange={(e: string[]) => update(e)}
+      searchValue={(e) => e}
+    />
+  );
+};
