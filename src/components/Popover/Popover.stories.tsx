@@ -200,10 +200,13 @@ export const Nested: Story<PopoverProps> = (args) => (
     overlay={
       <Popover
         {...args}
+        className="some random name"
         overlay={
-          <Text margin="15px" variant="h4">
-            Content
-          </Text>
+          <div>
+            <Text margin="15px" variant="h4">
+              Content
+            </Text>
+          </div>
         }
       >
         <Button>Hello</Button>

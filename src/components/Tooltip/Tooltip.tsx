@@ -111,6 +111,9 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
     visible,
     hideArrow,
     onVisibleChange,
+    arrowClassName,
+    arrowStyle,
+    strategy,
   } = props;
 
   const [referenceElement, setReferenceElement] = useState<HTMLElement>(null);
@@ -119,6 +122,7 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
   const { styles, attributes, forceUpdate } = usePopper(referenceElement, popperElement, {
     modifiers: [{ name: 'arrow', options: { element: arrowElement } }],
     placement,
+    strategy,
   });
 
   const [isOpen, updateTooltipState] = useState(visible || false);
@@ -144,6 +148,7 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
   }, [visible]);
 
   const handleVisible = (actionType: ActionType) => {
+    forceUpdate?.();
     if (!trigger.includes(actionType)) {
       return;
     }
@@ -238,8 +243,8 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
             {!hideArrow && (
               <div
                 ref={setArrowElement}
-                style={{ ...styles.arrow, ...props.arrowStyle }}
-                className={classes('arrow', css.arrow)}
+                style={{ ...styles.arrow, ...arrowStyle }}
+                className={classes('arrow', css.arrow, arrowClassName)}
               />
             )}
           </div>
@@ -254,6 +259,7 @@ Tooltip.defaultProps = {
   placement: 'bottom',
   trigger: 'onMouseOver',
   elevation: 12,
+  strategy: 'absolute',
   overlay: '',
   style: {},
   arrowStyle: {},

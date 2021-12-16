@@ -65,7 +65,6 @@ export const TimePicker: React.FC<TimePickerProps> = (props) => {
           handleInputValueUpdate((target as HTMLInputElement).value);
         }
         if (key === 'ArrowDown') {
-          console.log('hello');
           updateVisible(true);
         }
 

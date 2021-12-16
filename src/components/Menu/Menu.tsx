@@ -48,7 +48,6 @@ export const Menu: React.FC<MenuProps> = (props) => {
 
   return (
     <Popover
-      expand={!placement}
       hideArrow
       overlay={
         <List densed={densed} style={{ maxHeight: height, overflow: 'auto' }} elevation={elevation}>
