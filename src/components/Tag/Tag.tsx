@@ -11,9 +11,9 @@ export const Tag: React.FC<TagProps> = (props) => {
   const { tag: tagCss, chipIcon, icon: iconCss } = style({ props, theme });
 
   return (
-    <span
+    <div
       className={classes(tagCss, elevationCss(props.elevation))}
-      onClick={(e) => props?.onClick(e)}
+      onClick={(e) => props?.onClick?.(e)}
       style={props.style}
     >
       {props.icon && <span className={iconCss}>{props.icon}</span>}
@@ -23,7 +23,7 @@ export const Tag: React.FC<TagProps> = (props) => {
           <MdClear />
         </span>
       )}
-    </span>
+    </div>
   );
 };
 
