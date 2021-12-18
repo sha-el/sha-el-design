@@ -12,7 +12,7 @@ export const Tag: React.FC<TagProps> = (props) => {
 
   return (
     <div
-      className={classes(tagCss, elevationCss(props.elevation))}
+      className={classes(tagCss, elevationCss(props.elevation), 'sha-el-tag')}
       onClick={(e) => props?.onClick?.(e)}
       style={props.style}
     >
