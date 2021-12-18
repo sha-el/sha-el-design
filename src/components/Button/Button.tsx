@@ -24,6 +24,7 @@ export const Button = React.forwardRef<HTMLButtonElement & HTMLAnchorElement, Bu
     danger,
     link,
     padding,
+    type,
     ...rest
   } = props;
 
@@ -106,6 +107,7 @@ export const Button = React.forwardRef<HTMLButtonElement & HTMLAnchorElement, Bu
         !loading && onClick && onClick(e)
       }
       ref={ref}
+      type={loading ? 'button' : (type as 'button')}
       {...buttonProps}
     >
       {icon}

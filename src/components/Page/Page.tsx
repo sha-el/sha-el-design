@@ -30,7 +30,14 @@ export const Page: React.FC<PageProps> = (props) => {
             <Row alignItems="center" justifyContent="space-between">
               {props.tabs && (
                 <Col flex="1 0 auto">
-                  <TabHeader titles={props.tabs.headers} activeKey={activeKey} onClick={setActiveKey} />
+                  <TabHeader
+                    titles={props.tabs.headers}
+                    activeKey={activeKey}
+                    onClick={(e) => {
+                      setActiveKey(e);
+                      props?.tabs?.onChange?.(e);
+                    }}
+                  />
                 </Col>
               )}
               <Col flex="0 1 auto">{props.bottom}</Col>
@@ -64,5 +71,6 @@ export interface PageProps {
     panels: React.ReactElement<TabPanelProps> | React.ReactElement<TabPanelProps>[];
     defaultActiveKey: string;
     unMountOnChange?: boolean;
+    onChange?: (e: string) => void;
   };
 }

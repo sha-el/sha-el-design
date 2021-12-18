@@ -4,7 +4,7 @@ a {
 }
 
 body {
-	font-family: 'Montserrat', sans-serif;
+	font-family: 'Roboto', sans-serif;
 	color: var(--color);
 	font-size: 14px;
 	font-weight: 400;

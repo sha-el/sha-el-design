@@ -30,9 +30,11 @@ describe('Tag', () => {
       );
     });
 
-    const tag = document.querySelector('span');
+    const tag: HTMLDivElement = document.querySelector('.sha-el-tag');
 
-    tag.click();
+    act(() => {
+      tag.click();
+    });
     expect(fn).toBeCalledTimes(1);
 
     expect(tag.innerHTML).toBe('<span>Basic</span>');
@@ -43,9 +45,7 @@ describe('Tag', () => {
     text-align: center;
     align-items: center;
     font-weight: bold;
-    line-height: 36px;
     letter-spacing: 1px;
-    line-height: 22px;
     text-transform: uppercase;
     `);
   });
@@ -59,7 +59,7 @@ describe('Tag', () => {
         container,
       );
 
-      const tag = document.querySelector('span');
+      const tag = document.querySelector('.sha-el-tag');
 
       expect(tag).toHaveStyle(`
         color: red;
@@ -77,7 +77,7 @@ describe('Tag', () => {
       );
     });
 
-    const tag = document.querySelector('span');
+    const tag = document.querySelector('.sha-el-tag');
 
     expect(tag).toHaveStyle(`
       padding: 10px;
@@ -93,7 +93,7 @@ describe('Tag', () => {
         container,
       );
 
-      const tag = document.querySelector('span');
+      const tag = document.querySelector('.sha-el-tag');
 
       expect(tag).toHaveStyle(`
         border: 1px solid red;
@@ -131,7 +131,7 @@ describe('Tag', () => {
       );
     });
 
-    const tag = document.querySelector('span');
+    const tag: HTMLDivElement = document.querySelector('.sha-el-tag');
 
     tag.click();
 

@@ -95,6 +95,7 @@ Block.args = {
 
 export const Loading = MixedTemplate.bind({});
 Loading.args = {
+  type: 'submit',
   loading: true,
 };
 

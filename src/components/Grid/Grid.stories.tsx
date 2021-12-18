@@ -9,8 +9,8 @@ import { useTheme } from '../Theme/Theme';
 
 export default {
   title: 'Layout/Grid',
-  component: Col,
-  subcomponents: { Row },
+  component: Row,
+  subcomponents: { Col },
   argTypes: {
     // backgroundColor: { control: 'color' },
   },
@@ -19,14 +19,14 @@ export default {
 const RowTemplate: Story<RowProps> = (args) => <Row {...args} />;
 
 RowTemplate.args = {
-  style: { textAlign: 'center', color: 'white' },
+  style: { textAlign: 'center', color: 'white', background: 'green' },
 };
 
 export const Span: Story<ColProps> = (args) => {
   const theme = useTheme();
   return (
-    <Row {...RowTemplate.args}>
-      <Col span={24} {...args}>
+    <Row {...RowTemplate.args} {...args}>
+      <Col span={24}>
         <Card elevation={0} style={{ borderRadius: '0', background: theme.primary }}>
           Span 24
         </Card>
