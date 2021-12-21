@@ -29,6 +29,7 @@ export const sidePanel = (theme: Theme, width: number) => {
       width: width + 'px',
       flex: `0 1 60px`,
       maxHeight: '100%',
+      height: '100vh',
       color,
       background,
       transition: '.3s all',
@@ -65,13 +66,6 @@ export const sidePanel = (theme: Theme, width: number) => {
       position: 'fixed',
       top: '20px',
       left: width - 10 + 'px',
-    }),
-    line: css({
-      position: 'fixed',
-      height: '110vh',
-      left: width / 2 + 'px',
-      width: '2px',
-      background: theme.primary,
     }),
     bottom: css({
       position: 'fixed',
