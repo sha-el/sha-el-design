@@ -149,25 +149,6 @@ describe('Layout', () => {
     expect(resizer.innerHTML).toBe('');
   });
 
-  it('Should check line between sidepanel and bottom', async () => {
-    await act(async () => {
-      render(<CreateLayout />);
-    });
-
-    const container = document.querySelector('.sha-el-conatiner');
-    const sidePanel = container.querySelector('.sha-el-side-panel');
-
-    const line = sidePanel.querySelector('.line');
-    expect(line).toBeDefined();
-    expect(line).toHaveStyle(`
-    position: fixed;
-    height: 110vh;
-    left: 30px;
-    width: 2px;
-    background: #536DFE;
-    `);
-  });
-
   it('Should open sidepanel', async () => {
     jest.useFakeTimers();
     await act(async () => {
@@ -327,6 +308,11 @@ describe('Layout', () => {
     const settingButton = sidePanelBottom.querySelector('button');
     act(() => {
       fireEvent.click(settingButton);
+    });
+    expect(document.querySelector('.drawer')).toBeNull();
+
+    act(() => {
+      fireEvent.click(sidePanelBottom.querySelectorAll('div')[0]);
     });
     expect(document.querySelector('.drawer')).toBeNull();
   });
