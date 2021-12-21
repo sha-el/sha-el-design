@@ -61,7 +61,7 @@ const Inner: React.FC<InnerProps> = (props) => {
         onMouseLeave={() => updateDrawerButton(false)}
       >
         <Row style={{ overflowX: 'hidden', maxWidth: width + 'px' }} wrap="nowrap">
-          <Col style={{ padding: '0 5px' }} flex="0 0 60px" className={elevationCss(3)}>
+          <Col style={{ padding: '0 5px' }} flex="0 0 60px">
             {props.logo && <div className={css.logo}>{props.logo}</div>}
             {children.map((v, i) => (
               <div className={css.item} key={`item-${i}`} onClick={() => onOpen(v, i, false, toggle)}>
@@ -95,7 +95,6 @@ const Inner: React.FC<InnerProps> = (props) => {
             />
           )}
         </div>
-        {!drawer && <div className={classes(css.line, 'line')} />}
       </div>
       <div className={classes(css.bottom, 'sha-el-side-panel-bottom')}>
         {bottom.map((v, i) => (
