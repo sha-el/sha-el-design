@@ -95,6 +95,26 @@ export interface TooltipProps extends SurfaceProps {
    * Style object for arrow
    */
   arrowStyle?: React.CSSProperties;
+  /**
+   * Delay for tooltip closing in miliseconds
+   */
+  delay?: number;
+  /**
+   * Event will be passed to the child
+   */
+  onClick?: (e: React.MouseEvent) => void;
+  /**
+   * Event will be passed to the child
+   */
+  onFocus?: (e: React.FocusEvent) => void;
+  /**
+   * Event will be passed to the child
+   */
+  onBlur?: (e: React.FocusEvent) => void;
+  /**
+   * Event will be passed to the child
+   */
+  onMouseOver?: (e: React.MouseEvent) => void;
 }
 
 export const Tooltip: React.FC<TooltipProps> = (props) => {
@@ -134,7 +154,7 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
     document.body.removeEventListener('click', handleClose);
   };
 
-  const debouncedFn = debounce(onClose, 300);
+  const debouncedFn = debounce(onClose, props.delay || 0);
 
   useEffect(() => {
     if (visible) {
@@ -203,21 +223,24 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
           props.referenceElement?.(e);
         },
         onClick: (e: React.MouseEvent) => {
-          e.stopPropagation();
           handleVisible('onClick');
           children.props.onClick?.(e);
+          props.onClick?.(e);
         },
         onFocus: (e: React.FocusEvent) => {
           handleVisible('onFocus');
           children.props.onFocus?.(e);
+          props.onFocus?.(e);
         },
         onMouseOver: (e: React.MouseEvent) => {
           handleVisible('onMouseOver');
           children.props.onMouseEnter?.(e);
+          props.onMouseOver?.(e);
         },
         onBlur: (e: React.FocusEvent) => {
           handleVisible('onFocus');
           children.props.onBlur?.(e);
+          props.onBlur?.(e);
         },
       })}
       <Portal dom={dom.element}>

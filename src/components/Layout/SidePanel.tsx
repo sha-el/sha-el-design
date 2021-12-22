@@ -48,7 +48,7 @@ const Inner: React.FC<InnerProps> = (props) => {
     setTimeout(() => toggleDrawer(true), 200);
   };
 
-  const { width, toggle } = props;
+  const { width, toggle, hideResizer } = props;
 
   const theme = useTheme();
   const css = style(theme, width);
@@ -85,7 +85,7 @@ const Inner: React.FC<InnerProps> = (props) => {
           )}
         </Row>
         <div className={classes(css.resizer, 'resizer')}>
-          {drawerButton && (
+          {drawerButton && !hideResizer && (
             <Button
               onClick={() => onOpen(children[0], activeDrawer, !!drawer, toggle)}
               shape="circle"
@@ -111,6 +111,7 @@ export interface SidePanelProps {
   children: React.ReactElement[] | React.ReactElement;
   bottom?: React.ReactElement[] | React.ReactElement;
   logo?: React.ReactNode;
+  hideResizer?: boolean;
 }
 
 interface InnerProps extends SidePanelProps {
