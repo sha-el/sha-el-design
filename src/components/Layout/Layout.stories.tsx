@@ -17,7 +17,7 @@ import { Button } from '../Button';
 import { Divider } from '../Divider';
 import { Popover } from '../..';
 import { List, ListItem } from '../List';
-import { Card } from '../Card';
+import { Basic } from '../Page/Page.stories';
 import { Tooltip } from '../Tooltip';
 
 export default {
@@ -58,7 +58,13 @@ export const BasicLayout: Story = () => (
         </Menu>,
       ]}
     >
-      <Menu anchor={<Button icon={<MdAcUnit />} flat displayBlock size="big" />}>
+      <Menu
+        anchor={
+          <Tooltip overlay="Link 1" placement="right">
+            <Button icon={<MdAcUnit />} flat displayBlock size="big" />
+          </Tooltip>
+        }
+      >
         <MenuItem icon={<MdHome />}>Home</MenuItem>
         <MenuItem icon={<MdHome />} active>
           NAV 1
@@ -77,7 +83,7 @@ export const BasicLayout: Story = () => (
       </Tooltip>
     </SidePanel>
     <Content>
-      <Card>Container</Card>
+      <Basic />
     </Content>
   </Container>
 );

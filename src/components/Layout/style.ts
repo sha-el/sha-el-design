@@ -1,6 +1,6 @@
 import { css } from '@emotion/css';
 import { getColor } from '../../helpers/color';
-import { zIndexBase } from '../../helpers/zIndex';
+import { zAboveBase, zIndexBase } from '../../helpers/zIndex';
 import { Theme } from '../Theme/Theme';
 
 export const container = css({
@@ -66,6 +66,7 @@ export const sidePanel = (theme: Theme, width: number) => {
       position: 'fixed',
       top: '20px',
       left: width - 10 + 'px',
+      zIndex: zAboveBase,
     }),
     bottom: css({
       position: 'fixed',

@@ -5,7 +5,6 @@ import { Theme } from '../Theme/Theme';
 
 export const style = (theme: Theme) => ({
   header: css({
-    padding: '0px 1.5%',
     background: theme.background,
     color: theme.textColor,
     boxShadow: shadow('2X', theme),
