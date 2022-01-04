@@ -5,14 +5,14 @@ import { SwitchProps } from './Switch';
 
 export const style = (props: SwitchProps, theme: Theme) => {
   let trackBackground = props.checked ? colorShades(theme[props.color] || props.color, 'light')[3] : lightText(theme);
-  let thumbBackgroung = props.checked ? theme[props.color] || props.color : 'white';
+  let thumbBackground = props.checked ? theme[props.color] || props.color : 'white';
 
   if (props.disabled) {
     trackBackground = props.checked
       ? colorShades(theme[props.color] || props.color, 'light')[5]
       : colorShades(lightText(theme))[2];
 
-    thumbBackgroung = props.checked ? colorShades(theme[props.color] || props.color, 'light')[5] : 'white';
+    thumbBackground = props.checked ? colorShades(theme[props.color] || props.color, 'light')[5] : 'white';
   }
 
   return {
@@ -55,7 +55,7 @@ export const style = (props: SwitchProps, theme: Theme) => {
       width: props.size === 'small' ? '14px' : '20px',
       height: props.size === 'small' ? '14px' : '20px',
       borderRadius: '50%',
-      background: thumbBackgroung,
+      background: thumbBackground,
       transform: `translateX(${props.checked ? '16px' : '0'})`,
       transition: 'ease-in .1s',
     }),
