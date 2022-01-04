@@ -98,22 +98,36 @@ export const buttonColor = (
   return [backgroundColor, textColor, hoverBgColor, border];
 };
 
-export const colorShades = (color: string) => {
-  if (Color(color).lightness() > 0.6) {
-    return [
-      Color(color).darken(0.05).toString(),
-      Color(color).darken(0.08).toString(),
-      Color(color).darken(0.1).toString(),
-      Color(color).darken(0.13).toString(),
-      Color(color).darken(0.15).toString(),
-    ];
-  }
+export const colorShades = (color: string, type?: 'light' | 'dark') => {
+  const darkShades = [
+    Color(color).darken(0.05).toString(),
+    Color(color).darken(0.08).toString(),
+    Color(color).darken(0.1).toString(),
+    Color(color).darken(0.13).toString(),
+    Color(color).darken(0.15).toString(),
+    Color(color).darken(0.2).toString(),
+  ];
 
-  return [
+  const lightShades = [
     Color(color).lighten(0.05).toString(),
     Color(color).lighten(0.08).toString(),
     Color(color).lighten(0.1).toString(),
     Color(color).lighten(0.13).toString(),
     Color(color).lighten(0.15).toString(),
+    Color(color).lighten(0.2).toString(),
   ];
+
+  if (type && type === 'dark') {
+    return darkShades;
+  }
+
+  if (type && type === 'light') {
+    return lightShades;
+  }
+
+  if (Color(color).lightness() > 0.6) {
+    return darkShades;
+  }
+
+  return lightShades;
 };
