@@ -28,7 +28,6 @@ describe('Progress', () => {
     background: #536DFE;
     border-radius: 0 2px 2px 0;
     transition: all .4s cubic-bezier(.08,.82,.17,1) 0s;
-    box-shadow: 0 2px 4px 0 #536DFE;
     `);
   });
 
@@ -110,7 +109,6 @@ describe('Progress', () => {
     const progressLine = document.querySelector('.sha-el-progress-line');
     expect(progressLine).toHaveStyle(`
       background: #f06292;
-      box-shadow: 0 2px 4px 0 #f06292;
     `);
   });
 
@@ -120,7 +118,6 @@ describe('Progress', () => {
     const progressLine = document.querySelector('.sha-el-progress-line');
     expect(progressLine).toHaveStyle(`
       background: #ff9800;
-      box-shadow: 0 2px 4px 0 #ff9800;
     `);
   });
 
@@ -130,7 +127,6 @@ describe('Progress', () => {
     const progressLine = document.querySelector('.sha-el-progress-line');
     expect(progressLine).toHaveStyle(`
       background: #f44336;
-      box-shadow: 0 2px 4px 0 #f44336;
     `);
   });
 
@@ -140,7 +136,6 @@ describe('Progress', () => {
     const progressLine = document.querySelector('.sha-el-progress-line');
     expect(progressLine).toHaveStyle(`
       background: #2196f3;
-      box-shadow: 0 2px 4px 0 #2196f3;
     `);
   });
 });

@@ -1,6 +1,5 @@
 import { css } from '@emotion/css';
 import { colorShades } from '../../helpers/color';
-import { shadow } from '../../helpers/style';
 import { Theme } from '../Theme/Theme';
 import { ProgressProps } from './Progress';
 
@@ -19,7 +18,6 @@ export const style = (theme: Theme, props: ProgressProps) => {
       background: theme[props.status],
       borderRadius: '0 2px 2px 0',
       transition: 'all .4s cubic-bezier(.08,.82,.17,1) 0s',
-      boxShadow: shadow('BOT2X', theme, theme[props.status]),
     }),
     circle: css({
       transform: 'rotate(-90deg)',

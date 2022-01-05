@@ -4,6 +4,7 @@ import { useTheme } from '../Theme/Theme';
 import { Text } from '../Text/Text';
 import { style } from './style';
 import { classes } from '../../helpers';
+import { elevationCss } from '../../helpers/elevations';
 
 export const Progress: React.FC<ProgressProps> = (props) => {
   const theme = useTheme();
@@ -35,7 +36,7 @@ export const Progress: React.FC<ProgressProps> = (props) => {
   return (
     <Row>
       <Col style={{ padding: '0.5rem' }} flex="1 0 auto">
-        <div className={classes(css.container, 'sha-el-progress')}>
+        <div className={classes(css.container, 'sha-el-progress', elevationCss(props.elevation))}>
           <div style={{ width: props.percent + '%' }} className={classes(css.line, 'sha-el-progress-line')} />
         </div>
       </Col>
@@ -51,12 +52,13 @@ export const Progress: React.FC<ProgressProps> = (props) => {
 Progress.defaultProps = {
   type: 'line',
   status: 'primary',
+  elevation: 2,
 };
 
 export interface ProgressProps {
   percent: number;
   type?: 'circle' | 'line';
-  text?: string;
   status?: 'primary' | 'secondary' | 'warning' | 'error' | 'info';
   label?: React.ReactNode;
+  elevation?: number;
 }

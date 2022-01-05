@@ -43,6 +43,7 @@ export function initialize() {
       background: var(--background);
       color: var(--color);
       margin: 0;
+      min-height: 100vh;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -60,7 +61,6 @@ export function initialize() {
     ${topography}
     ${initMargins()}
     ${initPaddings()}
-    
   `;
   document.getElementsByTagName('head')[0].appendChild(style);
   initializeNotification();
