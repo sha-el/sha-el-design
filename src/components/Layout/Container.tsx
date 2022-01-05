@@ -1,25 +1,21 @@
 import * as React from 'react';
 import { classes } from '../../helpers';
+import { useWindowSize } from '../../helpers/Grid';
 import { container as style } from './style';
 
-export const [OPEN_WIDTH, COLLAPSED_WIDTH] = [250, 60];
-
-const ctx = React.createContext<{ width: number; toggle: () => void }>({
-  width: OPEN_WIDTH,
-  toggle: undefined,
+const ctx = React.createContext<{ width: number; updateWidth: (e: number) => void }>({
+  width: 50,
+  updateWidth: undefined,
 });
 
 export const SidePanelContext = ctx;
 
 export const Container: React.FC<ContainerProps> = (props) => {
-  const [width, updateWidth] = React.useState(COLLAPSED_WIDTH);
-
-  const toggle = () => {
-    updateWidth(width > COLLAPSED_WIDTH ? COLLAPSED_WIDTH : OPEN_WIDTH);
-  };
+  const [width, updateWidth] = React.useState(props.sidePanelInitialWidth || 50);
+  const { width: windowWidth } = useWindowSize();
 
   return (
-    <SidePanelContext.Provider value={{ width, toggle }}>
+    <SidePanelContext.Provider value={{ width: windowWidth < 1200 ? 0 : width, updateWidth }}>
       <div className={classes(style, 'sha-el-conatiner')}>{props.children}</div>
     </SidePanelContext.Provider>
   );
@@ -27,4 +23,5 @@ export const Container: React.FC<ContainerProps> = (props) => {
 
 export interface ContainerProps {
   children: React.ReactNode;
+  sidePanelInitialWidth?: number;
 }
