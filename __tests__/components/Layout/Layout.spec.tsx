@@ -152,14 +152,22 @@ describe('Layout', () => {
   });
 
   it('should render drawer for mobile', async () => {
+    jest.useFakeTimers();
+    const drawerChangeHandler = jest.fn();
+    window.resizeTo(1000, 100);
     await act(async () => {
-      render(<CreateLayout drawerOpen={true} />);
+      render(<CreateLayout drawerOpen={true} updateDrawerOpen={drawerChangeHandler} />);
     });
 
     await act(async () => {
-      fireEvent.click(document.querySelector('main'));
+      fireEvent.click(document.querySelector('.sha-el-drawer'));
     });
 
-    expect(document.querySelector('.sha-el-drawer')).toBeDefined();
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    expect(document.querySelector('.sha-el-drawer')).not.toBeNull();
+    expect(drawerChangeHandler).toBeCalledWith(false);
   });
 });
