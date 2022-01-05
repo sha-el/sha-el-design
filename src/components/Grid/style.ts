@@ -70,7 +70,7 @@ export const gutterStyle = (props: RowProps): [string, { paddingLeft: number; pa
     typeof normalizedGutter[0] === 'number' ? normalizedGutter[0] : 0,
     typeof normalizedGutter[1] === 'number' ? normalizedGutter[1] : 0,
   ];
-  const [width] = useWindowSize();
+  const { width } = useWindowSize();
 
   return [
     css({
