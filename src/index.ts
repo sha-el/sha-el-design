@@ -19,7 +19,6 @@ export { TabPanel, Tabs, TabHeader, TabPanelContainer } from './components/Tabs'
 export { Calendar } from './components/Calendar';
 export { CheckBox } from './components/CheckBox';
 export { Progress } from './components/Progress';
-export { Collapse } from './components/Collapse';
 export { Divider } from './components/Divider';
 export { notify } from './components/Notification';
 export { Carousel } from './components/Carousel';

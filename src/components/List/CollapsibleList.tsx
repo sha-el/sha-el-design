@@ -2,6 +2,7 @@ import * as React from 'react';
 import { ListItem, ListItemProps } from './ListItem';
 import { nestedItem as style } from './style';
 import { MdExpandMore, MdExpandLess } from 'react-icons/md';
+import { Row, Col } from '../Grid';
 
 export interface CollapsibleListProps extends ListItemProps {
   header: React.ReactNode;
@@ -22,7 +23,12 @@ export const CollapsibleList: React.FC<CollapsibleListProps> = (props) => {
     <div>
       <ListItem
         {...props}
-        action={open ? <MdExpandLess /> : <MdExpandMore />}
+        action={
+          <Row gutter={10}>
+            <Col flex="0 1 auto">{props.action}</Col>
+            <Col flex="0 1 auto">{open ? <MdExpandLess key="2" /> : <MdExpandMore key="3" />}</Col>
+          </Row>
+        }
         onClick={() => {
           toggleList(!open);
           props.onChange && props.onChange(!open);

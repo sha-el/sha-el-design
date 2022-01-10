@@ -41,5 +41,5 @@ export const listItem = (background: string, clickable: boolean) =>
 
 export const nestedItem = css({
   overflowY: 'hidden',
-  transition: 'all .6s cubic-bezier(0.4, 0, 0.2, 1)',
+  transition: 'all .3s linear',
 });
