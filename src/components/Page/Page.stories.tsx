@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Meta } from '@storybook/react';
 
-import { Page, Row, Col, Tag, TabPanel, Card, Collapse, AutoComplete } from '../../';
+import { Page, Row, Col, Tag, TabPanel, Card, AutoComplete } from '../../';
 
 import { Textarea, Input } from '../Input';
 
@@ -125,22 +125,6 @@ export const Basic = () => {
         <Col span={12}>
           <Textarea hint="ola" error="ola" before={<MdArrowBack />} after={<MdSearch />} />
         </Col>
-        <Collapse header="HEllo?" isOpen={true}>
-          <Row>
-            <Col span={12}>HELLO</Col>
-            <Col span={12}>ola</Col>
-          </Row>
-        </Collapse>
-        <Collapse header="HEllo?">
-          <Row>
-            <Col span={12}>HELLO</Col>
-          </Row>
-        </Collapse>
-        <Collapse header="HEllo?">
-          <Row>
-            <Col span={12}>HELLO</Col>
-          </Row>
-        </Collapse>
         <AutoComplete
           mode="single"
           data={() => ['Bruce', 'Clark', 'Arthur', 'Diana']}

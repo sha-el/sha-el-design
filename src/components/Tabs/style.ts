@@ -2,7 +2,7 @@ import { Theme } from '../Theme/Theme';
 import { hoverColor } from '../../helpers/color';
 import { shadow } from '../../helpers/style';
 import { css } from '@emotion/css';
-import { zAboveBase } from '../../helpers/zIndex';
+import { zIndexBase } from '../../helpers/zIndex';
 
 export const style = (theme: Theme) => ({
   tabHeaderContainer: css({
@@ -46,7 +46,7 @@ export const style = (theme: Theme) => ({
     background: theme.primary,
     height: '2px',
     position: 'absolute',
-    zIndex: zAboveBase,
+    zIndex: zIndexBase,
     transition: '.2s all',
   }),
   tabPanelContainer: css({

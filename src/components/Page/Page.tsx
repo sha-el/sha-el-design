@@ -13,7 +13,10 @@ export const Page: React.FC<PageProps> = (props) => {
   const css = style(theme);
   return (
     <div>
-      <div style={{ paddingBottom: '0' }} className={classes(css.header, paddingCss({ xs: 5, sm: 10, md: 15 }))}>
+      <div
+        style={(props.bottom || props.tabs) && { paddingBottom: '0' }}
+        className={classes(css.header, paddingCss({ xs: 5, sm: 10, md: 15 }))}
+      >
         <Row alignItems="center" gutter={[14, 10]}>
           {props.backIcon && (
             <Col style={{ lineHeight: '0' }} flex="0 1 auto">
