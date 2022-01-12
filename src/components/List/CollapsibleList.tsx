@@ -42,7 +42,9 @@ export const CollapsibleList: React.FC<CollapsibleListProps> = (props) => {
           maxHeight: open ? '100vh' : '0',
         }}
       >
-        <CollapsibleContext.Provider value={{ isCollapsible: true }}>{props.children}</CollapsibleContext.Provider>
+        <CollapsibleContext.Provider value={{ isCollapsible: true }}>
+          {open && props.children}
+        </CollapsibleContext.Provider>
       </div>
     </div>
   );
