@@ -6,12 +6,16 @@ import { style } from './style';
 export const Divider: React.FC<DividerProps> = (props) => {
   const theme = useTheme();
   const color = props.color;
-  const css = style(color, theme);
+  const css = style(color, theme, props);
 
   return (
     <div
       style={props.style}
-      className={classes(css.divider, props.children ? css.psuedoWithChild : css.psuedoWithoutChild, props.className)}
+      className={classes(
+        props.orientation === 'vertical' ? css.dividerVertical : css.divider,
+        props.children ? css.psuedoWithChild : css.psuedoWithoutChild,
+        props.className,
+      )}
     >
       {props.children}
     </div>
@@ -20,10 +24,12 @@ export const Divider: React.FC<DividerProps> = (props) => {
 
 Divider.defaultProps = {
   className: '',
+  orientation: 'horizontal',
 };
 
 export interface DividerProps {
   style?: React.CSSProperties;
   className?: string;
   color?: string;
+  orientation?: string;
 }

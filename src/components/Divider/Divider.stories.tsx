@@ -31,3 +31,16 @@ Children.args = {
   color: 'red',
   children: <MdCrop />,
 };
+
+export const Orientation = Template.bind({});
+Orientation.args = {
+  color: 'red',
+  orientation: 'vertical',
+};
+
+export const OrientationWithChildren = Template.bind({});
+OrientationWithChildren.args = {
+  color: 'red',
+  orientation: 'vertical',
+  children: <MdCrop />,
+};
