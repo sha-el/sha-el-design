@@ -11,9 +11,6 @@ import { classes } from '../../helpers';
  * ```
  */
 export const Text: React.FunctionComponent<TextProps> = (props) => {
-  const theme = useTheme();
-  const css = classes(style({ props, theme }), props.className);
-
   const {
     variant: __variant,
     italicize: __italicize,
@@ -28,8 +25,13 @@ export const Text: React.FunctionComponent<TextProps> = (props) => {
     textAlign: __textAlign,
     background: __background,
     monoFont: __monoFont,
+    lineHeight: __lineHeight,
+    className,
     ...rest
   } = props;
+
+  const theme = useTheme();
+  const css = classes(style({ props, theme }), className);
 
   const element = {
     h1: <h1 />,
@@ -105,11 +107,15 @@ export interface TextProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
    * Set monospace font.
    */
   monoFont?: boolean;
+
+  /**
+   * line height
+   */
+  lineHeight?: string;
 }
 
 Text.defaultProps = {
   italicize: false,
-  fontWeight: 'normal',
   padding: '',
   margin: '',
   style: {},

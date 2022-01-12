@@ -106,8 +106,6 @@ describe('List', () => {
     const subtitle = document.querySelector('span');
     expect(subtitle).toHaveStyle(`
       font-size: 12px;
-      font-weight: normal;
-      font-style: normal;
       color: rgba(0, 0, 0, 0.54);
     `);
     expect(subtitle.innerHTML).toBe('Do you Know Lorem Ipsum?');

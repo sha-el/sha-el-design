@@ -19,13 +19,27 @@ Basic.args = {
 
 export const Variants = () => (
   <>
-    <Text variant="h1">This is a h1 Heading.</Text>
-    <Text variant="h2">This is a h2 Heading.</Text>
-    <Text variant="h3">This is a h3 Heading.</Text>
-    <Text variant="h4">This is a h4 Heading.</Text>
-    <Text variant="h5">This is a h5 Heading.</Text>
-    <Text variant="h6">This is a h6 Heading.</Text>
-    <Text variant="p">This is a paragraph.</Text>
+    <Text margin="12px 0" variant="h1">
+      This is a h1 Heading.
+    </Text>
+    <Text margin="12px 0" variant="h2">
+      This is a h2 Heading.
+    </Text>
+    <Text margin="12px 0" variant="h3">
+      This is a h3 Heading.
+    </Text>
+    <Text margin="12px 0" variant="h4">
+      This is a h4 Heading.
+    </Text>
+    <Text margin="12px 0" variant="h5">
+      This is a h5 Heading.
+    </Text>
+    <Text margin="12px 0" variant="h6">
+      This is a h6 Heading.
+    </Text>
+    <Text margin="12px 0" variant="p">
+      This is a paragraph.
+    </Text>
   </>
 );
 
@@ -60,7 +74,7 @@ export const HeadingAndParagraph = () => (
     <Text variant="h3" padding="5px">
       What is Lorem Ipsum?
     </Text>
-    <Text variant="p" padding="5px" style={{ marginTop: -15 }}>
+    <Text variant="p" padding="5px">
       Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys
       standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
       type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,

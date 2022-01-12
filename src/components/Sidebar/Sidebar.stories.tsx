@@ -1,7 +1,7 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 
-import { Sidebar } from './Sidebar';
+import { Sidebar, SidebarProps } from './Sidebar';
 import { VscMail, VscSmiley } from 'react-icons/vsc';
 import { CollapsibleList, List, ListItem } from '../List';
 import { FcSelfie } from 'react-icons/fc';
@@ -19,7 +19,7 @@ export default {
   },
 } as Meta;
 
-const Template: Story<unknown> = (args) => (
+const Template: Story<SidebarProps> = (args) => (
   <Sidebar
     {...args}
     placement="left"
@@ -62,3 +62,31 @@ WithBottom.args = {
     </List>
   ),
 };
+
+export const Responsive: Story<SidebarProps> = (args) => (
+  <>
+    <Sidebar
+      {...args}
+      placement="left"
+      brandIcon={<FcSelfie style={{ width: '65px', height: '50px' }} />}
+      brandText="Sha el Design"
+      collapsedWidth={65}
+      expandWidth={260}
+      drawerOpen
+      responsive
+    >
+      <List elevation={0}>
+        <CollapsibleList header="Email" avatar={<VscMail style={{ width: '30px', height: '30px' }} />}>
+          <ListItem>Add Email</ListItem>
+          <ListItem>Email List</ListItem>
+          <ListItem>Email Status</ListItem>
+        </CollapsibleList>
+        <Divider />
+        <ListItem element={<a />} selected avatar={<VscSmiley style={{ width: '30px', height: '30px' }} />}>
+          All users
+        </ListItem>
+      </List>
+    </Sidebar>
+    <h3>Reduce width to check responsive side bar</h3>
+  </>
+);

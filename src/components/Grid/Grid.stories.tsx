@@ -19,7 +19,7 @@ export default {
 const RowTemplate: Story<RowProps> = (args) => <Row {...args} />;
 
 RowTemplate.args = {
-  style: { textAlign: 'center', color: 'white', background: 'green' },
+  style: { textAlign: 'center', color: 'white', background: 'lightblue' },
 };
 
 export const Span: Story<ColProps> = (args) => {

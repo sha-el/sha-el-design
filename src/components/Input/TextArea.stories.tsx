@@ -24,7 +24,7 @@ const Template: Story<TextareaProps> = (args) => (
 
 export const Basic = Template.bind({});
 Basic.args = {
-  placeholder: 'placeholder',
+  placeholder: 'Placeholder',
 };
 
 export const Label = Template.bind({});

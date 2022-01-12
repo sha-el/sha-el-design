@@ -48,7 +48,7 @@ describe('Button', () => {
       line-height: 36px;
       white-space: nowrap;
       border-radius: 4px;
-      letter-spacing: .0892857143em;
+      letter-spacing: 1.25px;
       justify-content: center;
       text-decoration: none;
     `);

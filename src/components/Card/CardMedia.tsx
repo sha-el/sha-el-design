@@ -7,7 +7,7 @@ export const CardMedia: React.FC<CardMediaProps> = (props) => {
 
   const { className, image: __image, height: __height, ...rest } = props;
   return (
-    <div className={classes(className, css)} {...rest}>
+    <div className={classes(className, css, 'sha-el-card-media')} {...rest}>
       {props.children}
     </div>
   );

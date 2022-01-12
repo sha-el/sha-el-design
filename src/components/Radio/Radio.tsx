@@ -24,7 +24,7 @@ export const Radio: React.FunctionComponent<RadioProps> = (props) => {
     >
       <input className={css.input} ref={input} type="radio" {...props} />
       <Col flex="0 0 18px" className={classes(css.radio, 'radio-circle')} />
-      <Text variant="label" color="light" margin="0 0 0 9px">
+      <Text variant="label" color="light" margin="0 9px">
         {label}
       </Text>
     </Row>

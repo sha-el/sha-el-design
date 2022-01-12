@@ -92,9 +92,8 @@ describe('FlexTable', () => {
 
     const header = table.querySelector('li');
     expect(header).toHaveStyle(`
-      font-weight: 600;
+      font-weight: 500;
       font-size: 12px;
-      color: rgba(0, 0, 0, 0.54);
       cursor: default;
       border-bottom: 2px solid #9A9A9A1A;
       text-transform: uppercase;
@@ -103,7 +102,7 @@ describe('FlexTable', () => {
       box-sizing: border-box;
     `);
     expect(header).toHaveStyle(`
-      background: rgb(232, 234, 252);
+      background: rgb(255, 255, 255);
       align-items: center;
       display: flex;
     `);
@@ -118,7 +117,7 @@ describe('FlexTable', () => {
     expect(headerCells.length).toBe(8);
     expect(headerCells[0]).toHaveStyle(`
       overflow: hidden;
-      padding: 12px 16px;
+      padding: 0px 16px;
     `);
 
     expect(headerCells[0].innerHTML).toBe('Id');
@@ -134,7 +133,6 @@ describe('FlexTable', () => {
     expect(tableRow).toHaveStyle(`
       padding: 0;
       cursor: pointer;
-      font-family: 'Fira Code',monospace;
       border-bottom: 1px solid #E8EAFC;
       border-collapse: collapse;
     `);
@@ -235,7 +233,7 @@ describe('FlexTable', () => {
     expect(fn).toBeCalledTimes(2); // fn not called when clicked on header.
   });
 
-  it('Should render a nested expandable table', () => {
+  it('Should render a nested expandable table', async () => {
     render(
       <FlexTable
         nested={{
@@ -268,23 +266,21 @@ describe('FlexTable', () => {
       </FlexTable>,
     );
 
-    const table = document.querySelector('ul');
+    const table = document.querySelector('.sha-el-flex-table');
     const tableRows = table.querySelectorAll('.list-item');
-
     const collapsibleColumn = tableRows[1];
     expect(collapsibleColumn).toHaveStyle(`
       cursor: pointer;
     `);
     expect(collapsibleColumn.querySelector('svg').innerHTML).toContain('M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z');
 
-    const nestedContent = table.querySelector('.nested-content');
-    expect(nestedContent.parentElement).toHaveStyle(`
-      max-height: 0;
-    `);
+    expect(table.querySelector('.nested-content')).toBeNull();
 
-    act(() => {
+    await act(async () => {
       fireEvent.click(collapsibleColumn);
     });
+
+    const nestedContent = table.querySelector('.nested-content');
 
     expect(nestedContent.parentElement).toHaveStyle(`
       max-height: 100vh;
@@ -293,11 +289,6 @@ describe('FlexTable', () => {
       margin-left: -20px;
     `);
     expect(nestedContent.querySelector('ul')).toBeDefined();
-
-    const normalList = tableRows[3];
-    expect(normalList.querySelector('svg')).toHaveStyle(`
-      color: rgba(0, 0, 0, 0.2);
-    `);
   });
 
   it('Should render a nested non-expandable table', () => {
@@ -418,10 +409,7 @@ describe('FlexTable', () => {
     expect(tableRows[1]).toHaveStyle(`
         background: orange;
     `);
-    expect(tableRows[2]).not.toHaveStyle(`
-        background: orange;
-    `);
-    expect(tableRows[3]).toHaveStyle(`
+    expect(tableRows[2]).toHaveStyle(`
         background: orange;
     `);
   });

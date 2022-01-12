@@ -30,10 +30,8 @@ describe('Radio', () => {
     const label = document.querySelector('label');
     expect(label.innerHTML).toBe('Label');
     expect(label).toHaveStyle(`
-      font-weight: normal;
-      font-style: normal;
       color: rgba(0, 0, 0, 0.54);
-      margin: 0 0 0 9px;
+      margin: 0 9px;
     `);
   });
 
