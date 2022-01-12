@@ -121,7 +121,7 @@ export const Basic = () => {
         ],
       }}
     >
-      <Card>
+      <Card margin={0}>
         <Col span={12}>
           <Textarea hint="ola" error="ola" before={<MdArrowBack />} after={<MdSearch />} />
         </Col>

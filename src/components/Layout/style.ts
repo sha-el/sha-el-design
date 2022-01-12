@@ -13,5 +13,5 @@ export const content = (width: number) =>
     minHeight: '100%',
     width: `calc(100% - ${width + 50}px)`,
     marginLeft: width + 'px',
-    margin: `5px 5px 5px ${width + (width === 0 ? 0 : 30) + 'px'}`,
+    margin: `5px 5px 5px ${width + (width === 0 ? 0 : 58) + 'px'}`,
   });
