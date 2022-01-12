@@ -28,7 +28,7 @@ export const Default: Story = () => {
       <FlexTable.Column key="Id" span={1} header="Id">
         {(data: DataType) => data.id}
       </FlexTable.Column>
-      <FlexTable.Column key="First Name" span={3} header="First Name  ola ola ola ola ola">
+      <FlexTable.Column key="First Name" span={3} header="First Name">
         {(data: DataType) => data.first_name}
       </FlexTable.Column>
       <FlexTable.Column key="Last Name" span={3} header="Last Name">

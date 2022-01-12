@@ -25,6 +25,7 @@ export const Text: React.FunctionComponent<TextProps> = (props) => {
     textAlign: __textAlign,
     background: __background,
     monoFont: __monoFont,
+    lineHeight: __lineHeight,
     className,
     ...rest
   } = props;

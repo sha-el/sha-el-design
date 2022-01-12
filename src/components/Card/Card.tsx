@@ -30,6 +30,7 @@ export const Card: React.FC<CardProps> = (props) => {
         borderCss(border),
         marginCss(margin),
         paddingCss(padding),
+        'sha-el-card',
       )}
       {...rest}
     >
