@@ -132,8 +132,6 @@ describe('TimePicker', () => {
     expect(hours[0].innerHTML).toBe('0');
     expect(hours[23].innerHTML).toBe('23');
     expect(hours[0]).toHaveStyle(`
-      font-weight: normal;
-      font-style: normal;
       margin: 0;
       padding: 5px 15px;
       background: #536DFE;
@@ -144,8 +142,6 @@ describe('TimePicker', () => {
     expect(minutes[0].innerHTML).toBe('0');
     expect(minutes[59].innerHTML).toBe('59');
     expect(minutes[0]).toHaveStyle(`
-      font-weight: normal;
-      font-style: normal;
       margin: 0;
       padding: 5px 15px;
       background: #536DFE;
@@ -156,8 +152,6 @@ describe('TimePicker', () => {
     expect(seconds[0].innerHTML).toBe('0');
     expect(seconds[59].innerHTML).toBe('59');
     expect(seconds[0]).toHaveStyle(`
-      font-weight: normal;
-      font-style: normal;
       margin: 0;
       padding: 5px 15px;
       background: #536DFE;
@@ -191,16 +185,12 @@ describe('TimePicker', () => {
     expect(twelveHourElements.length).toBe(2);
     expect(twelveHourElements[0].innerHTML).toBe('AM');
     expect(twelveHourElements[0]).toHaveStyle(`
-      font-weight: normal;
-      font-style: normal;
       margin: 0;
       padding: 5px 15px;
       background: #536DFE;
     `);
     expect(twelveHourElements[1].innerHTML).toBe('PM');
     expect(twelveHourElements[1]).toHaveStyle(`
-      font-weight: normal;
-      font-style: normal;
       margin: 0;
       padding: 5px 15px;
     `);

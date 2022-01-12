@@ -22,6 +22,7 @@ beforeAll(() => {
 const CreateLayout = (props: { drawerOpen?: boolean; updateDrawerOpen?: (e: boolean) => void }) => (
   <Container sidePanelInitialWidth={65}>
     <Sidebar
+      responsive
       drawerOpen={props?.drawerOpen}
       onDrawerChange={props?.updateDrawerOpen}
       placement="left"
@@ -111,7 +112,7 @@ describe('Layout', () => {
       flex: 1 0 auto;
       min-height: 100%;
       width: calc(100% - 115px);
-      margin: 5px 5px 5px 95px;
+      margin: 5px 5px 5px 123px;
     `);
   });
 
