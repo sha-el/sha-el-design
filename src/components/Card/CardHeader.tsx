@@ -12,13 +12,15 @@ export const CardHeader: React.FC<CardHeaderProps> = (props) => {
   const theme = useTheme();
 
   return (
-    <div className={classes(marginCss([0, 0, 10, 0]), className)} {...restProps}>
+    <div className={classes(marginCss([0, 0, 20, 0]), className)} {...restProps}>
       <Row alignItems="center">
         <Col flex="1 0 auto">
-          <Text variant="h6" margin="0">
+          <Text lineHeight="2rem" color="textColor" variant="h6" margin="0">
             {children}
           </Text>
-          <Text color={lightText(theme)}>{subtitle}</Text>
+          <Text lineHeight="1.25rem" className="subtitle" color={lightText(theme)}>
+            {subtitle}
+          </Text>
         </Col>
         <Col flex="0 1 auto">{action}</Col>
       </Row>

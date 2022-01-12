@@ -7,20 +7,9 @@ body {
 	font-family: 'Roboto', sans-serif;
 	color: var(--color);
 	font-size: 14px;
-	font-weight: 400;
-	letter-spacing: 0.01071em;
+	font-weight: normal;
+	letter-spacing: 0.25px;
 }
-
-@media only screen and (min-width: 0) {
-		font-size: 14px;
-	}
-	@media only screen and (min-width: 992px) {
-		font-size: 14.5px;
-	}
-	@media only screen and (min-width: 1200px) {
-		font-size: 15px;
-	}
-
 
 h1 a,
 h2 a,
@@ -32,38 +21,50 @@ h6 a {
 }
 
 h1 {
-	font-size: 4.2rem;
-	line-height: 110%;
-	margin: calc(4.2rem / 1.5) 0 calc(4.2rem  / 2.5) 0;
+	font-size: 96px;
+	font-weight: lighter;
+	letter-spacing: -1.5px;
+	margin: 0;
 }
 
 h2 {
-	font-size: 3.56rem;
-	line-height: 110%;
-	margin: calc(3.56rem / 1.5) 0 calc(3.56rem  / 2.5) 0;
+	font-size: 60px;
+	font-weight: lighter;
+	letter-spacing: -0.5px;
+	margin: 0;
 }
 
 h3 {
-	font-size: 2.92rem;
-	line-height: 110%;
-	margin: calc(2.92rem / 1.5) 0 calc(2.92rem  / 2.5) 0;
+	font-size: 48px;
+	font-weight: normal;
+	letter-spacing: 0;
+	margin: 0;
 }
 
 h4 {
-	font-size: 2.28rem;
-	line-height: 110%;
-	margin: calc(2.28rem / 1.5) 0 calc(2.28rem / 2.5) 0;
+	font-size: 34px;
+	font-weight: normal;
+	letter-spacing: 0.25px;
+	margin: 0;
 }
 
 h5 {
-	font-size: 1.64rem;
-	line-height: 110%;
-	margin: calc(1.64rem / 1.5) 0 calc(1.64rem  / 2.5) 0;
+	font-size: 24px;
+	font-weight: normal;
+	letter-spacing: 0;
+	margin: 0;
 }
 
 h6 {
-	font-size: 1.15rem;
-	line-height: 110%;
-	margin: calc(1.15rem / 1.5) 0 calc(1.15rem  / 2.5) 0;
+	font-size: 20px;
+	font-weight: 500;
+	letter-spacing: 0.15px;
+	margin: 0;
+}
+
+.subtitle {
+	font-size: 14px;
+	font-weight: 400;
+	letter-spacing: 0.1px;
 }
 `;
