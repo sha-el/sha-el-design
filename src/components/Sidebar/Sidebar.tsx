@@ -66,6 +66,11 @@ export interface SidebarProps {
    * Drawer change hanlde
    */
   onDrawerChange?: (e: boolean) => void;
+
+  /**
+   * responsive
+   */
+  responsive?: boolean;
 }
 
 export const Sidebar: React.FC<SidebarProps> = (props) => {
@@ -88,7 +93,7 @@ export const Sidebar: React.FC<SidebarProps> = (props) => {
                     <Switch
                       checked={fixed}
                       onChange={(e) => {
-                        updateWidth(e.target.checked ? props.expandWidth : props.collapsedWidth);
+                        updateWidth?.(e.target.checked ? props.expandWidth : props.collapsedWidth);
                         return updateFixed(e.target.checked);
                       }}
                     />
@@ -106,7 +111,7 @@ export const Sidebar: React.FC<SidebarProps> = (props) => {
     </SidePanelContext.Consumer>
   );
 
-  if (width < 1200) {
+  if (width < 1200 && props.responsive) {
     return (
       <div className="sha-el-sidebar">
         <Drawer
