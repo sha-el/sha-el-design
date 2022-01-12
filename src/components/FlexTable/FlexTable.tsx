@@ -3,7 +3,7 @@ import { GiEmptyMetalBucket } from 'react-icons/gi';
 import { MdExpandMore } from 'react-icons/md';
 import { Col, Row } from '../..';
 import { classes } from '../../helpers';
-import { disabledColor, shadowColor } from '../../helpers/color';
+import { disabledColor } from '../../helpers/color';
 import { ColProps } from '../Grid/Col';
 import { CollapsibleList, List, ListItem } from '../List';
 import { ListProps } from '../List/List';
@@ -48,7 +48,7 @@ export function FlexTable<T>(props: FlexTableProps<T>) {
   return (
     <List
       {...rest}
-      className={css.tableContainer}
+      className={classes(css.tableContainer, 'sha-el-flex-table')}
       style={{
         minWidth: responsive && Array.isArray(props.children) ? `${props.children.length * 100}px` : '100px',
         ...(style.container || {}),
@@ -57,7 +57,7 @@ export function FlexTable<T>(props: FlexTableProps<T>) {
     >
       <ListItem
         className={classes(css.header, 'header')}
-        style={{ background: shadowColor(theme)[0], ...(style.header || {}) }}
+        style={style.header}
         action={nested && <MdExpandMore style={{ color: disabledColor(theme) }} />}
         padding={0}
       >

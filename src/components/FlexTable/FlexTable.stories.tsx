@@ -28,7 +28,7 @@ export const Default: Story = () => {
       <FlexTable.Column key="Id" span={1} header="Id">
         {(data: DataType) => data.id}
       </FlexTable.Column>
-      <FlexTable.Column key="First Name" span={3} header="First Name">
+      <FlexTable.Column key="First Name" span={3} header="First Name  ola ola ola ola ola">
         {(data: DataType) => data.first_name}
       </FlexTable.Column>
       <FlexTable.Column key="Last Name" span={3} header="Last Name">
@@ -180,7 +180,7 @@ export const SortingAndFiltering: Story = () => {
       <FlexTable.Column
         header={
           <Popover
-            content={
+            overlay={
               <Input
                 borderless
                 placeholder="Press Enter to Apply"
@@ -209,7 +209,7 @@ export const SortingAndFiltering: Story = () => {
         key="Car Model Year"
         span={3}
         header={
-          <Row>
+          <Row alignItems="center">
             <Col flex="1 0 auto">Year</Col>
             <Col flex="0 1 auto">
               {['+', null].includes(sort) && (
