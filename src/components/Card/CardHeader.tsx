@@ -14,7 +14,7 @@ export const CardHeader: React.FC<CardHeaderProps> = (props) => {
   return (
     <div className={classes(marginCss([0, 0, 20, 0]), className)} {...restProps}>
       <Row alignItems="center">
-        <Col flex="1 0 auto">
+        <Col flex="1">
           <Text lineHeight="2rem" color="textColor" variant="h6" margin="0">
             {children}
           </Text>

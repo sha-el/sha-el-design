@@ -9,14 +9,7 @@ import { paddingCss } from '../../helpers/padding';
 import { SurfaceProps } from '../../typings/surface';
 
 export const Card: React.FC<CardProps> = (props) => {
-  const {
-    className,
-    elevation = 4,
-    border,
-    margin = { xs: 2, sm: 5 },
-    padding = { xs: 5, sm: 10, md: 15 },
-    ...rest
-  } = props;
+  const { className, elevation = 4, border, margin = 4, padding = 16, ...rest } = props;
 
   const theme = useTheme();
   const css = cardStyle(theme);

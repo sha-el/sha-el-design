@@ -35,6 +35,16 @@ export function nestedAccess<T>(obj: T, ...props: string[]): unknown {
   return obj && props.reduce((result, prop) => (result == null ? undefined : result[prop]), obj);
 }
 
+function createLink(href: string, rel?: string, crossOrigin?: boolean) {
+  const link = document.createElement('link');
+  link.href = href;
+  link.rel = rel;
+  if (crossOrigin) {
+    link.crossOrigin = 'crossOrigin';
+  }
+  document.querySelector('head').appendChild(link);
+}
+
 export function initialize() {
   const style = document.createElement('style');
   style.id = 'sha-el-design-base-style';
@@ -62,11 +72,12 @@ export function initialize() {
   `;
   const headerEl = document.getElementsByTagName('head');
   headerEl[0].appendChild(style);
-  headerEl[0].innerHTML += `
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;500;700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet">
-  `;
+  createLink('https://fonts.googleapis.com', 'preconnect');
+  createLink('https://fonts.gstatic.com', 'preconnect', true);
+  createLink(
+    'https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;500;700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,400&display=swap',
+    'stylesheet',
+  );
   initializeNotification();
 }
 

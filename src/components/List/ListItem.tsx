@@ -75,12 +75,12 @@ export const ListItem = React.forwardRef<unknown, ListItemProps>((props, ref) =>
       {...rest}
     >
       {avatar && (
-        <div className={classes(marginCss(margin), paddingCss(padding))} style={{ flex: '0 1 auto' }}>
+        <div className={classes(marginCss(margin), paddingCss(padding))} style={{ flex: '0 1' }}>
           {avatar}
         </div>
       )}
       {children && (
-        <div className={classes(marginCss(margin), paddingCss(padding))} style={{ flex: '1 0 auto' }}>
+        <div className={classes(marginCss(margin), paddingCss(padding))} style={{ flex: '1 0' }}>
           <div>{children}</div>
           <Text fontSize="12px" color={lightText(theme)}>
             {subtitle}

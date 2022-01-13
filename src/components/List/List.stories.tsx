@@ -3,7 +3,7 @@ import { Story, Meta } from '@storybook/react';
 
 import { List, ListItem, CollapsibleList } from '../List';
 import { ListProps } from './List';
-import { MdAcUnit, Md3DRotation, MdAccessAlarm } from 'react-icons/md';
+import { MdAcUnit, Md3DRotation, MdAccessAlarm, MdCheck } from 'react-icons/md';
 import { Divider } from '../Divider';
 
 export default {
@@ -51,7 +51,7 @@ export const Collapsible: Story<ListProps> = (args) => (
     <ListItem avatar={<MdAccessAlarm />} subtitle="Do you Know Lorem Ipsum?">
       Basic Item List
     </ListItem>
-    <CollapsibleList header={'Hello World'}>
+    <CollapsibleList header={'Hello World'} action={<MdCheck />}>
       <List elevation={0}>
         <ListItem subtitle="Do you Know Lorem Ipsum?">Basic Item List</ListItem>
       </List>

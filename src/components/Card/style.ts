@@ -1,14 +1,12 @@
 import { Theme } from '../Theme/Theme';
 import { css } from '@emotion/css';
 import { CardMediaProps } from './CardMedia';
-import { lightText } from '../../helpers/color';
 
 export const cardStyle = (theme: Theme) =>
   css({
     background: theme.background,
     boxSizing: 'border-box',
-    borderRadius: '6.5px',
-    color: lightText(theme),
+    borderRadius: '16px',
   });
 
 export const cardMediaStyle = (props: CardMediaProps) =>
@@ -21,5 +19,5 @@ export const cardMediaStyle = (props: CardMediaProps) =>
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
-    borderRadius: '5px 5px 0 0',
+    borderRadius: '16px',
   });

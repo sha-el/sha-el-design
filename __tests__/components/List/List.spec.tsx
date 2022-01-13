@@ -41,7 +41,7 @@ describe('List', () => {
     `);
 
     expect(listItems[0].querySelectorAll('div')[0]).toHaveStyle(`
-      flex: 0 1 auto;
+      flex: 0 1 0px;
       padding: 12px 16px 12px 18px;
       margin: 0px;
     `);
@@ -51,7 +51,7 @@ describe('List', () => {
     );
 
     expect(listItems[0].querySelectorAll('div')[1]).toHaveStyle(`
-      flex: 1 0 auto;
+      flex: 1 0 0px;
       padding: 12px 16px 12px 18px;
       margin: 0px;
     `);
