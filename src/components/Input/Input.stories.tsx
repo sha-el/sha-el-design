@@ -42,6 +42,7 @@ export const BeforeAndAfter = Template.bind({});
 BeforeAndAfter.args = {
   before: <MdEmail />,
   after: <MdSubject />,
+  label: 'Label',
 };
 
 export const Disabled = Template.bind({});
@@ -55,4 +56,9 @@ export const Required = Template.bind({});
 Required.args = {
   label: 'Required',
   required: true,
+};
+
+export const Filled = Template.bind({});
+Filled.args = {
+  filled: true,
 };

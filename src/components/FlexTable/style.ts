@@ -44,7 +44,7 @@ export const style = ({ theme, nested, clickableRow }: { theme: Theme; nested: b
     borderBottom: `1px solid ${shadowColor(theme)[0]}`,
     borderCollapse: 'collapse',
     letterSpacing: '.3px',
-    lineHeight: '52px',
+    minHeight: '52px',
   }),
   nestedContent: css({
     marginLeft: '-20px',

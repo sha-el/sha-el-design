@@ -41,3 +41,4 @@ export { Step, Stepper } from './components/Stepper';
 export { Portal } from './components/Portal';
 export { Sidebar } from './components/Sidebar';
 export { Switch } from './components/Switch';
+export { NavBar } from './components/NavBar';

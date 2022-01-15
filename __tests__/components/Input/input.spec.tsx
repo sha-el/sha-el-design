@@ -32,16 +32,15 @@ describe('BaseInputComponent', () => {
       position: relative;
       font-size: 14px;
       transition: background-color 0.2s ease-in-out 0s,border-color 0.2s ease-in-out 0s;
-      line-height: 1.12857;
     `);
 
     expect(input).toHaveAttribute('placeholder', 'placeholder');
     expect(input).toHaveStyle(`
       color: rgb(85, 85, 85);
-      height: 36px;
+      height: 47px;
       display: inline-block;
       outline: none;
-      padding: 9px 14px;
+      padding: 16px;
       font-size: 14px;
       background: transparent;
       box-sizing: border-box;
@@ -61,10 +60,10 @@ describe('BaseInputComponent', () => {
     expect(textarea).toHaveAttribute('placeholder', 'placeholder');
     expect(textarea).toHaveStyle(`
       color: rgb(85, 85, 85);
-      height: 36px;
+      height: 47px;
       display: inline-block;
       outline: none;
-      padding: 9px 14px;
+      padding: 16px;
       font-size: 14px;
       background: transparent;
       box-sizing: border-box;
@@ -114,7 +113,7 @@ describe('BaseInputComponent', () => {
       left: 0;
       top: 0;
       z-index: 1;
-      transform: translate(14px, 11.5px) scale(1);
+      transform: translate(16px, 16px) scale(1);
       pointer-events: none;
       transition: all 0.2s;
       transform-origin: top left;
@@ -123,12 +122,12 @@ describe('BaseInputComponent', () => {
 
     input.focus();
     expect(label).toHaveStyle(`
-      transform: translate(14px, -5px) scale(0.75);
+      transform: translate(16px, -6px) scale(0.75);
     `);
 
     input.blur();
     expect(label).toHaveStyle(`
-      transform: translate(14px, 11.5px) scale(1);
+      transform: translate(16px, 16px) scale(1);
     `);
   });
 
@@ -223,7 +222,7 @@ describe('BaseInputComponent', () => {
     const after = document.querySelector('.seudo');
 
     expect(after.innerHTML).toBe('after');
-    expect(after).toHaveStyle(`padding-right: 5px`);
+    expect(after).toHaveStyle(`padding-right: 12px`);
   });
 
   it('should render a boderless input with after and before prop', () => {
