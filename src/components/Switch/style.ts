@@ -20,6 +20,7 @@ export const style = (props: SwitchProps, theme: Theme) => {
       display: 'inline-flex',
       alignItems: 'center',
       cursor: !props.disabled && 'pointer',
+      position: 'relative',
       '&:hover, &:focus': {
         '& .sha-el-switch-thumb-container': {
           opacity: !props.disabled && '.1',
@@ -38,11 +39,13 @@ export const style = (props: SwitchProps, theme: Theme) => {
       height: props.size === 'small' ? '28px' : '38px',
       borderRadius: '50%',
       background: colorShades(theme[props.color] || props.color, 'light')[3],
-      transform: `translateX(${props.checked ? '7px' : '-9.5px'})`,
+      transform:
+        props.size === 'small'
+          ? `translateX(${props.checked ? '5px' : '-7.5px'})`
+          : `translateX(${props.checked ? '7px' : '-9.5px'})`,
       transition: 'ease-in .1s',
-      position: 'relative',
+      position: 'absolute',
       opacity: '0',
-      display: 'none',
       '&:hover, &:focus': {
         opacity: !props.disabled && '.1',
       },
@@ -52,15 +55,15 @@ export const style = (props: SwitchProps, theme: Theme) => {
     }),
     thumb: css({
       display: 'inline-flex',
-      position: 'relative',
+      position: 'absolute',
       width: props.size === 'small' ? '14px' : '20px',
       height: props.size === 'small' ? '14px' : '20px',
       borderRadius: '50%',
       background: thumbBackground,
       transform:
         props.size === 'small'
-          ? `translateX(${props.checked ? '-26px' : '-12px'})`
-          : `translateX(${props.checked ? '-36px' : '-16px'})`,
+          ? `translateX(${props.checked ? '12px' : '0px'})`
+          : `translateX(${props.checked ? '16px' : '0'})`,
       transition: 'ease-in .1s',
     }),
   };
