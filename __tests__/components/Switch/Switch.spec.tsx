@@ -24,12 +24,12 @@ describe('Switch', () => {
 
     expect(switchContainer.querySelectorAll('span')[1]).toHaveStyle(`
       display: inline-flex;
-      position: absolute;
+      position: relative;
       width: 20px;
       height: 20px;
       border-radius: 50%;
       background: white;
-      transform: translateX(0);
+      transform: translateX(-16px);
       transition: ease-in .1s;
       box-shadow: 0px 2px 4px -1px rgba(34,41,47,0.12),0px 4px 5px 0px rgba(34,41,47,0.08),0px 1px 10px 0px rgba(34,41,47,0.05);
     `);
@@ -41,7 +41,7 @@ describe('Switch', () => {
       background: hsl(230.89999999999998, 98.8%, 74.7%);
       transform: translateX(-9.5px);
       transition: ease-in .1s;
-      position: absolute;
+      position: relative;
       opacity: 0;
     `);
   });
@@ -61,12 +61,12 @@ describe('Switch', () => {
 
     expect(switchContainer.querySelectorAll('span')[1]).toHaveStyle(`
       display: inline-flex;
-      position: absolute;
+      position: relative;
       width: 20px;
       height: 20px;
       border-radius: 50%;
       background: rgb(83, 109, 254);
-      transform: translateX(16px);
+      transform: translateX(-36px);
       transition: ease-in .1s;
       box-shadow: 0px 2px 4px -1px rgba(34,41,47,0.12),0px 4px 5px 0px rgba(34,41,47,0.08),0px 1px 10px 0px rgba(34,41,47,0.05);
     `);
@@ -78,7 +78,7 @@ describe('Switch', () => {
       background: rgb(124, 124, 124);
       transform: translateX(7px);
       transition: ease-in .1s;
-      position: absolute;
+      position: relative;
       opacity: 0;
     `);
   });
@@ -98,12 +98,12 @@ describe('Switch', () => {
 
     expect(switchContainer.querySelectorAll('span')[1]).toHaveStyle(`
       display: inline-flex;
-      position: absolute;
+      position: relative;
       width: 20px;
       height: 20px;
       border-radius: 50%;
       background: green;
-      transform: translateX(16px);
+      transform: translateX(-36px);
       transition: ease-in .1s;
       box-shadow: 0px 2px 4px -1px rgba(34,41,47,0.12),0px 4px 5px 0px rgba(34,41,47,0.08),0px 1px 10px 0px rgba(34,41,47,0.05);
     `);
@@ -115,7 +115,7 @@ describe('Switch', () => {
       background: rgb(0, 0, 0);
       transform: translateX(7px);
       transition: ease-in .1s;
-      position: absolute;
+      position: relative;
       opacity: 0;
     `);
   });
@@ -135,12 +135,12 @@ describe('Switch', () => {
 
     expect(switchContainer.querySelectorAll('span')[1]).toHaveStyle(`
       display: inline-flex;
-      position: absolute;
+      position: relative;
       width: 14px;
       height: 14px;
       border-radius: 50%;
       background: green;
-      transform: translateX(16px);
+      transform: translateX(-26px);
       transition: ease-in .1s;
       box-shadow: 0px 2px 4px -1px rgba(34,41,47,0.12),0px 4px 5px 0px rgba(34,41,47,0.08),0px 1px 10px 0px rgba(34,41,47,0.05);
     `);
@@ -152,7 +152,7 @@ describe('Switch', () => {
       background: rgb(0, 0, 0);
       transform: translateX(7px);
       transition: ease-in .1s;
-      position: absolute;
+      position: relative;
       opacity: 0;
     `);
   });
