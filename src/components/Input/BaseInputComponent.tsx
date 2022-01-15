@@ -41,6 +41,7 @@ export const BaseInputComponent = React.forwardRef<
     containerClassName,
     children,
     borderless,
+    filled,
     ...rest
   } = props;
 
@@ -72,9 +73,10 @@ export const BaseInputComponent = React.forwardRef<
     active: isInputActive(),
     borderless: borderless || false,
     disabled: props.disabled || false,
-    before: !!before,
     hover: ShouldHover(),
     required: required,
+    before: !!before,
+    filled,
   });
 
   return (
@@ -91,11 +93,7 @@ export const BaseInputComponent = React.forwardRef<
           </label>
         )}
         {before && (
-          <Col
-            style={{ paddingLeft: (!borderless && '5px') || undefined }}
-            flex="0 1 auto"
-            className={classes(css.seudo, 'seudo')}
-          >
+          <Col style={{ paddingLeft: '16px' }} flex="0 1 auto" className={classes(css.seudo, 'seudo')}>
             {before}
           </Col>
         )}
@@ -116,11 +114,7 @@ export const BaseInputComponent = React.forwardRef<
           })}
         </Col>
         {after && (
-          <Col
-            style={{ paddingRight: (!borderless && '5px') || undefined }}
-            flex="0 1 auto"
-            className={classes(css.seudo, 'seudo')}
-          >
+          <Col style={{ paddingRight: '12px' }} flex="0 1 auto" className={classes(css.seudo, 'seudo')}>
             {after}
           </Col>
         )}
@@ -134,22 +128,14 @@ export const BaseInputComponent = React.forwardRef<
         <Row justifyContent="flex-end" className={classes(css.help, 'help')}>
           {error && (
             <Col flex="1 0 auto">
-              <Text
-                padding={`0 ${borderless ? '0' : before ? '5px' : '14px'}`}
-                variant="label"
-                className={`${css.error}`}
-              >
+              <Text variant="label" className={`${css.error}`}>
                 {error}
               </Text>
             </Col>
           )}
           {hint && (
             <Col flex="0 1 auto">
-              <Text
-                padding={`0 ${borderless ? '0' : before ? '5px' : '14px'}`}
-                variant="label"
-                className={`${css.hint}`}
-              >
+              <Text variant="label" className={`${css.hint}`}>
                 {hint}
               </Text>
             </Col>
@@ -167,6 +153,7 @@ export interface Props {
   error?: React.ReactNode;
   hint?: React.ReactNode;
   borderless?: boolean;
+  filled?: boolean;
 
   containerStyle?: React.CSSProperties;
   containerClassName?: string;

@@ -12,9 +12,6 @@ export const style = (theme: Theme, props: NavBarProps) => {
       color: getColor(theme[props.bgColor] || props.bgColor),
       fontSize: '24px',
     }),
-    icon: css({
-      // fontSize: '24px',
-    }),
     title: css({
       textAlign: props.alignTitle,
       fontSize: '36px',

@@ -76,8 +76,8 @@ export const gutterStyle = (props: RowProps): [string, { paddingLeft: number; pa
     css({
       flexWrap: props.wrap,
       rowGap: defaultGutter[1],
-      marginLeft: defaultGutter[0] / -2,
-      marginRight: defaultGutter[0] / -2,
+      // marginLeft: defaultGutter[0] / -2,
+      // marginRight: defaultGutter[0] / -2,
       '@media (max-width: 576px)': {
         ...breakpointRowObject(normalizedGutter, 'xs'),
       },

@@ -53,11 +53,9 @@ export const NavBar: React.FC<NavBarProps> = (props) => {
       gutter={32}
       alignItems="center"
       style={props.style}
-      className={classes(css.container, elevationCss(props.elevation))}
+      className={classes(css.container, elevationCss(props.elevation), 'sha-el-nav-bar')}
     >
-      <Col className={css.icon} flex="0 1">
-        {icon}
-      </Col>
+      <Col flex="0 1">{icon}</Col>
       <Col className={css.title} flex="1 0">
         {title}
       </Col>

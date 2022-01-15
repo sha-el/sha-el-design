@@ -21,6 +21,25 @@ export const Row: React.FC<RowProps> = (props) => {
     : [__children];
 
   const [rowGutterStyles, colPadding] = gutterStyle(props);
+
+  const finalPadding = (index: number, padding: { paddingLeft: number; paddingRight: number }) => {
+    if (index === 0) {
+      return {
+        paddingLeft: padding.paddingLeft / 2,
+        paddingRight: padding.paddingRight,
+      };
+    }
+
+    if (index === children.length - 1) {
+      return {
+        paddingLeft: padding.paddingLeft,
+        paddingRight: padding.paddingRight / 2,
+      };
+    }
+
+    return padding;
+  };
+
   return (
     <div
       onClick={onClick}
@@ -34,7 +53,7 @@ export const Row: React.FC<RowProps> = (props) => {
           React.cloneElement(
             child,
             (child.type as unknown as { displayName: string }).displayName === 'Col'
-              ? { key: i, style: { ...colPadding, ...child.props.style } }
+              ? { key: i, style: { ...finalPadding(i, colPadding), ...child.props.style } }
               : { key: i, style: { ...child.props.style } },
           ),
         )}

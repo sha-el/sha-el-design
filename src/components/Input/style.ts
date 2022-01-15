@@ -3,7 +3,7 @@ import { getColor } from '../../helpers/color';
 import { css } from '@emotion/css';
 import { zIndexBase } from '../../helpers/zIndex';
 
-export const style = ({ theme, error, label, active, borderless, disabled, hover, before, required }) => {
+export const style = ({ theme, error, label, active, borderless, disabled, hover, required, before, filled }) => {
   const borderColor = error ? theme.error : borderColorHelper(theme.background);
 
   const borderStyle = borderless
@@ -14,7 +14,6 @@ export const style = ({ theme, error, label, active, borderless, disabled, hover
       }
     : {
         border: `1px ${disabled ? 'dotted' : 'solid'} ${borderColor}`,
-        // borderTop: active && label ? 'none' : `1px ${disabled ? 'dotted' : 'solid'} ${borderColor}`,
         borderRadius: '4px',
       };
   return {
@@ -23,9 +22,9 @@ export const style = ({ theme, error, label, active, borderless, disabled, hover
       zIndex: zIndexBase,
       color: disabled ? disabledText(theme) : lightText(theme),
       fontSize: '14px',
-      lineHeight: 1.12857,
       cursor: 'text',
       marginTop: '1px',
+      background: filled && '#f5f5f5',
       marginBottom: '2px',
       transition: 'background-color 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s',
       '&:focus-within': !error && {
@@ -67,10 +66,10 @@ export const style = ({ theme, error, label, active, borderless, disabled, hover
       borderImage: 'initial',
       outline: 'none',
       lineHeight: '12px',
-      padding: `9px ${borderless ? '0' : before ? '5px' : '14px'}`,
+      padding: before ? '16px 12px' : '16px',
       color: disabled ? disabledText(theme) : getColor(theme.background),
       boxSizing: 'border-box',
-      height: '36px',
+      height: '47px',
       '&::placeholder': {
         color: '#aaaaaa',
       },
@@ -103,9 +102,7 @@ export const style = ({ theme, error, label, active, borderless, disabled, hover
       left: 0,
       top: 0,
       zIndex: 1,
-      transform: active
-        ? `translate(${borderless ? '0px' : '14px'}, -5px) scale(0.75)`
-        : `translate(${borderless ? '0px' : '14px'}, 11.5px) scale(1)`,
+      transform: active ? `translate(16px, -6px) scale(0.75)` : `translate(16px, 16px) scale(1)`,
       pointerEvents: 'none',
       transition: 'all 0.2s',
       transformOrigin: 'top left',
@@ -118,7 +115,7 @@ export const style = ({ theme, error, label, active, borderless, disabled, hover
       right: 0,
       bottom: 0,
       margin: 0,
-      padding: '0 8px',
+      padding: '0 10px',
       overflow: 'hidden',
       position: 'absolute',
       pointerEvents: 'none',
@@ -144,10 +141,12 @@ export const style = ({ theme, error, label, active, borderless, disabled, hover
       fontSize: '.65rem',
       lineHeight: 1.5,
       marginTop: '1.5px',
+      padding: '0 16px',
     }),
 
     hint: css({
       color: '#aaaaaa',
+      padding: '0 16px',
     }),
 
     error: css({
