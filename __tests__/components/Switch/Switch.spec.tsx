@@ -140,7 +140,7 @@ describe('Switch', () => {
       height: 14px;
       border-radius: 50%;
       background: green;
-      transform: translateX(16px);
+      transform: translateX(12px);
       transition: ease-in .1s;
       box-shadow: 0px 2px 4px -1px rgba(34,41,47,0.12),0px 4px 5px 0px rgba(34,41,47,0.08),0px 1px 10px 0px rgba(34,41,47,0.05);
     `);
@@ -150,7 +150,7 @@ describe('Switch', () => {
       height: 28px;
       border-radius: 50%;
       background: rgb(0, 0, 0);
-      transform: translateX(7px);
+      transform: translateX(5px);
       transition: ease-in .1s;
       position: absolute;
       opacity: 0;
