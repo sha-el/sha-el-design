@@ -14,9 +14,6 @@ export const style = ({ theme, nested, clickableRow }: { theme: Theme; nested: b
     '& li, & ul': {
       padding: '0 !important',
     },
-    '& .table-cell': {
-      padding: '0 16px',
-    },
   }),
   header: css({
     fontWeight: 500,
@@ -32,6 +29,7 @@ export const style = ({ theme, nested, clickableRow }: { theme: Theme; nested: b
     overflow: 'hidden',
     '& .table-cell': {
       textOverflow: 'ellipsis',
+      padding: '0 16px',
     },
     '&:hover': {
       filter: 'none !important',
@@ -44,7 +42,9 @@ export const style = ({ theme, nested, clickableRow }: { theme: Theme; nested: b
     borderBottom: `1px solid ${shadowColor(theme)[0]}`,
     borderCollapse: 'collapse',
     letterSpacing: '.3px',
-    minHeight: '52px',
+    '& .table-cell': {
+      padding: '18px 16px',
+    },
   }),
   nestedContent: css({
     marginLeft: '-20px',

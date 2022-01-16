@@ -11,7 +11,7 @@ export const content = (width: number) =>
     minWidth: 0,
     flex: '1 0 auto',
     minHeight: '100%',
-    width: `calc(100% - ${width + 50}px)`,
+    width: `calc(100% - ${width + 30}px)`,
     marginLeft: width + 'px',
-    margin: `5px 5px 5px ${width + (width === 0 ? 0 : 58) + 'px'}`,
+    margin: `5px 5px 5px ${width + (width === 0 ? 0 : 38) + 'px'}`,
   });
