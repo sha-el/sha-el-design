@@ -35,7 +35,7 @@ export class Portal extends React.Component<PortalProps, { dom: HTMLDivElement }
   }
 
   componentWillUnmount() {
-    this.state.dom.remove();
+    this.state.dom?.remove();
   }
 
   render() {
