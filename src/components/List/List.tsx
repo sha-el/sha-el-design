@@ -34,6 +34,7 @@ export const List: React.FC<ListProps> = (props) => {
               paddingCss(padding),
               props.className,
               css,
+              'sha-el-list',
             )}
             style={props.style}
           >

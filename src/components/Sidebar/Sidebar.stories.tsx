@@ -32,6 +32,11 @@ const Template: Story<SidebarProps> = (args) => (
         <ListItem>Email List</ListItem>
         <ListItem>Email Status</ListItem>
       </CollapsibleList>
+      <CollapsibleList header="Email" avatar={<VscMail style={{ width: '30px', height: '30px' }} />}>
+        <ListItem>Add Email</ListItem>
+        <ListItem>Email List</ListItem>
+        <ListItem>Email Status</ListItem>
+      </CollapsibleList>
       <Divider />
       <ListItem element={<a />} selected avatar={<VscSmiley style={{ width: '30px', height: '30px' }} />}>
         All users
