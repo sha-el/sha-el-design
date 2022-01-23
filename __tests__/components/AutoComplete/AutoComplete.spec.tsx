@@ -54,8 +54,10 @@ describe('Single AutoComplete', () => {
     const input = document.querySelector('input');
     expect(input.value).toBe('diana');
 
+    console.log(document.querySelectorAll('button').forEach((v) => console.log(v.innerHTML)));
+
     act(() => {
-      fireEvent.click(input);
+      fireEvent.click(document.querySelectorAll('button')[1]);
     });
     const selectedElement = document.querySelector('.list-item:nth-child(3)');
     expect(selectedElement).toHaveStyle(`
