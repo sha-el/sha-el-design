@@ -54,8 +54,6 @@ describe('Single AutoComplete', () => {
     const input = document.querySelector('input');
     expect(input.value).toBe('diana');
 
-    console.log(document.querySelectorAll('button').forEach((v) => console.log(v.innerHTML)));
-
     act(() => {
       fireEvent.click(document.querySelectorAll('button')[1]);
     });

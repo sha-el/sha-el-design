@@ -165,7 +165,6 @@ describe('Layout', () => {
     });
 
     const sideBar = document.querySelector('.sha-el-sidebar');
-    // const switchEl = document.querySelector('.sha-el-switch');
 
     act(() => {
       fireEvent.mouseEnter(sideBar);
@@ -188,7 +187,6 @@ describe('Layout', () => {
     });
 
     const sideBar = document.querySelector('.sha-el-sidebar');
-    // const switchEl = document.querySelector('.sha-el-switch');
 
     act(() => {
       fireEvent.mouseEnter(sideBar);
