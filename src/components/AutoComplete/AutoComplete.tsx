@@ -149,6 +149,11 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
         key="expand"
         flat
         shape="circle"
+        onClick={(e: React.MouseEvent) => {
+          e.preventDefault();
+          e.stopPropagation();
+          this.onOpen(!this.state.open);
+        }}
         icon={open ? <MdExpandLess key="expand" /> : <MdExpandMore key="expand" />}
       />,
     ];

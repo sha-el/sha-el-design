@@ -19,7 +19,11 @@ beforeAll(() => {
   };
 });
 
-const CreateLayout = (props: { drawerOpen?: boolean; updateDrawerOpen?: (e: boolean) => void }) => (
+const CreateLayout = (props: {
+  drawerOpen?: boolean;
+  updateDrawerOpen?: (e: boolean) => void;
+  onWidthChange?: (e: boolean) => void;
+}) => (
   <Container sidePanelInitialWidth={65}>
     <Sidebar
       responsive
@@ -30,6 +34,7 @@ const CreateLayout = (props: { drawerOpen?: boolean; updateDrawerOpen?: (e: bool
       brandText="Sha el Design"
       collapsedWidth={65}
       expandWidth={260}
+      onWidthChange={props.onWidthChange}
       bottom={
         <List elevation={0}>
           <CollapsibleList
@@ -150,6 +155,58 @@ describe('Layout', () => {
     expect(sideBar).toHaveStyle(`
     width: 260px
     `);
+  });
+
+  it('fires an event on sidepanel mouse enter and leave', async () => {
+    window.resizeTo(1300, 100);
+    const fn = jest.fn();
+    await act(async () => {
+      render(<CreateLayout onWidthChange={fn} />);
+    });
+
+    const sideBar = document.querySelector('.sha-el-sidebar');
+    // const switchEl = document.querySelector('.sha-el-switch');
+
+    act(() => {
+      fireEvent.mouseEnter(sideBar);
+    });
+
+    expect(fn).toBeCalledWith(true);
+
+    act(() => {
+      fireEvent.mouseLeave(sideBar);
+    });
+
+    expect(fn).toBeCalledWith(false);
+  });
+
+  it('should close all collapse on mouse leave', async () => {
+    window.resizeTo(1300, 100);
+    const fn = jest.fn();
+    await act(async () => {
+      render(<CreateLayout onWidthChange={fn} />);
+    });
+
+    const sideBar = document.querySelector('.sha-el-sidebar');
+    // const switchEl = document.querySelector('.sha-el-switch');
+
+    act(() => {
+      fireEvent.mouseEnter(sideBar);
+    });
+
+    expect(fn).toBeCalledWith(true);
+
+    act(() => {
+      fireEvent.click(document.querySelector('.list-item'));
+    });
+
+    expect(document.querySelector('.collapsible-item').innerHTML).toContain('Add Email');
+
+    act(() => {
+      fireEvent.mouseLeave(sideBar);
+    });
+
+    expect(document.querySelector('.collapsible-item').innerHTML).not.toContain('Add Email');
   });
 
   it('should render drawer for mobile', async () => {

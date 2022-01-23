@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { style } from './style';
 import { useTheme } from '../Theme/Theme';
 import { classes } from '../../helpers';
@@ -10,6 +10,7 @@ import { useWindowSize } from '../../helpers/Grid';
 import { Drawer } from '../Drawer';
 import { DrawerProps } from '../Drawer/Drawer';
 import { SidePanelContext } from '../Layout/Container';
+import { List } from '../List';
 
 export interface SidebarProps {
   /**
@@ -71,13 +72,28 @@ export interface SidebarProps {
    * responsive
    */
   responsive?: boolean;
+
+  /**
+   * Called when sidepanel opens or collapses
+   */
+  onWidthChange?: (e: boolean) => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = (props) => {
   const theme = useTheme();
   const [fixed, updateFixed] = useState(false);
+  const [openIndex, updateOpenIndex] = useState(-1);
+  const [panelOpen, updatePanelOpen] = useState(false);
+
+  useEffect(() => {
+    props.onWidthChange?.(panelOpen);
+  }, [panelOpen]);
+
   const css = style(props, theme, fixed);
   const { width } = useWindowSize();
+  const children: React.ReactElement[] = Array.isArray((props.children as React.ReactElement)?.props.children)
+    ? (props.children as React.ReactElement)?.props.children
+    : [(props.children as React.ReactElement)?.props.children];
 
   const content = () => (
     <SidePanelContext.Consumer>
@@ -104,7 +120,15 @@ export const Sidebar: React.FC<SidebarProps> = (props) => {
               <Divider />
             </div>
           )}
-          {props.children}
+          <List elevation={0}>
+            {children.map((v, i) =>
+              React.cloneElement(v || <div />, {
+                key: i,
+                open: panelOpen ? openIndex === i : false,
+                onChange: () => updateOpenIndex(i === openIndex ? -1 : i),
+              }),
+            )}
+          </List>
           <div className={classes(css.bottom, 'sidebar-bottom')}>{props.bottom}</div>
         </div>
       )}
@@ -127,7 +151,11 @@ export const Sidebar: React.FC<SidebarProps> = (props) => {
   }
 
   return (
-    <div className={classes(css.container, css.sidebar, elevationCss(props.elevation), 'sha-el-sidebar')}>
+    <div
+      onMouseLeave={() => !fixed && updatePanelOpen(false)}
+      onMouseEnter={() => !fixed && updatePanelOpen(true)}
+      className={classes(css.container, css.sidebar, elevationCss(props.elevation), 'sha-el-sidebar')}
+    >
       {content()}
     </div>
   );

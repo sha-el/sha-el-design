@@ -3,6 +3,7 @@ import { ListItem, ListItemProps } from './ListItem';
 import { nestedItem as style } from './style';
 import { MdExpandMore, MdExpandLess } from 'react-icons/md';
 import { Row, Col } from '../Grid';
+import { classes } from '../../helpers';
 
 export interface CollapsibleListProps extends ListItemProps {
   header: React.ReactNode;
@@ -37,7 +38,7 @@ export const CollapsibleList: React.FC<CollapsibleListProps> = (props) => {
         {props.header}
       </ListItem>
       <div
-        className={css}
+        className={classes(css, 'collapsible-item')}
         style={{
           maxHeight: open ? '100vh' : '0',
         }}
