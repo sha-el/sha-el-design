@@ -183,7 +183,7 @@ describe('Calendar', () => {
       fireEvent.click(yearMenu);
     });
     const yearArray = document.querySelectorAll('ul')[1].querySelectorAll('li');
-    act(() => {
+    await act(async () => {
       fireEvent.click(yearArray[2025 - 1980]);
     });
 

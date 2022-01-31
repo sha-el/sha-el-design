@@ -68,7 +68,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
       const [startDate, endDate] = [initialDate(v.startDate), initialDate(v.endDate)];
       if (day === startDate.getDate() && month === startDate.getMonth() && year === startDate.getFullYear()) {
         return (
-          <Tooltip key={i} placement="top" trigger={['onMouseOver']} overlay={v.eventName}>
+          <Tooltip key={`tooltip-${i}`} placement="top" trigger={['onMouseOver']} overlay={v.eventName}>
             <div
               className={style.badge}
               style={{
@@ -90,7 +90,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
         compareDesc(new Date(year, month, day), endDate) === 1
       ) {
         return (
-          <Tooltip key={i} placement="top" trigger={['onMouseOver']} overlay={v.eventName}>
+          <Tooltip key={`tooltip-${i}`} placement="top" trigger={['onMouseOver']} overlay={v.eventName}>
             <div
               className={style.badge}
               style={{
@@ -108,7 +108,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
 
       if (day === endDate.getDate() && month === endDate.getMonth() && year === endDate.getFullYear()) {
         return (
-          <Tooltip key={i} placement="top" trigger={['onMouseOver']} overlay={v.eventName}>
+          <Tooltip key={`tooltip-${i}`} placement="top" trigger={['onMouseOver']} overlay={v.eventName}>
             <div
               className={style.badge}
               style={{
@@ -132,7 +132,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
   const getdateArray = () => {
     const dateArray: React.ReactElement[] = [];
 
-    weeksDateArray.map((v) => {
+    weeksDateArray.map((v, j) => {
       weeks.forEach((f, i) => {
         const selectedDate = props.date;
         const isSelectedDate =
@@ -160,7 +160,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
           selectedDate?.getMilliseconds() || 0,
         );
         dateArray.push(
-          <Col className={css.cell} key={i} span={24 / 7}>
+          <Col className={css.cell} key={`button-${f}-${i}-${j}`} span={24 / 7}>
             {nestedAccess(v, f) ? (
               props.cellRender?.(newDate, f) || (
                 <Button
@@ -233,7 +233,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
       </Row>
       <Row>
         {weeks.map((v) => (
-          <Col span={24 / 7} key={v} style={{ overflow: 'hidden' }}>
+          <Col span={24 / 7} key={`weeks-${v}`} style={{ overflow: 'hidden' }}>
             <Text padding="5px" fontWeight={600} textAlign="center" variant="p" color="light">
               {v.slice(0, 3)}
             </Text>
