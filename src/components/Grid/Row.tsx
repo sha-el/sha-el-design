@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { classes } from '../../helpers';
 import { gutterStyle, rowStyle } from './style';
+import { RowContext } from './RowContext';
 
 export const Row: React.FC<RowProps> = (props) => {
   const {
@@ -22,42 +23,17 @@ export const Row: React.FC<RowProps> = (props) => {
 
   const [rowGutterStyles, colPadding] = gutterStyle(props);
 
-  const finalPadding = (index: number, padding: { paddingLeft: number; paddingRight: number }) => {
-    if (index === 0) {
-      return {
-        paddingLeft: padding.paddingLeft / 2,
-        paddingRight: padding.paddingRight,
-      };
-    }
-
-    if (index === children.length - 1) {
-      return {
-        paddingLeft: padding.paddingLeft,
-        paddingRight: padding.paddingRight / 2,
-      };
-    }
-
-    return padding;
-  };
-
   return (
-    <div
-      onClick={onClick}
-      className={classes(rowStyle(props), rowGutterStyles, className, 'sha-el-row')}
-      style={style}
-      {...rest}
-    >
-      {children
-        .filter((child) => !!child)
-        .map((child, i) =>
-          React.cloneElement(
-            child,
-            (child.type as unknown as { displayName: string }).displayName === 'Col'
-              ? { key: i, style: { ...finalPadding(i, colPadding), ...child.props.style } }
-              : { key: i, style: { ...child.props.style } },
-          ),
-        )}
-    </div>
+    <RowContext.Provider value={{ colPadding }}>
+      <div
+        onClick={onClick}
+        className={classes(rowStyle(props), rowGutterStyles, className, 'sha-el-row')}
+        style={style}
+        {...rest}
+      >
+        {children}
+      </div>
+    </RowContext.Provider>
   );
 };
 

@@ -21,7 +21,7 @@ describe('Calendar', () => {
       align-items: center;
       justify-content: center;
       flex-wrap: wrap;
-      padding: 0px 0px 0px 0px;
+      padding: 0px;
       cursor: pointer;
     `);
   });

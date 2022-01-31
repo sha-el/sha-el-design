@@ -81,10 +81,6 @@ describe('TimePicker', () => {
 
     const hourColumn = timePickerContainer.querySelector('.hour-column');
     expect(hourColumn).toHaveStyle(`
-      padding-left: 0px;
-      padding-right: 0px;
-    `);
-    expect(hourColumn).toHaveStyle(`
       border-right: 1px solid #eee;
     `);
     expect(hourColumn).toHaveStyle(`

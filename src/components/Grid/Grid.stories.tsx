@@ -3,7 +3,6 @@ import { Story, Meta } from '@storybook/react';
 
 import { Row, Col } from '.';
 import { RowProps } from './Row';
-import { ColProps } from './Col';
 import { Card } from '../Card';
 import { useTheme } from '../Theme/Theme';
 
@@ -22,7 +21,7 @@ RowTemplate.args = {
   style: { textAlign: 'center', color: 'white', background: 'lightblue' },
 };
 
-export const Span: Story<ColProps> = (args) => {
+export const Span: Story<RowProps> = (args) => {
   const theme = useTheme();
   return (
     <Row {...RowTemplate.args} {...args}>
@@ -65,11 +64,11 @@ export const Span: Story<ColProps> = (args) => {
   );
 };
 
-export const FlexBox: Story<ColProps> = (args) => {
+export const FlexBox: Story<RowProps> = (args) => {
   const theme = useTheme();
   return (
-    <Row {...RowTemplate.args}>
-      <Col flex="1 0 100px" {...args}>
+    <Row {...RowTemplate.args} {...args}>
+      <Col flex="1 0 100px">
         <Card elevation={0} style={{ borderRadius: '0', background: theme.primary }}>
           flex=1 0 100px
         </Card>
@@ -83,10 +82,10 @@ export const FlexBox: Story<ColProps> = (args) => {
   );
 };
 
-export const JustifyContent: Story<ColProps> = (args) => {
+export const JustifyContent: Story<RowProps> = (args) => {
   const theme = useTheme();
   return (
-    <Row {...RowTemplate.args} justifyContent="flex-end">
+    <Row {...RowTemplate.args} {...args}>
       <Col flex="0 1 200px" {...args}>
         <Card elevation={0} style={{ borderRadius: '0', background: theme.primary }}>
           flex=0 1 200px
@@ -101,10 +100,14 @@ export const JustifyContent: Story<ColProps> = (args) => {
   );
 };
 
-export const Responsive: Story<ColProps> = () => {
+JustifyContent.args = {
+  justifyContent: 'flex-end',
+};
+
+export const Responsive: Story<RowProps> = (args) => {
   const theme = useTheme();
   return (
-    <Row {...RowTemplate.args}>
+    <Row {...RowTemplate.args} {...args}>
       <Col spanXs={24} spanSm={20} spanMd={16} spanLg={12} spanXl={8}>
         <Card elevation={0} style={{ borderRadius: '0', background: theme.primary }}>
           1
@@ -144,11 +147,11 @@ export const Responsive: Story<ColProps> = () => {
   );
 };
 
-export const Gutter: Story<ColProps> = (args) => {
+export const Gutter: Story<RowProps> = (args) => {
   const theme = useTheme();
   return (
-    <Row {...RowTemplate.args} gutter={[{ xs: 10, sm: 20, md: 35, xl: 70 }, 40]}>
-      <Col span={24} {...args}>
+    <Row {...RowTemplate.args} {...args}>
+      <Col span={24}>
         <Card elevation={0} style={{ borderRadius: '0', background: theme.primary }}>
           Span 24
         </Card>
@@ -187,11 +190,15 @@ export const Gutter: Story<ColProps> = (args) => {
   );
 };
 
-export const Nested: Story<ColProps> = (args) => {
+Gutter.args = {
+  gutter: [{ xs: 10, sm: 20, md: 35, xl: 70 }, 40],
+};
+
+export const Nested: Story<RowProps> = (args) => {
   const theme = useTheme();
   return (
-    <Row {...RowTemplate.args}>
-      <Col flex="1 0 200px" {...args}>
+    <Row {...RowTemplate.args} {...args} gutter={40}>
+      <Col flex="1 0 200px">
         <Card elevation={0} style={{ borderRadius: '0', background: theme.primary }}>
           <Row>
             <Col span={12}>
