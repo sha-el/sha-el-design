@@ -4,6 +4,8 @@ import { nestedItem as style } from './style';
 import { MdExpandMore, MdExpandLess } from 'react-icons/md';
 import { Row, Col } from '../Grid';
 import { classes } from '../../helpers';
+import { useContext } from 'react';
+import { SidePanelContext } from '../Sidebar/SidebarContext';
 
 export interface CollapsibleListProps extends ListItemProps {
   header: React.ReactNode;
@@ -15,6 +17,7 @@ export interface CollapsibleListProps extends ListItemProps {
 export const CollapsibleContext = React.createContext({ isCollapsible: false });
 
 export const CollapsibleList: React.FC<CollapsibleListProps> = (props) => {
+  const sidebarContext = useContext(SidePanelContext);
   const [listOpen, toggleList] = React.useState(props.open || false);
   const open = props.open === undefined && !props.onChange ? listOpen : props.open;
 
@@ -40,11 +43,11 @@ export const CollapsibleList: React.FC<CollapsibleListProps> = (props) => {
       <div
         className={classes(css, 'collapsible-item')}
         style={{
-          maxHeight: open ? '100vh' : '0',
+          maxHeight: open && sidebarContext.sidebarOpen !== false ? '100vh' : '0',
         }}
       >
         <CollapsibleContext.Provider value={{ isCollapsible: true }}>
-          {open && props.children}
+          {open && sidebarContext.sidebarOpen !== false && props.children}
         </CollapsibleContext.Provider>
       </div>
     </div>

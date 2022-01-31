@@ -116,8 +116,7 @@ describe('Layout', () => {
       min-width: 0;
       flex: 1 0 auto;
       min-height: 100%;
-      width: calc(100% - 95px);
-      margin: 5px 5px 5px 103px;
+      margin-left: 85px;
     `);
   });
 

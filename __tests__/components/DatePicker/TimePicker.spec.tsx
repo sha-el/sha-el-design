@@ -93,10 +93,6 @@ describe('TimePicker', () => {
 
     const minColumn = timePickerContainer.querySelector('.min-column');
     expect(minColumn).toHaveStyle(`
-      padding-left: 0px;
-      padding-right: 0px;
-    `);
-    expect(minColumn).toHaveStyle(`
       border-right: 1px solid #eee;
     `);
     expect(minColumn).toHaveStyle(`
@@ -108,10 +104,6 @@ describe('TimePicker', () => {
     `);
 
     const secColumn = timePickerContainer.querySelector('.sec-column');
-    expect(secColumn).toHaveStyle(`
-      padding-left: 0px;
-      padding-right: 0px;
-    `);
     expect(secColumn).toHaveStyle(`
       border-right: 1px solid #eee;
     `);
