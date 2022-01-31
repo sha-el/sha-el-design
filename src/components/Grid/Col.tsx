@@ -1,11 +1,13 @@
 import * as React from 'react';
 import { classes } from '../../helpers';
+import { RowContext } from './RowContext';
 import { colStyle } from './style';
 
 export const Col: React.FC<ColProps> = React.forwardRef((props, ref) => {
   const {
     className,
     children,
+    style,
     span: __span,
     spanSm: __spanSm,
     spanMd: __spanMd,
@@ -15,9 +17,18 @@ export const Col: React.FC<ColProps> = React.forwardRef((props, ref) => {
     ...rest
   } = props;
   return (
-    <div ref={ref} className={classes(className, colStyle(props), 'sha-el-col')} {...rest}>
-      {children}
-    </div>
+    <RowContext.Consumer>
+      {({ colPadding }) => (
+        <div
+          ref={ref}
+          className={classes(className, colStyle(props), 'sha-el-col')}
+          style={{ ...(colPadding.paddingLeft === 0 && colPadding.paddingRight === 0 ? {} : colPadding), ...style }}
+          {...rest}
+        >
+          {children}
+        </div>
+      )}
+    </RowContext.Consumer>
   );
 });
 
