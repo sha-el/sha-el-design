@@ -9,7 +9,7 @@ export const content = (width: number) =>
   css({
     position: 'relative',
     minWidth: 0,
-    flex: '1 0 auto',
+    flex: '1',
     minHeight: '100%',
     marginLeft: width + (width === 0 ? 0 : 20) + 'px',
     padding: '0 28px',
