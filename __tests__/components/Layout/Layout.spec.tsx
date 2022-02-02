@@ -114,7 +114,7 @@ describe('Layout', () => {
     expect(content).toHaveStyle(`
       position: relative;
       min-width: 0;
-      flex: 1 0 auto;
+      flex: 1;
       min-height: 100%;
       margin-left: 85px;
     `);

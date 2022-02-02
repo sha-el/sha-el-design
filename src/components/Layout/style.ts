@@ -1,9 +1,12 @@
 import { css } from '@emotion/css';
+import { ContainerProps } from './Container';
 
-export const container = css({
-  display: 'flex',
-  position: 'relative',
-});
+export const container = (props: ContainerProps) =>
+  css({
+    display: 'flex',
+    position: 'relative',
+    marginTop: props.navBar && '90px',
+  });
 
 export const content = (width: number) =>
   css({

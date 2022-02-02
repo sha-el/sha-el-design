@@ -14,7 +14,18 @@ export const Container: React.FC<ContainerProps> = (props) => {
 
   return (
     <ContainerContext.Provider value={{ width: windowWidth < 1200 ? 0 : width, updateWidth }}>
-      <div className={classes(style, 'sha-el-conatiner')}>{props.children}</div>
+      <div
+        style={{
+          position: 'fixed',
+          top: '0',
+          width: `calc(100% - ${width === 0 ? 0 : width + 20}px)`,
+          zIndex: 1,
+          left: width === 0 ? 0 : width + 20,
+        }}
+      >
+        {props.navBar}
+      </div>
+      <div className={classes(style(props), 'sha-el-conatiner')}>{props.children}</div>
     </ContainerContext.Provider>
   );
 };
@@ -22,4 +33,5 @@ export const Container: React.FC<ContainerProps> = (props) => {
 export interface ContainerProps {
   children: React.ReactNode;
   sidePanelInitialWidth?: number;
+  navBar?: React.ReactNode;
 }

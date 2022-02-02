@@ -8,6 +8,8 @@ import { Basic } from '../Page/Page.stories';
 import { Sidebar } from '../Sidebar';
 import { FcSelfie } from 'react-icons/fc';
 import { VscMail, VscSmiley } from 'react-icons/vsc';
+import { NavBar } from '../NavBar';
+import { Md3DRotation } from 'react-icons/md';
 
 export default {
   title: 'Layout/Layouts',
@@ -19,7 +21,23 @@ export default {
 } as Meta;
 
 export const BasicLayout: Story = () => (
-  <Container sidePanelInitialWidth={65}>
+  <Container
+    sidePanelInitialWidth={65}
+    navBar={
+      <NavBar
+        bgColor="rgba(255, 255, 255, 0.8)"
+        icon={
+          <img
+            style={{ width: '55px' }}
+            src="https://camo.githubusercontent.com/7a51cd44a596528ddc34146d843b405827a011d095dc7ed2446f05302d1eb72a/68747470733a2f2f64726976652e676f6f676c652e636f6d2f75633f69643d317878376244776865394e4e6c39336a4a76794552627433556b79335862666356"
+          />
+        }
+        title="Title"
+        action={<Md3DRotation />}
+        elevation={0}
+      />
+    }
+  >
     <Sidebar
       placement="left"
       brandIcon={<FcSelfie style={{ width: '65px', height: '50px' }} />}

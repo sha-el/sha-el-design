@@ -24,6 +24,7 @@ Basic.args = {
     top: 0,
     left: 0,
     right: 0,
+    width: '100%',
   },
   action: <Md3DRotation />,
 };
