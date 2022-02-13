@@ -19,8 +19,8 @@ export const Progress: React.FC<ProgressProps> = (props) => {
         <svg width="120" height="120">
           <circle
             className={classes(css.circle, 'sha-el-progress-circle')}
-            style={{ strokeDashoffset: offset, strokeDasharray: `${circumference} ${circumference}` }}
-            stroke={theme[props.status]}
+            style={{ strokeDashoffset: offset, strokeDasharray: `${circumference} ${circumference}`, ...props.style }}
+            stroke={theme[props.color] || props.color}
             strokeWidth="10px"
             fill="transparent"
             r={radius}
@@ -34,10 +34,13 @@ export const Progress: React.FC<ProgressProps> = (props) => {
   }
 
   return (
-    <Row>
+    <Row alignItems="center">
       <Col style={{ padding: '0.5rem' }} flex="1 0 auto">
         <div className={classes(css.container, 'sha-el-progress', elevationCss(props.elevation))}>
-          <div style={{ width: props.percent + '%' }} className={classes(css.line, 'sha-el-progress-line')} />
+          <div
+            style={{ width: props.percent + '%', ...props.style }}
+            className={classes(css.line, 'sha-el-progress-line')}
+          />
         </div>
       </Col>
       {props.label && (
@@ -51,14 +54,16 @@ export const Progress: React.FC<ProgressProps> = (props) => {
 
 Progress.defaultProps = {
   type: 'line',
-  status: 'primary',
+  color: 'primary',
   elevation: 2,
+  style: {},
 };
 
 export interface ProgressProps {
   percent: number;
   type?: 'circle' | 'line';
-  status?: 'primary' | 'secondary' | 'warning' | 'error' | 'info';
+  color?: 'primary' | 'secondary' | 'warning' | 'error' | 'info' | string;
   label?: React.ReactNode;
   elevation?: number;
+  style?: React.CSSProperties;
 }
