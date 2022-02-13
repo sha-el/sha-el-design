@@ -42,3 +42,4 @@ export { Portal } from './components/Portal';
 export { Sidebar } from './components/Sidebar';
 export { Switch } from './components/Switch';
 export { NavBar } from './components/NavBar';
+export { Rating } from './components/Rating';
