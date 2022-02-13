@@ -15,7 +15,7 @@ export default {
 export const Basic: Story<ProgressProps> = (args) => <Progress {...args} />;
 Basic.args = {
   percent: 50,
-  status: 'primary',
+  color: 'primary',
 };
 
 export const Label = Basic.bind({});
@@ -29,4 +29,13 @@ Circle.args = {
   ...Basic.args,
   label: '50%',
   type: 'circle',
+};
+
+export const CustomStyle = Basic.bind({});
+CustomStyle.args = {
+  ...Basic.args,
+  label: '50%',
+  style: {
+    height: '100px',
+  },
 };

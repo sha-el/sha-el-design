@@ -7,7 +7,7 @@ import { render } from '@testing-library/react';
 
 describe('Progress', () => {
   it('should render a basic progress bar', () => {
-    render(<Progress percent={50} status="primary" />);
+    render(<Progress percent={50} color="primary" />);
 
     const container = document.querySelector('.sha-el-progress');
     expect(container).toHaveStyle(`
@@ -95,7 +95,7 @@ describe('Progress', () => {
   });
 
   it('should render a progress bar with custom percent', () => {
-    render(<Progress percent={65} status="primary" />);
+    render(<Progress percent={65} color="primary" />);
 
     const progressLine = document.querySelector('.sha-el-progress-line');
     expect(progressLine).toHaveStyle(`
@@ -104,7 +104,7 @@ describe('Progress', () => {
   });
 
   it('should render a secondary progress bar', () => {
-    render(<Progress percent={50} status="secondary" />);
+    render(<Progress percent={50} color="secondary" />);
 
     const progressLine = document.querySelector('.sha-el-progress-line');
     expect(progressLine).toHaveStyle(`
@@ -113,7 +113,7 @@ describe('Progress', () => {
   });
 
   it('should render a warning progress bar', () => {
-    render(<Progress percent={50} status="warning" />);
+    render(<Progress percent={50} color="warning" />);
 
     const progressLine = document.querySelector('.sha-el-progress-line');
     expect(progressLine).toHaveStyle(`
@@ -122,7 +122,7 @@ describe('Progress', () => {
   });
 
   it('should render an error progress bar', () => {
-    render(<Progress percent={50} status="error" />);
+    render(<Progress percent={50} color="error" />);
 
     const progressLine = document.querySelector('.sha-el-progress-line');
     expect(progressLine).toHaveStyle(`
@@ -131,7 +131,7 @@ describe('Progress', () => {
   });
 
   it('should render an info progress bar', () => {
-    render(<Progress percent={50} status="info" />);
+    render(<Progress percent={50} color="info" />);
 
     const progressLine = document.querySelector('.sha-el-progress-line');
     expect(progressLine).toHaveStyle(`

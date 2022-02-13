@@ -15,7 +15,7 @@ export const style = (theme: Theme, props: ProgressProps) => {
     line: css({
       height: '10px',
       lineHeight: '10px',
-      background: theme[props.status],
+      background: theme[props.color] || props.color,
       borderRadius: '0 2px 2px 0',
       transition: 'all .4s cubic-bezier(.08,.82,.17,1) 0s',
     }),
