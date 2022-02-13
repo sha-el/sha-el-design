@@ -1,12 +1,15 @@
-import { Theme } from '../Theme/Theme';
 import { css } from '@emotion/css';
 import { CardMediaProps } from './CardMedia';
+import { ColorChoices } from '../../typings/color';
+import { colorFromChoices } from '../../helpers/color';
 
-export const cardStyle = (theme: Theme) =>
+export const cardStyle = (colors: ColorChoices) =>
   css({
-    background: theme.background,
+    // background: themeVar.neutral.neutralKeyColor.surface,
+    // color: themeVar.neutral.neutralKeyColor.onSurface,
     boxSizing: 'border-box',
     borderRadius: '16px',
+    ...colorFromChoices(colors),
   });
 
 export const cardMediaStyle = (props: CardMediaProps) =>

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import posed from 'react-pose';
-import { useTheme } from '../Theme/Theme';
 import { style } from './style';
 import { TabPanelProps } from './TabPanel';
 
@@ -31,8 +30,7 @@ export const TabPanelContainer: React.FC<TabPanelContainerProps> = (props) => {
     );
   };
 
-  const theme = useTheme();
-  const css = style(theme);
+  const css = style();
   return <div className={css.tabPanelContainer}>{displayList()}</div>;
 };
 

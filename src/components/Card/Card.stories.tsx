@@ -14,10 +14,10 @@ export default {
   },
 } as Meta;
 
-const Template: Story<CardProps> = (args) => <Card {...args} />;
+const Template: Story<CardProps> = (args) => <Card {...args} style={{ width: '400px' }} />;
 
-export const HeaderAndBody = Template.bind({});
-HeaderAndBody.args = {
+export const ElevatedCard = Template.bind({});
+ElevatedCard.args = {
   children: (
     <>
       <CardHeader subtitle="Do you Know Lorem Ipsum?">Lorem Ipsum</CardHeader>
@@ -33,7 +33,7 @@ CardMediaAndBody.args = {
   children: (
     <>
       <CardMedia height="300px" image="https://placeholder.com/wp-content/uploads/2019/06/lorem-ipsum.png" />
-      <CardHeader subtitle="Do you Know Lorem Ipsum?" action={<Button flat icon={<IoMdOptions />} />}>
+      <CardHeader subtitle="Do you Know Lorem Ipsum?" action={<Button text icon={<IoMdOptions />} />}>
         Lorem Ipsum
       </CardHeader>
       Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the standard dummy
@@ -41,4 +41,17 @@ CardMediaAndBody.args = {
       book.
     </>
   ),
+};
+
+export const FilledCard = Template.bind({});
+FilledCard.args = {
+  ...ElevatedCard.args,
+  filled: 'primary',
+};
+
+export const OutlineCard = Template.bind({});
+OutlineCard.args = {
+  ...ElevatedCard.args,
+  border: 1,
+  elevation: 0,
 };

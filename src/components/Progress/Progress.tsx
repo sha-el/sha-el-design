@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { Col, Row } from '../Grid';
-import { useTheme } from '../Theme/Theme';
 import { Text } from '../Text/Text';
 import { style } from './style';
 import { classes } from '../../helpers';
 import { elevationCss } from '../../helpers/elevations';
+import { ColorChoices } from '../../typings/color';
+import { colorFromChoices } from '../../helpers/color';
 
 export const Progress: React.FC<ProgressProps> = (props) => {
-  const theme = useTheme();
-  const css = style(theme, props);
+  const css = style(props);
 
   if (props.type === 'circle') {
     const radius = 52;
@@ -20,7 +20,7 @@ export const Progress: React.FC<ProgressProps> = (props) => {
           <circle
             className={classes(css.circle, 'sha-el-progress-circle')}
             style={{ strokeDashoffset: offset, strokeDasharray: `${circumference} ${circumference}`, ...props.style }}
-            stroke={theme[props.color] || props.color}
+            stroke={colorFromChoices(props.color).background}
             strokeWidth="10px"
             fill="transparent"
             r={radius}
@@ -62,7 +62,7 @@ Progress.defaultProps = {
 export interface ProgressProps {
   percent: number;
   type?: 'circle' | 'line';
-  color?: 'primary' | 'secondary' | 'warning' | 'error' | 'info' | string;
+  color?: ColorChoices;
   label?: React.ReactNode;
   elevation?: number;
   style?: React.CSSProperties;

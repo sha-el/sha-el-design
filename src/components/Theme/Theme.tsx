@@ -1,75 +1,89 @@
 import * as React from 'react';
-import { useTheme as themeHook, ThemeProvider as EmoThemeProvider } from '@emotion/react';
+import { ThemeProvider as EmoThemeProvider } from '@emotion/react';
 import { initElevations } from '../../helpers/elevations';
 import { initBorders } from '../../helpers/border';
+import { LIGHT_THEME, toCss, toInternalTheme } from './helper';
 
-export const DARK_THEME = {
-  primary: '#536DFE',
-  secondary: '#f06292',
-  default: '#10163a',
-  background: '#23232D',
-  bodyBg: '#13131A',
-  error: '#f44336',
-  danger: '#f44336',
-  warning: '#ff9800',
-  info: '#2196f3',
-  textColor: '#fff',
-};
-
-const LIGHT_THEME = {
-  primary: '#536DFE',
-  secondary: '#f06292',
-  default: '#eeeeee',
-  background: '#ffffff',
-  bodyBg: '#F6F7FF',
-  error: '#f44336',
-  danger: '#f44336',
-  warning: '#ff9800',
-  info: '#2196f3',
-  textColor: 'rgba(0,0,0,0.87)',
-};
-
-export const useTheme = () => {
-  let theme = themeHook() as Theme;
-  theme = theme.primary ? theme : LIGHT_THEME;
+export const useTheme = (theme = LIGHT_THEME) => {
+  const internalTheme = toInternalTheme(theme);
   const style = document.querySelector('#sha-el-design-theme-consumer') || document.createElement('style');
   style.id = 'sha-el-design-theme-consumer';
+
   style.innerHTML = `
         :root {
-          --primary: ${theme.primary};
-          --background: ${theme.bodyBg};
-          --color: ${theme.textColor}
+          ${toCss(internalTheme)}
         }
-        ${initElevations(theme)}
-        ${initBorders(theme)}`;
+        ${initElevations(internalTheme)}
+        ${initBorders()}`;
   document.getElementsByTagName('head')[0].appendChild(style);
-  return theme;
+  return internalTheme;
 };
 
 export const ThemeProvider: React.FunctionComponent<ThemeProps> = (props) => {
-  const theme = { ...(props.theme === 'DARK' ? DARK_THEME : LIGHT_THEME), ...(props.colors || {}) };
-  return <EmoThemeProvider theme={theme}>{props.children}</EmoThemeProvider>;
+  useTheme(props.theme);
+  return <EmoThemeProvider theme={toInternalTheme(props.theme)}>{props.children}</EmoThemeProvider>;
 };
 
 ThemeProvider.defaultProps = {
-  theme: 'DARK',
+  theme: LIGHT_THEME,
 };
 
 interface ThemeProps {
-  theme: 'LIGHT' | 'DARK';
-  colors?: Record<keyof Theme, string>;
+  theme?: Theme;
 }
 
 export interface Theme {
   primary: string;
   secondary: string;
-  default: string;
+  tertiary: string;
+  neutral: string;
+  neutralVariant: string;
   error: string;
-  danger: string;
-  warning: string;
-  info: string;
+  type: 'light' | 'dark';
+}
 
-  bodyBg: string;
-  background: string;
-  textColor: string;
+export interface ThemeInternal<T = string[]> {
+  accent: {
+    primaryKeyColor: {
+      primary: string;
+      onPrimary: string;
+      primaryContainer: string;
+      onPrimaryContainer: string;
+      tones: T;
+    };
+    secondaryKeyColor: {
+      secondary: string;
+      onSecondary: string;
+      secondaryContainer: string;
+      onSecondaryContainer: string;
+      tones: T;
+    };
+    tertiaryKeyColor: {
+      tertiary: string;
+      onTertiary: string;
+      tertiaryContainer: string;
+      onTertiaryContainer: string;
+      tones: T;
+    };
+  };
+  neutral: {
+    neutralKeyColor: {
+      background: string;
+      onBackground: string;
+      surface: string;
+      onSurface: string;
+    };
+    neutralVariantKeyColor: {
+      surfaceVariant: string;
+      onSurfaceVariant: string;
+      outline: string;
+    };
+    error: {
+      error: string;
+      onError: string;
+      errorContainer: string;
+      onErrorContainer: string;
+      disabled: string;
+    };
+  };
 }

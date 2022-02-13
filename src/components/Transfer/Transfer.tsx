@@ -106,18 +106,18 @@ export function Transfer<T>(props: TransferProps<T>) {
         <Col span={4} className="button-column">
           <Button
             displayBlock
-            flat
+            text
             disabled={!selectedLeft.length}
             icon={<MdKeyboardArrowRight />}
-            type="primary"
+            primary
             onClick={() => transfer('right')}
           />
           <Button
             displayBlock
-            flat
+            text
             disabled={!selectedRight.length}
             icon={<MdKeyboardArrowLeft />}
-            type="primary"
+            primary
             onClick={() => transfer('left')}
           />
         </Col>

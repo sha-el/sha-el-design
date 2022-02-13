@@ -1,32 +1,19 @@
 import * as React from 'react';
 import { classes } from '../../helpers';
-import { borderCss } from '../../helpers/border';
-import { elevationCss } from '../../helpers/elevations';
-import { marginCss } from '../../helpers/margin';
-import { paddingCss } from '../../helpers/padding';
+import { surfaceProps } from '../../helpers/surface';
 import { SurfaceProps } from '../../typings/surface';
+import { Card } from '../Card';
 import { Portal } from '../Portal/Portal';
-import { useTheme } from '../Theme/Theme';
 import { style as modalStyle } from './style';
 
 export const Modal: React.FunctionComponent<ModalProps> = (props) => {
-  const {
-    children,
-    isVisible,
-    style = {},
-    width,
-    elevation = 24,
-    padding = { xs: 2, sm: 5, md: 10 },
-    margin = { xs: [2, 0], md: [4, 0] },
-    border,
-  } = props;
+  const { children, isVisible, style = {}, width } = props;
 
   const [className, updateClassName] = React.useState('');
   const [open, updateOpen] = React.useState(isVisible);
   const [lastVisible, updateLastVisible] = React.useState(open);
 
-  const theme = useTheme();
-  const css = modalStyle(theme);
+  const css = modalStyle();
 
   const onHide = () => {
     setTimeout(() => updateOpen(false), 200);
@@ -51,20 +38,15 @@ export const Modal: React.FunctionComponent<ModalProps> = (props) => {
   return (
     <Portal key="modal">
       <div key="mask" className={classes(css.maskStyle, 'sha-el-modal')} onClick={() => props.onClose?.()}>
-        <div
+        <Card
           key="container"
-          className={classes(
-            css.mediaQueries,
-            css.modalContainer,
-            elevationCss(elevation),
-            borderCss(border),
-            className,
-          )}
+          className={classes(css.mediaQueries, css.modalContainer, className)}
           style={{ width, ...style }}
           onClick={(e) => e.stopPropagation()}
+          {...surfaceProps(props)}
         >
-          <div className={classes(paddingCss(padding), marginCss(margin))}>{children}</div>
-        </div>
+          {children}
+        </Card>
       </div>
     </Portal>
   );

@@ -1,14 +1,14 @@
 import { css } from '@emotion/css';
 import { zAboveBase } from '../../helpers/zIndex';
-import { Theme } from '../Theme/Theme';
+import { themeVar } from '../Theme/helper';
 import { SidebarProps } from './Sidebar';
 
-export const style = (props: SidebarProps, theme: Theme, fixed: boolean) => {
+export const style = (props: SidebarProps, fixed: boolean) => {
   return {
     container: css({
       padding: '10px',
       height: `calc(100vh - ${props.top + props.top ? 20 : 0}px)`,
-      background: theme.background,
+      background: themeVar.neutral.neutralKeyColor.surface,
       position: 'fixed',
       left: 0,
       top: props.top,

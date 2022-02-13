@@ -4,6 +4,7 @@ export interface NotificationProps {
   id?: string;
   title: React.ReactNode;
   type?: 'info' | 'error' | 'warning' | 'success';
+  color?: string;
   message?: React.ReactNode;
   duration?: number;
   callBack?: () => void;

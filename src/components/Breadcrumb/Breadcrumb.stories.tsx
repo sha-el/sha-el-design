@@ -42,7 +42,7 @@ WithMenu.args = {
     <a key="1" href="#">
       <MdHome />
     </a>,
-    <Menu trigger="onHover" densed position="bottom" key="2" anchor={<Button flat>Options</Button>}>
+    <Menu trigger="onMouseOver" densed placement="bottom" key="2" anchor={<Button flat>Options</Button>}>
       <MenuItem>Option 1</MenuItem>
     </Menu>,
   ],

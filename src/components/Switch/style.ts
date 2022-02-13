@@ -1,25 +1,25 @@
 import { css } from '@emotion/css';
-import { colorShades, lightText } from '../../helpers/color';
-import { Theme } from '../Theme/Theme';
+import { colorFromChoices } from '../../helpers/color';
+import { themeVar } from '../Theme/helper';
 import { SwitchProps } from './Switch';
 
-export const style = (props: SwitchProps, theme: Theme) => {
-  let trackBackground = props.checked ? colorShades(theme[props.color] || props.color, 'light')[3] : lightText(theme);
-  let thumbBackground = props.checked ? theme[props.color] || props.color : 'white';
+export const style = (props: SwitchProps) => {
+  let trackBackground = props.checked
+    ? colorFromChoices(props.color).background
+    : themeVar.neutral.neutralVariantKeyColor.outline;
+  let thumbBackground = props.checked ? colorFromChoices(props.color).background : 'white';
 
   if (props.disabled) {
-    trackBackground = props.checked
-      ? colorShades(theme[props.color] || props.color, 'light')[5]
-      : colorShades(lightText(theme))[2];
+    trackBackground = themeVar.neutral.neutralVariantKeyColor.outline;
 
-    thumbBackground = props.checked ? colorShades(theme[props.color] || props.color, 'light')[5] : 'white';
+    thumbBackground = themeVar.neutral.error.disabled;
   }
 
   return {
     container: css({
       display: 'inline-flex',
       alignItems: 'center',
-      cursor: !props.disabled && 'pointer',
+      cursor: props.disabled ? 'not-allowed' : 'pointer',
       position: 'relative',
       '&:hover, &:focus': {
         '& .sha-el-switch-thumb-container': {
@@ -38,7 +38,7 @@ export const style = (props: SwitchProps, theme: Theme) => {
       width: props.size === 'small' ? '28px' : '38px',
       height: props.size === 'small' ? '28px' : '38px',
       borderRadius: '50%',
-      background: colorShades(theme[props.color] || props.color, 'light')[3],
+      background: colorFromChoices(props.color).background,
       transform:
         props.size === 'small'
           ? `translateX(${props.checked ? '5px' : '-7.5px'})`

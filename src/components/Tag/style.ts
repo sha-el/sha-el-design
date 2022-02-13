@@ -1,11 +1,14 @@
 import { css } from '@emotion/css';
-import { getColor, lightText } from '../../helpers/color';
-import { Theme } from '../Theme/Theme';
+import { colorFromChoices, getColor } from '../../helpers/color';
+import { themeVar } from '../Theme/helper';
 import { TagProps } from './Tag';
 
-const borderStyle = (props: TagProps, theme: Theme) => {
-  const background = props.color === 'light' ? lightText(theme) : theme[props.color] || props.color;
-  const textColor = props.textColor === 'light' ? lightText(theme) : theme[props.textColor] || props.textColor;
+const borderStyle = (props: TagProps) => {
+  const background =
+    props.color === 'light'
+      ? themeVar.neutral.neutralVariantKeyColor.outline
+      : colorFromChoices(props.color).background;
+  const textColor = colorFromChoices(props.textColor).color;
 
   if (!props.outline) {
     return {
@@ -29,7 +32,7 @@ const sizeCss = () => {
   };
 };
 
-export const style = ({ props, theme }: { props: TagProps; theme: Theme }) => ({
+export const style = (props: TagProps) => ({
   chipIcon: css({
     marginLeft: '5px',
     display: 'inline-flex',
@@ -41,7 +44,7 @@ export const style = ({ props, theme }: { props: TagProps; theme: Theme }) => ({
     },
   }),
   tag: css({
-    ...borderStyle(props, theme),
+    ...borderStyle(props),
     ...sizeCss(),
     fontWeight: 'bold',
     margin: '5px',

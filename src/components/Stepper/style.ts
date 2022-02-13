@@ -1,40 +1,38 @@
 import { css } from '@emotion/css';
-import { getColor } from '../../helpers/color';
-import { disabledColor, disabledText } from '../../helpers/color';
-import { Theme } from '../Theme/Theme';
+import { themeVar } from '../Theme/helper';
 
-export const style = (theme: Theme) => ({
+export const style = () => ({
   number: css({
     borderRadius: '100%',
     width: '32px',
     height: '32px',
     textAlign: 'center',
-    color: disabledText(theme),
-    background: disabledColor(theme),
+    color: themeVar.accent.tertiaryKeyColor.onTertiaryContainer,
+    background: themeVar.accent.tertiaryKeyColor.tertiaryContainer,
   }),
   icon: css({
     fontSize: '28px',
     padding: '0.5rem',
-    color: disabledText(theme),
+    color: themeVar.neutral.neutralVariantKeyColor.outline,
   }),
   active: css({
-    color: getColor(theme.primary),
-    background: theme.primary,
+    color: themeVar.accent.primaryKeyColor.onPrimary,
+    background: themeVar.accent.primaryKeyColor.primary,
   }),
   activeIcon: css({
-    color: theme.primary,
+    color: themeVar.accent.primaryKeyColor.primary,
   }),
   error: css({
-    color: theme.error,
+    color: themeVar.neutral.error.error,
   }),
   success: css({
-    color: theme.info,
+    color: themeVar.accent.secondaryKeyColor.secondary,
   }),
   clickable: css({
     cursor: 'pointer',
   }),
   disabled: css({
-    color: disabledText(theme),
+    color: themeVar.neutral.error.disabled,
     cursor: 'not-allowed',
   }),
   container: css({

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { classes } from '../../helpers';
 import { Row, Col } from '../../';
-import { useTheme } from '../Theme/Theme';
 import { style } from './style';
 import { Text } from '../Text';
 
@@ -65,9 +64,7 @@ export const BaseInputComponent = React.forwardRef<
     return !(focused || error);
   };
 
-  const theme = useTheme();
   const css = style({
-    theme,
     error: !!error,
     label: !!label,
     active: isInputActive(),

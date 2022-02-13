@@ -2,38 +2,7 @@ import topography from './typography.css';
 import { initializeNotification } from './../components/Notification/Notification';
 import { initMargins } from './margin';
 import { initPaddings } from './padding';
-
-export function nestedAccess<T, P1 extends keyof NonNullable<T>>(obj: T, prop1: P1): NonNullable<T>[P1] | undefined;
-
-export function nestedAccess<T, P1 extends keyof NonNullable<T>, P2 extends keyof NonNullable<NonNullable<T>[P1]>>(
-  obj: T,
-  prop1: P1,
-  prop2: P2,
-): NonNullable<NonNullable<T>[P1]>[P2] | undefined;
-
-export function nestedAccess<
-  T,
-  P1 extends keyof NonNullable<T>,
-  P2 extends keyof NonNullable<NonNullable<T>[P1]>,
-  P3 extends keyof NonNullable<NonNullable<NonNullable<T>[P1]>[P2]>,
->(obj: T, prop1: P1, prop2: P2, prop3: P3): NonNullable<NonNullable<NonNullable<T>[P1]>[P2]>[P3] | undefined;
-
-export function nestedAccess<
-  T,
-  P1 extends keyof NonNullable<T>,
-  P2 extends keyof NonNullable<NonNullable<T>[P1]>,
-  P3 extends keyof NonNullable<NonNullable<NonNullable<T>[P1]>[P2]>,
-  P4 extends keyof NonNullable<NonNullable<NonNullable<NonNullable<T>[P1]>[P2]>[P3]>,
->(
-  obj: T,
-  prop1: P1,
-  prop2: P2,
-  prop3: P3,
-): NonNullable<NonNullable<NonNullable<NonNullable<T>[P1]>[P2]>[P3]>[P4] | undefined;
-
-export function nestedAccess<T>(obj: T, ...props: string[]): unknown {
-  return obj && props.reduce((result, prop) => (result == null ? undefined : result[prop]), obj);
-}
+import { useTheme } from '../components/Theme/Theme';
 
 function createLink(href: string, rel?: string, crossOrigin?: boolean) {
   const link = document.createElement('link');
@@ -50,8 +19,8 @@ export function initialize() {
   style.id = 'sha-el-design-base-style';
   style.innerHTML = `
     body {
-      background: var(--background);
-      color: var(--color);
+      background: var(--neutral-neutralKeyColor-background);
+      color: var(--neutral-neutralKeyColor-onBackground);
       margin: 0;
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
@@ -78,12 +47,25 @@ export function initialize() {
     'https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;500;700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,400&display=swap',
     'stylesheet',
   );
+  useTheme();
   initializeNotification();
 }
 
-export function getChildIndex(node: HTMLElement) {
-  return Array.prototype.indexOf.call(node.parentNode.childNodes, node);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function flattenObj(obj: { [x: string]: any }, parent: string, res = {}) {
+  for (const key in obj) {
+    const propName = parent ? parent + '-' + key : key;
+    if (typeof obj[key] == 'object') {
+      flattenObj(obj[key], propName, res);
+    } else {
+      res[propName] = obj[key];
+    }
+  }
 }
+
+// export function getChildIndex(node: HTMLElement) {
+//   return Array.prototype.indexOf.call(node.parentNode.childNodes, node);
+// }
 
 export const isBrowser = () => typeof window !== 'undefined' && typeof window.document !== 'undefined';
 

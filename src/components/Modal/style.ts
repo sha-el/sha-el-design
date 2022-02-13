@@ -1,7 +1,5 @@
 import { css, keyframes } from '@emotion/css';
-import { colorShades } from '../../helpers/color';
 import { zLayoutModal, zLayoutModalBackDrop } from '../../helpers/zIndex';
-import { Theme } from '../Theme/Theme';
 
 const slideInBottom = keyframes({
   '0%': {
@@ -23,18 +21,16 @@ const slideOutRight = keyframes({
   },
 });
 
-export const style = (theme: Theme) => ({
+export const style = () => ({
   slideOutRight: css({
     animation: `${slideOutRight} .2s ease-in both !important`,
   }),
   modalContainer: css({
     maxHeight: '70vh',
-    background: colorShades(theme.background)[1],
     zIndex: zLayoutModal,
     top: '10vh',
     overflowY: 'auto',
     animation: `${slideInBottom} 0.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
-    borderRadius: '2px',
   }),
   maskStyle: css({
     position: 'fixed',

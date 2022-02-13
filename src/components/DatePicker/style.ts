@@ -1,9 +1,9 @@
 import { css } from '@emotion/css';
-import { Theme } from '../Theme/Theme';
+import { themeVar } from '../Theme/helper';
 
-export const style = (theme: Theme) =>
+export const style = () =>
   css({
-    background: theme.background,
+    background: themeVar.neutral.neutralKeyColor.surface,
     '& .sha-el-col': {
       maxHeight: '250px',
       overflowY: 'hidden',

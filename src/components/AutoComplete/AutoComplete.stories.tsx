@@ -100,8 +100,8 @@ export const CustomAnchorElement: Story<SingleAutoComplete<string>> = () => {
       displayValue={(e) => e as string}
       onChange={(e: string) => update(e)}
     >
-      <Button type="primary" displayBlock outline>
-        {value} <MdExpandMore />
+      <Button outlined primary displayBlock iconAfter={<MdExpandMore />}>
+        {value}
       </Button>
     </AutoComplete>
   );

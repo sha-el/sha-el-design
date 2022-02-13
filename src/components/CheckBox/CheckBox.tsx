@@ -2,9 +2,8 @@ import * as React from 'react';
 import { Text } from '../Text';
 import { MdCheckBox, MdCheckBoxOutlineBlank, MdIndeterminateCheckBox } from 'react-icons/md';
 import { Col, Row } from '../Grid';
-import { disabledColor, lightText } from '../../helpers/color';
-import { Theme, useTheme } from '../Theme/Theme';
 import { style } from './style';
+import { ColorChoices } from '../../typings/color';
 
 export const CheckBox: React.FC<CheckBoxProps> = (props) => {
   const { label, intermediate, onChange, color, disabled, ...rest } = props;
@@ -17,8 +16,7 @@ export const CheckBox: React.FC<CheckBoxProps> = (props) => {
     input.current?.click();
   };
 
-  const theme = useTheme();
-  const css = style(disabled, theme, checked, color);
+  const css = style(disabled, checked, color);
 
   return (
     <Row alignItems="center" className={css.container} onClick={() => !disabled && onContainerClick()}>
@@ -44,12 +42,7 @@ export const CheckBox: React.FC<CheckBoxProps> = (props) => {
         )}
       </Col>
       <Col flex="1 0 auto">
-        <Text
-          variant="label"
-          color={(disabled && disabledColor(theme)) || lightText(theme)}
-          fontSize="13px"
-          margin="0 0 0 9px"
-        >
+        <Text variant="label" color={disabled && 'disabled'} fontSize="13px" margin="0 0 0 9px">
           {label}
         </Text>
       </Col>
@@ -61,6 +54,6 @@ export interface CheckBoxProps
   extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
   label?: string;
   intermediate?: boolean;
-  color?: keyof Theme | string;
+  color?: ColorChoices;
   disabled?: boolean;
 }

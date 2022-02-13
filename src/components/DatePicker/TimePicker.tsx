@@ -8,7 +8,6 @@ import { Button } from '../Button';
 import { MdTimer } from 'react-icons/md';
 import { style } from './style';
 import { Text } from '../Text';
-import { useTheme } from '../Theme/Theme';
 import { classes } from '../../helpers';
 
 export const TimePicker: React.FC<TimePickerProps> = (props) => {
@@ -52,7 +51,7 @@ export const TimePicker: React.FC<TimePickerProps> = (props) => {
     }
   };
 
-  const css = style(useTheme());
+  const css = style();
 
   const inputComponent = (
     <Input
@@ -74,7 +73,7 @@ export const TimePicker: React.FC<TimePickerProps> = (props) => {
       }}
       after={
         <>
-          {!props.open && <Button flat shape="circle" icon={<MdTimer />} disabled={props.disabled} />}
+          {!props.open && <Button text icon={<MdTimer />} disabled={props.disabled} />}
           {inputProps.after}
         </>
       }
@@ -128,7 +127,9 @@ const content = (
               margin="0"
               padding="5px 15px"
               variant="p"
-              background={(!props.use12Hour ? time.getHours() : to12HourFormat(time.getHours())) === v && 'primary'}
+              style={{
+                background: (!props.use12Hour ? time.getHours() : to12HourFormat(time.getHours())) === v && 'primary',
+              }}
               onClick={() => {
                 if (!props.use12Hour) {
                   return onChange(v);
@@ -147,7 +148,7 @@ const content = (
               margin="0"
               padding="5px 15px"
               variant="p"
-              background={time.getMinutes() === v && 'primary'}
+              style={{ background: time.getMinutes() === v && 'primary' }}
               onClick={() => onChange(undefined, v)}
               key={v}
             >
@@ -161,7 +162,7 @@ const content = (
               margin="0"
               padding="5px 15px"
               variant="p"
-              background={time.getSeconds() === v && 'primary'}
+              style={{ background: time.getSeconds() === v && 'primary' }}
               onClick={() => onChange(undefined, undefined, v)}
               key={v}
             >
@@ -175,7 +176,7 @@ const content = (
               margin="0"
               padding="5px 15px"
               variant="p"
-              background={time.getHours() < 12 && 'primary'}
+              style={{ background: time.getHours() < 12 && 'primary' }}
               onClick={() => handleAmPmChange('AM', time, onChange)}
             >
               AM
@@ -184,7 +185,7 @@ const content = (
               margin="0"
               padding="5px 15px"
               variant="p"
-              background={time.getHours() >= 12 && 'primary'}
+              style={{ background: time.getHours() >= 12 && 'primary' }}
               onClick={() => handleAmPmChange('PM', time, onChange)}
             >
               PM
@@ -193,7 +194,7 @@ const content = (
         )}
       </Row>
       <Button
-        flat
+        text
         primary
         onClick={(e: React.MouseEvent) => {
           e.preventDefault();

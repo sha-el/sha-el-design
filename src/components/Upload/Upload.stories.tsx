@@ -18,7 +18,7 @@ export default {
 export const Basic: Story<UploadProps> = (args) => {
   return (
     <Upload {...args}>
-      <Button displayBlock icon={<MdFileUpload />}>
+      <Button displayBlock filled icon={<MdFileUpload />}>
         Upload
       </Button>
     </Upload>

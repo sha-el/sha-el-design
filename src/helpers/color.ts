@@ -1,102 +1,11 @@
 import Color from 'color';
-import { Theme } from '../components/Theme/Theme';
-import { ButtonProps } from '../components/Button/Button';
+import { css } from '@emotion/css';
+import { themeVar } from '../components/Theme/helper';
+import { ColorChoices } from '../typings/color';
 
 export function getColor(clr: string, black = '#555555', white = '#ffffff') {
   return Color(clr).lightness() > 70 ? black : white;
 }
-
-export const lightText = (theme: Theme) => {
-  return getColor(theme.background, 'rgba(0, 0, 0, 0.54)', 'rgb(118, 118, 123)');
-};
-
-export const shadowColor = (theme: Theme) => {
-  const color = Color(theme.bodyBg);
-
-  if (color.lightness() > 70) {
-    return ['#E8EAFC', '#B2B2B21A', '#9A9A9A1A'];
-  }
-
-  return ['rgba(0, 0, 0, 0.103475)', 'rgba(0, 0, 0, 0.0988309)', 'rgba(0, 0, 0, 0.10301)'];
-};
-
-export const hoverColor = (bgColor: string) => {
-  const color = Color(bgColor);
-  return color.lightness() > 70 ? 'brightness(90%)' : 'brightness(130%)';
-};
-
-export const borderColor = (bodyBg: string) => {
-  const color = Color(bodyBg);
-  return color.lightness() > 70 ? 'hsla(0,0%,0%,.2)' : 'hsla(0,0%,100%,.2)';
-};
-
-export const disabledColor = (theme: Theme) => {
-  return getColor(theme.background, 'rgba(0, 0, 0, 0.20)', 'rgba(255,255,255,0.20)');
-};
-
-export const disabledText = (theme: Theme) => {
-  return getColor(theme.background, 'rgba(0, 0, 0, 0.38)', 'rgba(255, 255, 255, 0.5)');
-};
-
-/**
- * @param props: ButtonProps,
- * @param theme: Theme
- * @returns [backgroundColor, textColor, hoverBgColor, border],
- */
-export const buttonColor = (
-  props: ButtonProps,
-  theme: Theme,
-  primary: boolean,
-  secondary: boolean,
-  danger: boolean,
-  link: boolean,
-): [string, string, string, string] => {
-  let backgroundColor = 'transparent';
-  let textColor = '';
-  let hoverBgColor = 'none';
-  let border = 'none';
-
-  const type = primary ? 'primary' : secondary ? 'secondary' : danger ? 'danger' : link ? 'link' : 'default';
-
-  const defaultColor = () => (type === 'default' ? getColor(theme.background) : theme[type]);
-
-  if (type === 'link') {
-    textColor = getColor(theme.background, theme.primary, Color(theme.primary).lighten(0.7).toString());
-  } else if (props.flat) {
-    textColor = defaultColor();
-    hoverBgColor = Color(textColor).fade(0.7).toString();
-  } else if (props.outline) {
-    border = `1px solid ${defaultColor()}`;
-    textColor = defaultColor();
-    hoverBgColor = Color(theme[type]).fade(0.6).toString();
-  }
-
-  if (!(props.flat || props.outline || type === 'link' || link)) {
-    backgroundColor = type === 'default' ? colorShades(theme.background)[1] : theme[type];
-    textColor = getColor(backgroundColor);
-    hoverBgColor = Color(backgroundColor).lighten(0.2).hex().toString();
-  }
-
-  if (props.disabled && props.outline) {
-    border = `1px solid ${disabledColor(theme)}`;
-    textColor = disabledColor(theme);
-  } else if (props.disabled && !(type === 'link' || link || props.flat) && !props.outline) {
-    backgroundColor = disabledColor(theme);
-    textColor = getColor(disabledColor(theme));
-  } else if (props.disabled && !props.outline) {
-    backgroundColor = 'transparent';
-    textColor = disabledColor(theme);
-  }
-
-  if (props.loading) {
-    backgroundColor =
-      backgroundColor === 'transparent' || type === 'default'
-        ? 'transparent'
-        : Color(backgroundColor).lighten(0.2).hex().toString();
-  }
-
-  return [backgroundColor, textColor, hoverBgColor, border];
-};
 
 export const colorShades = (color: string, type?: 'light' | 'dark') => {
   const darkShades = [
@@ -130,4 +39,97 @@ export const colorShades = (color: string, type?: 'light' | 'dark') => {
   }
 
   return lightShades;
+};
+
+const hslManipulator = [
+  [4, 100, 6],
+  [6, 100, 11],
+  [0, 84, 17],
+  [0, 54, 27],
+  [0, 43, 36],
+  [0, 34, 46],
+  [-2, 38, 56],
+  [-1, 51, 66],
+  [-1, 79, 77],
+  [-5, 100, 84],
+  [-18, 100, 90],
+  [-22, 100, 95],
+  [0, 0, 100],
+];
+
+export const colorTonesGenerator = (color: string) => {
+  const colorObj = Color(color);
+
+  const colorTones = hslManipulator.map((v) => {
+    let newColor = colorObj.hue(colorObj.hue() + Number(v[0]));
+    newColor = newColor.saturationv(v[1]);
+    newColor = newColor.lightness(v[2]);
+
+    return newColor.hsl().toString();
+  });
+
+  return colorTones;
+};
+
+export const colorFromChoices = (color: ColorChoices) => {
+  const defaultColor = {
+    background: themeVar.neutral.neutralKeyColor.surface,
+    color: themeVar.neutral.neutralKeyColor.onSurface,
+    text: themeVar.neutral.neutralKeyColor.onSurface,
+  };
+
+  if (!color) {
+    return defaultColor;
+  }
+
+  switch (color) {
+    case 'primary':
+      return {
+        background: themeVar.accent.primaryKeyColor.primaryContainer,
+        color: themeVar.accent.primaryKeyColor.onPrimaryContainer,
+        text: themeVar.accent.primaryKeyColor.primaryContainer,
+      };
+    case 'secondary':
+      return {
+        background: themeVar.accent.secondaryKeyColor.secondaryContainer,
+        color: themeVar.accent.secondaryKeyColor.onSecondaryContainer,
+        text: themeVar.accent.secondaryKeyColor.secondaryContainer,
+      };
+    case 'tertiary':
+      return {
+        background: themeVar.accent.tertiaryKeyColor.tertiaryContainer,
+        color: themeVar.accent.tertiaryKeyColor.onTertiaryContainer,
+        text: themeVar.accent.tertiaryKeyColor.tertiaryContainer,
+      };
+    case 'neutral':
+      return defaultColor;
+    case 'light':
+      return {
+        background: themeVar.accent.primaryKeyColor.tones(6),
+        color: themeVar.accent.primaryKeyColor.tones(6),
+        text: themeVar.accent.primaryKeyColor.tones(6),
+      };
+    case 'disabled':
+      return {
+        background: themeVar.neutral.error.disabled,
+        color: themeVar.neutral.error.disabled,
+        text: themeVar.neutral.error.disabled,
+      };
+    case 'error':
+      return {
+        background: themeVar.neutral.error.error,
+        color: themeVar.neutral.error.onError,
+        text: themeVar.neutral.error.error,
+      };
+    default:
+      return {
+        background: color,
+        color: getColor(color),
+        text: color,
+      };
+  }
+};
+
+export const filledCss = (filled: ColorChoices) => {
+  return css(colorFromChoices(filled));
 };

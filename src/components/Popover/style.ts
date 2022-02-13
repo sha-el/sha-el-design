@@ -1,11 +1,11 @@
 import { css } from '@emotion/css';
-import { Theme } from '../Theme/Theme';
+import { themeVar } from '../Theme/helper';
 
-export const style = (theme: Theme, expand: boolean, childWidth: number) =>
+export const style = (expand: boolean, childWidth: number) =>
   css({
     width: expand ? childWidth : 'auto',
     minWidth: '100px',
     borderRadius: '4px',
-    background: theme.background + ' !important',
-    color: `${theme.textColor} !important`,
+    background: themeVar.neutral.neutralKeyColor.surface + ' !important',
+    color: `${themeVar.neutral.neutralKeyColor.onSurface} !important`,
   });

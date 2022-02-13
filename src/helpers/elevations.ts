@@ -1,5 +1,5 @@
 import Color from 'color';
-import { Theme } from '../components/Theme/Theme';
+import { ThemeInternal } from '../components/Theme/Theme';
 
 function createShadow(lightTheme = true, ...px: number[]) {
   let shadowKeyUmbraOpacity = 0.12;
@@ -75,9 +75,9 @@ const darkThemeShadows = [
   createShadow(false, 0, 11, 15, -7, 0, 24, 38, 3, 0, 9, 46, 8),
 ];
 
-export const initElevations = (theme: Theme) => {
+export const initElevations = (theme: ThemeInternal) => {
   let values = '';
-  const color = Color(theme.bodyBg);
+  const color = Color(theme.neutral.neutralKeyColor.surface);
 
   const shadows: string[] = color.lightness() < 0.7 ? lightThemeShadows : darkThemeShadows;
 

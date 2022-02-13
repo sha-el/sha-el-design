@@ -1,13 +1,10 @@
 import { css } from '@emotion/css';
-import { lightText } from '../../helpers/color';
-import { shadow } from '../../helpers/style';
-import { Theme } from '../Theme/Theme';
+import { themeVar } from '../Theme/helper';
 
-export const style = (theme: Theme) => ({
+export const style = () => ({
   header: css({
-    background: theme.background,
-    color: theme.textColor,
-    boxShadow: shadow('2X', theme),
+    background: themeVar.neutral.neutralKeyColor.surface,
+    color: themeVar.neutral.neutralKeyColor.onSurface,
     borderRadius: '4px',
     marginBottom: '10px',
   }),
@@ -20,11 +17,10 @@ export const style = (theme: Theme) => ({
     marginRight: '.5em',
   }),
   backIcon: css({
-    boxShadow: shadow('DEFAULT', theme),
     width: '40px',
     height: '40px',
     borderRadius: '100%',
-    color: lightText(theme),
+    color: themeVar.neutral.neutralVariantKeyColor.outline,
     display: 'flex',
     alignItems: 'center',
     fontSize: '22px',

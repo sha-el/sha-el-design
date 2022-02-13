@@ -3,14 +3,12 @@ import { Row, Col } from '../../';
 import { TagProps } from '../Tag/Tag';
 import { TabPanelProps } from '../Tabs/TabPanel';
 import { TabHeader, TabPanelContainer } from '../Tabs';
-import { useTheme } from '../Theme/Theme';
 import { classes } from '../../helpers';
 import { style } from './style';
 import { paddingCss } from '../../helpers/padding';
 
 export const Page: React.FC<PageProps> = (props) => {
-  const theme = useTheme();
-  const css = style(theme);
+  const css = style();
   return (
     <div>
       <div

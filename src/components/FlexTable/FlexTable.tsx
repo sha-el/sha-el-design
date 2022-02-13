@@ -3,13 +3,12 @@ import { GiEmptyMetalBucket } from 'react-icons/gi';
 import { MdExpandMore } from 'react-icons/md';
 import { Col, Row } from '../..';
 import { classes } from '../../helpers';
-import { disabledColor } from '../../helpers/color';
 import { ColProps } from '../Grid/Col';
 import { CollapsibleList, List, ListItem } from '../List';
 import { ListProps } from '../List/List';
 import { Skeleton } from '../Loading';
 import { PaginationProps } from '../Pagination/Pagination';
-import { useTheme } from '../Theme/Theme';
+import { themeVar } from '../Theme/helper';
 import { style as tableStyle } from './style';
 
 export function Column<T>(props: ColumnProps<T>) {
@@ -43,8 +42,7 @@ export function FlexTable<T>(props: FlexTableProps<T>) {
     }
   };
 
-  const theme = useTheme();
-  const css = tableStyle({ theme, nested: !!nested, clickableRow: !!onRowClick });
+  const css = tableStyle({ nested: !!nested, clickableRow: !!onRowClick });
   return (
     <List
       {...rest}
@@ -58,7 +56,7 @@ export function FlexTable<T>(props: FlexTableProps<T>) {
       <ListItem
         className={classes(css.header, 'header')}
         style={style.header}
-        action={nested && <MdExpandMore style={{ color: disabledColor(theme) }} />}
+        action={nested && <MdExpandMore style={{ color: themeVar.neutral.error.disabled }} />}
         padding={0}
       >
         <Row alignItems="stretch">{headers}</Row>
@@ -93,7 +91,7 @@ export function FlexTable<T>(props: FlexTableProps<T>) {
 
               return (
                 <ListItem
-                  action={props.nested && <MdExpandMore style={{ color: disabledColor(theme) }} />}
+                  action={props.nested && <MdExpandMore style={{ color: themeVar.neutral.error.disabled }} />}
                   key={`row-${index}`}
                   className={css.tableRow}
                   onClick={() => onRowClick && onRowClick(v, index)}

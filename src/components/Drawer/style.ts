@@ -1,6 +1,6 @@
-import { Theme } from '../Theme/Theme';
 import { css, keyframes } from '@emotion/css';
 import { zLayoutModal, zLayoutModalBackDrop } from '../../helpers/zIndex';
+import { themeVar } from '../Theme/helper';
 
 const slideOutRight = keyframes({
   '0%': {
@@ -82,15 +82,16 @@ const slideInBottom = keyframes({
   },
 });
 
-export const style = (theme: Theme) => ({
+export const style = () => ({
   drawerStyle: css({
     position: 'fixed',
     boxSizing: 'border-box',
-    background: theme.background,
+    background: themeVar.neutral.neutralKeyColor.surface,
     zIndex: zLayoutModal,
     height: '100%',
     overflowY: 'auto',
     overflowX: 'auto',
+    borderRadius: '0',
   }),
   maskStyle: css({
     position: 'fixed',

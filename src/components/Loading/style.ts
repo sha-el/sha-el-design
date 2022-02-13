@@ -1,9 +1,8 @@
 import { css, keyframes } from '@emotion/css';
-import { colorShades } from '../../helpers/color';
-import { Theme } from '../Theme/Theme';
+import { themeVar } from '../Theme/helper';
 import { LoadingProps } from './Loading';
 
-export const loadingStyle = (theme: Theme, props: LoadingProps) => {
+export const loadingStyle = (props: LoadingProps) => {
   const animation = keyframes({
     '0%': {
       transform: 'rotate(0)',
@@ -15,16 +14,16 @@ export const loadingStyle = (theme: Theme, props: LoadingProps) => {
 
   const animation2 = keyframes({
     '0%': {
-      borderTopColor: props.color || theme.error,
+      borderTopColor: props.color || '#FF1744',
     },
     '25%': {
-      borderTopColor: props.color || theme.warning,
+      borderTopColor: props.color || '#D500F9',
     },
     '50%': {
-      borderTopColor: props.color || theme.info,
+      borderTopColor: props.color || '#FF6F00',
     },
     '100%': {
-      borderTopColor: props.color || theme.secondary,
+      borderTopColor: props.color || '#64DD17',
     },
   });
 
@@ -46,7 +45,7 @@ export const loadingStyle = (theme: Theme, props: LoadingProps) => {
   });
 };
 
-export const skeletonStyle = (theme: Theme) => {
+export const skeletonStyle = () => {
   const animation = keyframes({
     '0%': {
       opacity: 0.2,
@@ -58,14 +57,12 @@ export const skeletonStyle = (theme: Theme) => {
     },
   });
 
-  const [col1, col2] = colorShades(theme.background);
-
   return css({
     padding: '0.8rem 0.75rem',
     margin: '0 auto',
     width: '100%',
     boxSizing: 'border-box',
-    border: `1px solid ${col2}`,
+    border: `1px solid ${themeVar.neutral.neutralVariantKeyColor.outline}`,
     overflow: 'hidden',
 
     '& .skeleton-header': {
@@ -73,7 +70,7 @@ export const skeletonStyle = (theme: Theme) => {
       transformOrigin: 'bottom',
       animation: `${animation} 1s ease-in-out forwards infinite`,
       animationDirection: 'alternate',
-      backgroundColor: col1,
+      backgroundColor: themeVar.neutral.neutralKeyColor.surface,
       '& .skeleton-line': {
         height: '1rem',
         marginBottom: '0.5rem',
@@ -85,13 +82,13 @@ export const skeletonStyle = (theme: Theme) => {
       animationDirection: 'alternate',
       '& .skeleton-line': {
         height: '0.7rem',
-        backgroundColor: col1,
+        backgroundColor: themeVar.neutral.neutralVariantKeyColor.outline,
         borderRadius: '3px',
         marginBottom: '0.3rem',
       },
     },
     skeleton: {
-      background: col2,
+      background: themeVar.neutral.neutralVariantKeyColor.surfaceVariant,
     },
   });
 };

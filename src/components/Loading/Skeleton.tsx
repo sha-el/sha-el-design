@@ -1,18 +1,15 @@
-import * as React from 'react';
+import React from 'react';
 import { Card } from '../Card';
 import { skeletonStyle as style } from './style';
-import { useTheme } from '../Theme/Theme';
 import { SurfaceProps } from '../../typings/surface';
 
 export const Skeleton: React.FunctionComponent<SkeletonProps> = (props) => {
   const { isLoading, render = () => <div /> } = props;
 
   if (isLoading) {
-    const theme = useTheme();
-
     return (
       <Card elevation={props.elevation} border={props.border} padding={props.padding} margin={props.margin}>
-        <div className={style(theme)}>
+        <div className={style()}>
           <div className="skeleton">
             <div className="skeleton-content">
               <div className="skeleton-header">

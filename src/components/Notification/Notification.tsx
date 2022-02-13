@@ -7,11 +7,10 @@ import { NotificationProps, notificationSubject$ } from './NotificationService';
 import posed, { PoseGroup } from 'react-pose';
 import { isBrowser } from '../../helpers';
 import { getColor } from '../../helpers/color';
-import { DARK_THEME, Theme } from '../Theme/Theme';
 import { ListItem } from '../List';
 import { Text } from '../Text';
-import { shadow } from '../../helpers/style';
 import { style } from './style';
+import { elevationCss } from '../../helpers/elevations';
 
 const NOTIFICATION_DIV_ID = 'notification-div-id';
 
@@ -32,8 +31,15 @@ export class NotificationContainer extends React.Component<unknown, State> {
     notificationSubject$.subscribe((notification) => this.setState({ notification }));
   }
 
-  getIcon = (index: number, theme: Theme) => {
-    const { error, warning, info } = theme;
+  colors = {
+    info: 'rgb(2, 136, 209)',
+    error: 'rgb(211, 47, 47)',
+    warning: 'rgb(245, 124, 0)',
+    success: 'rgb(56, 142, 60)',
+  };
+
+  getIcon = (index: number) => {
+    const { info, error, warning, success } = this.colors;
 
     const notification = this.state.notification[index];
     switch (notification.type) {
@@ -44,19 +50,21 @@ export class NotificationContainer extends React.Component<unknown, State> {
       case 'warning':
         return <MdWarning style={{ color: getColor(warning), fontSize: '30px' }} />;
       case 'success':
-        return <MdDoneAll style={{ color: getColor('#00c853'), fontSize: '30px' }} />;
+        return <MdDoneAll style={{ color: getColor(success), fontSize: '30px' }} />;
       default:
         return <MdInfoOutline style={{ color: getColor(info), fontSize: '30px' }} />;
     }
   };
 
-  color = (index: number, { primary, error, warning }: Theme) =>
-    ({
-      info: primary,
+  color = (index: number) => {
+    const { info, error, warning, success } = this.colors;
+    return {
+      info,
       error,
       warning,
-      success: '#00c853',
-    }[this.state.notification[index].type]);
+      success,
+    }[this.state.notification[index].type];
+  };
 
   render() {
     return <Container notification={this.state.notification} getIcon={this.getIcon} color={this.color} />;
@@ -65,7 +73,6 @@ export class NotificationContainer extends React.Component<unknown, State> {
 
 const Container: React.FC<ContainerProps> = (props) => {
   const css = style;
-  const theme = DARK_THEME;
   const { notification, getIcon, color } = props;
 
   return (
@@ -75,15 +82,15 @@ const Container: React.FC<ContainerProps> = (props) => {
           {notification.map((notification, index) => (
             <NotificationTile style={notification.style || {}} key={`noti-${index}`}>
               <ListItem
-                avatar={getIcon(index, theme)}
-                subtitle={<Text color={getColor(color(index, theme))}>{notification.message}</Text>}
+                avatar={getIcon(index)}
+                subtitle={<Text color={getColor(color(index))}>{notification.message}</Text>}
                 style={{
-                  background: color(index, theme),
-                  boxShadow: shadow('2X', theme),
+                  background: color(index),
                   borderRadius: '4px',
                   minWidth: '400px',
-                  color: getColor(color(index, theme)),
+                  color: getColor(color(index)),
                 }}
+                className={elevationCss(20)}
               >
                 {notification.title}
               </ListItem>
@@ -119,8 +126,8 @@ interface State {
 }
 
 interface ContainerProps extends State {
-  getIcon: (index: number, theme: Theme) => JSX.Element;
-  color: (index: number, { primary, error, warning }: Theme) => string;
+  getIcon: (index: number) => JSX.Element;
+  color: (index: number) => string;
 }
 
 export const initializeNotification = () => {
