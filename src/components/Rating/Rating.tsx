@@ -41,14 +41,19 @@ export interface RatingProps {
   color?: keyof Theme | string;
 
   /**
+   * Custom space in between the rating elements
+   */
+  spaceInBetween?: number;
+
+  /**
    * Provide different fill icon with color and size
    */
-  fillIcon?: React.ReactNode;
+  fillIcon?: React.ReactElement;
 
   /**
    * Provide corresponding empty icon with color and size
    */
-  emptyIcon?: React.ReactNode;
+  emptyIcon?: React.ReactElement;
 
   /**
    * onChange event handler
@@ -133,20 +138,35 @@ export const Rating: React.FC<RatingProps> = (props) => {
               }}
               className={classes(css.ratingDiv, 'sha-el-rating-div')}
             >
-              {props.fillIcon || <BsStarFill color={theme[props.color] || props.color} size={props.size} />}
+              {(props.fillIcon &&
+                React.cloneElement(props.fillIcon, {
+                  className: classes(props.fillIcon.props.className, css.spaceInBetween),
+                })) || (
+                <BsStarFill
+                  className={classes(css.spaceInBetween)}
+                  color={theme[props.color] || props.color}
+                  size={props.size}
+                />
+              )}
             </div>
             <div>
               {showEmptyIcon
-                ? props.emptyIcon || (
+                ? (props.emptyIcon &&
+                    React.cloneElement(props.emptyIcon, {
+                      className: classes(props.emptyIcon.props.className, css.spaceInBetween, 'sha-el-rating-icon'),
+                    })) || (
                     <BsStar
-                      className="sha-el-rating-icon"
+                      className={classes(css.spaceInBetween, 'sha-el-rating-icon')}
                       color={theme[props.color] || props.color}
                       size={props.size}
                     />
                   )
-                : props.fillIcon || (
+                : (props.fillIcon &&
+                    React.cloneElement(props.fillIcon, {
+                      className: classes(props.fillIcon.props.className, css.spaceInBetween, 'sha-el-rating-icon'),
+                    })) || (
                     <BsStarFill
-                      className="sha-el-rating-icon"
+                      className={classes(css.spaceInBetween, 'sha-el-rating-icon')}
                       color={theme[props.color] || props.color}
                       size={props.size}
                     />
@@ -165,4 +185,5 @@ Rating.defaultProps = {
   precision: 1,
   editable: true,
   disabled: false,
+  spaceInBetween: 3,
 };

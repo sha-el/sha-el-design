@@ -20,5 +20,8 @@ export const style = (theme: Theme, props: RatingProps) => {
       overflow: 'hidden',
       position: 'absolute',
     }),
+    spaceInBetween: css({
+      margin: `0px ${props.spaceInBetween}px`,
+    }),
   };
 };
