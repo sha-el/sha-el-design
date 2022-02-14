@@ -40,13 +40,25 @@ describe('Rating', () => {
 
   it('should render rating component with custom color', () => {
     const fn = jest.fn();
-    render(<Rating value={2} totalCount={5} color="red" onChange={fn} />);
+    render(<Rating value={2} totalCount={5} color="red" spaceInBetween={3} onChange={fn} />);
 
     const ratingOuterContainer = document.querySelector('.sha-el-rating-container');
 
     expect(ratingOuterContainer.querySelector('.sha-el-rating').querySelectorAll('.sha-el-rating-icon')[0])
       .toHaveStyle(`
-        color: red
+        color: red;
+    `);
+  });
+
+  it('should render rating component with custom space in between', () => {
+    const fn = jest.fn();
+    render(<Rating value={2} totalCount={5} spaceInBetween={10} onChange={fn} />);
+
+    const ratingOuterContainer = document.querySelector('.sha-el-rating-container');
+
+    expect(ratingOuterContainer.querySelector('.sha-el-rating').querySelectorAll('.sha-el-rating-icon')[0])
+      .toHaveStyle(`
+        margin: 0px 10px;
     `);
   });
 

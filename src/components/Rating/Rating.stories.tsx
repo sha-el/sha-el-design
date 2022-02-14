@@ -54,8 +54,8 @@ CustomPrecision.args = {
 
 export const CustomIcon = Template.bind({});
 CustomIcon.args = {
-  fillIcon: <AiFillApple size={30} />,
-  emptyIcon: <AiOutlineApple size={30} />,
+  fillIcon: <AiFillApple color="green" size={30} />,
+  emptyIcon: <AiOutlineApple color="green" size={30} />,
   value: 2.5,
   totalCount: 5,
   precision: 0.5,
