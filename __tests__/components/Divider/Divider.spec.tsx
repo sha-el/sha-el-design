@@ -26,4 +26,19 @@ describe('Divider', () => {
 
     expect(divider.innerHTML).toBe('Hello');
   });
+
+  it('should render a vertical divider', () => {
+    render(<Divider className="divider" orientation="vertical" />);
+
+    const divider = document.querySelector('.divider');
+
+    expect(divider).toHaveStyle(`
+      height: 150px;
+      margin: 0px 5px;
+      display: inline-block;
+      position: relative;
+      background: rgb(255, 255, 255);
+      text-align: center;
+    `);
+  });
 });
