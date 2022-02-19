@@ -56,7 +56,7 @@ export const style = (theme: Theme, props: ButtonProps) => {
       textDecoration: 'none',
       boxSizing: 'border-box',
       letterSpacing: '1.25px',
-      textTransform: 'uppercase',
+      textTransform: 'capitalize',
       fontWeight: 500,
       textAlign: 'center',
       justifyContent: 'center',

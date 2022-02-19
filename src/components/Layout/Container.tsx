@@ -14,13 +14,14 @@ export const Container: React.FC<ContainerProps> = (props) => {
 
   return (
     <ContainerContext.Provider value={{ width: windowWidth < 1200 ? 0 : width, updateWidth }}>
+      <div>{props.sideBar}</div>
       <div
         style={{
           position: 'fixed',
           top: '0',
-          width: `calc(100% - ${width === 0 ? 0 : width + 20}px)`,
+          width: `100%`,
           zIndex: 1,
-          left: width === 0 ? 0 : width + 20,
+          left: '0',
         }}
       >
         {props.navBar}
@@ -34,4 +35,5 @@ export interface ContainerProps {
   children: React.ReactNode;
   sidePanelInitialWidth?: number;
   navBar?: React.ReactNode;
+  sideBar?: React.ReactNode;
 }

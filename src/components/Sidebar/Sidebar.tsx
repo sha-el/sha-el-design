@@ -77,6 +77,11 @@ export interface SidebarProps {
    * Called when sidepanel opens or collapses
    */
   onWidthChange?: (e: boolean) => void;
+
+  /**
+   * To be used inside container
+   */
+  top?: number;
 }
 
 export const Sidebar: React.FC<SidebarProps> = (props) => {
@@ -155,4 +160,5 @@ Sidebar.defaultProps = {
   elevation: 12,
   collapsedWidth: 50,
   expandWidth: 200,
+  top: 0,
 };

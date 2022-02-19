@@ -7,17 +7,18 @@ export const style = (props: SidebarProps, theme: Theme, fixed: boolean) => {
   return {
     container: css({
       padding: '10px',
-      height: '100vh',
+      height: `calc(100vh - ${props.top + props.top ? 20 : 0}px)`,
       background: theme.background,
       position: 'fixed',
       left: 0,
-      top: 0,
+      top: props.top,
       width: fixed ? props.expandWidth + 'px' : props.collapsedWidth + 'px',
       transition: '.4s ease',
       overflowX: 'hidden',
-      overflowY: 'auto',
+      overflowY: 'hidden',
       zIndex: zAboveBase,
       '&:hover': {
+        overflowY: 'auto',
         width: props.expandWidth + 'px',
         '& .sidebar-bottom': {
           width: props.expandWidth + 'px',
