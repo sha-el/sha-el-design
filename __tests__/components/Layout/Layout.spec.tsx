@@ -87,7 +87,7 @@ describe('Layout', () => {
     `);
     expect(sideBar).toHaveStyle(`
       padding: 10px;
-      height: 100vh;
+      height: calc(100vh - 0px);
       background: #ffffff;
       position: fixed;
       left: 0;
@@ -95,7 +95,7 @@ describe('Layout', () => {
       width: 65px;
       transition: .4s ease;
       overflow-x: hidden;
-      overflow-y: auto;
+      overflow-y: hidden;
       z-index: 1;
     `);
 
