@@ -101,7 +101,7 @@ export const Sidebar: React.FC<SidebarProps> = (props) => {
     : [(props.children as React.ReactElement)?.props.children];
 
   const content = () => (
-    <SidePanelContext.Provider value={{ sidebarOpen, updateSidebarOpen }}>
+    <SidePanelContext.Provider value={{ sidebarOpen, updateSidebarOpen, mobileView: windowWidth < 1200 }}>
       <div className={css.sidebar}>
         {(props.brandIcon || props.brandText) && (
           <div className={css.logo}>
