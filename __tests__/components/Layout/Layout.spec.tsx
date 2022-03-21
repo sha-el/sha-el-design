@@ -224,5 +224,13 @@ describe('Layout', () => {
 
     expect(document.querySelector('.sha-el-drawer')).not.toBeNull();
     expect(drawerChangeHandler).toBeCalledWith(false);
+
+    act(() => {
+      fireEvent.click(document.querySelector('.collapsible-list'));
+    });
+
+    expect(document.querySelector('.collapsible-item')).toHaveStyle(`
+      max-height: 100vh;
+    `);
   });
 });

@@ -47,6 +47,7 @@ export const CollapsibleList: React.FC<CollapsibleListProps> = (props) => {
             <Col flex="0 1 auto">{open ? <MdExpandLess key="2" /> : <MdExpandMore key="3" />}</Col>
           </Row>
         }
+        className={classes(props.className, 'collapsible-list')}
         onClick={() => {
           toggleList(!open);
           props.onChange && props.onChange(!open);
