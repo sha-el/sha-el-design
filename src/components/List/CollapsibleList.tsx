@@ -23,6 +23,20 @@ export const CollapsibleList: React.FC<CollapsibleListProps> = (props) => {
 
   const css = style;
 
+  const shouldShow = () => {
+    if (!open) {
+      return false;
+    }
+
+    if (sidebarContext.mobileView) {
+      return true;
+    }
+
+    if (sidebarContext.sidebarOpen !== false) {
+      return true;
+    }
+  };
+
   return (
     <div>
       <ListItem
@@ -33,6 +47,7 @@ export const CollapsibleList: React.FC<CollapsibleListProps> = (props) => {
             <Col flex="0 1 auto">{open ? <MdExpandLess key="2" /> : <MdExpandMore key="3" />}</Col>
           </Row>
         }
+        className={classes(props.className, 'collapsible-list')}
         onClick={() => {
           toggleList(!open);
           props.onChange && props.onChange(!open);
@@ -43,11 +58,11 @@ export const CollapsibleList: React.FC<CollapsibleListProps> = (props) => {
       <div
         className={classes(css, 'collapsible-item')}
         style={{
-          maxHeight: open && sidebarContext.sidebarOpen !== false ? '100vh' : '0',
+          maxHeight: shouldShow() ? '100vh' : '0',
         }}
       >
         <CollapsibleContext.Provider value={{ isCollapsible: true }}>
-          {open && sidebarContext.sidebarOpen !== false && props.children}
+          {shouldShow() && props.children}
         </CollapsibleContext.Provider>
       </div>
     </div>
