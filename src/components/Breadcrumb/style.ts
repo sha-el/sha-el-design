@@ -1,25 +1,23 @@
 import { css } from '@emotion/css';
-import { colorShades, lightText } from '../../helpers/color';
-import { Theme } from '../Theme/Theme';
+import { themeVar } from '../Theme/helper';
 
-export const style = (theme: Theme) => {
-  const [, , primary3] = colorShades(theme.primary);
+export const style = () => {
   return css({
-    color: theme.textColor,
+    color: themeVar.neutral.neutralKeyColor.onSurface,
     '& li': {
       fontSize: '16px',
       letterSpacing: '0.00938em',
       listStyleType: 'none',
       lineHeight: '1.5',
       fontWeight: 400,
-      color: lightText(theme),
+      color: themeVar.neutral.neutralVariantKeyColor.onSurfaceVariant,
       cursor: 'pointer',
       '& *': {
-        color: lightText(theme),
+        color: themeVar.neutral.neutralVariantKeyColor.onSurfaceVariant,
       },
       '&:last-child': {
         '& *': {
-          color: primary3,
+          color: themeVar.neutral.neutralKeyColor.onSurface,
         },
       },
       '&.breadcrumb-seperator': {

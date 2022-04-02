@@ -5,7 +5,6 @@ a {
 
 body {
 	font-family: 'Roboto', sans-serif;
-	color: var(--color);
 	font-size: 14px;
 	font-weight: normal;
 	letter-spacing: 0.25px;

@@ -1,13 +1,11 @@
 import * as React from 'react';
 import { classes } from '../../helpers';
-import { useTheme } from '../Theme/Theme';
 import { style } from './style';
 import { Tooltip, TooltipProps } from '../Tooltip/Tooltip';
 
 export const Popover: React.FC<PopoverProps> = (props) => {
-  const theme = useTheme();
   const [childWidth, updateChildWidth] = React.useState<number>();
-  const css = style(theme, props.expand, childWidth);
+  const css = style(props.expand, childWidth);
 
   const { className } = props;
 

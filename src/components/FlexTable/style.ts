@@ -1,8 +1,7 @@
 import { css } from '@emotion/css';
-import { lightText, shadowColor } from '../../helpers/color';
-import { Theme } from '../Theme/Theme';
+import { themeVar } from '../Theme/helper';
 
-export const style = ({ theme, nested, clickableRow }: { theme: Theme; nested: boolean; clickableRow: boolean }) => ({
+export const style = ({ nested, clickableRow }: { nested: boolean; clickableRow: boolean }) => ({
   tableContainer: css({
     overflowX: 'auto',
     padding: '0 !important',
@@ -19,7 +18,7 @@ export const style = ({ theme, nested, clickableRow }: { theme: Theme; nested: b
     fontWeight: 500,
     fontSize: '12px',
     cursor: 'default !important',
-    borderBottom: `2px solid ${shadowColor(theme)[2]}`,
+    borderBottom: `2px solid ${themeVar.neutral.neutralVariantKeyColor.outline}`,
     textTransform: 'uppercase',
     letterSpacing: '.5px',
     wordWrap: 'break-word',
@@ -39,7 +38,7 @@ export const style = ({ theme, nested, clickableRow }: { theme: Theme; nested: b
     padding: '0',
     fontWeight: 400,
     cursor: (!nested && !clickableRow && 'auto !important') || undefined,
-    borderBottom: `1px solid ${shadowColor(theme)[0]}`,
+    borderBottom: `1px solid $${themeVar.neutral.neutralVariantKeyColor.outline}`,
     borderCollapse: 'collapse',
     letterSpacing: '.3px',
     '& .table-cell': {
@@ -50,8 +49,8 @@ export const style = ({ theme, nested, clickableRow }: { theme: Theme; nested: b
     marginLeft: '-20px',
   }),
   empty: css({
-    color: lightText(theme),
-    background: theme.background,
+    color: themeVar.neutral.neutralVariantKeyColor.outline,
+    background: themeVar.neutral.neutralKeyColor.surface,
     textAlign: 'center',
     padding: '50px',
     fontSize: '16px',

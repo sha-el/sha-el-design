@@ -1,13 +1,10 @@
 import * as React from 'react';
-import { useTheme } from '../Theme/Theme';
+import { ThemeInternal, useTheme } from '../Theme/Theme';
 import { listItem as listStyle } from './style';
-import { lightText } from '../../helpers/color';
 import { Text } from '../Text';
 import { classes } from '../../helpers';
-import { getColor } from '../../helpers/color';
 import { MarginClassNameInput, marginCss } from '../../helpers/margin';
 import { PaddingClassNameInput, paddingCss } from '../../helpers/padding';
-import { Theme } from '../Theme/Theme';
 
 export interface ListItemProps extends Omit<React.HtmlHTMLAttributes<HTMLLIElement>, 'onChange'> {
   subtitle?: React.ReactNode;
@@ -23,7 +20,7 @@ export interface ListItemProps extends Omit<React.HtmlHTMLAttributes<HTMLLIEleme
 }
 
 type ElementProps = Partial<ListItemProps> & {
-  theme: Theme;
+  theme: ThemeInternal;
 } & React.HTMLProps<HTMLLIElement>;
 
 const Element = React.forwardRef<unknown, ElementProps>(
@@ -33,8 +30,8 @@ const Element = React.forwardRef<unknown, ElementProps>(
       className: classes(className, paddingCss(0), 'list-item'),
       onClick: onClick,
       style: {
-        background: selected && theme.primary,
-        color: selected && getColor(theme.primary),
+        background: selected && theme.accent.primaryKeyColor.primaryContainer,
+        color: selected && theme.accent.primaryKeyColor.onPrimaryContainer,
         wrap: 'nowrap',
         alignItems: 'center',
         display: 'flex',
@@ -61,7 +58,7 @@ export const ListItem = React.forwardRef<unknown, ListItemProps>((props, ref) =>
   } = props;
 
   const theme = useTheme();
-  const css = listStyle(theme.background, !!onClick);
+  const css = listStyle(!!onClick);
 
   return (
     <Element
@@ -82,7 +79,7 @@ export const ListItem = React.forwardRef<unknown, ListItemProps>((props, ref) =>
       {children && (
         <div className={classes(marginCss(margin), paddingCss(padding))} style={{ flex: '1 0' }}>
           <div>{children}</div>
-          <Text fontSize="12px" color={lightText(theme)}>
+          <Text fontSize="12px" color={!selected && 'light'}>
             {subtitle}
           </Text>
         </div>

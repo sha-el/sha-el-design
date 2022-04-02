@@ -1,11 +1,8 @@
 import * as React from 'react';
 import { classes } from '../../helpers';
-import { borderCss } from '../../helpers/border';
-import { elevationCss } from '../../helpers/elevations';
-import { paddingCss } from '../../helpers/padding';
 import { SurfaceProps } from '../../typings/surface';
+import { Card } from '../Card';
 import { Portal } from '../Portal/Portal';
-import { useTheme } from '../Theme/Theme';
 import { style } from './style';
 
 export const Drawer: React.FunctionComponent<DrawerProps> = (props) => {
@@ -17,8 +14,7 @@ export const Drawer: React.FunctionComponent<DrawerProps> = (props) => {
 
   const [className, updateClassName] = React.useState('');
 
-  const theme = useTheme();
-  const css = style(theme);
+  const css = style();
 
   const beforeClose = () => {
     setTimeout(onClose, 200);
@@ -31,19 +27,20 @@ export const Drawer: React.FunctionComponent<DrawerProps> = (props) => {
     <Portal>
       <>
         <div className={classes(css.maskStyle, 'sha-el-drawer')} onClick={() => props.onClose && beforeClose()} />
-        <div
+        <Card
+          elevation={elevation}
+          padding={padding}
+          border={border}
+          margin={0}
           style={props.style}
           className={classes(
             css.drawerStyle,
             css[`slideIn${props.placement.charAt(0).toUpperCase() + props.placement.slice(1)}` || 'slideInRight'],
-            elevationCss(elevation),
-            paddingCss(padding),
-            borderCss(border),
             className,
           )}
         >
           {props.children}
-        </div>
+        </Card>
       </>
     </Portal>
   );

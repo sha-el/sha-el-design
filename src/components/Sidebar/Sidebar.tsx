@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { style } from './style';
-import { useTheme } from '../Theme/Theme';
 import { classes } from '../../helpers';
 import { elevationCss } from '../../helpers/elevations';
 import { Col, Row } from '../Grid';
@@ -85,7 +84,6 @@ export interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = (props) => {
-  const theme = useTheme();
   const [fixed, updateFixed] = useState(false);
   const [sidebarOpen, updateSidebarOpen] = React.useState(false);
   const { width: windowWidth } = useWindowSize();
@@ -95,7 +93,7 @@ export const Sidebar: React.FC<SidebarProps> = (props) => {
     props.onWidthChange?.(sidebarOpen);
   }, [sidebarOpen]);
 
-  const css = style(props, theme, fixed);
+  const css = style(props, fixed);
   const children: React.ReactElement[] = Array.isArray((props.children as React.ReactElement)?.props.children)
     ? (props.children as React.ReactElement)?.props.children
     : [(props.children as React.ReactElement)?.props.children];

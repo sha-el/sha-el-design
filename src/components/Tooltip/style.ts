@@ -1,10 +1,8 @@
-import { Theme } from '../Theme/Theme';
-import Color from 'color';
-import { colorShades } from '../../helpers/color';
 import { css } from '@emotion/css';
 import { zBelowBase, zLayoutPopUp } from '../../helpers/zIndex';
+import { themeVar } from '../Theme/helper';
 
-export const style = (theme: Theme, open: boolean, placement: string, hideArrow: boolean) => {
+export const style = (open: boolean, placement: string, hideArrow: boolean) => {
   const arrowPlacement = {
     top: 'bottom',
     bottom: 'top',
@@ -28,8 +26,8 @@ export const style = (theme: Theme, open: boolean, placement: string, hideArrow:
       transition: '.3s all',
     }),
     inner: css({
-      backgroundColor: colorShades(Color(theme.background).negate().toString())[4],
-      color: theme.background,
+      backgroundColor: themeVar.neutral.neutralKeyColor.surface,
+      color: themeVar.neutral.neutralKeyColor.onSurface,
       borderRadius: '4px',
       boxSizing: 'border-box',
       zIndex: open ? zLayoutPopUp : zBelowBase,

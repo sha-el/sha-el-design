@@ -1,11 +1,9 @@
 import * as React from 'react';
-import { useTheme } from '../Theme/Theme';
 import { style } from './style';
 import { Row } from '../..';
 
 export const Breadcrumb: React.FC<BreadcrumbProps> = (props) => {
-  const theme = useTheme();
-  const css = style(theme);
+  const css = style();
 
   const children: React.ReactElement[] = Array.isArray(props.children)
     ? (props.children as React.ReactElement[])

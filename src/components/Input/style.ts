@@ -1,10 +1,9 @@
-import { lightText, borderColor as borderColorHelper, disabledText } from '../../helpers/color';
-import { getColor } from '../../helpers/color';
 import { css } from '@emotion/css';
 import { zIndexBase } from '../../helpers/zIndex';
+import { themeVar } from '../Theme/helper';
 
-export const style = ({ theme, error, label, active, borderless, disabled, hover, required, before, filled }) => {
-  const borderColor = error ? theme.error : borderColorHelper(theme.background);
+export const style = ({ error, label, active, borderless, disabled, hover, required, before, filled }) => {
+  const borderColor = error ? themeVar.neutral.error.error : themeVar.neutral.neutralVariantKeyColor.outline;
 
   const borderStyle = borderless
     ? {
@@ -20,7 +19,7 @@ export const style = ({ theme, error, label, active, borderless, disabled, hover
     container: css({
       position: 'relative',
       zIndex: zIndexBase,
-      color: disabled ? disabledText(theme) : lightText(theme),
+      color: disabled ? themeVar.neutral.error.disabled : themeVar.neutral.neutralVariantKeyColor.outline,
       fontSize: '14px',
       cursor: 'text',
       marginTop: '1px',
@@ -29,15 +28,15 @@ export const style = ({ theme, error, label, active, borderless, disabled, hover
       transition: 'background-color 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s',
       '&:focus-within': !error && {
         '& fieldset': {
-          borderColor: theme.primary,
+          borderColor: themeVar.accent.primaryKeyColor.primary,
         },
         '& .seudo': {
-          color: theme.primary,
+          color: themeVar.accent.primaryKeyColor.primary,
         },
         '& .label': {
-          color: theme.primary,
+          color: themeVar.accent.primaryKeyColor.primary,
           '&:after, &:before': {
-            borderColor: borderless ? 'transparent' : theme.primary,
+            borderColor: borderless ? 'transparent' : themeVar.accent.primaryKeyColor.primary,
           },
         },
       },
@@ -46,7 +45,7 @@ export const style = ({ theme, error, label, active, borderless, disabled, hover
           borderColor: (!disabled && 'rgb(9, 30, 66)') || undefined,
         },
         '&.label': {
-          color: !disabled ? lightText(theme) : undefined,
+          color: !disabled ? themeVar.neutral.neutralVariantKeyColor.outline : undefined,
           '&:after, &:before': {
             borderColor: !disabled ? (borderless ? 'transparent' : 'rgb(9, 30, 66)') : undefined,
           },
@@ -67,7 +66,7 @@ export const style = ({ theme, error, label, active, borderless, disabled, hover
       outline: 'none',
       lineHeight: '12px',
       padding: before ? '16px 12px' : '16px',
-      color: disabled ? disabledText(theme) : getColor(theme.background),
+      color: disabled ? themeVar.neutral.error.disabled : themeVar.neutral.neutralKeyColor.onBackground,
       boxSizing: 'border-box',
       height: '47px',
       '&::placeholder': {
@@ -91,14 +90,18 @@ export const style = ({ theme, error, label, active, borderless, disabled, hover
       lineHeight: '1em',
       padding: '8px 5px',
       maxWidth: '100%',
-      color: disabled ? disabledText(theme) : lightText(theme),
+      color: disabled ? themeVar.neutral.error.disabled : themeVar.neutral.neutralVariantKeyColor.outline,
       '&::placeholder': {
         color: '#aaaaaa',
       },
     }),
     label: css({
       position: 'absolute',
-      color: disabled ? disabledText(theme) : error ? active && theme.error : lightText(theme),
+      color: disabled
+        ? themeVar.neutral.error.disabled
+        : error
+        ? themeVar.neutral.error.error
+        : themeVar.neutral.neutralKeyColor.onSurface,
       left: 0,
       top: 0,
       zIndex: 1,
@@ -150,7 +153,7 @@ export const style = ({ theme, error, label, active, borderless, disabled, hover
     }),
 
     error: css({
-      color: theme.error,
+      color: themeVar.neutral.error.error,
     }),
 
     seudo: css({

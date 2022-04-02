@@ -1,12 +1,10 @@
 import * as React from 'react';
 import { classes } from '../../helpers';
-import { useTheme } from '../Theme/Theme';
 import { style } from './style';
 
 export const Divider: React.FC<DividerProps> = (props) => {
-  const theme = useTheme();
   const color = props.color;
-  const css = style(color, theme, props);
+  const css = style(color, props);
 
   return (
     <div

@@ -1,26 +1,14 @@
 import React from 'react';
 import { classes } from '../../helpers';
-import { elevationCss } from '../../helpers/elevations';
-import { Theme, useTheme } from '../Theme/Theme';
+import { SurfaceProps } from '../../typings/surface';
+import { addSurfaceCss } from '../../helpers/surface';
 import { style } from './style';
 
-export interface NavBarProps {
+export interface NavBarProps extends SurfaceProps {
   /**
    * Style
    */
   style?: React.CSSProperties;
-
-  /**
-   * Background color
-   * @accepts "primary", "secondary" or any color code
-   */
-  bgColor?: keyof Theme | string;
-
-  /**
-   * Elevation for shadow
-   */
-  elevation?: number;
-
   /**
    * Nav bar content
    */
@@ -28,17 +16,16 @@ export interface NavBarProps {
 }
 
 export const NavBar: React.FC<NavBarProps> = (props) => {
-  const theme = useTheme();
-  const css = style(theme, props);
+  const css = style();
 
   return (
-    <header style={props.style} className={classes(css.container, elevationCss(props.elevation), 'sha-el-nav-bar')}>
+    <header style={props.style} className={classes(css.container, ...addSurfaceCss(props), 'sha-el-nav-bar')}>
       {props.children}
     </header>
   );
 };
 
 NavBar.defaultProps = {
-  bgColor: 'primary',
   elevation: 12,
+  filled: 'neutral',
 };

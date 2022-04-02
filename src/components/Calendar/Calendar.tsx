@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { nestedAccess } from './../../helpers';
 import { Row, Col } from './../../index';
 import { Card } from '../Card';
 import Color from 'color';
@@ -141,7 +140,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
             new Date(
               date.getFullYear(),
               date.getMonth(),
-              nestedAccess(v, f),
+              v?.[f],
               selectedDate.getHours(),
               selectedDate.getMinutes(),
               selectedDate.getSeconds(),
@@ -153,7 +152,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
         const newDate = new Date(
           date.getFullYear(),
           date.getMonth(),
-          nestedAccess(v, f),
+          v?.[f],
           selectedDate?.getHours() || 0,
           selectedDate?.getMinutes() || 0,
           selectedDate?.getSeconds() || 0,
@@ -161,7 +160,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
         );
         dateArray.push(
           <Col className={css.cell} key={`button-${f}-${i}-${j}`} span={24 / 7}>
-            {nestedAccess(v, f) ? (
+            {v?.[f] ? (
               props.cellRender?.(newDate, f) || (
                 <Button
                   disabled={props.disabledDate?.(newDate)}

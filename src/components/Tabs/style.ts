@@ -1,16 +1,13 @@
-import { Theme } from '../Theme/Theme';
-import { hoverColor } from '../../helpers/color';
-import { shadow } from '../../helpers/style';
 import { css } from '@emotion/css';
 import { zIndexBase } from '../../helpers/zIndex';
+import { themeVar } from '../Theme/helper';
 
-export const style = (theme: Theme) => ({
+export const style = () => ({
   tabHeaderContainer: css({
     display: 'flex',
     flex: '1 0 auto',
-    boxShadow: shadow('BOT', theme),
-    background: theme.background,
-    color: theme.textColor,
+    background: themeVar.neutral.neutralKeyColor.surface,
+    color: themeVar.neutral.neutralKeyColor.onSurface,
     position: 'relative',
     alignContent: 'center',
     alignItems: 'center',
@@ -37,13 +34,13 @@ export const style = (theme: Theme) => ({
     textDecoration: 'none',
     userSelect: 'none',
     '&:hover': {
-      color: theme.primary,
-      filter: hoverColor(theme.background),
-      background: theme.background,
+      color: themeVar.accent.primaryKeyColor.primary,
+      filter: themeVar.accent.secondaryKeyColor.secondary,
+      background: themeVar.neutral.neutralKeyColor.surface,
     },
   }),
   inkBar: css({
-    background: theme.primary,
+    background: themeVar.accent.primaryKeyColor.primary,
     height: '2px',
     position: 'absolute',
     zIndex: zIndexBase,

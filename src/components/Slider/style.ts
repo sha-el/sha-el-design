@@ -1,10 +1,6 @@
-import { colorShades } from '../../helpers/color';
-import { shadow } from '../../helpers/style';
-import { Theme } from '../Theme/Theme';
+import { themeVar } from '../Theme/helper';
 
-export const rcSliderStyle = (theme: Theme) => {
-  const railColor = colorShades(theme.primary)[4];
-
+export const rcSliderStyle = () => {
   return {
     '.rc-slider': {
       position: 'relative' as const,
@@ -23,7 +19,7 @@ export const rcSliderStyle = (theme: Theme) => {
     '.rc-slider-rail': {
       position: 'absolute' as const,
       width: '100%',
-      backgroundColor: railColor,
+      backgroundColor: themeVar.accent.primaryKeyColor.onPrimaryContainer,
       height: '4px',
       borderRadius: '6px',
     },
@@ -32,7 +28,7 @@ export const rcSliderStyle = (theme: Theme) => {
       left: 0,
       height: '4px',
       borderRadius: '6px',
-      backgroundColor: theme.primary,
+      backgroundColor: themeVar.accent.primaryKeyColor.primaryContainer,
     },
     '.rc-slider-handle': {
       position: 'absolute' as const,
@@ -41,12 +37,11 @@ export const rcSliderStyle = (theme: Theme) => {
       cursor: ['pointer', '-webkit-grab', 'grab'],
       marginTop: '-5px',
       borderRadius: '50%',
-      border: 'solid 2px ' + theme.primary,
-      backgroundColor: theme.primary,
+      border: 'solid 2px ' + themeVar.accent.primaryKeyColor.primaryContainer,
+      backgroundColor: themeVar.accent.primaryKeyColor.primaryContainer,
       touchAction: 'pan-x',
     },
     '.rc-slider-handle-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging': {
-      boxShadow: shadow('2X', theme),
       width: '20px',
       height: '20px',
       marginTop: '-7px',
@@ -64,7 +59,6 @@ export const rcSliderStyle = (theme: Theme) => {
       marginTop: '-7px',
     },
     '.rc-slider-handle:active': {
-      boxShadow: shadow('2X', theme),
       width: '20px',
       height: '20px',
       marginTop: '-7px',

@@ -1,8 +1,6 @@
 import { css } from '@emotion/css';
-import { shadow } from '../../helpers/style';
-import { Theme } from '../Theme/Theme';
 
-export const style = (theme: Theme) => ({
+export const style = () => ({
   container: css({
     position: 'relative',
     display: 'block',
@@ -36,7 +34,6 @@ export const style = (theme: Theme) => ({
     borderRadius: '5px',
     cursor: 'pointer',
     transition: '.4s all',
-    boxShadow: shadow('2X', theme),
     '&:hover': {
       background: '#ccc',
     },

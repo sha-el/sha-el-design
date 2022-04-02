@@ -8,7 +8,6 @@ import { marginCss } from '../../helpers/margin';
 import { paddingCss } from '../../helpers/padding';
 import { SurfaceProps } from '../../typings/surface';
 import { Portal, PortalContext } from '../Portal/Portal';
-import { useTheme } from '../Theme/Theme';
 import { style } from './style';
 
 export type ActionType = 'onClick' | 'onFocus' | 'onMouseOver';
@@ -212,8 +211,7 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
     debouncedFn();
   }
 
-  const theme = useTheme();
-  const css = style(theme, isOpen, attributes.popper?.['data-popper-placement'], hideArrow);
+  const css = style(isOpen, attributes.popper?.['data-popper-placement'], hideArrow);
 
   return (
     <>

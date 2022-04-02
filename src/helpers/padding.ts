@@ -92,6 +92,7 @@ export const initPaddings = () => {
     ${multiValuePadding([0, 15])}
     ${multiValuePadding([0, 20])}
     ${multiValuePadding([0, 25])}
+    ${multiValuePadding([0, 30])}
 
     ${multiValuePadding([5, 0])}
     ${multiValuePadding([10, 0])}

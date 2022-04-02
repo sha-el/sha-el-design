@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useTheme } from '../Theme/Theme';
 import { style } from './style';
 
 export const Carousel: React.FC<CarouselProps> = (props) => {
@@ -20,8 +19,7 @@ export const Carousel: React.FC<CarouselProps> = (props) => {
     setSlideIndex(props.current);
   }, [props.current]);
 
-  const theme = useTheme();
-  const css = style(theme);
+  const css = style();
 
   return (
     <div className={css.container} style={{ width: props.width }}>

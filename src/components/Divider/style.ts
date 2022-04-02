@@ -1,12 +1,11 @@
 import { css } from '@emotion/css';
-import { shadowColor } from '../../helpers/color';
-import { Theme } from '../Theme/Theme';
 import { DividerProps } from './Divider';
+import { themeVar } from '../Theme/helper';
 
-const commonStyle = (color: string, theme: Theme) => {
+const commonStyle = (color: string) => {
   return {
     content: '" "',
-    background: color || shadowColor(theme)[0],
+    background: color || themeVar.neutral.neutralVariantKeyColor.outline,
     height: '1px',
     display: 'block',
     position: 'absolute' as const,
@@ -14,10 +13,10 @@ const commonStyle = (color: string, theme: Theme) => {
   };
 };
 
-const commonStyleVertical = (color: string, theme: Theme) => {
+const commonStyleVertical = (color: string) => {
   return {
     content: '" "',
-    background: color || shadowColor(theme)[0],
+    background: color || themeVar.neutral.neutralVariantKeyColor.outline,
     width: '1px',
     height: '100%',
     display: 'inline-block',
@@ -25,24 +24,24 @@ const commonStyleVertical = (color: string, theme: Theme) => {
   };
 };
 
-export const style = (color: string, theme: Theme, props: DividerProps) => ({
+export const style = (color: string, props: DividerProps) => ({
   divider: css({
     width: '100%',
     textAlign: 'center',
     position: 'relative',
     margin: '5px 0',
-    background: theme.background,
+    background: themeVar.neutral.neutralKeyColor.surface,
     display: 'inline-block',
     '& svg': {
       display: 'inline-block',
     },
     '&:before': {
       left: 0,
-      ...commonStyle(color, theme),
+      ...commonStyle(color),
     },
     '&:after': {
       right: 0,
-      ...commonStyle(color, theme),
+      ...commonStyle(color),
     },
   }),
 
@@ -51,7 +50,7 @@ export const style = (color: string, theme: Theme, props: DividerProps) => ({
     textAlign: 'center',
     position: 'relative',
     margin: '0px 5px',
-    background: theme.background,
+    background: themeVar.neutral.neutralKeyColor.surface,
     display: 'inline-block',
     '& svg': {
       display: 'block',
@@ -59,11 +58,11 @@ export const style = (color: string, theme: Theme, props: DividerProps) => ({
     },
     '&:before': {
       left: 0,
-      ...commonStyleVertical(color, theme),
+      ...commonStyleVertical(color),
     },
     '&:after': {
       right: 0,
-      ...commonStyleVertical(color, theme),
+      ...commonStyleVertical(color),
     },
   }),
 

@@ -1,14 +1,12 @@
-import { Theme } from '@emotion/react';
 import * as React from 'react';
 import { MdClear } from 'react-icons/md';
 import { classes } from '../../helpers';
 import { elevationCss } from '../../helpers/elevations';
-import { useTheme } from '../Theme/Theme';
+import { ColorChoices } from '../../typings/color';
 import { style } from './style';
 
 export const Tag: React.FC<TagProps> = (props) => {
-  const theme = useTheme();
-  const { tag: tagCss, chipIcon, icon: iconCss } = style({ props, theme });
+  const { tag: tagCss, chipIcon, icon: iconCss } = style(props);
 
   return (
     <div
@@ -28,10 +26,10 @@ export const Tag: React.FC<TagProps> = (props) => {
 };
 
 export interface TagProps {
-  color: keyof Theme | 'light' | string;
+  color: ColorChoices;
   children: React.ReactNode;
   onClick?: (e: React.MouseEvent) => void;
-  textColor?: keyof Theme | 'light' | string;
+  textColor?: ColorChoices;
   style?: React.CSSProperties;
   outline?: boolean;
   chips?: boolean;
@@ -41,6 +39,6 @@ export interface TagProps {
 
 Tag.defaultProps = {
   style: {},
-  color: '#aaa',
+  color: 'primary',
   elevation: 2,
 };

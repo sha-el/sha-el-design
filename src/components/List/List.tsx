@@ -5,7 +5,6 @@ import { elevationCss } from '../../helpers/elevations';
 import { marginCss } from '../../helpers/margin';
 import { paddingCss } from '../../helpers/padding';
 import { SurfaceProps } from '../../typings/surface';
-import { useTheme } from '../Theme/Theme';
 import { CollapsibleContext } from './CollapsibleList';
 import { list as style } from './style';
 
@@ -19,8 +18,7 @@ export interface ListProps extends SurfaceProps {
 
 export const List: React.FC<ListProps> = (props) => {
   const { elevation = 2, margin = 0, padding = props.densed ? [4, 0] : [8, 0] } = props;
-  const theme = useTheme();
-  const css = style(props.backgroundColor || theme.background, props.border, theme);
+  const css = style(props.border);
 
   return (
     <div>

@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import { classes } from '../../helpers';
 import { elevationCss } from '../../helpers/elevations';
+import { ColorChoices } from '../../typings/color';
 import { Text } from '../Text';
-import { Theme, useTheme } from '../Theme/Theme';
 import { style } from './style';
 
 export interface SwitchProps {
@@ -39,7 +39,7 @@ export interface SwitchProps {
   /**
    * One of the theme colors or any string eg rbg(0,0,0) or #ff6600
    */
-  color?: keyof Theme | string;
+  color?: ColorChoices;
 
   /**
    * Label for Switch
@@ -48,8 +48,7 @@ export interface SwitchProps {
 }
 
 export const Switch: React.FC<SwitchProps> = (props) => {
-  const theme = useTheme();
-  const css = style(props, theme);
+  const css = style(props);
   const inputRef = useRef<HTMLInputElement>();
 
   const handleClick = (e: React.MouseEvent | React.KeyboardEvent) => {

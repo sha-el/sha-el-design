@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { Theme, useTheme } from '../Theme/Theme';
 import { style } from './style';
 import { classes } from '../../helpers';
+import { ColorChoices } from '../../typings/color';
 /**
  * Text component to style your `Text` effortlessly.
  *
@@ -23,15 +23,13 @@ export const Text: React.FunctionComponent<TextProps> = (props) => {
     strikeThrough: __strikethrough,
     fontWeight: __fontWeight,
     textAlign: __textAlign,
-    background: __background,
     monoFont: __monoFont,
     lineHeight: __lineHeight,
     className,
     ...rest
   } = props;
 
-  const theme = useTheme();
-  const css = classes(style({ props, theme }), className);
+  const css = classes(style({ props }), className);
 
   const element = {
     h1: <h1 />,
@@ -79,7 +77,7 @@ export interface TextProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
   /**
    * Sets color of the font.
    */
-  color?: keyof Theme | string | 'light';
+  color?: ColorChoices;
   /**
    * Underlines the text
    */
@@ -97,11 +95,6 @@ export interface TextProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
    * Add text align
    */
   textAlign?: React.CSSProperties['textAlign'];
-
-  /**
-   * Set Background
-   */
-  background?: keyof Theme | React.CSSProperties['background'];
 
   /*
    * Set monospace font.

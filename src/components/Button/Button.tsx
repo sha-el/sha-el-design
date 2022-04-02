@@ -1,169 +1,80 @@
-import * as React from 'react';
-import { useTheme } from '../Theme/Theme';
-import { buttonColor } from '../../helpers/color';
-import { Loading } from '../Loading';
-import { Text } from '../Text';
+import React from 'react';
 import { classes } from '../../helpers';
-import { shapeTypes, sizeTypes, style } from './style';
-import { PaddingClassNameInput, paddingCss } from '../../helpers/padding';
+import { paddingCss, PaddingValue } from '../../helpers/padding';
+import { Loading } from '../Loading';
+import { buttonStyle, buttonTypeStyle } from './style';
 
-export const Button = React.forwardRef<HTMLButtonElement & HTMLAnchorElement, ButtonProps>((props, ref) => {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  elevated?: boolean;
+  filled?: boolean;
+  filledTonal?: boolean;
+  outlined?: boolean;
+  text?: boolean;
+  // fab?: boolean;
+  // extendedFab?: boolean;
+
+  primary?: boolean;
+  secondary?: boolean;
+  tertiary?: boolean;
+  error?: boolean;
+  disabled?: boolean;
+
+  padding?: PaddingValue;
+  icon?: React.ReactNode;
+  iconAfter?: React.ReactNode;
+
+  displayBlock?: boolean;
+
+  /**
+   * Shows a loading icon inside button.
+   * Uses string as button's contnet while loading
+   */
+  loading?: boolean | string;
+}
+
+export const Button: React.FC<ButtonProps> = (props) => {
   const {
-    size: __size,
-    shape: __shape,
-    displayBlock: __displayBlock,
+    elevated: __elevated,
+    filled: __filled,
+    filledTonal: __filledTonal,
+    outlined: __outlined,
+    text: __text,
+    // fab: __fab,
+    // extendedFab: __extendedFab,
+    primary: __primary,
+    secondary: __secondary,
+    tertiary: __tertiary,
+    error: __error,
     icon,
-    flat: __flat,
+    iconAfter,
+    displayBlock,
     className,
-    loading,
-    component,
-    onClick,
-    outline: __outline,
-    primary,
-    secondary,
-    danger,
-    link,
-    padding,
-    type,
+    padding = [0, 30],
     ...rest
   } = props;
 
-  const theme = useTheme();
-  const css = style(theme, props);
-
-  const buttonProps = rest as NativeButtonProps;
-  const anchorProps = rest as AnchorButtonProps;
-
-  if (component) {
-    const Element = (p: Record<string, unknown>) => React.cloneElement(props.component, p);
-
-    if (link || props.href !== undefined) {
-      return (
-        <Element
-          className={classes(css.anchor, css.default, className, paddingCss(padding))}
-          onClick={(
-            e: React.MouseEvent<HTMLAnchorElement, MouseEvent> & React.MouseEvent<HTMLButtonElement, MouseEvent>,
-          ) => !loading && onClick && onClick(e)}
-          {...anchorProps}
-        >
-          {icon}
-          <Loading
-            color={buttonColor(props, theme, primary, secondary, danger, link)[1]}
-            isLoading={loading}
-            size="small"
-            render={() => <span>{props.children}</span>}
-          />
-        </Element>
-      );
-    }
-
-    return (
-      <Element
-        className={classes(css.default, css.button, className, paddingCss(padding))}
-        onClick={(
-          e: React.MouseEvent<HTMLAnchorElement, MouseEvent> & React.MouseEvent<HTMLButtonElement, MouseEvent>,
-        ) => !loading && onClick && onClick(e)}
-        ref={ref}
-        {...buttonProps}
-      >
-        {icon}
-        <Loading
-          style={{ margin: '0' }}
-          color={buttonColor(props, theme, primary, secondary, danger, link)[1]}
-          isLoading={loading}
-          size="small"
-          render={() => <span>{props.children}</span>}
-        />
-        {loading && <Text margin="0 10px">Loading</Text>}
-      </Element>
-    );
-  }
-
-  if (link) {
-    return (
-      <a
-        className={classes(css.anchor, css.default, className, paddingCss(padding))}
-        onClick={(
-          e: React.MouseEvent<HTMLAnchorElement, MouseEvent> & React.MouseEvent<HTMLButtonElement, MouseEvent>,
-        ) => !loading && onClick && onClick(e)}
-        ref={ref}
-        {...anchorProps}
-      >
-        {icon}
-        <Loading
-          color={buttonColor(props, theme, primary, secondary, danger, link)[1]}
-          isLoading={loading}
-          size="small"
-          render={() => <span>{props.children}</span>}
-        />
-      </a>
-    );
-  }
-
   return (
     <button
-      className={classes(css.default, css.button, className, paddingCss(padding))}
-      onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent> & React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-        !loading && onClick && onClick(e)
-      }
-      ref={ref}
-      type={loading ? 'button' : (type as 'button')}
-      {...buttonProps}
+      {...rest}
+      style={{ ...props.style, width: displayBlock && '100%' }}
+      className={classes(className, buttonStyle, buttonTypeStyle(props), paddingCss(padding))}
     >
-      {icon}
-      <Loading
-        style={{ margin: '0' }}
-        color={buttonColor(props, theme, primary, secondary, danger, link)[1]}
-        isLoading={loading}
-        size="small"
-        render={() => <span>{props.children}</span>}
-      />
-      {loading && <Text margin="0 10px">Loading</Text>}
+      {props.loading ? (
+        <>
+          <Loading isLoading size="small" /> <span style={{ marginLeft: '10px' }}>{props.loading}</span>
+        </>
+      ) : (
+        <>
+          {icon && <span style={{ marginRight: props.children && '10px' }}>{icon}</span>}
+          {props.children}
+          {iconAfter && <span style={{ marginLeft: props.children && '10px' }}>{iconAfter}</span>}
+        </>
+      )}
     </button>
   );
-});
-
-Button.defaultProps = {
-  size: 'default',
-  shape: 'default',
-  type: 'button',
 };
 
-export interface BaseButtonProps {
-  primary?: boolean;
-  secondary?: boolean;
-  danger?: boolean;
-  link?: boolean;
-
-  size?: sizeTypes;
-  shape?: shapeTypes;
-  className?: string;
-  displayBlock?: boolean;
-  flat?: boolean;
-  outline?: boolean;
-  icon?: React.ReactNode;
-  loading?: boolean;
-  component?: React.ReactElement;
-
-  // For anchor tag
-  href?: string;
-  target?: string;
-  disabled?: boolean;
-
-  padding?: PaddingClassNameInput;
-}
-
-export type AnchorButtonProps = {
-  href?: string;
-  target?: string;
-  onClick?: React.MouseEventHandler<HTMLAnchorElement>;
-} & BaseButtonProps &
-  React.AnchorHTMLAttributes<HTMLAnchorElement>;
-
-export type NativeButtonProps = {
-  link?: false;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-} & BaseButtonProps &
-  React.ButtonHTMLAttributes<HTMLButtonElement>;
-
-export type ButtonProps = AnchorButtonProps | NativeButtonProps;
+Button.defaultProps = {
+  text: true,
+  style: {},
+};

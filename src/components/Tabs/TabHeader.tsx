@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { style } from './style';
 import { TabPanelProps } from './TabPanel';
-import { useTheme } from '../Theme/Theme';
 import { classes } from '../../helpers';
+import { themeVar } from '../Theme/helper';
 
 export const TabHeader: React.FC<TabHeaderProps> = (props) => {
   const [inkStyle, setInkStyle] = React.useState({ left: 0, width: 0 });
@@ -34,8 +34,7 @@ export const TabHeader: React.FC<TabHeaderProps> = (props) => {
     };
   });
 
-  const theme = useTheme();
-  const css = style(theme);
+  const css = style();
   return (
     <div
       className={classes(css.tabHeaderContainer, 'sha-el-tab-header')}
@@ -46,7 +45,7 @@ export const TabHeader: React.FC<TabHeaderProps> = (props) => {
           key={v.key}
           className={classes(`${className}${v.key}`, css.tabHeader)}
           style={{
-            color: v.key === props.activeKey && theme.primary,
+            color: v.key === props.activeKey && themeVar.accent.primaryKeyColor.primary,
           }}
           onClick={() => props.onClick(v.key)}
         >

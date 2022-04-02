@@ -128,7 +128,6 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
       ...(value as T[]).map((v) => (
         <Tag
           color="#aaa"
-          textColor="light"
           chips
           elevation={0}
           style={{ border: 'none', background: 'transparent', textTransform: 'none', fontWeight: 400 }}
@@ -147,8 +146,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
     const afters = [
       <Button
         key="expand"
-        flat
-        shape="circle"
+        text
         onClick={(e: React.MouseEvent) => {
           e.preventDefault();
           e.stopPropagation();
@@ -167,8 +165,7 @@ export class AutoComplete<T> extends React.Component<AutoCompleteProps<T>, State
             this.onChange(null);
           }}
           key="clear"
-          flat
-          shape="circle"
+          text
           icon={<MdClose />}
         />,
       );

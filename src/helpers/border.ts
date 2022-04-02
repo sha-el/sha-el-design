@@ -1,37 +1,18 @@
-import Color from 'color';
-import { Theme } from '../components/Theme/Theme';
-import { borderColor } from './color';
+import { themeVar } from '../components/Theme/helper';
 
-function createBroder(theme: Theme, px: number) {
-  return `${px}px solid ${borderColor(theme.bodyBg)}`;
+function createBroder(px: number) {
+  return `${px}px solid ${themeVar.neutral.neutralVariantKeyColor.outline}`;
 }
 
-const lightThemeShadows = (theme: Theme) => [
-  'none',
-  createBroder(theme, 0.5),
-  createBroder(theme, 1),
-  createBroder(theme, 1.5),
-  createBroder(theme, 2),
-];
+const border = () => ['none', createBroder(0.5), createBroder(1), createBroder(1.5), createBroder(2)];
 
-const darkThemeShadows = (theme: Theme) => [
-  'none',
-  createBroder(theme, 0.5),
-  createBroder(theme, 1),
-  createBroder(theme, 1.5),
-  createBroder(theme, 2),
-];
+export const initBorders = () => {
+  let values = ``;
 
-export const initBorders = (theme: Theme) => {
-  let values = '';
-  const color = Color(theme.bodyBg);
-
-  const shadows: string[] = color.lightness() < 0.7 ? lightThemeShadows(theme) : darkThemeShadows(theme);
-
-  shadows.forEach((shadow, index) => {
+  border().forEach((border, index) => {
     values += `
     .border-level-${index} {
-      border: ${shadow};
+      border: ${border};
     }
     `;
   });
@@ -39,10 +20,7 @@ export const initBorders = (theme: Theme) => {
   return values;
 };
 
-export const getBorders = (theme: Theme, value: number) => {
-  const shadows: string[] = Color(theme.bodyBg).lightness() < 0.7 ? lightThemeShadows(theme) : darkThemeShadows(theme);
-  return shadows[value];
-};
+export const getBorder = (index: number) => border[index];
 
 export const borderCss = (num: number) => num && `border-level-${num}`;
 

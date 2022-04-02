@@ -17,6 +17,7 @@ export const DatePicker: React.FC<DatePickerProps> = (props) => {
     onChange,
     timePickerProps,
     displayProp = (d) => defaultDisplayProp(d, !!timePickerProps),
+    filled: __filled,
     ...rest
   } = props;
 
@@ -61,7 +62,7 @@ export const DatePicker: React.FC<DatePickerProps> = (props) => {
                   />
                 </Col>
                 <Col span={4} offset={20}>
-                  <Button primary flat onClick={() => updateVisible(false)}>
+                  <Button primary text onClick={() => updateVisible(false)}>
                     Close
                   </Button>
                 </Col>
@@ -81,7 +82,7 @@ export const DatePicker: React.FC<DatePickerProps> = (props) => {
           readOnly
           after={
             <>
-              <Button flat shape="circle" icon={<IoMdCalendar />} />
+              <Button onClick={() => updateVisible(!visible)} text icon={<IoMdCalendar />} />
               {after}
             </>
           }
@@ -91,7 +92,7 @@ export const DatePicker: React.FC<DatePickerProps> = (props) => {
   );
 };
 
-type InputType = Omit<InputProps, 'onClick' | 'value' | 'onChange'>;
+type InputType = Omit<InputProps, 'onClick' | 'value' | 'onChange' | 'filled'>;
 type CalendarType = Omit<CalendarProps, 'onChange' | 'onClick'>;
 
 export interface DatePickerProps extends InputType, CalendarType {

@@ -1,8 +1,9 @@
 import { css } from '@emotion/css';
-import { disabledColor, lightText } from '../../helpers/color';
-import { Theme } from '../Theme/Theme';
+import { colorFromChoices } from '../../helpers/color';
+import { ColorChoices } from '../../typings/color';
+import { themeVar } from '../Theme/helper';
 
-export const style = (disabled: boolean, theme: Theme, checked: boolean, color: string) => ({
+export const style = (disabled: boolean, checked: boolean, color: ColorChoices) => ({
   container: css({
     cursor: disabled ? 'not-allowed' : 'pointer',
   }),
@@ -10,6 +11,10 @@ export const style = (disabled: boolean, theme: Theme, checked: boolean, color: 
     display: 'none',
   }),
   svg: css({
-    fill: disabled ? disabledColor(theme) : checked ? theme[color] || color : lightText(theme),
+    fill: disabled
+      ? themeVar.neutral.neutralVariantKeyColor.surfaceVariant
+      : checked
+      ? colorFromChoices(color).color
+      : themeVar.neutral.neutralVariantKeyColor.surfaceVariant,
   }),
 });

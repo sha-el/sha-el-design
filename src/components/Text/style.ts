@@ -1,11 +1,10 @@
 import { css, CSSObject } from '@emotion/css';
-import { lightText } from '../../helpers/color';
-import { Theme } from '../Theme/Theme';
+import { colorFromChoices } from '../../helpers/color';
 import { TextProps } from './Text';
 
-export const style = ({ props, theme }: { props: TextProps; theme: Theme }) => {
+export const style = ({ props }: { props: TextProps }) => {
   const fontSize = props.fontSize;
-  const color = props.color === 'light' ? lightText(theme) : theme[props.color] || props.color;
+  const color = props.color && colorFromChoices(props.color).text;
   const padding: string = props.padding;
   const margin: string = props.margin;
   const textDecoration = [];
@@ -25,7 +24,6 @@ export const style = ({ props, theme }: { props: TextProps; theme: Theme }) => {
     textDecoration: textDecoration.join(' '),
     padding,
     textAlign: props.textAlign,
-    background: theme[props.background] || props.background,
   };
 
   if (props.fontWeight) {

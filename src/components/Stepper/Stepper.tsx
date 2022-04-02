@@ -1,11 +1,10 @@
 import React from 'react';
 import { MdCheck } from 'react-icons/md';
 import { classes } from '../../helpers';
-import { lightText } from '../../helpers/color';
 import { Divider } from '../Divider';
 import { Col, Row } from '../Grid';
 import { Text } from '../Text';
-import { useTheme } from '../Theme/Theme';
+import { themeVar } from '../Theme/helper';
 import { style } from './style';
 
 export interface StepperProps {
@@ -26,8 +25,7 @@ export interface StepProps {
 
 export const Stepper: React.FC<StepperProps> = (props) => {
   const { current = 0, nonLinear, onChange, direction = 'horizontal' } = props;
-  const theme = useTheme();
-  const css = style(theme);
+  const css = style();
 
   const children: React.ReactElement[] = Array.isArray(props.children)
     ? (props.children as React.ReactElement[])
@@ -106,7 +104,13 @@ export const Stepper: React.FC<StepperProps> = (props) => {
             <React.Fragment key={`steps-${i}`}>
               {i !== 0 && direction === 'horizontal' && (
                 <Col className={css.container} flex="1 0 auto">
-                  <Divider color={i === current ? theme.primary : lightText(theme)} />
+                  <Divider
+                    color={
+                      i === current
+                        ? themeVar.accent.primaryKeyColor.primary
+                        : themeVar.neutral.neutralVariantKeyColor.outline
+                    }
+                  />
                 </Col>
               )}
               {step}

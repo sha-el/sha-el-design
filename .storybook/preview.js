@@ -22,7 +22,7 @@ export const globalTypes = {
 const withThemeProvider=(Story,context)=>{
   const theme = context.globals.theme;
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <div style={{ minWidth: '400px' }}><Story {...context} /></div>
     </ThemeProvider>
   )

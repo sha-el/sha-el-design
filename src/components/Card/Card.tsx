@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useTheme } from '../Theme/Theme';
 import { classes } from '../../helpers';
 import { cardStyle } from './style';
 import { elevationCss } from '../../helpers/elevations';
@@ -9,10 +8,9 @@ import { paddingCss } from '../../helpers/padding';
 import { SurfaceProps } from '../../typings/surface';
 
 export const Card: React.FC<CardProps> = (props) => {
-  const { className, elevation = 4, border, margin = 4, padding = 16, ...rest } = props;
+  const { className, elevation = 1, border, margin = 4, padding = 16, ...rest } = props;
 
-  const theme = useTheme();
-  const css = cardStyle(theme);
+  const css = cardStyle(props.filled);
 
   return (
     <div
